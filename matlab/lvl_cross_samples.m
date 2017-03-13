@@ -1,18 +1,15 @@
 
-function [samples, lvl0] = get_samples(signal, sig_lvls)
+function [samples, lvl0] = lvl_cross_samples(signal, sig_lvls)
 
     N_signal    = length(signal);
     N_sig_lvls  = length(sig_lvls);
     
     samples = [];
-    
-    for curr_lvl = 1:N_sig_lvls
-        if signal(1) < sig_lvls(curr_lvl)
-           break; 
-        end
+        
+    curr_lvl = max(find(sig_lvls > signal(1), 1) - 1, 1);
+    if isempty(curr_lvl)
+       curr_lvl = sig_lvls(end); 
     end
-    
-    curr_lvl    = curr_lvl - 1;
     lvl0        = curr_lvl;
     curr_time   = 0;
     
