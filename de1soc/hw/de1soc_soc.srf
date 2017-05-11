@@ -1,0 +1,171 @@
+{ "" "" "" "Ignored filter at hps_sdram_p0.sdc(551): *:inst_soc_system\|*:hps_0\|*:hps_io\|*:border\|*:hps_sdram_inst\|*s0\|* could not be matched with a clock or keeper or register or port or pin or cell or partition" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at hps_sdram_p0.sdc(551): Argument <from> is not an object ID" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at hps_sdram_p0.sdc(552): *:inst_soc_system\|*:hps_0\|*:hps_io\|*:border\|*:hps_sdram_inst\|*s0\|*hphy_bridge_s0_translator\|av_readdata_pre\[*\] could not be matched with a clock or keeper or register or port or pin or cell or partition" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at hps_sdram_p0.sdc(552): Argument <to> is not an object ID" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(1): hps_io_hps_io_emac1_inst_TX_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(1): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(2): hps_io_hps_io_emac1_inst_TXD0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(2): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(3): hps_io_hps_io_emac1_inst_TXD1 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(3): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(4): hps_io_hps_io_emac1_inst_TXD2 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(4): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(5): hps_io_hps_io_emac1_inst_TXD3 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(5): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(6): hps_io_hps_io_emac1_inst_RXD0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(6): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(7): hps_io_hps_io_emac1_inst_MDIO could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(7): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(8): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(9): hps_io_hps_io_emac1_inst_MDC could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(9): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(10): hps_io_hps_io_emac1_inst_RX_CTL could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(10): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(11): hps_io_hps_io_emac1_inst_TX_CTL could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(11): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(12): hps_io_hps_io_emac1_inst_RX_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(12): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(13): hps_io_hps_io_emac1_inst_RXD1 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(13): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(14): hps_io_hps_io_emac1_inst_RXD2 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(14): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(15): hps_io_hps_io_emac1_inst_RXD3 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(15): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(16): hps_io_hps_io_qspi_inst_IO0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(16): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(17): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(18): hps_io_hps_io_qspi_inst_IO1 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(18): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(19): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(20): hps_io_hps_io_qspi_inst_IO2 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(20): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(21): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(22): hps_io_hps_io_qspi_inst_IO3 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(22): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(23): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(24): hps_io_hps_io_qspi_inst_SS0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(24): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(25): hps_io_hps_io_qspi_inst_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(25): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(26): hps_io_hps_io_sdio_inst_CMD could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(26): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(27): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(28): hps_io_hps_io_sdio_inst_D0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(28): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(29): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(30): hps_io_hps_io_sdio_inst_D1 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(30): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(31): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(32): hps_io_hps_io_sdio_inst_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(32): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(33): hps_io_hps_io_sdio_inst_D2 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(33): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(34): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(35): hps_io_hps_io_sdio_inst_D3 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(35): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(36): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(37): hps_io_hps_io_usb1_inst_D0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(37): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(38): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(39): hps_io_hps_io_usb1_inst_D1 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(39): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(40): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(41): hps_io_hps_io_usb1_inst_D2 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(41): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(42): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(43): hps_io_hps_io_usb1_inst_D3 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(43): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(44): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(45): hps_io_hps_io_usb1_inst_D4 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(45): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(46): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(47): hps_io_hps_io_usb1_inst_D5 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(47): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(48): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(49): hps_io_hps_io_usb1_inst_D6 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(49): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(50): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(51): hps_io_hps_io_usb1_inst_D7 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(51): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(52): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(53): hps_io_hps_io_usb1_inst_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(53): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(54): hps_io_hps_io_usb1_inst_STP could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(54): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(55): hps_io_hps_io_usb1_inst_DIR could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(55): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(56): hps_io_hps_io_usb1_inst_NXT could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(56): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(57): hps_io_hps_io_spim1_inst_CLK could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(57): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(58): hps_io_hps_io_spim1_inst_MOSI could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(58): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(59): hps_io_hps_io_spim1_inst_MISO could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(59): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(60): hps_io_hps_io_spim1_inst_SS0 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(60): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(61): hps_io_hps_io_uart0_inst_RX could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(61): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(62): hps_io_hps_io_uart0_inst_TX could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(62): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(63): hps_io_hps_io_i2c0_inst_SDA could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(63): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(64): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(65): hps_io_hps_io_i2c0_inst_SCL could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(65): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(66): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(67): hps_io_hps_io_i2c1_inst_SDA could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(67): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(68): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(69): hps_io_hps_io_i2c1_inst_SCL could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(69): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(70): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(71): hps_io_hps_io_gpio_inst_GPIO09 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(71): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(72): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(73): hps_io_hps_io_gpio_inst_GPIO35 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(73): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(74): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(75): hps_io_hps_io_gpio_inst_GPIO40 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(75): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(76): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(77): hps_io_hps_io_gpio_inst_GPIO48 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(77): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(78): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(79): hps_io_hps_io_gpio_inst_GPIO53 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(79): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(80): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(81): hps_io_hps_io_gpio_inst_GPIO54 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Node: HPS_USB_CLKOUT was determined to be a clock but was found without an associated clock assignment." {  } {  } 0 332060 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Node: HPS_I2C1_SCLK was determined to be a clock but was found without an associated clock assignment." {  } {  } 0 332060 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Node: HPS_I2C2_SCLK was determined to be a clock but was found without an associated clock assignment." {  } {  } 0 332060 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at hps_sdram_p0_pin_map.tcl(60): * could not be matched with a clock" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(81): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(82): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored filter at soc_system_hps_0_hps_io_border.sdc(83): hps_io_hps_io_gpio_inst_GPIO61 could not be matched with a port" {  } {  } 0 332174 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(83): Argument <from> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Ignored set_false_path at soc_system_hps_0_hps_io_border.sdc(84): Argument <to> is an empty collection" {  } {  } 0 332049 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL warning at hps_sdram_p0_acv_hard_memphy.v(420): object reset_n_seq_clk used but never assigned" {  } {  } 0 10858 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at hps_sdram_p0_acv_hard_memphy.v(557): truncated value with size 4 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Net \"reset_n_seq_clk\" at hps_sdram_p0_acv_hard_memphy.v(420) has no driver or initial value, using a default initial value '0'" {  } {  } 0 10030 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"ctl_reset_export_n\" at hps_sdram_p0_acv_hard_memphy.v(222) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL or VHDL warning at hps_sdram_p0_acv_ldc.v(45): object \"phy_clk_dq\" assigned a value but never read" {  } {  } 0 10036 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL or VHDL warning at hps_sdram_p0_acv_ldc.v(47): object \"phy_clk_dqs_2x\" assigned a value but never read" {  } {  } 0 10036 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"ddio_phy_dqdin\[179..140\]\" at hps_sdram_p0_acv_hard_io_pads.v(191) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"ddio_phy_dqdin\[107..104\]\" at hps_sdram_p0_acv_hard_io_pads.v(191) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"ddio_phy_dqdin\[71..68\]\" at hps_sdram_p0_acv_hard_io_pads.v(191) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"ddio_phy_dqdin\[35..32\]\" at hps_sdram_p0_acv_hard_io_pads.v(191) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Output port \"pll_locked\" at hps_sdram_pll.sv(91) has no driver" {  } {  } 0 10034 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL or VHDL warning at hps_sdram_pll.sv(168): object \"pll_dr_clk\" assigned a value but never read" {  } {  } 0 10036 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL Implicit Net warning at hps_sdram_pll.sv(168): created implicit net for \"pll_dr_clk\"" {  } {  } 0 10236 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Entity \"altera_mem_if_hhp_qseq_synth_top\" contains only dangling pins" {  } {  } 0 12158 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1166): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1167): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1168): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1169): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1170): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_mem_if_hard_memory_controller_top_cyclonev.sv(1171): truncated value with size 320 to match size of target (1)" {  } {  } 0 10230 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "Some pins have incomplete I/O assignments. Refer to the I/O Assignment Warnings report for details" {  } {  } 0 15714 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "32 hierarchies have connectivity warnings - see the Connectivity Checks report folder" {  } {  } 0 12241 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 20028 "" 0 0 "Quartus II" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 292013 "" 0 0 "Quartus II" 0 -1 0 ""}
