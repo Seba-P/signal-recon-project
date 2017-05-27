@@ -1,3 +1,19 @@
 
 # Untracked files
 /matlab/*.asv
+
+/de1soc/hps_sw/workspace/.metadata/*
+/de1soc/hps_sw/workspace/debugger/*
+/de1soc/hps_sw/workspace/RemoteSystemsTempFiles/*
+/de1soc/hps_sw/workspace/.ut.dat
+**/.settings/*
+
+*.hex
+*.o
+*.d
+*.rar
+
+*.project
+*.cproject
+*.sublime-project
+*.sublime-workspace

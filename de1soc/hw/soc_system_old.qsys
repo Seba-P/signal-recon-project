@@ -30,22 +30,6 @@
          type = "String";
       }
    }
-   element bytes2packets
-   {
-      datum _sortIndex
-      {
-         value = "13";
-         type = "int";
-      }
-   }
-   element bytes_adapter
-   {
-      datum _sortIndex
-      {
-         value = "14";
-         type = "int";
-      }
-   }
    element clk_0
    {
       datum _sortIndex
@@ -90,11 +74,6 @@
          value = "8";
          type = "int";
       }
-      datum sopceditor_expanded
-      {
-         value = "1";
-         type = "boolean";
-      }
    }
    element fifo_out
    {
@@ -102,11 +81,6 @@
       {
          value = "9";
          type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "1";
-         type = "boolean";
       }
    }
    element fir
@@ -173,14 +147,6 @@
       {
          value = "0";
          type = "String";
-      }
-   }
-   element packets2bytes
-   {
-      datum _sortIndex
-      {
-         value = "12";
-         type = "int";
       }
    }
    element sysid_qsys
@@ -267,43 +233,6 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="4" />
  </module>
- <module
-   name="bytes2packets"
-   kind="altera_avalon_st_bytes_to_packets"
-   version="16.1"
-   enabled="1">
-  <parameter name="CHANNEL_WIDTH" value="8" />
-  <parameter name="ENCODING" value="0" />
- </module>
- <module
-   name="bytes_adapter"
-   kind="altera_avalon_st_adapter"
-   version="16.1"
-   enabled="0">
-  <parameter name="AUTO_DEVICE" value="5CSEMA5F31C6" />
-  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
-  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
-  <parameter name="inBitsPerSymbol" value="8" />
-  <parameter name="inChannelWidth" value="1" />
-  <parameter name="inDataWidth" value="8" />
-  <parameter name="inErrorDescriptor" value="" />
-  <parameter name="inErrorWidth" value="2" />
-  <parameter name="inMaxChannel" value="0" />
-  <parameter name="inReadyLatency" value="0" />
-  <parameter name="inUseEmptyPort" value="0" />
-  <parameter name="inUsePackets" value="0" />
-  <parameter name="inUseReady" value="1" />
-  <parameter name="inUseValid" value="1" />
-  <parameter name="outChannelWidth" value="1" />
-  <parameter name="outDataWidth" value="24" />
-  <parameter name="outErrorDescriptor" value="" />
-  <parameter name="outErrorWidth" value="2" />
-  <parameter name="outMaxChannel" value="0" />
-  <parameter name="outReadyLatency" value="0" />
-  <parameter name="outUseEmptyPort" value="1" />
-  <parameter name="outUseReady" value="1" />
-  <parameter name="outUseValid" value="1" />
- </module>
  <module name="clk_0" kind="clock_source" version="16.1" enabled="1">
   <parameter name="clockFrequency" value="100000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -358,7 +287,7 @@
   <parameter name="USE_ALMOST_FULL_IF" value="0" />
   <parameter name="USE_FILL_LEVEL" value="0" />
   <parameter name="USE_MEMORY_BLOCKS" value="1" />
-  <parameter name="USE_PACKETS" value="0" />
+  <parameter name="USE_PACKETS" value="1" />
   <parameter name="USE_STORE_FORWARD" value="0" />
  </module>
  <module
@@ -1019,14 +948,6 @@
   <parameter name="writable" value="true" />
  </module>
  <module
-   name="packets2bytes"
-   kind="altera_avalon_st_packets_to_bytes"
-   version="16.1"
-   enabled="1">
-  <parameter name="CHANNEL_WIDTH" value="8" />
-  <parameter name="ENCODING" value="0" />
- </module>
- <module
    name="sysid_qsys"
    kind="altera_avalon_sysid_qsys"
    version="16.1"
@@ -1091,18 +1012,13 @@
  <connection
    kind="avalon_streaming"
    version="16.1"
-   start="mm2fifo.out"
-   end="packets2bytes.in_packets_stream" />
- <connection
-   kind="avalon_streaming"
-   version="16.1"
-   start="packets2bytes.out_bytes_stream"
-   end="fifo_in.in" />
- <connection
-   kind="avalon_streaming"
-   version="16.1"
-   start="bytes2packets.out_packets_stream"
+   start="fifo_out.out"
    end="fifo2mm.in" />
+ <connection
+   kind="avalon_streaming"
+   version="16.1"
+   start="mm2fifo.out"
+   end="fifo_in.in" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="sysid_qsys.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="led_pio.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="dipsw_pio.clk" />
@@ -1112,8 +1028,6 @@
  <connection kind="clock" version="16.1" start="clk_0.clk" end="fifo_out.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="fifo2mm.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="mm2fifo.clk" />
- <connection kind="clock" version="16.1" start="clk_0.clk" end="bytes2packets.clk" />
- <connection kind="clock" version="16.1" start="clk_0.clk" end="packets2bytes.clk" />
  <connection
    kind="clock"
    version="16.1"
@@ -1130,11 +1044,6 @@
    start="clk_0.clk"
    end="hps_0.h2f_lw_axi_clock" />
  <connection
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="bytes_adapter.in_clk_0" />
- <connection
    kind="reset"
    version="16.1"
    start="clk_0.clk_reset"
@@ -1144,21 +1053,6 @@
    version="16.1"
    start="clk_0.clk_reset"
    end="fifo_out.clk_reset" />
- <connection
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="packets2bytes.clk_reset" />
- <connection
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="bytes2packets.clk_reset" />
- <connection
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="bytes_adapter.in_rst_0" />
  <connection
    kind="reset"
    version="16.1"
