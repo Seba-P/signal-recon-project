@@ -2,6 +2,8 @@
 %%%%%%%%%%%%%%%%%%%%%%
 % TEST CONFIGURATION %
 %%%%%%%%%%%%%%%%%%%%%%
+addpath('../')
+
 % "Analog" parameters
 fs      = 1e6;              % 1 MHz "analog" sampling rate
 dt      = 1/fs;             % 1 us sampling period
@@ -39,6 +41,7 @@ lvls            = samples2lvls(samples, N_sig_s, sig_lvls, lvl0);
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %
 %%%%%%%%%%%%%%%%%%%%%
+fir_resp    = gen_fir_resp();
 fir_R       = length(fir_resp);
 fir_delay   = floor(fir_R / 2);
 fir_tail    = fir_R - fir_delay;

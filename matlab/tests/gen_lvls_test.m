@@ -1,4 +1,6 @@
 
+addpath('../')
+
 % Common settings
 time        = 0:0.01:2*pi;
 N_sig       = length(time);
