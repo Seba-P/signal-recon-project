@@ -1,6 +1,6 @@
 
 function lvls = samples2lvls(samples, N_sig, sig_lvls, lvl0)
-
+    
     N_samples   = length(samples);
     N_lvls      = length(sig_lvls);
     lvls_step   = [sig_lvls(2:end) - sig_lvls(1:end-1), sig_lvls(end) - sig_lvls(end-1)];
@@ -12,7 +12,7 @@ function lvls = samples2lvls(samples, N_sig, sig_lvls, lvl0)
         
     for i = 1:N_samples
         for k = 1:samples(i,2)
-            lvls(curr_time) = sig_lvls(curr_lvl);
+            lvls(curr_time) = sig_lvls(curr_lvl) + 0.5*lvls_step(curr_lvl);
             curr_time = curr_time + 1;
         end
         
