@@ -6,12 +6,15 @@
 /de1soc/hps_sw/workspace/debugger/*
 /de1soc/hps_sw/workspace/RemoteSystemsTempFiles/*
 /de1soc/hps_sw/workspace/.ut.dat
+/de1soc/hw/db/*
+/de1soc/hw/incremental_db/*
 **/.settings/*
 
 *.hex
 *.o
 *.d
 *.rar
+*.zip
 
 *.project
 *.cproject

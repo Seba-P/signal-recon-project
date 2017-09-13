@@ -14,6 +14,47 @@
 module soc_system_hps_0_fpga_interfaces(
 // h2f_reset
   output wire [1 - 1 : 0 ] h2f_rst_n
+// f2h_axi_clock
+ ,input wire [1 - 1 : 0 ] f2h_axi_clk
+// f2h_axi_slave
+ ,input wire [8 - 1 : 0 ] f2h_AWID
+ ,input wire [32 - 1 : 0 ] f2h_AWADDR
+ ,input wire [4 - 1 : 0 ] f2h_AWLEN
+ ,input wire [3 - 1 : 0 ] f2h_AWSIZE
+ ,input wire [2 - 1 : 0 ] f2h_AWBURST
+ ,input wire [2 - 1 : 0 ] f2h_AWLOCK
+ ,input wire [4 - 1 : 0 ] f2h_AWCACHE
+ ,input wire [3 - 1 : 0 ] f2h_AWPROT
+ ,input wire [1 - 1 : 0 ] f2h_AWVALID
+ ,output wire [1 - 1 : 0 ] f2h_AWREADY
+ ,input wire [5 - 1 : 0 ] f2h_AWUSER
+ ,input wire [8 - 1 : 0 ] f2h_WID
+ ,input wire [64 - 1 : 0 ] f2h_WDATA
+ ,input wire [8 - 1 : 0 ] f2h_WSTRB
+ ,input wire [1 - 1 : 0 ] f2h_WLAST
+ ,input wire [1 - 1 : 0 ] f2h_WVALID
+ ,output wire [1 - 1 : 0 ] f2h_WREADY
+ ,output wire [8 - 1 : 0 ] f2h_BID
+ ,output wire [2 - 1 : 0 ] f2h_BRESP
+ ,output wire [1 - 1 : 0 ] f2h_BVALID
+ ,input wire [1 - 1 : 0 ] f2h_BREADY
+ ,input wire [8 - 1 : 0 ] f2h_ARID
+ ,input wire [32 - 1 : 0 ] f2h_ARADDR
+ ,input wire [4 - 1 : 0 ] f2h_ARLEN
+ ,input wire [3 - 1 : 0 ] f2h_ARSIZE
+ ,input wire [2 - 1 : 0 ] f2h_ARBURST
+ ,input wire [2 - 1 : 0 ] f2h_ARLOCK
+ ,input wire [4 - 1 : 0 ] f2h_ARCACHE
+ ,input wire [3 - 1 : 0 ] f2h_ARPROT
+ ,input wire [1 - 1 : 0 ] f2h_ARVALID
+ ,output wire [1 - 1 : 0 ] f2h_ARREADY
+ ,input wire [5 - 1 : 0 ] f2h_ARUSER
+ ,output wire [8 - 1 : 0 ] f2h_RID
+ ,output wire [64 - 1 : 0 ] f2h_RDATA
+ ,output wire [2 - 1 : 0 ] f2h_RRESP
+ ,output wire [1 - 1 : 0 ] f2h_RLAST
+ ,output wire [1 - 1 : 0 ] f2h_RVALID
+ ,input wire [1 - 1 : 0 ] f2h_RREADY
 // h2f_lw_axi_clock
  ,input wire [1 - 1 : 0 ] h2f_lw_axi_clk
 // h2f_lw_axi_master
@@ -155,7 +196,124 @@ cyclonev_hps_interface_boot_from_fpga boot_from_fpga(
 
 cyclonev_hps_interface_fpga2hps fpga2hps(
  .port_size_config({
-    2'b11 // 1:0
+    2'b01 // 1:0
+  })
+,.arsize({
+    f2h_ARSIZE[2:0] // 2:0
+  })
+,.awuser({
+    f2h_AWUSER[4:0] // 4:0
+  })
+,.wvalid({
+    f2h_WVALID[0:0] // 0:0
+  })
+,.rlast({
+    f2h_RLAST[0:0] // 0:0
+  })
+,.clk({
+    f2h_axi_clk[0:0] // 0:0
+  })
+,.rresp({
+    f2h_RRESP[1:0] // 1:0
+  })
+,.arready({
+    f2h_ARREADY[0:0] // 0:0
+  })
+,.arprot({
+    f2h_ARPROT[2:0] // 2:0
+  })
+,.araddr({
+    f2h_ARADDR[31:0] // 31:0
+  })
+,.bvalid({
+    f2h_BVALID[0:0] // 0:0
+  })
+,.arid({
+    f2h_ARID[7:0] // 7:0
+  })
+,.bid({
+    f2h_BID[7:0] // 7:0
+  })
+,.arburst({
+    f2h_ARBURST[1:0] // 1:0
+  })
+,.arcache({
+    f2h_ARCACHE[3:0] // 3:0
+  })
+,.awvalid({
+    f2h_AWVALID[0:0] // 0:0
+  })
+,.wdata({
+    f2h_WDATA[63:0] // 63:0
+  })
+,.aruser({
+    f2h_ARUSER[4:0] // 4:0
+  })
+,.rid({
+    f2h_RID[7:0] // 7:0
+  })
+,.rvalid({
+    f2h_RVALID[0:0] // 0:0
+  })
+,.wready({
+    f2h_WREADY[0:0] // 0:0
+  })
+,.awlock({
+    f2h_AWLOCK[1:0] // 1:0
+  })
+,.bresp({
+    f2h_BRESP[1:0] // 1:0
+  })
+,.arlen({
+    f2h_ARLEN[3:0] // 3:0
+  })
+,.awsize({
+    f2h_AWSIZE[2:0] // 2:0
+  })
+,.awlen({
+    f2h_AWLEN[3:0] // 3:0
+  })
+,.bready({
+    f2h_BREADY[0:0] // 0:0
+  })
+,.awid({
+    f2h_AWID[7:0] // 7:0
+  })
+,.rdata({
+    f2h_RDATA[63:0] // 63:0
+  })
+,.awready({
+    f2h_AWREADY[0:0] // 0:0
+  })
+,.arvalid({
+    f2h_ARVALID[0:0] // 0:0
+  })
+,.wlast({
+    f2h_WLAST[0:0] // 0:0
+  })
+,.awprot({
+    f2h_AWPROT[2:0] // 2:0
+  })
+,.awaddr({
+    f2h_AWADDR[31:0] // 31:0
+  })
+,.wid({
+    f2h_WID[7:0] // 7:0
+  })
+,.awburst({
+    f2h_AWBURST[1:0] // 1:0
+  })
+,.awcache({
+    f2h_AWCACHE[3:0] // 3:0
+  })
+,.arlock({
+    f2h_ARLOCK[1:0] // 1:0
+  })
+,.rready({
+    f2h_RREADY[0:0] // 0:0
+  })
+,.wstrb({
+    f2h_WSTRB[7:0] // 7:0
   })
 );
 

@@ -8,9 +8,8 @@
    <security visible="1" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Basic Functions,Project,Library/Basic Functions/DMA,Library/Qsys Interconnect/Memory-Mapped,Library/Basic Functions/Bridges and Adaptors,Library,Library/Basic Functions/Bridges and Adaptors/Streaming,Library/Qsys Interconnect" />
- <window width="1417" height="860" x="-1" y="0" />
+ <library expandedCategories="Project,Library" />
+ <window width="1600" height="860" x="0" y="0" />
  <hdlexample language="VHDL" />
  <generation block_symbol_file="1" synthesis="VHDL" greybox="0" />
 </preferences>
