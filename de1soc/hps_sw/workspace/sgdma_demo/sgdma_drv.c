@@ -1,10 +1,6 @@
-#include <errno.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "common.h"
 #include "sgdma_drv.h"
 #include "sgdma_utils.h"
-#include "main.h"
 
 void sgdma_init_device(alt_sgdma_dev_t *dev, alt_sgdma_csr_t *csr, 
 							alt_sgdma_descriptor_t *desc_ram, uint8_t *data_ram)
@@ -43,12 +39,6 @@ uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc,
 {
 	while(csr->status & SGDMA_STATUS_BUSY_MSK)
 	{
-#if DEBUG
-		sgdma_dump_descriptor(desc);
-		sgdma_dump_csr_status(csr->status);
-		// sgdma_dump_csr(csr);
-		sleep(1);
-#endif
 		if(!sync_transfer)
 			return -EBUSY;
 	}
@@ -63,17 +53,7 @@ uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc,
 	if(!sync_transfer)
 		return 0;
 
-	while(csr->status & SGDMA_STATUS_BUSY_MSK)
-	{
-#if DEBUG
-		sgdma_dump_descriptor(desc);
-		sgdma_dump_csr_status(csr->status);
-		// sgdma_dump_csr(csr);
-		fifo_dump_csr(g_fifo_in);
-		fifo_dump_csr(g_fifo_out);
-		sleep(1);
-#endif
-	}
+	while(csr->status & SGDMA_STATUS_BUSY_MSK){;}
 
 	csr->control &= ~SGDMA_CONTROL_RUN_MSK;
 	uint8_t status = csr->status;

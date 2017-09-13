@@ -1,21 +1,23 @@
-#include <errno.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <sys/mman.h>
 #include <signal.h>
+#include <getopt.h>
+#include <string.h>
 
-#include "sgdma_utils.h"
+#include "common.h"
 #include "main.h"
+#include "sgdma_utils.h"
 
 int main(int argc, char** argv, char** envp)
 {
+	parse_cmdline(argc, argv);
+	init_files();
 	init_sysbase();
 	init_address_spaces();
 
 	// Configure LEDs
-	printf("\n\nSet the LEDs on ...");
+	log_printf("\n\nSet the LEDs on ...");
 	*(uint32_t*)(g_h2f_lw.led_pio) = 0xAA;
-	printf(" DONE!\n");
+	log_printf(" DONE!\n");
 
 	// Initialize SGDMA controllers
 	sgdma_init_device(&g_mm2st, g_h2f_lw.mm2st_csr, g_f2sdram.mm2st_ram + DESC_RAM_OFST,
@@ -27,22 +29,22 @@ int main(int argc, char** argv, char** envp)
 	g_fifo_out 	= (alt_single_clock_fifo_t*)g_h2f_lw.fifoout_csr;
 
 	// Prepare on-chip memory
-	printf("Initialize data RAM ...");
+	log_printf("Initialize data RAM ...");
 	for(int i = 0; i < DATA_RAM_SIZE; i++)
 	{
 		g_mm2st.data_ram[i] = i;
+		g_st2mm.data_ram[i] = 0;
 	}
-	printf(" DONE!\n");
+	log_printf(" DONE!\n");
 
-#if DEBUG
 	// Check if data was initialized
-	printf("\nData buffers (MM2ST/ST2MM):\n");
+	debug_printf("\nData buffers (MM2ST/ST2MM):\n");
 	for (int i = 0; i < DATA_RAM_SIZE/4; i++)
 	{
-		printf("0x%08X/0x%08X, ", ((uint32_t*)g_mm2st.data_ram)[i], ((uint32_t*)g_st2mm.data_ram)[i]);
+		debug_printf("0x%08X/0x%08X, ", ((uint32_t*)g_mm2st.data_ram)[i], ((uint32_t*)g_st2mm.data_ram)[i]);
 	}
-	printf("\b\b\n"); //delete last comma and start a new line
-#endif
+	debug_printf("\b\b\n"); //delete last comma and start a new line
+
 //-----------------------------------------------
 	//Scatter Gather DMA controller
 
@@ -62,28 +64,29 @@ int main(int argc, char** argv, char** envp)
 	g_st2mm.desc_ram[0].desc_control |= SGDMA_DESCRIPTOR_CONTROL_OWNED_BY_HW_MSK;
 
 	// Print descriptors fields
-#if DEBUG
-	printf("\n\n##### MM2ST descriptors: #####");
-	for(int i = 0; i < MAX_DESC_COUNT; i++)
+	if(g_debug_flag)
 	{
-		sgdma_dump_descriptor(&g_mm2st.desc_ram[i]);
-	}
-	printf("\n\n##### ST2MM descriptors: #####");
-	for(int i = 0; i < MAX_DESC_COUNT; i++)
-	{
-		sgdma_dump_descriptor(&g_st2mm.desc_ram[i]);
-	}
-	sleep(2);
+		log_printf("\n\n##### MM2ST descriptors: #####");
+		for(int i = 0; i < MAX_DESC_COUNT; i++)
+		{
+			sgdma_dump_descriptor(&g_mm2st.desc_ram[i]);
+		}
+		log_printf("\n\n##### ST2MM descriptors: #####");
+		for(int i = 0; i < MAX_DESC_COUNT; i++)
+		{
+			sgdma_dump_descriptor(&g_st2mm.desc_ram[i]);
+		}
+		sleep(2);
 
-	printf("\n##### MM2ST CSR: #####\n");
-	sgdma_dump_csr(g_mm2st.csr);
-	fifo_dump_csr(g_fifo_in);
-	sleep(1);
-	printf("\n##### ST2MM CSR: #####\n");
-	sgdma_dump_csr(g_st2mm.csr);
-	fifo_dump_csr(g_fifo_out);
-	sleep(1);
-#endif
+		debug_printf("\n##### MM2ST CSR: #####\n");
+		sgdma_dump_csr(g_mm2st.csr);
+		fifo_dump_csr(g_fifo_in);
+		sleep(1);
+		debug_printf("\n##### ST2MM CSR: #####\n");
+		sgdma_dump_csr(g_st2mm.csr);
+		fifo_dump_csr(g_fifo_out);
+		sleep(1);
+	}
 
 	g_mm2st.csr->control &= ~SGDMA_CONTROL_RUN_MSK;
 	g_mm2st.csr->status = 0xFF;
@@ -93,52 +96,125 @@ int main(int argc, char** argv, char** envp)
 	// Run transfer chain
 	uint8_t status;
 	status = sgdma_start_transfer(g_mm2st.csr, g_mm2st.desc_ram, 0, g_fifo_in);
-	printf("\nMM2ST transfer %s! (0x%02X)\n", 
+	log_printf("\nMM2ST transfer %s! (0x%02X)\n", 
 			status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
 	if(status & SGDMA_STATUS_ERROR_MSK)
 		goto_exit(1);
 
 	status = sgdma_start_transfer(g_st2mm.csr, g_st2mm.desc_ram, 1, g_fifo_out);
-	printf("\nST2MM transfer %s! (0x%02X)\n", 
+	log_printf("\nST2MM transfer %s! (0x%02X)\n", 
 			status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
 	if(status & SGDMA_STATUS_ERROR_MSK)
 		goto_exit(1);
 
-	sleep(3);
-	printf("\nUltimate MM2ST status:\n");
+	log_printf("\nUltimate MM2ST status:\n");
 	sgdma_dump_csr(g_mm2st.csr);
-	sgdma_dump_descriptor(&g_mm2st.desc_ram[MAX_DESC_COUNT-1]);
+	sgdma_dump_descriptor(&g_mm2st.desc_ram[0]);
 	fifo_dump_csr(g_fifo_in);
 	
-	printf("\nUltimate ST2MM status:\n");
+	log_printf("\nUltimate ST2MM status:\n");
 	sgdma_dump_csr(g_st2mm.csr);
-	sgdma_dump_descriptor(&g_st2mm.desc_ram[MAX_DESC_COUNT-1]);
+	sgdma_dump_descriptor(&g_st2mm.desc_ram[0]);
 	fifo_dump_csr(g_fifo_out);
 	
-#if DEBUG	
 	// Validate buffers consistency
-	printf("\nData buffers (MM2ST/ST2MM):\n");
-	for (int i = 0; i < DATA_RAM_SIZE/4; i++)
+	if(g_debug_flag)
 	{
-		printf("0x%08X/0x%08X, ", ((uint32_t*)g_mm2st.data_ram)[i], ((uint32_t*)g_st2mm.data_ram)[i]);
+		log_printf("\nData buffers (MM2ST/ST2MM):\n");
+		for (int i = 0; i < DATA_RAM_SIZE/4; i++)
+		{
+			log_printf("0x%08X/0x%08X, ", ((uint32_t*)g_mm2st.data_ram)[i], ((uint32_t*)g_st2mm.data_ram)[i]);
+		}
+		log_printf("\b\b\n"); //delete last comma and start a new line
 	}
-	printf("\b\b\n"); //delete last comma and start a new line
-#endif
 
-	return 0;
+	goto_exit(0);
+}
+
+void parse_cmdline(int argc, char* argv[])
+{
+	int c;
+	int opt_idx = 0;
+
+	while (1)
+	{
+		static struct option long_options[] =
+		{
+			{"debug", 		no_argument,       0, 'd'},
+			{"log_file",    required_argument, 0, 'l'},
+			{"input_file",  required_argument, 0, 'i'},
+			{"output_file", required_argument, 0, 'o'},
+			{0, 0, 0, 0}
+		};
+
+		c = getopt_long(argc, argv, "dl:i:o:", long_options, &opt_idx);
+
+		if(c == -1)
+			break;
+
+		switch(c)
+		{
+			case 'd':
+				g_debug_flag 	= 1;
+				g_log_flag 		= 1;
+				break;
+
+			case 'l':
+				g_log_flag = 1;
+				strncpy(g_log_file_name, optarg, MAX_FILENAME_CHARS);
+				break;
+
+			case 'i':
+				strncpy(g_input_file_name, optarg, MAX_FILENAME_CHARS);
+				break;
+
+			case 'o':
+				strncpy(g_output_file_name, optarg, MAX_FILENAME_CHARS);
+				break;
+
+			case '?':
+				break;
+
+			default:
+				break;
+		}
+	}
+}
+
+void init_files(void)
+{
+	g_log_file = fopen(g_log_file_name, "w");
+	if(g_log_file == NULL)
+	{
+		printf("ERROR: can't open log file: \"%s\"\n", g_log_file_name);
+		g_log_flag = 0;
+		g_debug_flag = 0;
+	}
+
+	g_input_file = fopen(g_input_file_name, "r");
+	if(g_input_file == NULL)
+	{
+		printf("ERROR: can't open FIR input file: \"%s\"\n", g_input_file_name);
+	}
+
+	g_output_file = fopen(g_output_file_name, "w");
+	if(g_output_file == NULL)
+	{
+		printf("ERROR: can't open FIR output file: \"%s\"\n", g_output_file_name);
+	}
 }
 
 void init_sysbase(void)
 {
 	if(signal(SIGINT, sig_handler) == SIG_ERR)
 	{
-		printf("ERROR: cannot handle SIGINT\n");
+		log_printf("ERROR: cannot handle SIGINT\n");
 		exit(-1);
 	}
 
 	if((g_devmem_fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
 	{
-		printf("ERROR: could not open \"/dev/mem\"...\n");
+		log_printf("ERROR: could not open \"/dev/mem\"...\n");
 		exit(-1);
 	}
 
@@ -146,7 +222,7 @@ void init_sysbase(void)
 	g_virtual_base = mmap(NULL, HW_REGS_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, g_devmem_fd, HW_REGS_BASE);
 	if(g_virtual_base == MAP_FAILED)
 	{
-		printf("ERROR: g_virtual_base mmap() failed...\n");
+		log_printf("ERROR: g_virtual_base mmap() failed...\n");
 		close(g_devmem_fd);
 		exit(-1);
 	}
@@ -155,10 +231,10 @@ void init_sysbase(void)
 	g_fir_sdram_base = mmap(NULL, FIR_SDRAM_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, g_devmem_fd, FIR_SDRAM_BASE);
 	if(g_fir_sdram_base == MAP_FAILED)
 	{
-		printf("ERROR: g_fir_sdram_base mmap() failed...\n");
+		log_printf("ERROR: g_fir_sdram_base mmap() failed...\n");
 		if(munmap(g_virtual_base, HW_REGS_SPAN) != 0)
 		{
-			printf("ERROR: g_virtual_base munmap() failed...\n");
+			log_printf("ERROR: g_virtual_base munmap() failed...\n");
 		}
 
 		close(g_devmem_fd);
@@ -169,15 +245,13 @@ void init_sysbase(void)
 	g_virt_base_ofst 		= HW_REGS_BASE - (uint32_t)g_virtual_base;
 	g_fir_sdram_base_ofst 	= FIR_SDRAM_BASE - (uint32_t)g_fir_sdram_base;
 
-#if DEBUG
-	printf("\n----- Address space mapping: -----\n");
-	printf("    HW_REGS_BASE            = %p\n", (void*)HW_REGS_BASE);
-	printf("    g_virtual_base          = %p\n", g_virtual_base);
-	printf("    g_virt_base_ofst        = %p\n\n", (void*)g_virt_base_ofst);
-	printf("    FIR_SDRAM_BASE          = %p\n", (void*)FIR_SDRAM_BASE);
-	printf("    g_fir_sdram_base        = %p\n", g_fir_sdram_base);
-	printf("    g_fir_sdram_base_ofst   = %p\n", (void*)g_fir_sdram_base_ofst);
-#endif
+	debug_printf("\n----- Address space mapping: -----\n");
+	debug_printf("    HW_REGS_BASE            = %p\n", (void*)HW_REGS_BASE);
+	debug_printf("    g_virtual_base          = %p\n", g_virtual_base);
+	debug_printf("    g_virt_base_ofst        = %p\n\n", (void*)g_virt_base_ofst);
+	debug_printf("    FIR_SDRAM_BASE          = %p\n", (void*)FIR_SDRAM_BASE);
+	debug_printf("    g_fir_sdram_base        = %p\n", g_fir_sdram_base);
+	debug_printf("    g_fir_sdram_base_ofst   = %p\n", (void*)g_fir_sdram_base_ofst);
 }
 
 void init_address_spaces(void)
@@ -215,7 +289,7 @@ void sig_handler(int signal)
 	switch(signal)
 	{
 		case SIGINT:
-			printf("\nReceived SIGINT: terminating...\n\n");
+			log_printf("\nReceived SIGINT: terminating...\n\n");
 			goto_exit(1);
 			break;
 	}
@@ -226,14 +300,17 @@ void goto_exit(int exit_code)
 	// Release memory mapping and exit
 	if(munmap(g_virtual_base, HW_REGS_SPAN) != 0)
 	{
-		printf("ERROR: g_virtual_base munmap() failed...\n");
+		log_printf("ERROR: g_virtual_base munmap() failed...\n");
 	}
 
 	if(munmap(g_fir_sdram_base, FIR_SDRAM_SPAN) != 0)
 	{
-		printf("ERROR: g_fir_sdram_base munmap() failed...\n");
+		log_printf("ERROR: g_fir_sdram_base munmap() failed...\n");
 	}
 	close(g_devmem_fd);
+	fclose(g_input_file);
+	fclose(g_output_file);
+	fclose(g_log_file);
 
 	exit(exit_code);
 }

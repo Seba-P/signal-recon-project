@@ -12,8 +12,6 @@
 #include "fifo.h"
 #include "hps_def.h"
 
-#define DEBUG 	0
-
 // Settings for the LW HPS2FPGA AXI Bridge
 #define HW_LW_H2F_OFST		(ALT_LWFPGASLVS_OFST)	// starts at 0xFF200000
 #define HW_LW_H2F_SPAN		(0x00200000) 			// 2 MB	address span
@@ -97,6 +95,21 @@ alt_sgdma_dev_t g_st2mm;
 alt_single_clock_fifo_t *g_fifo_in;
 alt_single_clock_fifo_t *g_fifo_out;
 
+// User files
+FILE* g_input_file;
+FILE* g_output_file;
+FILE* g_log_file;
+
+#define MAX_FILENAME_CHARS 	32
+char g_input_file_name[MAX_FILENAME_CHARS] 	= "input.txt";
+char g_output_file_name[MAX_FILENAME_CHARS] = "output.txt";
+char g_log_file_name[MAX_FILENAME_CHARS] 	= "log.txt";
+
+int g_log_flag		= 0;
+int g_debug_flag	= 0;
+
+void parse_cmdline(int argc, char** argv);
+void init_files (void);
 void init_sysbase(void);
 void init_address_spaces(void);
 

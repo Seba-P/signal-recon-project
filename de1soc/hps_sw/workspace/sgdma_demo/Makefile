@@ -45,7 +45,7 @@ CC_FLAGS = -g -Wall -std=gnu99 -D$(DEVICE_FAMILY) -march=armv7-a -mcpu=cortex-a9
 #CC_FLAGS += -march=armv7-a -mfloat-abi=hard -mfpu=vfp3 -mthumb-interwork -mthumb
 LD_FLAGS = 
 
-LOG_FILE = log.txt
+LOG_FILE = make_log.txt
 
 default: Makefile $(TARGET)
 $(TARGET): $(CC_SOURCES) 
