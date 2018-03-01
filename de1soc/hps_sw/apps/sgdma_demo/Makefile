@@ -8,8 +8,8 @@ TARGET 			= sgdma_demo
 # Build paths
 PROJECT_ROOT 	= ../../..
 SOCEDS_ROOT 	= $(SOCEDS_DEST_ROOT)/embedded
-HWLIBS_ROOT 	= $(PROJECT_ROOT)/hps_sw/hwlib
-DRIVERS_ROOT 	= $(PROJECT_ROOT)/hps_sw/drivers
+HWLIBS_ROOT 	= $(PROJECT_ROOT)/hps_sw/altera/hwlib
+DRIVERS_ROOT 	= $(PROJECT_ROOT)/hps_sw/altera/nios2_hal
 HANDOFF_ROOT 	= $(PROJECT_ROOT)/hw/hps_isw_handoff/soc_system_hps_0
 SPL_BSP_ROOT 	= $(PROJECT_ROOT)/hw/software/spl_bsp/generated
 TARGET_ROOT 	= .
@@ -17,7 +17,7 @@ TARGET_ROOT 	= .
 
 # Source & object files
 HWLIBS_USED_SRC := 
-TARGET_USED_SRC := main.c sgdma_drv.c sgdma_utils.c fifo.c
+TARGET_USED_SRC := main.c sgdma_drv.c sgdma_utils.c fifo.c test_vector.c
 DRIVERS_USED_SRC := 
 SPL_BSP_USED_SRC :=
 HANDOFF_USED_SRC :=

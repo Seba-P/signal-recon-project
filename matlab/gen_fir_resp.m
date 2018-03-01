@@ -1,6 +1,8 @@
 
 function fir_resp = gen_fir_resp()
 
+    addpath('../toolbox')
+
     K   = 95;           % FIR filter order
     Fp  = 100e3;        % 100 kHz passband-edge frequency
     Fs  = 1000e3;       % 1 MHz sampling frequency

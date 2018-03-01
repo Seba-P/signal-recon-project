@@ -44,16 +44,18 @@
 #define FIR_SDRAM_SPAN			(0x8000) 				// 64 kB address span
 #define FIR_SDRAM_MASK			(FIR_SDRAM_SPAN - 1)	// ends at 0x32007FFF
 
+#define FIR_COEFFS_NR			(37)	// number of FIR coefficients
+
 /* System components addressess:
 	void *h2f_lw_led_addr; 			// LEDs via h2f_lw_axi_master
 	void *h2f_lw_button_addr;		// Buttons via h2f_lw_axi_master
 	void *h2f_lw_dipsw_addr;		// Dip switches via h2f_lw_axi_master
 	void *h2f_lw_sysid_qsys_addr;	// System ID via h2f_lw_axi_master
 	void *h2f_lw_onchip_ram_addr;	// Scratch pad (64kB) via h2f_axi_master
-	void *h2f_lw_mm2st_csr_addr;	// SGDMA RAM for FIR output via f2sdram_axi_master
-	void *f2sdram_mm2st_ram_addr;	// SGDMA MM2ST CSR via h2f_lw_axi_master
+	void *h2f_lw_mm2st_csr_addr;	// SGDMA RAM for FIR output via f2h_axi_master
+	void *f2h_mm2st_ram_addr;		// SGDMA MM2ST CSR via h2f_lw_axi_master
 	void *h2f_lw_st2mm_csr_addr;	// SGDMA ST2MM CSR via h2f_lw_axi_master
-	void *f2sdram_st2mm_ram_addr;	// SGDMA RAM fo FIR input via f2sdram_axi_master
+	void *f2h_st2mm_ram_addr;		// SGDMA RAM fo FIR input via f2h_axi_master
 	void *h2f_lw_fifoin_csr_addr;	// FIR input FIFO CSR via h2f_lw_axi_master
 	void *h2f_lw_fifoout_csr_addr;	// FIR output FIFO CSR via h2f_lw_axi_master
 */
@@ -75,13 +77,13 @@ typedef struct
 {
 	void * /*const*/ mm2st_ram;
 	void * /*const*/ st2mm_ram;
-} f2sdram_addr_t;
+} f2h_addr_t;
 
 // Pointers to the different address spaces
 void 			*g_virtual_base;
 void 			*g_fir_sdram_base;
 h2f_lw_addr_t 	g_h2f_lw;
-f2sdram_addr_t 	g_f2sdram;
+f2h_addr_t 		g_f2h;
 
 int g_virt_base_ofst;
 int g_fir_sdram_base_ofst;
@@ -101,8 +103,8 @@ FILE* g_output_file;
 FILE* g_log_file;
 
 #define MAX_FILENAME_CHARS 	32
-char g_input_file_name[MAX_FILENAME_CHARS] 	= "input.txt";
-char g_output_file_name[MAX_FILENAME_CHARS] = "output.txt";
+char g_input_file_name[MAX_FILENAME_CHARS] 	= "input.bin";
+char g_output_file_name[MAX_FILENAME_CHARS] = "output.bin";
 char g_log_file_name[MAX_FILENAME_CHARS] 	= "log.txt";
 
 int g_log_flag		= 0;
