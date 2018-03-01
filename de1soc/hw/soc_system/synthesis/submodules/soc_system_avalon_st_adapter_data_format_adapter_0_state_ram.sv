@@ -27,7 +27,7 @@
 // ------------------------------------------
 // Generation parameters:
 //   memName:          soc_system_avalon_st_adapter_data_format_adapter_0_state_ram
-//   dataWidth:        1
+//   dataWidth:        2
 //   addrWidth:        1
 //   numReadPorts:     1
 //   depth:            1
@@ -39,10 +39,10 @@ module soc_system_avalon_st_adapter_data_format_adapter_0_state_ram (
   input                reset_n,
   // Interface: read0 
   input                rd0_address,
-  output reg           rd0_readdata,
+  output reg [2 -1: 0] rd0_readdata,
   // Interface: write
   input                wr_address,
-  input                wr_writedata,
+  input      [2 -1: 0] wr_writedata,
   input                wr_write,
   output reg           wr_waitrequest                                                               
 );
@@ -51,7 +51,7 @@ module soc_system_avalon_st_adapter_data_format_adapter_0_state_ram (
    //| Internal Parameters
    // ---------------------------------------------------------------------
    localparam  DEPTH           = 1;   
-   localparam  DATA_WIDTH      = 1;   
+   localparam  DATA_WIDTH      = 2;   
    localparam  ADDRESS_WIDTH   = 1;   
    localparam  CLEAR_ON_RESET  = 1;   
 
@@ -139,7 +139,7 @@ module test_soc_system_avalon_st_adapter_data_format_adapter_0_state_ram;
    //| Internal Parameters
    // ---------------------------------------------------------------------
    localparam  DEPTH                   = 1
-   localparam  DATA_WIDTH              = 1
+   localparam  DATA_WIDTH              = 2
    localparam  ADDRESS_WIDTH           = 1
    localparam  CLEAR_ON_RESET          = 1
    localparam  CLOCK_HALF_PERIOD       = 10;

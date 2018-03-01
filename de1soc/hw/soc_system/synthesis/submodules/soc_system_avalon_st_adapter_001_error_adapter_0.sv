@@ -45,10 +45,10 @@
 //   empty_width:        0
 //   data_width:         16
 //   channel_width:      0
-//   in_error_width:     0
-//   out_error_width:    2
+//   in_error_width:     2
+//   out_error_width:    0
 //   in_errors_list      
-//   in_errors_indices   0
+//   in_errors_indices   0 1
 //   out_errors_list     
 //   has_in_error_desc:  FALSE
 //   has_out_error_desc: FALSE
@@ -69,11 +69,11 @@ module soc_system_avalon_st_adapter_001_error_adapter_0
  output reg         in_ready,
  input              in_valid,
  input [16-1: 0]     in_data,
+ input [2-1: 0]     in_error,
  // Interface: out
  input               out_ready,
  output reg          out_valid,
  output reg [16-1: 0] out_data,
- output reg [2-1: 0] out_error,
   // Interface: clk
  input              clk,
  // Interface: reset
@@ -81,8 +81,7 @@ module soc_system_avalon_st_adapter_001_error_adapter_0
 
  /*AUTOARG*/);
    
-   reg in_error = 0;
-   initial in_error = 0;
+   reg out_error; 
 
    // ---------------------------------------------------------------------
    //| Pass-through Mapping

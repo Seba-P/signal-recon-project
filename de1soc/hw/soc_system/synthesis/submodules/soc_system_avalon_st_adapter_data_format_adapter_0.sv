@@ -39,18 +39,18 @@
 // ------------------------------------------
 // Generation parameters:
 //   output_name:        soc_system_avalon_st_adapter_data_format_adapter_0
-//   usePackets:         false
+//   usePackets:         true
 //   hasInEmpty:         false
 //   inEmptyWidth:       0
-//   hasOutEmpty:        false 
-//   outEmptyWidth:      0
+//   hasOutEmpty:        true 
+//   outEmptyWidth:      1
 //   inDataWidth:        16
-//   outDataWidth:       8
+//   outDataWidth:       16
 //   channelWidth:       0
-//   inErrorWidth:       2
-//   outErrorWidth:      2
+//   inErrorWidth:       0
+//   outErrorWidth:      0
 //   inSymbolsPerBeat:   2
-//   outSymbolsPerBeat:  1
+//   outSymbolsPerBeat:  2
 //   maxState:           1
 //   stateWidth:         1
 //   maxChannel:         0
@@ -67,12 +67,15 @@ module soc_system_avalon_st_adapter_data_format_adapter_0 (
  output reg         in_ready,
  input              in_valid,
  input [16-1 : 0]    in_data,
- input [2-1 : 0] in_error,
+ input              in_startofpacket,
+ input              in_endofpacket,
  // Interface: out
  input                out_ready,
  output reg           out_valid,
- output reg [8-1: 0]  out_data,
- output reg [2-1 : 0] out_error,
+ output reg [16-1: 0]  out_data,
+ output reg           out_startofpacket,
+ output reg           out_endofpacket,
+ output reg           out_empty,
 
   // Interface: clk
  input              clk,
@@ -82,245 +85,14 @@ module soc_system_avalon_st_adapter_data_format_adapter_0 (
 );
 
 
-
-   // ---------------------------------------------------------------------
-   //| Signal Declarations
-   // ---------------------------------------------------------------------
-   reg         state_read_addr;
-   wire [1-1:0]   state_from_memory;
-   reg  [1-1:0]   state;
-   reg  [1-1:0]   new_state;
-   reg  [1-1:0]   state_d1;
-    
-   reg            in_ready_d1;
-   reg            mem_readaddr; 
-   reg            mem_readaddr_d1;
-   reg            a_ready;
-   reg            a_valid;
-   reg            a_channel;
-   reg [8-1:0]    a_data0; 
-   reg [8-1:0]    a_data1; 
-   reg            a_startofpacket;
-   reg            a_endofpacket;
-   reg            a_empty;
-   reg  [2-1:0]   a_error;
-   reg            b_ready;
-   reg            b_valid;
-   reg            b_channel;
-   reg  [8-1:0]   b_data;
-   reg            b_startofpacket; 
-   wire           b_startofpacket_wire; 
-   reg            b_endofpacket; 
-   reg            b_empty;   
-   reg  [2-1:0]   b_error; 
-   reg            mem_write0;
-   reg  [8-1:0]   mem_writedata0;
-   wire [8-1:0]   mem_readdata0;
-   wire           mem_waitrequest0;
-   reg  [8-1:0]   mem0[0:0];
-   reg            sop_mem_writeenable;
-   reg            sop_mem_writedata;
-   wire           mem_waitrequest_sop; 
-
-   wire           state_waitrequest;
-   reg            state_waitrequest_d1; 
-
-   reg            in_channel = 0;
-   reg            out_channel;
-
-   reg in_startofpacket = 0;
-   reg in_endofpacket   = 0;
-   reg out_startofpacket;
-   reg out_endofpacket;
-
-   reg  [2-1:0] in_empty = 0;
-   reg  [1-1:0] out_empty;
-
-
-
-   reg  [1-1:0]   state_register;
-   reg            sop_register; 
-   reg  [2-1:0]   error_register;
-   reg  [8-1:0]   data0_register;
-
-   // ---------------------------------------------------------------------
-   //| Input Register Stage
-   // ---------------------------------------------------------------------
-   always @(posedge clk or negedge reset_n) begin
-      if (!reset_n) begin
-         a_valid   <= 0;
-         a_channel <= 0;
-         a_data0   <= 0;
-         a_data1   <= 0;
-         a_startofpacket <= 0;
-         a_endofpacket   <= 0;
-         a_empty <= 0; 
-         a_error <= 0;
-      end else begin
-         if (in_ready) begin
-            a_valid   <= in_valid;
-            a_channel <= in_channel;
-            a_error   <= in_error;
-            a_data0 <= in_data[15:8];
-            a_data1 <= in_data[7:0];
-            a_startofpacket <= in_startofpacket;
-            a_endofpacket   <= in_endofpacket;
-            a_empty         <= 0; 
-            if (in_endofpacket)
-               a_empty <= in_empty;
-         end
-      end 
-   end
-
-   always @* begin 
-      state_read_addr = a_channel;
-      if (in_ready)
-         state_read_addr = in_channel;
-   end
-   
-
-   // ---------------------------------------------------------------------
-   //| State & Memory Keepers
-   // ---------------------------------------------------------------------
-   always @(posedge clk or negedge reset_n) begin
-      if (!reset_n) begin
-         in_ready_d1          <= 0;
-         state_d1             <= 0;
-         mem_readaddr_d1      <= 0;
-         state_waitrequest_d1 <= 0;
-      end else begin
-         in_ready_d1          <= in_ready;
-         state_d1             <= state;
-         mem_readaddr_d1      <= mem_readaddr;
-         state_waitrequest_d1 <= state_waitrequest;
-      end
-   end
-   
-   always @(posedge clk or negedge reset_n) begin
-      if (!reset_n) begin
-         state_register <= 0;
-         sop_register   <= 0;
-         data0_register <= 0;
-      end else begin
-         state_register <= new_state;
-         if (sop_mem_writeenable)
-            sop_register   <= sop_mem_writedata;
-         if (mem_write0)
-            data0_register <= mem_writedata0;
-         end
-      end
-   
-      assign state_from_memory = state_register;
-      assign b_startofpacket_wire = sop_register;
-      assign mem_readdata0 = data0_register;
-   
-   // ---------------------------------------------------------------------
-   //| State Machine
-   // ---------------------------------------------------------------------
    always @* begin
-
-      
-   b_ready = (out_ready || ~out_valid);
-
-   a_ready   = 0;
-   b_data    = 0;
-   b_valid   = 0;
-   b_channel = a_channel;
-   b_error   = a_error;
-      
-   state = state_from_memory;
-      
-   new_state           = state;
-   mem_write0          = 0;
-   mem_writedata0      = a_data0;
-   sop_mem_writeenable = 0;
-
-   b_endofpacket = a_endofpacket;
-      
-   b_startofpacket = 0;
-      
-   b_empty = 0;
-       
-   case (state) 
-            0 : begin
-            b_data[7:0] = a_data0;
-            b_startofpacket = a_startofpacket;
-            if (out_ready || ~out_valid) begin
-               if (a_valid) begin
-                  b_valid = 1;
-                  new_state = state+1'b1;
-                     if (a_endofpacket && (a_empty >= 1) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 1;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
-            end
-         1 : begin
-            b_data[7:0] = a_data1;
-            b_startofpacket = 0;
-            if (out_ready || ~out_valid) begin
-            a_ready = 1;
-               if (a_valid) begin
-                  b_valid = 1;
-                  new_state = 0;
-                     if (a_endofpacket && (a_empty >= 0) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 0;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
-            end
-
-   endcase
-
-      in_ready = (a_ready || ~a_valid);
-
-      mem_readaddr = in_channel; 
-      if (~in_ready)
-         mem_readaddr = mem_readaddr_d1;
-
-      
-      sop_mem_writedata = 0;
-      if (a_valid)
-         sop_mem_writedata = a_startofpacket;
-      if (b_ready && b_valid && b_startofpacket)
-         sop_mem_writeenable = 1;
-
+      in_ready = out_ready; 
+      out_valid = in_valid;
+      out_data = in_data;
+      out_startofpacket = in_startofpacket;
+      out_endofpacket = in_endofpacket;
+      out_empty = 0;
    end
-
-
-   // ---------------------------------------------------------------------
-   //| Output Register Stage
-   // ---------------------------------------------------------------------
-   always @(posedge clk or negedge reset_n) begin
-      if (!reset_n) begin
-         out_valid         <= 0;
-         out_data          <= 0;
-         out_channel       <= 0;
-         out_startofpacket <= 0;
-         out_endofpacket   <= 0;
-         out_empty         <= 0;
-         out_error         <= 0;
-      end else begin
-         if (out_ready || ~out_valid) begin
-            out_valid         <= b_valid;
-            out_data          <= b_data;
-            out_channel       <= b_channel; 
-            out_startofpacket <= b_startofpacket;
-            out_endofpacket   <= b_endofpacket;
-            out_empty         <= b_empty;
-            out_error         <= b_error;
-         end
-      end 
-   end
-   
-
-
 
 endmodule
 

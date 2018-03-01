@@ -8,37 +8,36 @@
 `timescale 1 ps / 1 ps
 module soc_system_avalon_st_adapter #(
 		parameter inBitsPerSymbol = 8,
-		parameter inUsePackets    = 0,
+		parameter inUsePackets    = 1,
 		parameter inDataWidth     = 16,
 		parameter inChannelWidth  = 0,
-		parameter inErrorWidth    = 2,
+		parameter inErrorWidth    = 0,
 		parameter inUseEmptyPort  = 0,
 		parameter inUseValid      = 1,
 		parameter inUseReady      = 1,
 		parameter inReadyLatency  = 0,
-		parameter outDataWidth    = 8,
+		parameter outDataWidth    = 16,
 		parameter outChannelWidth = 0,
 		parameter outErrorWidth   = 0,
-		parameter outUseEmptyPort = 0,
+		parameter outUseEmptyPort = 1,
 		parameter outUseValid     = 1,
 		parameter outUseReady     = 1,
 		parameter outReadyLatency = 0
 	) (
-		input  wire        in_clk_0_clk,   // in_clk_0.clk
-		input  wire        in_rst_0_reset, // in_rst_0.reset
-		input  wire [15:0] in_0_data,      //     in_0.data
-		input  wire        in_0_valid,     //         .valid
-		output wire        in_0_ready,     //         .ready
-		input  wire [1:0]  in_0_error,     //         .error
-		output wire [7:0]  out_0_data,     //    out_0.data
-		output wire        out_0_valid,    //         .valid
-		input  wire        out_0_ready     //         .ready
+		input  wire        in_clk_0_clk,        // in_clk_0.clk
+		input  wire        in_rst_0_reset,      // in_rst_0.reset
+		input  wire [15:0] in_0_data,           //     in_0.data
+		input  wire        in_0_valid,          //         .valid
+		output wire        in_0_ready,          //         .ready
+		input  wire        in_0_startofpacket,  //         .startofpacket
+		input  wire        in_0_endofpacket,    //         .endofpacket
+		output wire [15:0] out_0_data,          //    out_0.data
+		output wire        out_0_valid,         //         .valid
+		input  wire        out_0_ready,         //         .ready
+		output wire        out_0_startofpacket, //         .startofpacket
+		output wire        out_0_endofpacket,   //         .endofpacket
+		output wire        out_0_empty          //         .empty
 	);
-
-	wire        data_format_adapter_0_out_valid; // data_format_adapter_0:out_valid -> error_adapter_0:in_valid
-	wire  [7:0] data_format_adapter_0_out_data;  // data_format_adapter_0:out_data -> error_adapter_0:in_data
-	wire        data_format_adapter_0_out_ready; // error_adapter_0:in_ready -> data_format_adapter_0:out_ready
-	wire  [1:0] data_format_adapter_0_out_error; // data_format_adapter_0:out_error -> error_adapter_0:in_error
 
 	generate
 		// If any of the display statements (or deliberately broken
@@ -55,7 +54,7 @@ module soc_system_avalon_st_adapter #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inbitspersymbol_check ( .error(1'b1) );
 		end
-		if (inUsePackets != 0)
+		if (inUsePackets != 1)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -82,7 +81,7 @@ module soc_system_avalon_st_adapter #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inchannelwidth_check ( .error(1'b1) );
 		end
-		if (inErrorWidth != 2)
+		if (inErrorWidth != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -127,7 +126,7 @@ module soc_system_avalon_st_adapter #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inreadylatency_check ( .error(1'b1) );
 		end
-		if (outDataWidth != 8)
+		if (outDataWidth != 16)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -154,7 +153,7 @@ module soc_system_avalon_st_adapter #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					outerrorwidth_check ( .error(1'b1) );
 		end
-		if (outUseEmptyPort != 0)
+		if (outUseEmptyPort != 1)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -193,28 +192,19 @@ module soc_system_avalon_st_adapter #(
 	endgenerate
 
 	soc_system_avalon_st_adapter_data_format_adapter_0 data_format_adapter_0 (
-		.clk       (in_clk_0_clk),                    //   clk.clk
-		.reset_n   (~in_rst_0_reset),                 // reset.reset_n
-		.in_data   (in_0_data),                       //    in.data
-		.in_valid  (in_0_valid),                      //      .valid
-		.in_ready  (in_0_ready),                      //      .ready
-		.in_error  (in_0_error),                      //      .error
-		.out_data  (data_format_adapter_0_out_data),  //   out.data
-		.out_valid (data_format_adapter_0_out_valid), //      .valid
-		.out_ready (data_format_adapter_0_out_ready), //      .ready
-		.out_error (data_format_adapter_0_out_error)  //      .error
-	);
-
-	soc_system_avalon_st_adapter_error_adapter_0 error_adapter_0 (
-		.clk       (in_clk_0_clk),                    //   clk.clk
-		.reset_n   (~in_rst_0_reset),                 // reset.reset_n
-		.in_data   (data_format_adapter_0_out_data),  //    in.data
-		.in_valid  (data_format_adapter_0_out_valid), //      .valid
-		.in_ready  (data_format_adapter_0_out_ready), //      .ready
-		.in_error  (data_format_adapter_0_out_error), //      .error
-		.out_data  (out_0_data),                      //   out.data
-		.out_valid (out_0_valid),                     //      .valid
-		.out_ready (out_0_ready)                      //      .ready
+		.clk               (in_clk_0_clk),        //   clk.clk
+		.reset_n           (~in_rst_0_reset),     // reset.reset_n
+		.in_data           (in_0_data),           //    in.data
+		.in_valid          (in_0_valid),          //      .valid
+		.in_ready          (in_0_ready),          //      .ready
+		.in_startofpacket  (in_0_startofpacket),  //      .startofpacket
+		.in_endofpacket    (in_0_endofpacket),    //      .endofpacket
+		.out_data          (out_0_data),          //   out.data
+		.out_valid         (out_0_valid),         //      .valid
+		.out_ready         (out_0_ready),         //      .ready
+		.out_startofpacket (out_0_startofpacket), //      .startofpacket
+		.out_endofpacket   (out_0_endofpacket),   //      .endofpacket
+		.out_empty         (out_0_empty)          //      .empty
 	);
 
 endmodule

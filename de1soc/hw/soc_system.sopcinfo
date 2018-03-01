@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 16.1 196 (Future versions may contain additional information.) -->
- <!-- 2017.09.13.12:13:46 -->
+ <!-- 2018.02.27.15:14:52 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1505297624</value>
+  <value>1519740890</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1092,6 +1092,30 @@ parameters are a RESULT of the module parameters. -->
    </port>
    <clockDomainMember>
     <isBridge>false</isBridge>
+    <moduleName>mm2st_data_adapter_0</moduleName>
+    <slaveName>avalon_st_clk_sink</slaveName>
+    <name>mm2st_data_adapter_0.avalon_st_clk_sink</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
+    <moduleName>st2mm_data_adapter_0</moduleName>
+    <slaveName>avalon_st_clk_sink</slaveName>
+    <name>st2mm_data_adapter_0.avalon_st_clk_sink</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
+    <moduleName>mm2st_data_adapter_0</moduleName>
+    <slaveName>avalon_st_clk_source</slaveName>
+    <name>mm2st_data_adapter_0.avalon_st_clk_source</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
+    <moduleName>st2mm_data_adapter_0</moduleName>
+    <slaveName>avalon_st_clk_source</slaveName>
+    <name>st2mm_data_adapter_0.avalon_st_clk_source</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
     <moduleName>sysid_qsys</moduleName>
     <slaveName>clk</slaveName>
     <name>sysid_qsys.clk</name>
@@ -1116,9 +1140,21 @@ parameters are a RESULT of the module parameters. -->
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
+    <moduleName>sgdma_mm2st</moduleName>
+    <slaveName>clk</slaveName>
+    <name>sgdma_mm2st.clk</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
     <moduleName>fir_compiler_ii_0</moduleName>
     <slaveName>clk</slaveName>
     <name>fir_compiler_ii_0.clk</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
+    <moduleName>sgdma_st2mm</moduleName>
+    <slaveName>clk</slaveName>
+    <name>sgdma_st2mm.clk</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -1134,33 +1170,9 @@ parameters are a RESULT of the module parameters. -->
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>sgdma_mm2st</moduleName>
-    <slaveName>clk</slaveName>
-    <name>sgdma_mm2st.clk</name>
-   </clockDomainMember>
-   <clockDomainMember>
-    <isBridge>false</isBridge>
-    <moduleName>sgdma_st2mm</moduleName>
-    <slaveName>clk</slaveName>
-    <name>sgdma_st2mm.clk</name>
-   </clockDomainMember>
-   <clockDomainMember>
-    <isBridge>false</isBridge>
     <moduleName>onchip_RAM</moduleName>
     <slaveName>clk1</slaveName>
     <name>onchip_RAM.clk1</name>
-   </clockDomainMember>
-   <clockDomainMember>
-    <isBridge>false</isBridge>
-    <moduleName>st_packet_signals_add_0</moduleName>
-    <slaveName>clock_sink</slaveName>
-    <name>st_packet_signals_add_0.clock_sink</name>
-   </clockDomainMember>
-   <clockDomainMember>
-    <isBridge>false</isBridge>
-    <moduleName>st_packet_signals_remove_0</moduleName>
-    <slaveName>clock_sink</slaveName>
-    <name>st_packet_signals_remove_0.clock_sink</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -2024,7 +2036,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="BITS_PER_SYMBOL">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -2623,7 +2635,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -2714,7 +2726,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>in_data</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -2764,7 +2776,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -2855,7 +2867,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_data</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -2893,7 +2905,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="BITS_PER_SYMBOL">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -3492,7 +3504,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -3583,7 +3595,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>in_data</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -3633,7 +3645,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -3724,7 +3736,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_data</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -3790,7 +3802,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="inputChannelNum">
    <type>int</type>
-   <value>2</value>
+   <value>1</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -3830,7 +3842,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="baseAddress">
    <type>int</type>
-   <value>0</value>
+   <value>838860800</value>
    <derived>false</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -3838,7 +3850,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="readWriteMode">
    <type>java.lang.String</type>
-   <value>read_write</value>
+   <value>write</value>
    <derived>false</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -3983,7 +3995,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="inputType">
    <type>java.lang.String</type>
-   <value>int</value>
+   <value>frac</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -3991,7 +4003,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="inputBitWidth">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -3999,9 +4011,9 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="inputFracBitWidth">
    <type>int</type>
-   <value>0</value>
+   <value>15</value>
    <derived>false</derived>
-   <enabled>false</enabled>
+   <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -4031,7 +4043,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="coeffSetScaleValue">
    <type>java.lang.String</type>
-   <value>0.015736,0.011802,0.0,-0.013769,-0.021637,-0.015736,0.0,0.01967,0.031472,0.023604,0.0,-0.031472,-0.051142,-0.043274,0.0,0.07474599999999999,0.15736,0.224238,0.249809,0.224238,0.15736,0.07474599999999999,0.0,-0.043274,-0.051142,-0.031472,0.0,0.023604,0.031472,0.01967,0.0,-0.015736,-0.021637,-0.013769,0.0,0.011802,0.015736</value>
+   <value>0.0176643407391583,0.013219666310617391,0.0,-0.014988387524033328,-0.022711295236060674,-0.017290774620807522,0.0,0.020439403332621238,0.03179886284981842,0.02498318713950011,0.0,-0.03212668617816706,-0.053008269814142285,-0.04497278637043367,0.0,0.07496480901516771,0.15903243324076052,0.2249020508438368,0.24980137620166634,0.2249020508438368,0.15903243324076052,0.07496480901516771,0.0,-0.04497278637043367,-0.053008269814142285,-0.03212668617816706,0.0,0.02498318713950011,0.03179886284981842,0.020439403332621238,0.0,-0.017290774620807522,-0.022711295236060674,-0.014988387524033328,0.0,0.013219666310617391,0.0176643407391583</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4047,7 +4059,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="coeffSetFixedValue">
    <type>java.lang.String</type>
-   <value>8,6,0,-7,-11,-8,0,10,16,12,0,-16,-26,-22,0,38,80,114,127,114,80,38,0,-22,-26,-16,0,12,16,10,0,-8,-11,-7,0,6,8</value>
+   <value>2317,1734,0,-1966,-2979,-2268,0,2681,4171,3277,0,-4214,-6953,-5899,0,9833,20860,29500,32766,29500,20860,9833,0,-5899,-6953,-4214,0,3277,4171,2681,0,-2268,-2979,-1966,0,1734,2317</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4071,7 +4083,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="coeffType">
    <type>java.lang.String</type>
-   <value>int</value>
+   <value>frac</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4079,17 +4091,17 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="coeffBitWidth">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
   <parameter name="coeffFracBitWidth">
    <type>int</type>
-   <value>0</value>
+   <value>15</value>
    <derived>false</derived>
-   <enabled>false</enabled>
+   <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -4111,7 +4123,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="coeffBitWidth_derived">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4119,7 +4131,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outType">
    <type>java.lang.String</type>
-   <value>int</value>
+   <value>frac</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4127,7 +4139,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outBitWidth">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -4135,7 +4147,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outFracBitWidth">
    <type>int</type>
-   <value>0</value>
+   <value>15</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -4143,7 +4155,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outMSBRound">
    <type>java.lang.String</type>
-   <value>trunc</value>
+   <value>sat</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4151,7 +4163,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outMsbBitRem">
    <type>int</type>
-   <value>0</value>
+   <value>7</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4167,7 +4179,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outLsbBitRem">
    <type>int</type>
-   <value>14</value>
+   <value>15</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4175,7 +4187,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outWidth">
    <type>int</type>
-   <value>22</value>
+   <value>38</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -4183,7 +4195,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outWidth_realOnly">
    <type>int</type>
-   <value>22</value>
+   <value>38</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4191,7 +4203,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outFullFracBitWidth_realOnly">
    <type>int</type>
-   <value>0</value>
+   <value>30</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4215,7 +4227,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outFullFracBitWidth">
    <type>int</type>
-   <value>0</value>
+   <value>30</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -4223,7 +4235,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="inputInterfaceNum">
    <type>int</type>
-   <value>2</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4231,7 +4243,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="outputInterfaceNum">
    <type>int</type>
-   <value>2</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4271,8 +4283,8 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="funcResult">
    <type>java.lang.String</type>
-   <value><![CDATA[-interp=1 -decim=1 -incycles=1 -len=37 -bankcount=1 -nsym -nband=1 -chans=2 -family="Cyclone V" 
-|{}|2|2|1|1|22|0|13|4|noCode|LUTS: 134 DSPs: 76 RAM Bits: 0|]]></value>
+   <value><![CDATA[-interp=1 -decim=1 -incycles=1 -len=37 -bankcount=1 -nsym -nband=1 -chans=1 -family="Cyclone V" 
+|{}|1|1|1|1|38|30|13|4|noCode|LUTS: 84 DSPs: 38 RAM Bits: 0|]]></value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4280,7 +4292,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="busAddressWidth">
    <type>int</type>
-   <value>6</value>
+   <value>30</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4312,7 +4324,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="lutCount">
    <type>int</type>
-   <value>134</value>
+   <value>84</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4320,7 +4332,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dspCount">
    <type>int</type>
-   <value>76</value>
+   <value>38</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4473,7 +4485,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -4537,7 +4549,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="symbolsPerBeat">
     <type>int</type>
-    <value>2</value>
+    <value>1</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -4619,7 +4631,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -4683,7 +4695,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="symbolsPerBeat">
     <type>int</type>
-    <value>2</value>
+    <value>1</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -78683,6 +78695,451 @@ parameters are a RESULT of the module parameters. -->
   </interface>
  </module>
  <module
+   name="mm2st_data_adapter_0"
+   kind="mm2st_data_adapter"
+   version="2.0"
+   path="mm2st_data_adapter_0">
+  <!-- Describes a single module. Module parameters are
+the requested settings for a module instance. -->
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <interface name="avalon_st_clk_source" kind="clock_sink" version="16.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="externallyDriven">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="ptfSchematicName">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>clock</type>
+   <isStart>false</isStart>
+   <port>
+    <name>avalon_st_clk_source</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>clk</role>
+   </port>
+  </interface>
+  <interface name="avalon_st_sink" kind="avalon_streaming_sink" version="16.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>avalon_st_clk_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>avalon_st_reset</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="beatsPerCycle">
+    <type>int</type>
+    <value>1</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="dataBitsPerSymbol">
+    <type>int</type>
+    <value>8</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="emptyWithinPacket">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="errorDescriptor">
+    <type>[Ljava.lang.String;</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="firstSymbolInHighOrderBits">
+    <type>boolean</type>
+    <value>true</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="highOrderSymbolAtMSB">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="maxChannel">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="packetDescription">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="readyLatency">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="symbolsPerBeat">
+    <type>int</type>
+    <value>1</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>avalon_streaming</type>
+   <isStart>false</isStart>
+   <port>
+    <name>avalon_st_sink_startofpacket</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>startofpacket</role>
+   </port>
+   <port>
+    <name>avalon_st_sink_endofpacket</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>endofpacket</role>
+   </port>
+   <port>
+    <name>avalon_st_sink_data</name>
+    <direction>Input</direction>
+    <width>16</width>
+    <role>data</role>
+   </port>
+   <port>
+    <name>avalon_st_sink_ready</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>ready</role>
+   </port>
+   <port>
+    <name>avalon_st_sink_valid</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>valid</role>
+   </port>
+  </interface>
+  <interface name="avalon_st_source" kind="avalon_streaming_source" version="16.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>avalon_st_clk_source</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>avalon_st_reset</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="beatsPerCycle">
+    <type>int</type>
+    <value>1</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="dataBitsPerSymbol">
+    <type>int</type>
+    <value>16</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="emptyWithinPacket">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="errorDescriptor">
+    <type>[Ljava.lang.String;</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="firstSymbolInHighOrderBits">
+    <type>boolean</type>
+    <value>true</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="highOrderSymbolAtMSB">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="maxChannel">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="packetDescription">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="readyLatency">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="symbolsPerBeat">
+    <type>int</type>
+    <value>1</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>avalon_streaming</type>
+   <isStart>true</isStart>
+   <port>
+    <name>avalon_st_source_data</name>
+    <direction>Output</direction>
+    <width>16</width>
+    <role>data</role>
+   </port>
+   <port>
+    <name>avalon_st_source_valid</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>valid</role>
+   </port>
+   <port>
+    <name>avalon_st_source_ready</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>ready</role>
+   </port>
+  </interface>
+  <interface name="avalon_st_clk_sink" kind="clock_sink" version="16.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="externallyDriven">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="ptfSchematicName">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>clock</type>
+   <isStart>false</isStart>
+   <port>
+    <name>avalon_st_clk_sink</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>clk</role>
+   </port>
+  </interface>
+  <interface name="avalon_st_reset" kind="reset_sink" version="16.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>avalon_st_clk_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="synchronousEdges">
+    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
+    <value>DEASSERT</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>reset</type>
+   <isStart>false</isStart>
+   <port>
+    <name>avalon_st_reset</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>reset</role>
+   </port>
+  </interface>
+ </module>
+ <module
    name="onchip_RAM"
    kind="altera_avalon_onchip_memory2"
    version="16.1"
@@ -79631,7 +80088,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.READ_BLOCK_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.READ_BURSTCOUNT_WIDTH</name>
@@ -79643,11 +80100,11 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.STREAM_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SYMBOLS_PER_BEAT</name>
-   <value>1</value>
+   <value>2</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.UNALIGNED_TRANSFER</name>
@@ -79655,7 +80112,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_BLOCK_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_BURSTCOUNT_WIDTH</name>
@@ -79727,7 +80184,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="readBlockDataWidth">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -79784,7 +80241,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="actualDataTransferFIFODepth">
    <type>int</type>
-   <value>256</value>
+   <value>128</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -79800,7 +80257,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="symbolsPerBeat">
    <type>int</type>
-   <value>1</value>
+   <value>2</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -79808,7 +80265,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="byteEnableWidth">
    <type>int</type>
-   <value>1</value>
+   <value>2</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -79816,7 +80273,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="emptyWidth">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -81897,7 +82354,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>m_read_readdata</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>16</width>
     <role>readdata</role>
    </port>
    <port>
@@ -82347,7 +82804,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="symbolsPerBeat">
     <type>int</type>
-    <value>1</value>
+    <value>2</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -82374,7 +82831,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_data</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -82400,6 +82857,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>startofpacket</role>
+   </port>
+   <port>
+    <name>out_empty</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>empty</role>
    </port>
   </interface>
  </module>
@@ -82484,7 +82947,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.READ_BLOCK_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.READ_BURSTCOUNT_WIDTH</name>
@@ -82496,11 +82959,11 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.STREAM_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SYMBOLS_PER_BEAT</name>
-   <value>1</value>
+   <value>2</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.UNALIGNED_TRANSFER</name>
@@ -82508,7 +82971,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_BLOCK_DATA_WIDTH</name>
-   <value>8</value>
+   <value>16</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_BURSTCOUNT_WIDTH</name>
@@ -82580,7 +83043,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="readBlockDataWidth">
    <type>int</type>
-   <value>8</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -82637,7 +83100,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="actualDataTransferFIFODepth">
    <type>int</type>
-   <value>256</value>
+   <value>128</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -82653,7 +83116,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="symbolsPerBeat">
    <type>int</type>
-   <value>1</value>
+   <value>2</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -82661,7 +83124,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="byteEnableWidth">
    <type>int</type>
-   <value>1</value>
+   <value>2</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -82669,7 +83132,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="emptyWidth">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -84579,7 +85042,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="symbolsPerBeat">
     <type>int</type>
-    <value>1</value>
+    <value>2</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -84618,7 +85081,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>in_data</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
@@ -84632,6 +85095,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>ready</role>
+   </port>
+   <port>
+    <name>in_empty</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>empty</role>
    </port>
   </interface>
   <interface name="m_write" kind="avalon_master" version="16.1">
@@ -84917,8 +85386,14 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>m_write_writedata</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>16</width>
     <role>writedata</role>
+   </port>
+   <port>
+    <name>m_write_byteenable</name>
+    <direction>Output</direction>
+    <width>2</width>
+    <role>byteenable</role>
    </port>
    <memoryBlock>
     <isBridge>true</isBridge>
@@ -85251,10 +85726,10 @@ parameters are a RESULT of the module parameters. -->
   </interface>
  </module>
  <module
-   name="st_packet_signals_add_0"
-   kind="st_packet_signals_add"
-   version="1.0"
-   path="st_packet_signals_add_0">
+   name="st2mm_data_adapter_0"
+   kind="st2mm_data_adapter"
+   version="2.0"
+   path="st2mm_data_adapter_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
   <parameter name="deviceFamily">
@@ -85273,16 +85748,13 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <interface
-     name="avalon_streaming_sink"
-     kind="avalon_streaming_sink"
-     version="16.1">
+  <interface name="avalon_st_sink" kind="avalon_streaming_sink" version="16.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>avalon_st_clk_sink</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -85290,7 +85762,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedReset">
     <type>java.lang.String</type>
-    <value>reset_sink</value>
+    <value>avalon_st_reset</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -85306,7 +85778,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>16</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -85395,34 +85867,31 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>false</isStart>
    <port>
-    <name>avalon_streaming_sink_ready</name>
+    <name>avalon_st_sink_ready</name>
     <direction>Output</direction>
     <width>1</width>
     <role>ready</role>
    </port>
    <port>
-    <name>avalon_streaming_sink_data</name>
+    <name>avalon_st_sink_data</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
-    <name>avalon_streaming_sink_valid</name>
+    <name>avalon_st_sink_valid</name>
     <direction>Input</direction>
     <width>1</width>
     <role>valid</role>
    </port>
   </interface>
-  <interface
-     name="avalon_streaming_source"
-     kind="avalon_streaming_source"
-     version="16.1">
+  <interface name="avalon_st_source" kind="avalon_streaming_source" version="16.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>avalon_st_clk_source</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -85430,7 +85899,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedReset">
     <type>java.lang.String</type>
-    <value>reset_sink</value>
+    <value>avalon_st_reset</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -85535,37 +86004,37 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>true</isStart>
    <port>
-    <name>avalon_streaming_source_data</name>
+    <name>avalon_st_source_data</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>16</width>
     <role>data</role>
    </port>
    <port>
-    <name>avalon_streaming_source_endofpacket</name>
+    <name>avalon_st_source_endofpacket</name>
     <direction>Output</direction>
     <width>1</width>
     <role>endofpacket</role>
    </port>
    <port>
-    <name>avalon_streaming_source_ready</name>
+    <name>avalon_st_source_ready</name>
     <direction>Input</direction>
     <width>1</width>
     <role>ready</role>
    </port>
    <port>
-    <name>avalon_streaming_source_startofpacket</name>
+    <name>avalon_st_source_startofpacket</name>
     <direction>Output</direction>
     <width>1</width>
     <role>startofpacket</role>
    </port>
    <port>
-    <name>avalon_streaming_source_valid</name>
+    <name>avalon_st_source_valid</name>
     <direction>Output</direction>
     <width>1</width>
     <role>valid</role>
    </port>
   </interface>
-  <interface name="clock_sink" kind="clock_sink" version="16.1">
+  <interface name="avalon_st_clk_sink" kind="clock_sink" version="16.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -85604,374 +86073,13 @@ parameters are a RESULT of the module parameters. -->
    <type>clock</type>
    <isStart>false</isStart>
    <port>
-    <name>clock_sink_clk</name>
+    <name>avalon_st_clk_sink</name>
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
    </port>
   </interface>
-  <interface name="reset_sink" kind="reset_sink" version="16.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>false</isStart>
-   <port>
-    <name>reset_sink_reset</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
- </module>
- <module
-   name="st_packet_signals_remove_0"
-   kind="st_packet_signals_remove"
-   version="1.0"
-   path="st_packet_signals_remove_0">
-  <!-- Describes a single module. Module parameters are
-the requested settings for a module instance. -->
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <interface
-     name="avalon_streaming_sink"
-     kind="avalon_streaming_sink"
-     version="16.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="beatsPerCycle">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="dataBitsPerSymbol">
-    <type>int</type>
-    <value>8</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="emptyWithinPacket">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="errorDescriptor">
-    <type>[Ljava.lang.String;</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="firstSymbolInHighOrderBits">
-    <type>boolean</type>
-    <value>true</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="highOrderSymbolAtMSB">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="maxChannel">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="packetDescription">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="readyLatency">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="symbolsPerBeat">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>avalon_streaming</type>
-   <isStart>false</isStart>
-   <port>
-    <name>avalon_streaming_sink_startofpacket</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>startofpacket</role>
-   </port>
-   <port>
-    <name>avalon_streaming_sink_endofpacket</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>endofpacket</role>
-   </port>
-   <port>
-    <name>avalon_streaming_sink_data</name>
-    <direction>Input</direction>
-    <width>8</width>
-    <role>data</role>
-   </port>
-   <port>
-    <name>avalon_streaming_sink_ready</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>ready</role>
-   </port>
-   <port>
-    <name>avalon_streaming_sink_valid</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>valid</role>
-   </port>
-  </interface>
-  <interface
-     name="avalon_streaming_source"
-     kind="avalon_streaming_source"
-     version="16.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="beatsPerCycle">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="dataBitsPerSymbol">
-    <type>int</type>
-    <value>8</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="emptyWithinPacket">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="errorDescriptor">
-    <type>[Ljava.lang.String;</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="firstSymbolInHighOrderBits">
-    <type>boolean</type>
-    <value>true</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="highOrderSymbolAtMSB">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="maxChannel">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="packetDescription">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="readyLatency">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="symbolsPerBeat">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>avalon_streaming</type>
-   <isStart>true</isStart>
-   <port>
-    <name>avalon_streaming_source_data</name>
-    <direction>Output</direction>
-    <width>8</width>
-    <role>data</role>
-   </port>
-   <port>
-    <name>avalon_streaming_source_valid</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>valid</role>
-   </port>
-   <port>
-    <name>avalon_streaming_source_ready</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>ready</role>
-   </port>
-  </interface>
-  <interface name="clock_sink" kind="clock_sink" version="16.1">
+  <interface name="avalon_st_clk_source" kind="clock_sink" version="16.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -86010,19 +86118,19 @@ parameters are a RESULT of the module parameters. -->
    <type>clock</type>
    <isStart>false</isStart>
    <port>
-    <name>clock_sink_clk</name>
+    <name>avalon_st_clk_source</name>
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
    </port>
   </interface>
-  <interface name="reset_sink" kind="reset_sink" version="16.1">
+  <interface name="avalon_st_reset" kind="reset_sink" version="16.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>avalon_st_clk_sink</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -86055,7 +86163,7 @@ parameters are a RESULT of the module parameters. -->
    <type>reset</type>
    <isStart>false</isStart>
    <port>
-    <name>reset_sink_reset</name>
+    <name>avalon_st_reset</name>
     <direction>Input</direction>
     <width>1</width>
     <role>reset</role>
@@ -86075,7 +86183,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1505297624</value>
+   <value>1519740890</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -86095,7 +86203,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1505297624</value>
+   <value>1519740890</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -86111,7 +86219,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1505297624</value>
+   <value>1519740890</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -97460,6 +97568,60 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>f2h</endConnectionPoint>
  </connection>
  <connection
+   name="mm2st_data_adapter_0.avalon_st_source/fifo_in.in"
+   kind="avalon_streaming"
+   version="16.1"
+   start="mm2st_data_adapter_0.avalon_st_source"
+   end="fifo_in.in">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>mm2st_data_adapter_0</startModule>
+  <startConnectionPoint>avalon_st_source</startConnectionPoint>
+  <endModule>fifo_in</endModule>
+  <endConnectionPoint>in</endConnectionPoint>
+ </connection>
+ <connection
+   name="st2mm_data_adapter_0.avalon_st_source/sgdma_st2mm.in"
+   kind="avalon_streaming"
+   version="16.1"
+   start="st2mm_data_adapter_0.avalon_st_source"
+   end="sgdma_st2mm.in">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>st2mm_data_adapter_0</startModule>
+  <startConnectionPoint>avalon_st_source</startConnectionPoint>
+  <endModule>sgdma_st2mm</endModule>
+  <endConnectionPoint>in</endConnectionPoint>
+ </connection>
+ <connection
    name="fir_compiler_ii_0.avalon_streaming_source/fifo_out.in"
    kind="avalon_streaming"
    version="16.1"
@@ -97487,11 +97649,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>in</endConnectionPoint>
  </connection>
  <connection
-   name="st_packet_signals_add_0.avalon_streaming_source/sgdma_st2mm.in"
+   name="fifo_out.out/st2mm_data_adapter_0.avalon_st_sink"
    kind="avalon_streaming"
    version="16.1"
-   start="st_packet_signals_add_0.avalon_streaming_source"
-   end="sgdma_st2mm.in">
+   start="fifo_out.out"
+   end="st2mm_data_adapter_0.avalon_st_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97508,17 +97670,17 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>st_packet_signals_add_0</startModule>
-  <startConnectionPoint>avalon_streaming_source</startConnectionPoint>
-  <endModule>sgdma_st2mm</endModule>
-  <endConnectionPoint>in</endConnectionPoint>
+  <startModule>fifo_out</startModule>
+  <startConnectionPoint>out</startConnectionPoint>
+  <endModule>st2mm_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_sink</endConnectionPoint>
  </connection>
  <connection
-   name="st_packet_signals_remove_0.avalon_streaming_source/fifo_in.in"
+   name="sgdma_mm2st.out/mm2st_data_adapter_0.avalon_st_sink"
    kind="avalon_streaming"
    version="16.1"
-   start="st_packet_signals_remove_0.avalon_streaming_source"
-   end="fifo_in.in">
+   start="sgdma_mm2st.out"
+   end="mm2st_data_adapter_0.avalon_st_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97535,10 +97697,10 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>st_packet_signals_remove_0</startModule>
-  <startConnectionPoint>avalon_streaming_source</startConnectionPoint>
-  <endModule>fifo_in</endModule>
-  <endConnectionPoint>in</endConnectionPoint>
+  <startModule>sgdma_mm2st</startModule>
+  <startConnectionPoint>out</startConnectionPoint>
+  <endModule>mm2st_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_sink</endConnectionPoint>
  </connection>
  <connection
    name="fifo_in.out/fir_compiler_ii_0.avalon_streaming_sink"
@@ -97568,11 +97730,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>avalon_streaming_sink</endConnectionPoint>
  </connection>
  <connection
-   name="fifo_out.out/st_packet_signals_add_0.avalon_streaming_sink"
-   kind="avalon_streaming"
+   name="clk_0.clk/mm2st_data_adapter_0.avalon_st_clk_sink"
+   kind="clock"
    version="16.1"
-   start="fifo_out.out"
-   end="st_packet_signals_add_0.avalon_streaming_sink">
+   start="clk_0.clk"
+   end="mm2st_data_adapter_0.avalon_st_clk_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97589,17 +97751,17 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>fifo_out</startModule>
-  <startConnectionPoint>out</startConnectionPoint>
-  <endModule>st_packet_signals_add_0</endModule>
-  <endConnectionPoint>avalon_streaming_sink</endConnectionPoint>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>mm2st_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_clk_sink</endConnectionPoint>
  </connection>
  <connection
-   name="sgdma_mm2st.out/st_packet_signals_remove_0.avalon_streaming_sink"
-   kind="avalon_streaming"
+   name="clk_0.clk/st2mm_data_adapter_0.avalon_st_clk_sink"
+   kind="clock"
    version="16.1"
-   start="sgdma_mm2st.out"
-   end="st_packet_signals_remove_0.avalon_streaming_sink">
+   start="clk_0.clk"
+   end="st2mm_data_adapter_0.avalon_st_clk_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97616,10 +97778,64 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>sgdma_mm2st</startModule>
-  <startConnectionPoint>out</startConnectionPoint>
-  <endModule>st_packet_signals_remove_0</endModule>
-  <endConnectionPoint>avalon_streaming_sink</endConnectionPoint>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>st2mm_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_clk_sink</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk/mm2st_data_adapter_0.avalon_st_clk_source"
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="mm2st_data_adapter_0.avalon_st_clk_source">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>mm2st_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_clk_source</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk/st2mm_data_adapter_0.avalon_st_clk_source"
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="st2mm_data_adapter_0.avalon_st_clk_source">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>st2mm_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_clk_source</endConnectionPoint>
  </connection>
  <connection
    name="clk_0.clk/sysid_qsys.clk"
@@ -97730,6 +97946,33 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clk</endConnectionPoint>
  </connection>
  <connection
+   name="clk_0.clk/sgdma_mm2st.clk"
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="sgdma_mm2st.clk">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>sgdma_mm2st</endModule>
+  <endConnectionPoint>clk</endConnectionPoint>
+ </connection>
+ <connection
    name="clk_0.clk/fir_compiler_ii_0.clk"
    kind="clock"
    version="16.1"
@@ -97754,6 +97997,33 @@ parameters are a RESULT of the module parameters. -->
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
   <endModule>fir_compiler_ii_0</endModule>
+  <endConnectionPoint>clk</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk/sgdma_st2mm.clk"
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="sgdma_st2mm.clk">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>sgdma_st2mm</endModule>
   <endConnectionPoint>clk</endConnectionPoint>
  </connection>
  <connection
@@ -97811,60 +98081,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clk</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/sgdma_mm2st.clk"
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="sgdma_mm2st.clk">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>sgdma_mm2st</endModule>
-  <endConnectionPoint>clk</endConnectionPoint>
- </connection>
- <connection
-   name="clk_0.clk/sgdma_st2mm.clk"
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="sgdma_st2mm.clk">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>sgdma_st2mm</endModule>
-  <endConnectionPoint>clk</endConnectionPoint>
- </connection>
- <connection
    name="clk_0.clk/onchip_RAM.clk1"
    kind="clock"
    version="16.1"
@@ -97890,60 +98106,6 @@ parameters are a RESULT of the module parameters. -->
   <startConnectionPoint>clk</startConnectionPoint>
   <endModule>onchip_RAM</endModule>
   <endConnectionPoint>clk1</endConnectionPoint>
- </connection>
- <connection
-   name="clk_0.clk/st_packet_signals_add_0.clock_sink"
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="st_packet_signals_add_0.clock_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>st_packet_signals_add_0</endModule>
-  <endConnectionPoint>clock_sink</endConnectionPoint>
- </connection>
- <connection
-   name="clk_0.clk/st_packet_signals_remove_0.clock_sink"
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="st_packet_signals_remove_0.clock_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>st_packet_signals_remove_0</endModule>
-  <endConnectionPoint>clock_sink</endConnectionPoint>
  </connection>
  <connection
    name="clk_0.clk/hps_0_bridges.f2h_axi_clock"
@@ -98025,6 +98187,60 @@ parameters are a RESULT of the module parameters. -->
   <startConnectionPoint>clk</startConnectionPoint>
   <endModule>hps_0_bridges</endModule>
   <endConnectionPoint>h2f_lw_axi_clock</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk_reset/st2mm_data_adapter_0.avalon_st_reset"
+   kind="reset"
+   version="16.1"
+   start="clk_0.clk_reset"
+   end="st2mm_data_adapter_0.avalon_st_reset">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk_reset</startConnectionPoint>
+  <endModule>st2mm_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_reset</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk_reset/mm2st_data_adapter_0.avalon_st_reset"
+   kind="reset"
+   version="16.1"
+   start="clk_0.clk_reset"
+   end="mm2st_data_adapter_0.avalon_st_reset">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk_reset</startConnectionPoint>
+  <endModule>mm2st_data_adapter_0</endModule>
+  <endConnectionPoint>avalon_st_reset</endConnectionPoint>
  </connection>
  <connection
    name="clk_0.clk_reset/fifo_in.clk_reset"
@@ -98270,60 +98486,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>reset1</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk_reset/st_packet_signals_add_0.reset_sink"
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="st_packet_signals_add_0.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk_reset</startConnectionPoint>
-  <endModule>st_packet_signals_add_0</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="clk_0.clk_reset/st_packet_signals_remove_0.reset_sink"
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="st_packet_signals_remove_0.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk_reset</startConnectionPoint>
-  <endModule>st_packet_signals_remove_0</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
    name="clk_0.clk_reset/fir_compiler_ii_0.rst"
    kind="reset"
    version="16.1"
@@ -98359,7 +98521,7 @@ parameters are a RESULT of the module parameters. -->
   <version>16.1</version>
  </plugin>
  <plugin>
-  <instanceCount>64</instanceCount>
+  <instanceCount>66</instanceCount>
   <name>clock_sink</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -98776,6 +98938,14 @@ parameters are a RESULT of the module parameters. -->
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
+  <name>mm2st_data_adapter</name>
+  <type>com.altera.entityinterfaces.IElementClass</type>
+  <subtype>com.altera.entityinterfaces.IModule</subtype>
+  <displayName>mm2st_data_adapter</displayName>
+  <version>2.0</version>
+ </plugin>
+ <plugin>
+  <instanceCount>1</instanceCount>
   <name>altera_avalon_onchip_memory2</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
@@ -98800,19 +98970,11 @@ parameters are a RESULT of the module parameters. -->
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
-  <name>st_packet_signals_add</name>
+  <name>st2mm_data_adapter</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
-  <displayName>st_packet_signals_add</displayName>
-  <version>1.0</version>
- </plugin>
- <plugin>
-  <instanceCount>1</instanceCount>
-  <name>st_packet_signals_remove</name>
-  <type>com.altera.entityinterfaces.IElementClass</type>
-  <subtype>com.altera.entityinterfaces.IModule</subtype>
-  <displayName>st_packet_signals_remove</displayName>
-  <version>1.0</version>
+  <displayName>st2mm_data_adapter</displayName>
+  <version>2.0</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -98831,7 +98993,7 @@ parameters are a RESULT of the module parameters. -->
   <version>16.1</version>
  </plugin>
  <plugin>
-  <instanceCount>61</instanceCount>
+  <instanceCount>63</instanceCount>
   <name>clock</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>

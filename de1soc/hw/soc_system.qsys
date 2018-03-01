@@ -138,6 +138,14 @@
          type = "String";
       }
    }
+   element mm2st_data_adapter_0
+   {
+      datum _sortIndex
+      {
+         value = "12";
+         type = "int";
+      }
+   }
    element onchip_RAM
    {
       datum _sortIndex
@@ -204,15 +212,71 @@
          type = "String";
       }
    }
-   element st_packet_signals_add_0
+   element soc_system
    {
-      datum _sortIndex
+      datum _originalDeviceFamily
       {
-         value = "12";
-         type = "int";
+         value = "Cyclone V";
+         type = "String";
       }
    }
-   element st_packet_signals_remove_0
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element st2mm_data_adapter_0
    {
       datum _sortIndex
       {
@@ -328,7 +392,7 @@
    kind="altera_avalon_sc_fifo"
    version="16.1"
    enabled="1">
-  <parameter name="BITS_PER_SYMBOL" value="8" />
+  <parameter name="BITS_PER_SYMBOL" value="16" />
   <parameter name="CHANNEL_WIDTH" value="0" />
   <parameter name="EMPTY_LATENCY" value="3" />
   <parameter name="ENABLE_EXPLICIT_MAXCHANNEL" value="false" />
@@ -348,7 +412,7 @@
    kind="altera_avalon_sc_fifo"
    version="16.1"
    enabled="1">
-  <parameter name="BITS_PER_SYMBOL" value="8" />
+  <parameter name="BITS_PER_SYMBOL" value="16" />
   <parameter name="CHANNEL_WIDTH" value="0" />
   <parameter name="EMPTY_LATENCY" value="3" />
   <parameter name="ENABLE_EXPLICIT_MAXCHANNEL" value="false" />
@@ -373,39 +437,39 @@
   <parameter name="backPressure" value="true" />
   <parameter name="bankCount" value="1" />
   <parameter name="bankDisplay" value="0" />
-  <parameter name="baseAddress" value="0" />
+  <parameter name="baseAddress" value="838860800" />
   <parameter name="channelModes" value="0,1" />
   <parameter name="clockRate" value="100" />
   <parameter name="clockSlack" value="0" />
-  <parameter name="coeffBitWidth" value="8" />
+  <parameter name="coeffBitWidth" value="16" />
   <parameter name="coeffComplex" value="false" />
-  <parameter name="coeffFracBitWidth" value="0" />
+  <parameter name="coeffFracBitWidth" value="15" />
   <parameter name="coeffReload" value="false" />
   <parameter name="coeffScaling" value="auto" />
   <parameter name="coeffSetRealValue">0.0176663,0.013227,0.0,-0.0149911,-0.0227152,-0.0172976,0.0,0.0204448,0.0318046,0.0249882,0.0,-0.0321283,-0.0530093,-0.04498,0.0,0.0749693,0.159034,0.224907,0.249809,0.224907,0.159034,0.0749693,0.0,-0.04498,-0.0530093,-0.0321283,0.0,0.0249882,0.0318046,0.0204448,0.0,-0.0172976,-0.0227152,-0.0149911,0.0,0.013227,0.0176663</parameter>
   <parameter name="coeffSetRealValueImag">0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0</parameter>
-  <parameter name="coeffType" value="int" />
+  <parameter name="coeffType" value="frac" />
   <parameter name="decimFactor" value="1" />
   <parameter name="delayRAMBlockThreshold" value="20" />
   <parameter name="deviceFamily" value="Cyclone V" />
   <parameter name="dualMemDistRAMThreshold" value="1280" />
   <parameter name="filterType" value="single" />
   <parameter name="hardMultiplierThreshold" value="-1" />
-  <parameter name="inputBitWidth" value="8" />
-  <parameter name="inputChannelNum" value="2" />
-  <parameter name="inputFracBitWidth" value="0" />
+  <parameter name="inputBitWidth" value="16" />
+  <parameter name="inputChannelNum" value="1" />
+  <parameter name="inputFracBitWidth" value="15" />
   <parameter name="inputRate" value="100" />
-  <parameter name="inputType" value="int" />
+  <parameter name="inputType" value="frac" />
   <parameter name="interpFactor" value="1" />
   <parameter name="karatsuba" value="false" />
   <parameter name="mRAMThreshold" value="1000000" />
   <parameter name="num_modes" value="1" />
   <parameter name="outLSBRound" value="trunc" />
-  <parameter name="outLsbBitRem" value="14" />
-  <parameter name="outMSBRound" value="trunc" />
-  <parameter name="outMsbBitRem" value="0" />
-  <parameter name="outType" value="int" />
-  <parameter name="readWriteMode" value="read_write" />
+  <parameter name="outLsbBitRem" value="15" />
+  <parameter name="outMSBRound" value="sat" />
+  <parameter name="outMsbBitRem" value="7" />
+  <parameter name="outType" value="frac" />
+  <parameter name="readWriteMode" value="write" />
   <parameter name="reconfigurable" value="false" />
   <parameter name="reconfigurable_list" value="0" />
   <parameter name="speedGrade" value="medium" />
@@ -956,6 +1020,11 @@
   <parameter name="width" value="10" />
  </module>
  <module
+   name="mm2st_data_adapter_0"
+   kind="mm2st_data_adapter"
+   version="2.0"
+   enabled="1" />
+ <module
    name="onchip_RAM"
    kind="altera_avalon_onchip_memory2"
    version="16.1"
@@ -1001,7 +1070,7 @@
   <parameter name="enableDescriptorReadMasterBurst" value="false" />
   <parameter name="enableUnalignedTransfers" value="false" />
   <parameter name="internalFIFODepth" value="2" />
-  <parameter name="readBlockDataWidth" value="8" />
+  <parameter name="readBlockDataWidth" value="16" />
   <parameter name="readBurstcountWidth" value="4" />
   <parameter name="sinkErrorWidth" value="0" />
   <parameter name="sourceErrorWidth" value="0" />
@@ -1022,7 +1091,7 @@
   <parameter name="enableDescriptorReadMasterBurst" value="false" />
   <parameter name="enableUnalignedTransfers" value="false" />
   <parameter name="internalFIFODepth" value="2" />
-  <parameter name="readBlockDataWidth" value="8" />
+  <parameter name="readBlockDataWidth" value="16" />
   <parameter name="readBurstcountWidth" value="4" />
   <parameter name="sinkErrorWidth" value="0" />
   <parameter name="sourceErrorWidth" value="0" />
@@ -1030,14 +1099,9 @@
   <parameter name="writeBurstcountWidth" value="4" />
  </module>
  <module
-   name="st_packet_signals_add_0"
-   kind="st_packet_signals_add"
-   version="1.0"
-   enabled="1" />
- <module
-   name="st_packet_signals_remove_0"
-   kind="st_packet_signals_remove"
-   version="1.0"
+   name="st2mm_data_adapter_0"
+   kind="st2mm_data_adapter"
+   version="2.0"
    enabled="1" />
  <module
    name="sysid_qsys"
@@ -1184,57 +1248,67 @@
  <connection
    kind="avalon_streaming"
    version="16.1"
+   start="mm2st_data_adapter_0.avalon_st_source"
+   end="fifo_in.in" />
+ <connection
+   kind="avalon_streaming"
+   version="16.1"
+   start="st2mm_data_adapter_0.avalon_st_source"
+   end="sgdma_st2mm.in" />
+ <connection
+   kind="avalon_streaming"
+   version="16.1"
    start="fir_compiler_ii_0.avalon_streaming_source"
    end="fifo_out.in" />
  <connection
    kind="avalon_streaming"
    version="16.1"
-   start="st_packet_signals_add_0.avalon_streaming_source"
-   end="sgdma_st2mm.in" />
+   start="fifo_out.out"
+   end="st2mm_data_adapter_0.avalon_st_sink" />
  <connection
    kind="avalon_streaming"
    version="16.1"
-   start="st_packet_signals_remove_0.avalon_streaming_source"
-   end="fifo_in.in" />
+   start="sgdma_mm2st.out"
+   end="mm2st_data_adapter_0.avalon_st_sink" />
  <connection
    kind="avalon_streaming"
    version="16.1"
    start="fifo_in.out"
    end="fir_compiler_ii_0.avalon_streaming_sink" />
  <connection
-   kind="avalon_streaming"
+   kind="clock"
    version="16.1"
-   start="fifo_out.out"
-   end="st_packet_signals_add_0.avalon_streaming_sink" />
+   start="clk_0.clk"
+   end="mm2st_data_adapter_0.avalon_st_clk_sink" />
  <connection
-   kind="avalon_streaming"
+   kind="clock"
    version="16.1"
-   start="sgdma_mm2st.out"
-   end="st_packet_signals_remove_0.avalon_streaming_sink" />
+   start="clk_0.clk"
+   end="st2mm_data_adapter_0.avalon_st_clk_sink" />
+ <connection
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="mm2st_data_adapter_0.avalon_st_clk_source" />
+ <connection
+   kind="clock"
+   version="16.1"
+   start="clk_0.clk"
+   end="st2mm_data_adapter_0.avalon_st_clk_source" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="sysid_qsys.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="led_pio.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="dipsw_pio.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="button_pio.clk" />
+ <connection kind="clock" version="16.1" start="clk_0.clk" end="sgdma_mm2st.clk" />
  <connection
    kind="clock"
    version="16.1"
    start="clk_0.clk"
    end="fir_compiler_ii_0.clk" />
+ <connection kind="clock" version="16.1" start="clk_0.clk" end="sgdma_st2mm.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="fifo_in.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="fifo_out.clk" />
- <connection kind="clock" version="16.1" start="clk_0.clk" end="sgdma_mm2st.clk" />
- <connection kind="clock" version="16.1" start="clk_0.clk" end="sgdma_st2mm.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="onchip_RAM.clk1" />
- <connection
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="st_packet_signals_add_0.clock_sink" />
- <connection
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="st_packet_signals_remove_0.clock_sink" />
  <connection
    kind="clock"
    version="16.1"
@@ -1250,6 +1324,16 @@
    version="16.1"
    start="clk_0.clk"
    end="hps_0.h2f_lw_axi_clock" />
+ <connection
+   kind="reset"
+   version="16.1"
+   start="clk_0.clk_reset"
+   end="st2mm_data_adapter_0.avalon_st_reset" />
+ <connection
+   kind="reset"
+   version="16.1"
+   start="clk_0.clk_reset"
+   end="mm2st_data_adapter_0.avalon_st_reset" />
  <connection
    kind="reset"
    version="16.1"
@@ -1295,16 +1379,6 @@
    version="16.1"
    start="clk_0.clk_reset"
    end="onchip_RAM.reset1" />
- <connection
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="st_packet_signals_add_0.reset_sink" />
- <connection
-   kind="reset"
-   version="16.1"
-   start="clk_0.clk_reset"
-   end="st_packet_signals_remove_0.reset_sink" />
  <connection
    kind="reset"
    version="16.1"

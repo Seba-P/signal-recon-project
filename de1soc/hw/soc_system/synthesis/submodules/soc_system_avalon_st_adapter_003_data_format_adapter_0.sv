@@ -44,19 +44,19 @@
 //   inEmptyWidth:       0
 //   hasOutEmpty:        false 
 //   outEmptyWidth:      0
-//   inDataWidth:        48
-//   outDataWidth:       24
+//   inDataWidth:        16
+//   outDataWidth:       32
 //   channelWidth:       0
-//   inErrorWidth:       2
-//   outErrorWidth:      2
-//   inSymbolsPerBeat:   2
-//   outSymbolsPerBeat:  1
+//   inErrorWidth:       0
+//   outErrorWidth:      0
+//   inSymbolsPerBeat:   1
+//   outSymbolsPerBeat:  2
 //   maxState:           1
 //   stateWidth:         1
 //   maxChannel:         0
-//   symbolWidth:        24
+//   symbolWidth:        16
 //   numMemSymbols:      1
-//   symbolWidth:        24
+//   symbolWidth:        16
 
 
 // ------------------------------------------
@@ -66,13 +66,11 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
  // Interface: in
  output reg         in_ready,
  input              in_valid,
- input [48-1 : 0]    in_data,
- input [2-1 : 0] in_error,
+ input [16-1 : 0]    in_data,
  // Interface: out
  input                out_ready,
  output reg           out_valid,
- output reg [24-1: 0]  out_data,
- output reg [2-1 : 0] out_error,
+ output reg [32-1: 0]  out_data,
 
   // Interface: clk
  input              clk,
@@ -98,26 +96,25 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
    reg            a_ready;
    reg            a_valid;
    reg            a_channel;
-   reg [24-1:0]    a_data0; 
-   reg [24-1:0]    a_data1; 
+   reg [16-1:0]    a_data0; 
    reg            a_startofpacket;
    reg            a_endofpacket;
    reg            a_empty;
-   reg  [2-1:0]   a_error;
+   reg            a_error;
    reg            b_ready;
    reg            b_valid;
    reg            b_channel;
-   reg  [24-1:0]   b_data;
+   reg  [32-1:0]   b_data;
    reg            b_startofpacket; 
    wire           b_startofpacket_wire; 
    reg            b_endofpacket; 
    reg            b_empty;   
-   reg  [2-1:0]   b_error; 
+   reg            b_error; 
    reg            mem_write0;
-   reg  [24-1:0]   mem_writedata0;
-   wire [24-1:0]   mem_readdata0;
+   reg  [16-1:0]   mem_writedata0;
+   wire [16-1:0]   mem_readdata0;
    wire           mem_waitrequest0;
-   reg  [24-1:0]   mem0[0:0];
+   reg  [16-1:0]   mem0[0:0];
    reg            sop_mem_writeenable;
    reg            sop_mem_writedata;
    wire           mem_waitrequest_sop; 
@@ -133,15 +130,20 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
    reg out_startofpacket;
    reg out_endofpacket;
 
-   reg  [2-1:0] in_empty = 0;
-   reg  [1-1:0] out_empty;
+   reg  [1-1:0] in_empty = 0;
+   reg  [2-1:0] out_empty;
 
+   reg in_error = 0;
+   reg out_error; 
 
+   wire           error_from_mem;
+   reg            error_mem_writedata;
+   reg          error_mem_writeenable;
 
    reg  [1-1:0]   state_register;
    reg            sop_register; 
-   reg  [2-1:0]   error_register;
-   reg  [24-1:0]   data0_register;
+   reg            error_register;
+   reg  [16-1:0]   data0_register;
 
    // ---------------------------------------------------------------------
    //| Input Register Stage
@@ -151,7 +153,6 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
          a_valid   <= 0;
          a_channel <= 0;
          a_data0   <= 0;
-         a_data1   <= 0;
          a_startofpacket <= 0;
          a_endofpacket   <= 0;
          a_empty <= 0; 
@@ -161,8 +162,7 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
             a_valid   <= in_valid;
             a_channel <= in_channel;
             a_error   <= in_error;
-            a_data0 <= in_data[47:24];
-            a_data1 <= in_data[23:0];
+            a_data0 <= in_data[15:0];
             a_startofpacket <= in_startofpacket;
             a_endofpacket   <= in_endofpacket;
             a_empty         <= 0; 
@@ -173,9 +173,7 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
    end
 
    always @* begin 
-      state_read_addr = a_channel;
-      if (in_ready)
-         state_read_addr = in_channel;
+      state_read_addr = in_channel;
    end
    
 
@@ -201,10 +199,13 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
          state_register <= 0;
          sop_register   <= 0;
          data0_register <= 0;
+         error_register <= 0;
       end else begin
          state_register <= new_state;
          if (sop_mem_writeenable)
             sop_register   <= sop_mem_writedata;
+         if (a_valid)
+            error_register <= error_mem_writedata;
          if (mem_write0)
             data0_register <= mem_writedata0;
          end
@@ -213,6 +214,7 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
       assign state_from_memory = state_register;
       assign b_startofpacket_wire = sop_register;
       assign mem_readdata0 = data0_register;
+      assign error_from_mem = error_register;
    
    // ---------------------------------------------------------------------
    //| State Machine
@@ -229,6 +231,13 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
    b_error   = a_error;
       
    state = state_from_memory;
+   if (~in_ready_d1)
+      state = state_d1;
+         
+   error_mem_writedata = error_from_mem | a_error;
+   if (state == 0)
+      error_mem_writedata = a_error;
+   b_error = error_mem_writedata;
       
    new_state           = state;
    mem_write0          = 0;
@@ -243,38 +252,25 @@ module soc_system_avalon_st_adapter_003_data_format_adapter_0 (
        
    case (state) 
             0 : begin
-            b_data[23:0] = a_data0;
-            b_startofpacket = a_startofpacket;
-            if (out_ready || ~out_valid) begin
-               if (a_valid) begin
-                  b_valid = 1;
-                  new_state = state+1'b1;
-                     if (a_endofpacket && (a_empty >= 1) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 1;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
-               end
-            end
-         1 : begin
-            b_data[23:0] = a_data1;
-            b_startofpacket = 0;
-            if (out_ready || ~out_valid) begin
+            mem_writedata0 = a_data0;
             a_ready = 1;
-               if (a_valid) begin
-                  b_valid = 1;
+            if (a_valid) begin
+               new_state = state+1'b1;
+               mem_write0 = 1;
+            end
+         end
+         1 : begin
+            b_data[31:16] = mem_readdata0;
+            b_data[15:0] = a_data0;
+            if (out_ready || ~out_valid) begin
+               a_ready = 1;
+               if (a_valid) 
+               begin
                   new_state = 0;
-                     if (a_endofpacket && (a_empty >= 0) ) begin
-                        new_state = 0;
-                        b_empty = a_empty - 0;
-                        b_endofpacket = 1;
-                        a_ready = 1;
-                     end
-                  end
+                  b_valid = 1;
                end
             end
+         end
 
    endcase
 

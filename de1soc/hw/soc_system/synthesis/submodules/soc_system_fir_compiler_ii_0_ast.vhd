@@ -8,15 +8,15 @@ use work.auk_dspip_math_pkg_hpfir.all;
 
 entity soc_system_fir_compiler_ii_0_ast is
   generic (
-        INWIDTH             : integer := 8;
-        OUT_WIDTH_UNTRIMMED : integer := 22;
+        INWIDTH             : integer := 16;
+        OUT_WIDTH_UNTRIMMED : integer := 38;
         BANKINWIDTH         : integer := 0;
-        REM_LSB_BIT_g       : integer := 14;
+        REM_LSB_BIT_g       : integer := 15;
         REM_LSB_TYPE_g      : string := "trunc";
-        REM_MSB_BIT_g       : integer := 0;
-        REM_MSB_TYPE_g      : string := "trunc";
-        PHYSCHANIN          : integer := 2;
-        PHYSCHANOUT         : integer := 2;
+        REM_MSB_BIT_g       : integer := 7;
+        REM_MSB_TYPE_g      : string := "sat";
+        PHYSCHANIN          : integer := 1;
+        PHYSCHANOUT         : integer := 1;
         CHANSPERPHYIN       : natural := 1;
         CHANSPERPHYOUT      : natural := 1;
         OUTPUTFIFODEPTH     : integer := 8;
@@ -24,7 +24,7 @@ entity soc_system_fir_compiler_ii_0_ast is
         MODE_WIDTH         : integer := 0;
         ENABLE_BACKPRESSURE : boolean := true;
         LOG2_CHANSPERPHYOUT : natural := log2_ceil_one(1);
-        NUMCHANS            : integer := 2;
+        NUMCHANS            : integer := 1;
         DEVICE_FAMILY       : string := "Cyclone V";
         COMPLEX_CONST       : integer := 1
   );
@@ -194,13 +194,11 @@ real_passthrough : if COMPLEX_CONST = 1 generate
       port (
         xIn_v                 : in std_logic_vector(0 downto 0);
         xIn_c                 : in std_logic_vector(7 downto 0);
-        xIn_0                : in std_logic_vector(8 - 1 downto 0);
-        xIn_1                : in std_logic_vector(8 - 1 downto 0);
+        xIn_0                : in std_logic_vector(16 - 1 downto 0);
         enable_i             : in std_logic_vector(0 downto 0);
         xOut_v               : out std_logic_vector(0 downto 0);
         xOut_c               : out std_logic_vector(7 downto 0);
-        xOut_0              : out std_logic_vector(22- 1 downto 0);
-        xOut_1              : out std_logic_vector(22- 1 downto 0);
+        xOut_0              : out std_logic_vector(38- 1 downto 0);
         clk                  : in std_logic;
         areset               : in std_logic
         );
@@ -222,12 +220,10 @@ end component soc_system_fir_compiler_ii_0_rtl_core;
            port map (
             xIn_v     => data_valid_core,
             xIn_c     => "00000000",
-            xIn_0     => data_in_core((0 + 8) * 0 + 8 - 1 downto (0 + 8) * 0),
-            xIn_1     => data_in_core((0 + 8) * 1 + 8 - 1 downto (0 + 8) * 1),
+            xIn_0     => data_in_core((0 + 16) * 0 + 16 - 1 downto (0 + 16) * 0),
             xOut_v    => core_out_valid_core,
             xOut_c    => core_out_channel_core,
-            xOut_0   => core_out_core(22* 0 + 22- 1 downto 22* 0),
-            xOut_1   => core_out_core(22* 1 + 22- 1 downto 22* 1),
+            xOut_0   => core_out_core(38* 0 + 38- 1 downto 38* 0),
             enable_i  => enable_in,
             clk       => clk,
             areset    => reset_fir

@@ -8,13 +8,16 @@
 /de1soc/hps_sw/workspace/.ut.dat
 /de1soc/hw/db/*
 /de1soc/hw/incremental_db/*
-**/.settings/*
+/de1soc/hw/output_files/*
+/de1soc/hw/release/*
+/de1soc/backup/*
 
 *.hex
 *.o
 *.d
 *.rar
 *.zip
+*log.txt
 
 *.project
 *.cproject

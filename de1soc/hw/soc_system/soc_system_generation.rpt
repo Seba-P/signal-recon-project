@@ -18,33 +18,33 @@ Progress: Adding hps_0 [altera_hps 16.1]
 Progress: Parameterizing module hps_0
 Progress: Adding led_pio [altera_avalon_pio 16.1]
 Progress: Parameterizing module led_pio
+Progress: Adding mm2st_data_adapter_0 [mm2st_data_adapter 2.0]
+Progress: Parameterizing module mm2st_data_adapter_0
 Progress: Adding onchip_RAM [altera_avalon_onchip_memory2 16.1]
 Progress: Parameterizing module onchip_RAM
 Progress: Adding sgdma_mm2st [altera_avalon_sgdma 16.1]
 Progress: Parameterizing module sgdma_mm2st
 Progress: Adding sgdma_st2mm [altera_avalon_sgdma 16.1]
 Progress: Parameterizing module sgdma_st2mm
-Progress: Adding st_packet_signals_add_0 [st_packet_signals_add 1.0]
-Progress: Parameterizing module st_packet_signals_add_0
-Progress: Adding st_packet_signals_remove_0 [st_packet_signals_remove 1.0]
-Progress: Parameterizing module st_packet_signals_remove_0
+Progress: Adding st2mm_data_adapter_0 [st2mm_data_adapter 2.0]
+Progress: Parameterizing module st2mm_data_adapter_0
 Progress: Adding sysid_qsys [altera_avalon_sysid_qsys 16.1]
 Progress: Parameterizing module sysid_qsys
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
-Info: soc_system.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 22, Bankcount 1, CoefBitWidth 8
+Info: soc_system.fir_compiler_ii_0: PhysChanIn 1, PhysChanOut 1, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 38, Bankcount 1, CoefBitWidth 16
 Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 63
 Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
 Info: soc_system.sgdma_mm2st: Scatter-Gather DMA Controller will only be supported in Quartus Prime Standard Edition in the future release.
 Info: soc_system.sgdma_st2mm: Scatter-Gather DMA Controller will only be supported in Quartus Prime Standard Edition in the future release.
 Info: soc_system.sysid_qsys: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
 Info: soc_system.sysid_qsys: Time stamp will be automatically updated when this component is generated.
+Info: soc_system.st2mm_data_adapter_0.avalon_st_source/sgdma_st2mm.in: The sink has a empty signal of 1 bits, but the source does not. Avalon-ST Adapter will be inserted.
 Info: soc_system.fir_compiler_ii_0.avalon_streaming_source/fifo_out.in: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
-Info: soc_system.fir_compiler_ii_0.avalon_streaming_source/fifo_out.in: The source data signal is 16 bits, but the sink is 8 bits. Avalon-ST Adapter will be inserted.
+Info: soc_system.sgdma_mm2st.out/mm2st_data_adapter_0.avalon_st_sink: The source has a empty signal of 1 bits, but the sink does not. Avalon-ST Adapter will be inserted.
 Info: soc_system.fifo_in.out/fir_compiler_ii_0.avalon_streaming_sink: The sink has a error signal of 2 bits, but the source does not. Avalon-ST Adapter will be inserted.
-Info: soc_system.fifo_in.out/fir_compiler_ii_0.avalon_streaming_sink: The source data signal is 8 bits, but the sink is 16 bits. Avalon-ST Adapter will be inserted.
 Warning: soc_system.sgdma_mm2st: Interrupt sender sgdma_mm2st.csr_irq is not connected to an interrupt receiver
 Warning: soc_system.sgdma_st2mm: Interrupt sender sgdma_st2mm.csr_irq is not connected to an interrupt receiver
 Info: qsys-generate succeeded.
@@ -70,50 +70,51 @@ Progress: Adding hps_0 [altera_hps 16.1]
 Progress: Parameterizing module hps_0
 Progress: Adding led_pio [altera_avalon_pio 16.1]
 Progress: Parameterizing module led_pio
+Progress: Adding mm2st_data_adapter_0 [mm2st_data_adapter 2.0]
+Progress: Parameterizing module mm2st_data_adapter_0
 Progress: Adding onchip_RAM [altera_avalon_onchip_memory2 16.1]
 Progress: Parameterizing module onchip_RAM
 Progress: Adding sgdma_mm2st [altera_avalon_sgdma 16.1]
 Progress: Parameterizing module sgdma_mm2st
 Progress: Adding sgdma_st2mm [altera_avalon_sgdma 16.1]
 Progress: Parameterizing module sgdma_st2mm
-Progress: Adding st_packet_signals_add_0 [st_packet_signals_add 1.0]
-Progress: Parameterizing module st_packet_signals_add_0
-Progress: Adding st_packet_signals_remove_0 [st_packet_signals_remove 1.0]
-Progress: Parameterizing module st_packet_signals_remove_0
+Progress: Adding st2mm_data_adapter_0 [st2mm_data_adapter 2.0]
+Progress: Parameterizing module st2mm_data_adapter_0
 Progress: Adding sysid_qsys [altera_avalon_sysid_qsys 16.1]
 Progress: Parameterizing module sysid_qsys
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
-Info: soc_system.fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 22, Bankcount 1, CoefBitWidth 8
+Info: soc_system.fir_compiler_ii_0: PhysChanIn 1, PhysChanOut 1, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 38, Bankcount 1, CoefBitWidth 16
 Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 63
 Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
 Info: soc_system.sgdma_mm2st: Scatter-Gather DMA Controller will only be supported in Quartus Prime Standard Edition in the future release.
 Info: soc_system.sgdma_st2mm: Scatter-Gather DMA Controller will only be supported in Quartus Prime Standard Edition in the future release.
 Info: soc_system.sysid_qsys: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
 Info: soc_system.sysid_qsys: Time stamp will be automatically updated when this component is generated.
+Info: soc_system.st2mm_data_adapter_0.avalon_st_source/sgdma_st2mm.in: The sink has a empty signal of 1 bits, but the source does not. Avalon-ST Adapter will be inserted.
 Info: soc_system.fir_compiler_ii_0.avalon_streaming_source/fifo_out.in: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
-Info: soc_system.fir_compiler_ii_0.avalon_streaming_source/fifo_out.in: The source data signal is 16 bits, but the sink is 8 bits. Avalon-ST Adapter will be inserted.
+Info: soc_system.sgdma_mm2st.out/mm2st_data_adapter_0.avalon_st_sink: The source has a empty signal of 1 bits, but the sink does not. Avalon-ST Adapter will be inserted.
 Info: soc_system.fifo_in.out/fir_compiler_ii_0.avalon_streaming_sink: The sink has a error signal of 2 bits, but the source does not. Avalon-ST Adapter will be inserted.
-Info: soc_system.fifo_in.out/fir_compiler_ii_0.avalon_streaming_sink: The source data signal is 8 bits, but the sink is 16 bits. Avalon-ST Adapter will be inserted.
 Warning: soc_system.sgdma_mm2st: Interrupt sender sgdma_mm2st.csr_irq is not connected to an interrupt receiver
 Warning: soc_system.sgdma_st2mm: Interrupt sender sgdma_st2mm.csr_irq is not connected to an interrupt receiver
 Info: soc_system: Generating soc_system "soc_system" for QUARTUS_SYNTH
 Info: avalon_st_adapter: Inserting data_format_adapter: data_format_adapter_0
-Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_001: Inserting data_format_adapter: data_format_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting data_format_adapter: data_format_adapter_0
+Warning: avalon_st_adapter_002.data_format_adapter_0: The symbols per beat on input interface(2) and the output interface(2) match,  but the input interface is using the empty signal, while the output interface is not using the empty signal.  Empty signal data may be lost between the input and the output interface (across this adapter).
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
 Info: button_pio: Starting RTL generation for module 'soc_system_button_pio'
-Info: button_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_button_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0001_button_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0001_button_pio_gen//soc_system_button_pio_component_configuration.pl  --do_build_sim=0  ]
+Info: button_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_button_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0001_button_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0001_button_pio_gen//soc_system_button_pio_component_configuration.pl  --do_build_sim=0  ]
 Info: button_pio: Done RTL generation for module 'soc_system_button_pio'
 Info: button_pio: "soc_system" instantiated altera_avalon_pio "button_pio"
 Info: dipsw_pio: Starting RTL generation for module 'soc_system_dipsw_pio'
-Info: dipsw_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_dipsw_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0002_dipsw_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0002_dipsw_pio_gen//soc_system_dipsw_pio_component_configuration.pl  --do_build_sim=0  ]
+Info: dipsw_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_dipsw_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0002_dipsw_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0002_dipsw_pio_gen//soc_system_dipsw_pio_component_configuration.pl  --do_build_sim=0  ]
 Info: dipsw_pio: Done RTL generation for module 'soc_system_dipsw_pio'
 Info: dipsw_pio: "soc_system" instantiated altera_avalon_pio "dipsw_pio"
 Info: fifo_in: "soc_system" instantiated altera_avalon_sc_fifo "fifo_in"
-Info: fir_compiler_ii_0: PhysChanIn 2, PhysChanOut 2, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 22, Bankcount 1, Latency 13, CoefBitWidth 8
+Info: fir_compiler_ii_0: PhysChanIn 1, PhysChanOut 1, ChansPerPhyIn 1, ChansPerPhyOut 1, OutputFullBitWidth 38, Bankcount 1, Latency 13, CoefBitWidth 16
 Info: fir_compiler_ii_0: "soc_system" instantiated altera_fir_compiler_ii "fir_compiler_ii_0"
 Info: Reusing file D:/SEBA/BACKUP/Projekty/FPGA+ARM/signal-recon-project/de1soc/hw/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
 Info: hps_0: "Running  for module: hps_0"
@@ -121,23 +122,23 @@ Info: hps_0: HPS Main PLL counter settings: n = 0  m = 63
 Info: hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
 Info: hps_0: "soc_system" instantiated altera_hps "hps_0"
 Info: led_pio: Starting RTL generation for module 'soc_system_led_pio'
-Info: led_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_led_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0005_led_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0005_led_pio_gen//soc_system_led_pio_component_configuration.pl  --do_build_sim=0  ]
+Info: led_pio:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_led_pio --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0005_led_pio_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0005_led_pio_gen//soc_system_led_pio_component_configuration.pl  --do_build_sim=0  ]
 Info: led_pio: Done RTL generation for module 'soc_system_led_pio'
 Info: led_pio: "soc_system" instantiated altera_avalon_pio "led_pio"
+Info: mm2st_data_adapter_0: "soc_system" instantiated mm2st_data_adapter "mm2st_data_adapter_0"
 Info: onchip_RAM: Starting RTL generation for module 'soc_system_onchip_RAM'
-Info: onchip_RAM:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_RAM --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0006_onchip_RAM_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0006_onchip_RAM_gen//soc_system_onchip_RAM_component_configuration.pl  --do_build_sim=0  ]
+Info: onchip_RAM:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_RAM --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0007_onchip_RAM_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0007_onchip_RAM_gen//soc_system_onchip_RAM_component_configuration.pl  --do_build_sim=0  ]
 Info: onchip_RAM: Done RTL generation for module 'soc_system_onchip_RAM'
 Info: onchip_RAM: "soc_system" instantiated altera_avalon_onchip_memory2 "onchip_RAM"
 Info: sgdma_mm2st: Starting RTL generation for module 'soc_system_sgdma_mm2st'
-Info: sgdma_mm2st:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma/generate_rtl.pl --name=soc_system_sgdma_mm2st --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0007_sgdma_mm2st_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0007_sgdma_mm2st_gen//soc_system_sgdma_mm2st_component_configuration.pl  --do_build_sim=0  ]
+Info: sgdma_mm2st:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma/generate_rtl.pl --name=soc_system_sgdma_mm2st --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0008_sgdma_mm2st_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0008_sgdma_mm2st_gen//soc_system_sgdma_mm2st_component_configuration.pl  --do_build_sim=0  ]
 Info: sgdma_mm2st: Done RTL generation for module 'soc_system_sgdma_mm2st'
 Info: sgdma_mm2st: "soc_system" instantiated altera_avalon_sgdma "sgdma_mm2st"
 Info: sgdma_st2mm: Starting RTL generation for module 'soc_system_sgdma_st2mm'
-Info: sgdma_st2mm:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma/generate_rtl.pl --name=soc_system_sgdma_st2mm --dir=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0008_sgdma_st2mm_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7422_7463951327069328130.dir/0008_sgdma_st2mm_gen//soc_system_sgdma_st2mm_component_configuration.pl  --do_build_sim=0  ]
+Info: sgdma_st2mm:   Generation command is [exec D:/quartus_prime_lite/quartus/bin64/perl/bin/perl.exe -I D:/quartus_prime_lite/quartus/bin64/perl/lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin/europa -I D:/quartus_prime_lite/quartus/sopc_builder/bin/perl_lib -I D:/quartus_prime_lite/quartus/sopc_builder/bin -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/common -I D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma -- D:/quartus_prime_lite/quartus/../ip/altera/sopc_builder_ip/altera_avalon_sgdma/generate_rtl.pl --name=soc_system_sgdma_st2mm --dir=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0009_sgdma_st2mm_gen/ --quartus_dir=D:/quartus_prime_lite/quartus --verilog --config=C:/Users/sadda/AppData/Local/Temp/alt7589_1567648191549865085.dir/0009_sgdma_st2mm_gen//soc_system_sgdma_st2mm_component_configuration.pl  --do_build_sim=0  ]
 Info: sgdma_st2mm: Done RTL generation for module 'soc_system_sgdma_st2mm'
 Info: sgdma_st2mm: "soc_system" instantiated altera_avalon_sgdma "sgdma_st2mm"
-Info: st_packet_signals_add_0: "soc_system" instantiated st_packet_signals_add "st_packet_signals_add_0"
-Info: st_packet_signals_remove_0: "soc_system" instantiated st_packet_signals_remove "st_packet_signals_remove_0"
+Info: st2mm_data_adapter_0: "soc_system" instantiated st2mm_data_adapter "st2mm_data_adapter_0"
 Info: sysid_qsys: "soc_system" instantiated altera_avalon_sysid_qsys "sysid_qsys"
 Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
@@ -152,6 +153,8 @@ Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_1: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_1"
 Info: avalon_st_adapter: "soc_system" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: avalon_st_adapter_001: "soc_system" instantiated altera_avalon_st_adapter "avalon_st_adapter_001"
+Info: avalon_st_adapter_002: "soc_system" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
+Info: avalon_st_adapter_003: "soc_system" instantiated altera_avalon_st_adapter "avalon_st_adapter_003"
 Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
 Info: fpga_interfaces: "hps_0" instantiated altera_interface_generator "fpga_interfaces"
 Info: hps_io: "hps_0" instantiated altera_hps_io "hps_io"
@@ -190,11 +193,11 @@ Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_m
 Info: Reusing file D:/SEBA/BACKUP/Projekty/FPGA+ARM/signal-recon-project/de1soc/hw/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: avalon_st_adapter: "mm_interconnect_1" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: data_format_adapter_0: "avalon_st_adapter" instantiated data_format_adapter "data_format_adapter_0"
-Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: data_format_adapter_0: "avalon_st_adapter_001" instantiated data_format_adapter "data_format_adapter_0"
 Info: error_adapter_0: "avalon_st_adapter_001" instantiated error_adapter "error_adapter_0"
+Info: data_format_adapter_0: "avalon_st_adapter_002" instantiated data_format_adapter "data_format_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_003" instantiated error_adapter "error_adapter_0"
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: soc_system: Done "soc_system" with 49 modules, 123 files
+Info: soc_system: Done "soc_system" with 51 modules, 121 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

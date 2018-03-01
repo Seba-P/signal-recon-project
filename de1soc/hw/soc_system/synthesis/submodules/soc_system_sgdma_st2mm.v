@@ -1,4 +1,4 @@
-//Legal Notice: (C)2017 Altera Corporation. All rights reserved.  Your
+//Legal Notice: (C)2018 Altera Corporation. All rights reserved.  Your
 //use of Altera Corporation's design tools, logic functions and other
 //software and tools, and its AMPP partner logic functions, and any
 //output files any of the foregoing (including device programming or
@@ -1272,6 +1272,94 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
+module sixteen_bit_byteenable_FSM_which_resides_within_soc_system_sgdma_st2mm (
+                                                                                // inputs:
+                                                                                 byteenable_in,
+                                                                                 clk,
+                                                                                 reset_n,
+                                                                                 waitrequest_in,
+                                                                                 write_in,
+
+                                                                                // outputs:
+                                                                                 byteenable_out,
+                                                                                 waitrequest_out
+                                                                              )
+;
+
+  output  [  1: 0] byteenable_out;
+  output           waitrequest_out;
+  input   [  1: 0] byteenable_in;
+  input            clk;
+  input            reset_n;
+  input            waitrequest_in;
+  input            write_in;
+
+
+wire    [  1: 0] byteenable_out;
+wire             waitrequest_out;
+  assign byteenable_out = byteenable_in & {2{write_in}};
+  assign waitrequest_out = waitrequest_in | ((write_in == 1) & (waitrequest_in == 1));
+
+endmodule
+
+
+// synthesis translate_off
+`timescale 1ns / 1ps
+// synthesis translate_on
+
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
+
+module byteenable_gen_which_resides_within_soc_system_sgdma_st2mm (
+                                                                    // inputs:
+                                                                     byteenable_in,
+                                                                     clk,
+                                                                     reset_n,
+                                                                     waitrequest_in,
+                                                                     write_in,
+
+                                                                    // outputs:
+                                                                     byteenable_out,
+                                                                     waitrequest_out
+                                                                  )
+;
+
+  output  [  1: 0] byteenable_out;
+  output           waitrequest_out;
+  input   [  1: 0] byteenable_in;
+  input            clk;
+  input            reset_n;
+  input            waitrequest_in;
+  input            write_in;
+
+
+wire    [  1: 0] byteenable_out;
+wire             waitrequest_out;
+  //the_sixteen_bit_byteenable_FSM, which is an e_instance
+  sixteen_bit_byteenable_FSM_which_resides_within_soc_system_sgdma_st2mm the_sixteen_bit_byteenable_FSM
+    (
+      .byteenable_in   (byteenable_in),
+      .byteenable_out  (byteenable_out),
+      .clk             (clk),
+      .reset_n         (reset_n),
+      .waitrequest_in  (waitrequest_in),
+      .waitrequest_out (waitrequest_out),
+      .write_in        (write_in)
+    );
+
+
+endmodule
+
+
+// synthesis translate_off
+`timescale 1ns / 1ps
+// synthesis translate_on
+
+// turn off superfluous verilog processor warnings 
+// altera message_level Level1 
+// altera message_off 10034 10035 10036 10037 10230 10240 10030 
+
 module soc_system_sgdma_st2mm_m_write (
                                         // inputs:
                                          clk,
@@ -1280,6 +1368,7 @@ module soc_system_sgdma_st2mm_m_write (
                                          m_write_waitrequest,
                                          reset_n,
                                          sink_stream_data,
+                                         sink_stream_empty,
                                          sink_stream_endofpacket,
                                          sink_stream_startofpacket,
                                          sink_stream_valid,
@@ -1289,6 +1378,7 @@ module soc_system_sgdma_st2mm_m_write (
 
                                         // outputs:
                                          m_write_address,
+                                         m_write_byteenable,
                                          m_write_write,
                                          m_write_writedata,
                                          sink_stream_ready,
@@ -1299,8 +1389,9 @@ module soc_system_sgdma_st2mm_m_write (
 ;
 
   output  [ 31: 0] m_write_address;
+  output  [  1: 0] m_write_byteenable;
   output           m_write_write;
-  output  [  7: 0] m_write_writedata;
+  output  [ 15: 0] m_write_writedata;
   output           sink_stream_ready;
   output  [ 23: 0] status_token_fifo_data;
   output           status_token_fifo_wrreq;
@@ -1310,7 +1401,8 @@ module soc_system_sgdma_st2mm_m_write (
   input            eop_found;
   input            m_write_waitrequest;
   input            reset_n;
-  input   [  7: 0] sink_stream_data;
+  input   [ 15: 0] sink_stream_data;
+  input            sink_stream_empty;
   input            sink_stream_endofpacket;
   input            sink_stream_startofpacket;
   input            sink_stream_valid;
@@ -1320,11 +1412,13 @@ module soc_system_sgdma_st2mm_m_write (
 
 
 wire    [ 15: 0] actual_bytes_transferred;
+wire    [  1: 0] all_one;
 reg     [  3: 0] burst_counter;
 wire             burst_counter_decrement;
 wire    [  3: 0] burst_counter_next;
 reg     [  3: 0] burst_counter_reg;
 wire    [  3: 0] burst_size;
+reg              byteenable_enable;
 wire    [ 15: 0] bytes_to_transfer;
 reg     [ 15: 0] counter;
 wire    [ 15: 0] counter_in;
@@ -1342,13 +1436,19 @@ reg              eop_reg;
 wire             increment;
 wire             increment_address;
 reg     [ 31: 0] m_write_address;
+wire    [  1: 0] m_write_byteenable;
+wire    [  1: 0] m_write_byteenable_in;
+reg     [  1: 0] m_write_byteenable_reg;
 wire             m_write_waitrequest_out;
 reg              m_write_write;
 reg              m_write_write_sig;
-wire    [  7: 0] m_write_writedata;
-reg     [  7: 0] m_write_writedata_reg;
+wire    [ 15: 0] m_write_writedata;
+reg     [ 15: 0] m_write_writedata_reg;
 wire             m_writefifo_fill;
+wire    [  1: 0] shift0;
+wire    [  1: 0] shift1;
 wire             single_transfer;
+wire    [  1: 0] sink_stream_empty_shift;
 wire             sink_stream_ready;
 wire             sink_stream_really_valid;
 wire    [ 31: 0] start_address;
@@ -1407,7 +1507,7 @@ wire             write_go_reg_in_teop;
       if (reset_n == 0)
           m_write_address <= 0;
       else if (~m_write_waitrequest_out)
-          m_write_address <= delayed_write_command_valid ? start_address : (increment_address ? (m_write_write ? (m_write_address + 1) : m_write_address) : start_address);
+          m_write_address <= delayed_write_command_valid ? start_address : (increment_address ? (m_write_write ? (m_write_address + 2) : m_write_address) : start_address);
     end
 
 
@@ -1445,6 +1545,29 @@ wire             write_go_reg_in_teop;
       else if (~m_write_waitrequest_out)
           if (burst_counter_decrement)
               burst_counter <= burst_counter_next;
+    end
+
+
+  assign shift1 = {1'b0, all_one[0]};
+  assign shift0 = all_one;
+  assign sink_stream_empty_shift = ((sink_stream_empty == 1) ? shift1 : 0) | ((sink_stream_empty == 0) ? shift0 : 0);
+  always @(posedge clk or negedge reset_n)
+    begin
+      if (reset_n == 0)
+          m_write_byteenable_reg <= 0;
+      else if (~m_write_waitrequest_out)
+          m_write_byteenable_reg <= ((sink_stream_empty == 1) ? shift1 : 0) | ((sink_stream_empty == 0) ? shift0 : 0);
+    end
+
+
+  assign all_one = 2'b11;
+  assign m_write_byteenable_in = byteenable_enable ? m_write_byteenable_reg : all_one;
+  always @(posedge clk or negedge reset_n)
+    begin
+      if (reset_n == 0)
+          byteenable_enable <= 0;
+      else if (~m_write_waitrequest_out)
+          byteenable_enable <= sink_stream_endofpacket;
     end
 
 
@@ -1505,7 +1628,7 @@ wire             write_go_reg_in_teop;
   assign write_go = write_go_reg;
   assign t_eop = (sink_stream_endofpacket && sink_stream_really_valid) && (bytes_to_transfer == 0);
   assign single_transfer = sink_stream_startofpacket & sink_stream_endofpacket;
-  assign counter_in = (delayed_write_command_valid) ? 16'b0 : (increment ? (counter + 1) : counter);
+  assign counter_in = (delayed_write_command_valid) ? 16'b0 : (increment ? (counter + 2 - (sink_stream_endofpacket ? sink_stream_empty : 0)) : counter);
   //status register
   assign status_reg_in = write_go_fall_reg ? 0 : (status_word | status_reg);
   always @(posedge clk or negedge reset_n)
@@ -1551,7 +1674,17 @@ wire             write_go_reg_in_teop;
 
 
   assign status_token_fifo_wrreq = write_go_fall_reg && ~status_token_fifo_full;
-  assign m_write_waitrequest_out = m_write_waitrequest;
+  byteenable_gen_which_resides_within_soc_system_sgdma_st2mm the_byteenable_gen_which_resides_within_soc_system_sgdma_st2mm
+    (
+      .byteenable_in   (m_write_byteenable_in),
+      .byteenable_out  (m_write_byteenable),
+      .clk             (clk),
+      .reset_n         (reset_n),
+      .waitrequest_in  (m_write_waitrequest),
+      .waitrequest_out (m_write_waitrequest_out),
+      .write_in        (m_write_write)
+    );
+
 
 endmodule
 
@@ -1766,6 +1899,7 @@ module soc_system_sgdma_st2mm (
                                  descriptor_read_waitrequest,
                                  descriptor_write_waitrequest,
                                  in_data,
+                                 in_empty,
                                  in_endofpacket,
                                  in_startofpacket,
                                  in_valid,
@@ -1782,6 +1916,7 @@ module soc_system_sgdma_st2mm (
                                  descriptor_write_writedata,
                                  in_ready,
                                  m_write_address,
+                                 m_write_byteenable,
                                  m_write_write,
                                  m_write_writedata
                               )
@@ -1796,8 +1931,9 @@ module soc_system_sgdma_st2mm (
   output  [ 31: 0] descriptor_write_writedata;
   output           in_ready;
   output  [ 31: 0] m_write_address;
+  output  [  1: 0] m_write_byteenable;
   output           m_write_write;
-  output  [  7: 0] m_write_writedata;
+  output  [ 15: 0] m_write_writedata;
   input            clk;
   input   [  3: 0] csr_address;
   input            csr_chipselect;
@@ -1808,7 +1944,8 @@ module soc_system_sgdma_st2mm (
   input            descriptor_read_readdatavalid;
   input            descriptor_read_waitrequest;
   input            descriptor_write_waitrequest;
-  input   [  7: 0] in_data;
+  input   [ 15: 0] in_data;
+  input            in_empty;
   input            in_endofpacket;
   input            in_startofpacket;
   input            in_valid;
@@ -1838,11 +1975,13 @@ wire    [ 31: 0] descriptor_write_writedata;
 wire             generate_eop;
 wire             in_ready;
 wire    [ 31: 0] m_write_address;
+wire    [  1: 0] m_write_byteenable;
 wire             m_write_write;
-wire    [  7: 0] m_write_writedata;
+wire    [ 15: 0] m_write_writedata;
 wire             reset;
 reg              reset_n;
-wire    [  7: 0] sink_stream_data;
+wire    [ 15: 0] sink_stream_data;
+wire             sink_stream_empty;
 wire             sink_stream_endofpacket;
 wire             sink_stream_ready;
 wire             sink_stream_startofpacket;
@@ -1946,11 +2085,13 @@ wire             write_go;
       .enough_data               (1'b1),
       .eop_found                 (1'b0),
       .m_write_address           (m_write_address),
+      .m_write_byteenable        (m_write_byteenable),
       .m_write_waitrequest       (m_write_waitrequest & m_write_write),
       .m_write_write             (m_write_write),
       .m_write_writedata         (m_write_writedata),
       .reset_n                   (reset_n),
       .sink_stream_data          (sink_stream_data),
+      .sink_stream_empty         (sink_stream_empty),
       .sink_stream_endofpacket   (sink_stream_endofpacket),
       .sink_stream_ready         (sink_stream_ready),
       .sink_stream_startofpacket (sink_stream_startofpacket),
@@ -2006,12 +2147,13 @@ wire             write_go;
   //descriptor_write, which is an e_avalon_master
   //csr, which is an e_avalon_slave
   //m_write, which is an e_avalon_master
+  assign sink_stream_empty = in_empty;
   //in, which is an e_atlantic_slave
   assign sink_stream_endofpacket = in_endofpacket;
   assign sink_stream_startofpacket = in_startofpacket;
   assign sink_stream_valid = in_valid;
   assign in_ready = sink_stream_ready;
-  assign sink_stream_data = in_data;
+  assign sink_stream_data = {in_data[7 : 0], in_data[15 : 8]};
 
 endmodule
 
