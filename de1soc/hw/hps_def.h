@@ -64,7 +64,7 @@
 #define SYSID_QSYS_SPAN 8
 #define SYSID_QSYS_END 0x10007
 #define SYSID_QSYS_ID 2899645186
-#define SYSID_QSYS_TIMESTAMP 1523969102
+#define SYSID_QSYS_TIMESTAMP 1524160128
 
 /*
  * Macros for device 'led_pio', class 'altera_avalon_pio'
@@ -1121,26 +1121,37 @@
 #define SGDMA_ST2MM_M_WRITE_HPS_0_AXI_OCRAM_MEMORY_INFO_MEM_INIT_DATA_WIDTH 16
 
 /*
- * Macros for device 'fifo_in', class 'altera_avalon_sc_fifo'
- * The macros are prefixed with 'FIFO_IN_'.
+ * Macros for device 'fir_fifo_in', class 'altera_avalon_sc_fifo'
+ * The macros are prefixed with 'FIR_FIFO_IN_'.
  * The prefix is the slave descriptor.
  */
-#define FIFO_IN_COMPONENT_TYPE altera_avalon_sc_fifo
-#define FIFO_IN_COMPONENT_NAME fifo_in
-#define FIFO_IN_BASE 0x20080
-#define FIFO_IN_SPAN 16
-#define FIFO_IN_END 0x2008f
+#define FIR_FIFO_IN_COMPONENT_TYPE altera_avalon_sc_fifo
+#define FIR_FIFO_IN_COMPONENT_NAME fir_fifo_in
+#define FIR_FIFO_IN_BASE 0x20080
+#define FIR_FIFO_IN_SPAN 16
+#define FIR_FIFO_IN_END 0x2008f
 
 /*
- * Macros for device 'fifo_out', class 'altera_avalon_sc_fifo'
- * The macros are prefixed with 'FIFO_OUT_'.
+ * Macros for device 'fir_fifo_out', class 'altera_avalon_sc_fifo'
+ * The macros are prefixed with 'FIR_FIFO_OUT_'.
  * The prefix is the slave descriptor.
  */
-#define FIFO_OUT_COMPONENT_TYPE altera_avalon_sc_fifo
-#define FIFO_OUT_COMPONENT_NAME fifo_out
-#define FIFO_OUT_BASE 0x20090
-#define FIFO_OUT_SPAN 16
-#define FIFO_OUT_END 0x2009f
+#define FIR_FIFO_OUT_COMPONENT_TYPE altera_avalon_sc_fifo
+#define FIR_FIFO_OUT_COMPONENT_NAME fir_fifo_out
+#define FIR_FIFO_OUT_BASE 0x20090
+#define FIR_FIFO_OUT_SPAN 16
+#define FIR_FIFO_OUT_END 0x2009f
+
+/*
+ * Macros for device 'sample2lvl_converter_0', class 'sample2lvl_converter'
+ * The macros are prefixed with 'SAMPLE2LVL_CONVERTER_0_'.
+ * The prefix is the slave descriptor.
+ */
+#define SAMPLE2LVL_CONVERTER_0_COMPONENT_TYPE sample2lvl_converter
+#define SAMPLE2LVL_CONVERTER_0_COMPONENT_NAME sample2lvl_converter_0
+#define SAMPLE2LVL_CONVERTER_0_BASE 0x40000
+#define SAMPLE2LVL_CONVERTER_0_SPAN 64
+#define SAMPLE2LVL_CONVERTER_0_END 0x4003f
 
 
 #endif /* _ALTERA_HPS_DEF_H_ */
