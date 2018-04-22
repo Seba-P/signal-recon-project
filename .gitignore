@@ -8,6 +8,7 @@
 /de1soc/hps_sw/workspace/.ut.dat
 /de1soc/hw/db/*
 /de1soc/hw/incremental_db/*
+/de1soc/hw/ip/work/*
 /de1soc/hw/output_files/*
 /de1soc/hw/release/*
 /de1soc/backup/*
@@ -20,6 +21,9 @@
 *.rar
 *.zip
 *log.txt
+*.mpf
+*.cr.mti
+*.wlf
 
 *.project
 *.cproject
