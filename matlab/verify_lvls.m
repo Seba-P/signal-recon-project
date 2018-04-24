@@ -7,11 +7,10 @@ function ver_lvls = verify_lvls(filt_lvls, lvls, sig_lvls)
                    sig_lvls(end) - sig_lvls(end-1) ];
     fir_R       = N_signal - length(lvls);
     fir_delay   = ceil(fir_R/2);
-    fir_tail    = fir_R - fir_delay;
+    fir_tail    = floor(fir_R/2);
     
     lvls_del = [ zeros(1, fir_delay), lvls, zeros(1, fir_tail) ];
-    
-    ver_lvls    = zeros(1,length(lvls_del));
+    ver_lvls = zeros(1,length(lvls_del));
     
     for i = 1:N_signal
         curr_lvl = find(sig_lvls > lvls_del(i), 1);

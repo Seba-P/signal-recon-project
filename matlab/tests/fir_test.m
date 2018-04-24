@@ -5,6 +5,7 @@ addpath('../toolbox/')
 addpath('../bursty-lib/')
 
 run_reconstruction
+clearvars -except x t lvl
 close all
 
 DOWNRATE = 20;
@@ -18,7 +19,6 @@ sig_lvls = lvl(:,1)';
 dts       = ts(2)-ts(1);
 
 [samples, lvl0, lvls] = gen_samples_and_levels(xs, ts, (lvl(:,1))', 0);
-clearvars -except samples lvl0 lvls x xs t ts lvl signal sig_lvls dts DOWNRATE K
 
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %

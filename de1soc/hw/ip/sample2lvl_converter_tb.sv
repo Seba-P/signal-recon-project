@@ -1,3 +1,5 @@
+`timescale 1ns/100ps
+
 module clock_gen
 (
 	output logic clock,
