@@ -8,6 +8,8 @@
 /de1soc/hps_sw/workspace/.ut.dat
 /de1soc/hw/db/*
 /de1soc/hw/incremental_db/*
+/de1soc/hw/ip/simulation/libraries/*
+/de1soc/hw/ip/simulation/work/*
 /de1soc/hw/ip/work/*
 /de1soc/hw/output_files/*
 /de1soc/hw/release/*
