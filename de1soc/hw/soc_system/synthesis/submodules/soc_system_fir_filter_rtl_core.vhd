@@ -1,22 +1,22 @@
 -- ------------------------------------------------------------------------- 
--- Intel Altera DSP Builder Advanced Flow Tools Release Version 16.1
+-- High Level Design Compiler for Intel(R) FPGAs Version 17.1 (Release Build #593)
 -- Quartus Prime development tool and MATLAB/Simulink Interface
 -- 
--- Legal Notice: Copyright 2016 Intel Corporation.  All rights reserved.
--- Your use of  Intel  Corporation's design tools,  logic functions and other
--- software and tools,  and its AMPP  partner logic functions, and  any output
--- files  any of the  foregoing  device programming or simulation files),  and
--- any associated  documentation or information are expressly subject  to  the
--- terms and conditions  of the Intel FPGA Software License Agreement,
--- Intel  MegaCore  Function  License  Agreement, or other applicable license
--- agreement,  including,  without limitation,  that your use  is for the sole
--- purpose of  programming  logic  devices  manufactured by Intel and sold by
--- Intel or its authorized  distributors.  Please  refer  to  the  applicable
--- agreement for further details.
+-- Legal Notice: Copyright 2017 Intel Corporation.  All rights reserved.
+-- Your use of  Intel Corporation's design tools,  logic functions and other
+-- software and  tools, and its AMPP partner logic functions, and any output
+-- files any  of the foregoing (including  device programming  or simulation
+-- files), and  any associated  documentation  or information  are expressly
+-- subject  to the terms and  conditions of the  Intel FPGA Software License
+-- Agreement, Intel MegaCore Function License Agreement, or other applicable
+-- license agreement,  including,  without limitation,  that your use is for
+-- the  sole  purpose of  programming  logic devices  manufactured by  Intel
+-- and  sold by Intel  or its authorized  distributors. Please refer  to the
+-- applicable agreement for further details.
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from soc_system_fir_filter_rtl_core
--- VHDL created on Thu Apr 19 19:49:05 2018
+-- VHDL created on Fri May 18 16:36:18 2018
 
 
 library IEEE;
@@ -50,7 +50,7 @@ end soc_system_fir_filter_rtl_core;
 architecture normal of soc_system_fir_filter_rtl_core is
 
     attribute altera_attribute : string;
-    attribute altera_attribute of normal : architecture is "-name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007";
+    attribute altera_attribute of normal : architecture is "-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007";
     
     signal GND_q : STD_LOGIC_VECTOR (0 downto 0);
     signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);
@@ -104,474 +104,484 @@ architecture normal of soc_system_fir_filter_rtl_core is
     signal u0_m0_wo0_wi0_r0_delayr206_q : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr207_q : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr208_q : STD_LOGIC_VECTOR (15 downto 0);
-    type u0_m0_wo0_cma0_a0type is array(0 to 31) of SIGNED(15 downto 0);
-    signal u0_m0_wo0_cma0_a0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma0_reset : std_logic;
+    type u0_m0_wo0_cma0_a0type is array(NATURAL range <>) of SIGNED(15 downto 0);
+    signal u0_m0_wo0_cma0_a0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve : boolean;
     attribute preserve of u0_m0_wo0_cma0_a0 : signal is true;
-    signal u0_m0_wo0_cma0_b0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma0_b0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma0_b0 : signal is true;
-    type u0_m0_wo0_cma0_c0type is array(0 to 31) of UNSIGNED(2 downto 0);
-    signal u0_m0_wo0_cma0_c0 : u0_m0_wo0_cma0_c0type;
+    type u0_m0_wo0_cma0_c0type is array(NATURAL range <>) of UNSIGNED(2 downto 0);
+    signal u0_m0_wo0_cma0_c0 : u0_m0_wo0_cma0_c0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma0_c0 : signal is true;
-    signal u0_m0_wo0_cma0_d : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma0_d : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma0_d : signal is true;
-    type u0_m0_wo0_cma0_ltype is array(0 to 31) of SIGNED(16 downto 0);
-    signal u0_m0_wo0_cma0_l : u0_m0_wo0_cma0_ltype;
-    type u0_m0_wo0_cma0_rtype is array(0 to 31) of SIGNED(10 downto 0);
-    signal u0_m0_wo0_cma0_r : u0_m0_wo0_cma0_rtype;
-    type u0_m0_wo0_cma0_ptype is array(0 to 31) of SIGNED(27 downto 0);
-    signal u0_m0_wo0_cma0_p : u0_m0_wo0_cma0_ptype;
-    type u0_m0_wo0_cma0_utype is array(0 to 31) of SIGNED(32 downto 0);
-    signal u0_m0_wo0_cma0_u : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma0_w : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma0_x : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma0_y : u0_m0_wo0_cma0_utype;
-    type u0_m0_wo0_cma0_k0type is array(0 to 7) of SIGNED(10 downto 0);
-    signal u0_m0_wo0_cma0_k0 : u0_m0_wo0_cma0_k0type := (
+    type u0_m0_wo0_cma0_ltype is array(NATURAL range <>) of SIGNED(16 downto 0);
+    signal u0_m0_wo0_cma0_l : u0_m0_wo0_cma0_ltype(0 to 31);
+    type u0_m0_wo0_cma0_rtype is array(NATURAL range <>) of SIGNED(10 downto 0);
+    signal u0_m0_wo0_cma0_r : u0_m0_wo0_cma0_rtype(0 to 31);
+    type u0_m0_wo0_cma0_ptype is array(NATURAL range <>) of SIGNED(27 downto 0);
+    signal u0_m0_wo0_cma0_p : u0_m0_wo0_cma0_ptype(0 to 31);
+    type u0_m0_wo0_cma0_utype is array(NATURAL range <>) of SIGNED(32 downto 0);
+    signal u0_m0_wo0_cma0_u : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma0_w : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma0_x : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma0_y : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma0_k0 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(13,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k1 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k1 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(11,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k2 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k2 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-2,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k3 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k3 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(5,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k4 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k4 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-2,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k5 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k5 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(0,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k6 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k6 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-5,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k7 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k7 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-4,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k8 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k8 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-8,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k9 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k9 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-7,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k10 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k10 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-7,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k11 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k11 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-5,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k12 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k12 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-3,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k13 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k13 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(0,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k14 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k14 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(4,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k15 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k15 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(8,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k16 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k16 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(10,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k17 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k17 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(12,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k18 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k18 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(13,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k19 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k19 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(11,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k20 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k20 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(8,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k21 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k21 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(3,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k22 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k22 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-2,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k23 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k23 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-8,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k24 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k24 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-13,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k25 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k25 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-18,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k26 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k26 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-20,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k27 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k27 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-20,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k28 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k28 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-16,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k29 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k29 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-11,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k30 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k30 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-3,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_k31 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma0_k31 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(5,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma0_s : u0_m0_wo0_cma0_utype;
+    signal u0_m0_wo0_cma0_s : u0_m0_wo0_cma0_utype(0 to 31);
     signal u0_m0_wo0_cma0_qq : STD_LOGIC_VECTOR (32 downto 0);
     signal u0_m0_wo0_cma0_q : STD_LOGIC_VECTOR (32 downto 0);
-    signal u0_m0_wo0_cma1_a0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma0_ena0 : std_logic;
+    signal u0_m0_wo0_cma0_ena1 : std_logic;
+    signal u0_m0_wo0_cma1_reset : std_logic;
+    signal u0_m0_wo0_cma1_a0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma1_a0 : signal is true;
-    signal u0_m0_wo0_cma1_b0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma1_b0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma1_b0 : signal is true;
-    signal u0_m0_wo0_cma1_c0 : u0_m0_wo0_cma0_c0type;
+    signal u0_m0_wo0_cma1_c0 : u0_m0_wo0_cma0_c0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma1_c0 : signal is true;
-    signal u0_m0_wo0_cma1_d : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma1_d : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma1_d : signal is true;
-    signal u0_m0_wo0_cma1_l : u0_m0_wo0_cma0_ltype;
-    signal u0_m0_wo0_cma1_r : u0_m0_wo0_cma0_rtype;
-    signal u0_m0_wo0_cma1_p : u0_m0_wo0_cma0_ptype;
-    signal u0_m0_wo0_cma1_u : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma1_w : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma1_x : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma1_y : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma1_k0 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_l : u0_m0_wo0_cma0_ltype(0 to 31);
+    signal u0_m0_wo0_cma1_r : u0_m0_wo0_cma0_rtype(0 to 31);
+    signal u0_m0_wo0_cma1_p : u0_m0_wo0_cma0_ptype(0 to 31);
+    signal u0_m0_wo0_cma1_u : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma1_w : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma1_x : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma1_y : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma1_k0 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(14,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k1 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k1 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(22,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k2 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k2 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(28,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k3 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k3 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(30,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k4 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k4 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(29,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k5 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k5 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(23,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k6 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k6 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(13,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k7 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k7 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(1,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k8 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k8 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-11,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k9 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k9 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-24,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k10 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k10 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-35,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k11 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k11 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-42,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k12 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k12 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-44,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k13 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k13 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-40,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k14 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k14 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-30,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k15 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k15 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-16,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k16 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k16 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(1,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k17 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k17 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(20,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k18 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k18 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(38,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k19 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k19 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(52,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k20 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k20 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(60,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k21 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k21 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(61,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k22 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k22 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(53,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k23 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k23 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(38,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k24 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k24 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(17,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k25 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k25 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-7,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k26 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k26 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-33,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k27 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k27 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-57,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k28 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k28 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-75,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k29 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k29 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-84,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k30 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k30 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-82,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_k31 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma1_k31 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-70,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma1_s : u0_m0_wo0_cma0_utype;
+    signal u0_m0_wo0_cma1_s : u0_m0_wo0_cma0_utype(0 to 31);
     signal u0_m0_wo0_cma1_qq : STD_LOGIC_VECTOR (32 downto 0);
     signal u0_m0_wo0_cma1_q : STD_LOGIC_VECTOR (32 downto 0);
-    signal u0_m0_wo0_cma2_a0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma1_ena0 : std_logic;
+    signal u0_m0_wo0_cma1_ena1 : std_logic;
+    signal u0_m0_wo0_cma2_reset : std_logic;
+    signal u0_m0_wo0_cma2_a0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma2_a0 : signal is true;
-    signal u0_m0_wo0_cma2_b0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma2_b0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma2_b0 : signal is true;
-    signal u0_m0_wo0_cma2_c0 : u0_m0_wo0_cma0_c0type;
+    signal u0_m0_wo0_cma2_c0 : u0_m0_wo0_cma0_c0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma2_c0 : signal is true;
-    signal u0_m0_wo0_cma2_d : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma2_d : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma2_d : signal is true;
-    signal u0_m0_wo0_cma2_l : u0_m0_wo0_cma0_ltype;
-    signal u0_m0_wo0_cma2_r : u0_m0_wo0_cma0_rtype;
-    signal u0_m0_wo0_cma2_p : u0_m0_wo0_cma0_ptype;
-    signal u0_m0_wo0_cma2_u : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma2_w : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma2_x : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma2_y : u0_m0_wo0_cma0_utype;
-    signal u0_m0_wo0_cma2_k0 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_l : u0_m0_wo0_cma0_ltype(0 to 31);
+    signal u0_m0_wo0_cma2_r : u0_m0_wo0_cma0_rtype(0 to 31);
+    signal u0_m0_wo0_cma2_p : u0_m0_wo0_cma0_ptype(0 to 31);
+    signal u0_m0_wo0_cma2_u : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma2_w : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma2_x : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma2_y : u0_m0_wo0_cma0_utype(0 to 31);
+    signal u0_m0_wo0_cma2_k0 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-47,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k1 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k1 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-16,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k2 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k2 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(18,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k3 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k3 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(53,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k4 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k4 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(84,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k5 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k5 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(105,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k6 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k6 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(115,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k7 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k7 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(109,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k8 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k8 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(89,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k9 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k9 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(55,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k10 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k10 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(12,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k11 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k11 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-35,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k12 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k12 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-82,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k13 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k13 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-121,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k14 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k14 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-147,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k15 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k15 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-155,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k16 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k16 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-144,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k17 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k17 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-112,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k18 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k18 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-64,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k19 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k19 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-3,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k20 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k20 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(62,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k21 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k21 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(124,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k22 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k22 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(174,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k23 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k23 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(205,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k24 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k24 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(212,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k25 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k25 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(190,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k26 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k26 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(142,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k27 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k27 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(71,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k28 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k28 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-14,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k29 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k29 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-105,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k30 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k30 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-189,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_k31 : u0_m0_wo0_cma0_k0type := (
+    signal u0_m0_wo0_cma2_k31 : u0_m0_wo0_cma0_rtype(0 to 7) := (
         0 => TO_SIGNED(-255,11),
         others => (others => '0'));
-    signal u0_m0_wo0_cma2_s : u0_m0_wo0_cma0_utype;
+    signal u0_m0_wo0_cma2_s : u0_m0_wo0_cma0_utype(0 to 31);
     signal u0_m0_wo0_cma2_qq : STD_LOGIC_VECTOR (32 downto 0);
     signal u0_m0_wo0_cma2_q : STD_LOGIC_VECTOR (32 downto 0);
-    signal u0_m0_wo0_cma3_a0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma2_ena0 : std_logic;
+    signal u0_m0_wo0_cma2_ena1 : std_logic;
+    signal u0_m0_wo0_cma3_reset : std_logic;
+    signal u0_m0_wo0_cma3_a0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma3_a0 : signal is true;
-    signal u0_m0_wo0_cma3_b0 : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma3_b0 : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma3_b0 : signal is true;
-    signal u0_m0_wo0_cma3_c0 : u0_m0_wo0_cma0_c0type;
+    signal u0_m0_wo0_cma3_c0 : u0_m0_wo0_cma0_c0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma3_c0 : signal is true;
-    signal u0_m0_wo0_cma3_d : u0_m0_wo0_cma0_a0type;
+    signal u0_m0_wo0_cma3_d : u0_m0_wo0_cma0_a0type(0 to 31);
     attribute preserve of u0_m0_wo0_cma3_d : signal is true;
-    signal u0_m0_wo0_cma3_l : u0_m0_wo0_cma0_ltype;
-    type u0_m0_wo0_cma3_rtype is array(0 to 31) of SIGNED(12 downto 0);
-    signal u0_m0_wo0_cma3_r : u0_m0_wo0_cma3_rtype;
-    type u0_m0_wo0_cma3_ptype is array(0 to 31) of SIGNED(29 downto 0);
-    signal u0_m0_wo0_cma3_p : u0_m0_wo0_cma3_ptype;
-    type u0_m0_wo0_cma3_utype is array(0 to 31) of SIGNED(34 downto 0);
-    signal u0_m0_wo0_cma3_u : u0_m0_wo0_cma3_utype;
-    signal u0_m0_wo0_cma3_w : u0_m0_wo0_cma3_utype;
-    signal u0_m0_wo0_cma3_x : u0_m0_wo0_cma3_utype;
-    signal u0_m0_wo0_cma3_y : u0_m0_wo0_cma3_utype;
-    type u0_m0_wo0_cma3_k0type is array(0 to 7) of SIGNED(12 downto 0);
-    signal u0_m0_wo0_cma3_k0 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_l : u0_m0_wo0_cma0_ltype(0 to 31);
+    type u0_m0_wo0_cma3_rtype is array(NATURAL range <>) of SIGNED(12 downto 0);
+    signal u0_m0_wo0_cma3_r : u0_m0_wo0_cma3_rtype(0 to 31);
+    type u0_m0_wo0_cma3_ptype is array(NATURAL range <>) of SIGNED(29 downto 0);
+    signal u0_m0_wo0_cma3_p : u0_m0_wo0_cma3_ptype(0 to 31);
+    type u0_m0_wo0_cma3_utype is array(NATURAL range <>) of SIGNED(34 downto 0);
+    signal u0_m0_wo0_cma3_u : u0_m0_wo0_cma3_utype(0 to 31);
+    signal u0_m0_wo0_cma3_w : u0_m0_wo0_cma3_utype(0 to 31);
+    signal u0_m0_wo0_cma3_x : u0_m0_wo0_cma3_utype(0 to 31);
+    signal u0_m0_wo0_cma3_y : u0_m0_wo0_cma3_utype(0 to 31);
+    signal u0_m0_wo0_cma3_k0 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-293,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k1 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k1 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-295,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k2 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k2 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-258,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k3 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k3 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-183,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k4 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k4 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-78,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k5 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k5 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(48,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k6 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k6 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(180,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k7 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k7 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(300,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k8 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k8 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(393,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k9 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k9 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(443,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k10 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k10 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(439,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k11 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k11 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(375,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k12 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k12 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(253,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k13 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k13 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(82,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k14 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k14 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-121,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k15 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k15 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-336,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k16 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k16 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-537,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k17 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k17 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-694,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k18 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k18 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-782,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k19 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k19 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-776,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k20 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k20 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-662,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k21 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k21 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-431,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k22 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k22 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(-85,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k23 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k23 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(360,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k24 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k24 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(883,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k25 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k25 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(1453,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k26 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k26 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(2030,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k27 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k27 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(2575,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k28 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k28 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(3049,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k29 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k29 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(3416,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k30 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k30 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(3648,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_k31 : u0_m0_wo0_cma3_k0type := (
+    signal u0_m0_wo0_cma3_k31 : u0_m0_wo0_cma3_rtype(0 to 7) := (
         0 => TO_SIGNED(3727,13),
         others => (others => '0'));
-    signal u0_m0_wo0_cma3_s : u0_m0_wo0_cma3_utype;
+    signal u0_m0_wo0_cma3_s : u0_m0_wo0_cma3_utype(0 to 31);
     signal u0_m0_wo0_cma3_qq : STD_LOGIC_VECTOR (34 downto 0);
     signal u0_m0_wo0_cma3_q : STD_LOGIC_VECTOR (34 downto 0);
+    signal u0_m0_wo0_cma3_ena0 : std_logic;
+    signal u0_m0_wo0_cma3_ena1 : std_logic;
     signal u0_m0_wo0_mtree_add0_0_a : STD_LOGIC_VECTOR (30 downto 0);
     signal u0_m0_wo0_mtree_add0_0_b : STD_LOGIC_VECTOR (30 downto 0);
     signal u0_m0_wo0_mtree_add0_0_o : STD_LOGIC_VECTOR (30 downto 0);
@@ -600,28 +610,20 @@ architecture normal of soc_system_fir_filter_rtl_core is
     signal u0_m0_wo0_wi0_r0_delayr32_mem_last_q : STD_LOGIC_VECTOR (5 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_cmpReg_q : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q : STD_LOGIC_VECTOR (0 downto 0);
-    attribute preserve of u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q : signal is true;
-    signal input_valid_a : STD_LOGIC_VECTOR (0 downto 0);
-    signal input_valid_b : STD_LOGIC_VECTOR (0 downto 0);
+    attribute preserve_syn_only : boolean;
+    attribute preserve_syn_only of u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q : signal is true;
     signal input_valid_q : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_rdmux_s : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_rdmux_q : STD_LOGIC_VECTOR (4 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_cmp_a : STD_LOGIC_VECTOR (5 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_cmp_b : STD_LOGIC_VECTOR (5 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_cmp_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_notEnable_a : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_notEnable_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_nor_a : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_nor_b : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_nor_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_enaAnd_a : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_delayr32_enaAnd_b : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr32_enaAnd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr160_q : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr192_q : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_delayr224_q : STD_LOGIC_VECTOR (15 downto 0);
     signal out0_m0_wo0_lineup_select_delay_0_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal u0_m0_wo0_wi0_r0_split32_in : STD_LOGIC_VECTOR (47 downto 0);
     signal u0_m0_wo0_wi0_r0_split32_b : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_split32_c : STD_LOGIC_VECTOR (15 downto 0);
     signal u0_m0_wo0_wi0_r0_split32_d : STD_LOGIC_VECTOR (15 downto 0);
@@ -634,24 +636,25 @@ begin
     -- VCC(CONSTANT,1)@0
     VCC_q <= "1";
 
-    -- u0_m0_wo0_wi0_r0_delayr32_notEnable(LOGICAL,549)@10
-    u0_m0_wo0_wi0_r0_delayr32_notEnable_a <= STD_LOGIC_VECTOR(input_valid_q);
-    u0_m0_wo0_wi0_r0_delayr32_notEnable_q <= not (u0_m0_wo0_wi0_r0_delayr32_notEnable_a);
+    -- u0_m0_wo0_wi0_r0_delayr129(DELAY,149)@10
+    u0_m0_wo0_wi0_r0_delayr129 : dspba_delay
+    GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
+    PORT MAP ( xin => u0_m0_wo0_wi0_r0_split32_d, xout => u0_m0_wo0_wi0_r0_delayr129_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr32_nor(LOGICAL,550)@10
-    u0_m0_wo0_wi0_r0_delayr32_nor_a <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_notEnable_q);
-    u0_m0_wo0_wi0_r0_delayr32_nor_b <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q);
-    u0_m0_wo0_wi0_r0_delayr32_nor_q <= not (u0_m0_wo0_wi0_r0_delayr32_nor_a or u0_m0_wo0_wi0_r0_delayr32_nor_b);
+    -- u0_m0_wo0_wi0_r0_delayr32_notEnable(LOGICAL,558)@10
+    u0_m0_wo0_wi0_r0_delayr32_notEnable_q <= STD_LOGIC_VECTOR(not (input_valid_q));
 
-    -- u0_m0_wo0_wi0_r0_delayr32_mem_last(CONSTANT,546)
+    -- u0_m0_wo0_wi0_r0_delayr32_nor(LOGICAL,559)@10
+    u0_m0_wo0_wi0_r0_delayr32_nor_q <= not (u0_m0_wo0_wi0_r0_delayr32_notEnable_q or u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q);
+
+    -- u0_m0_wo0_wi0_r0_delayr32_mem_last(CONSTANT,555)
     u0_m0_wo0_wi0_r0_delayr32_mem_last_q <= "011101";
 
-    -- u0_m0_wo0_wi0_r0_delayr32_cmp(LOGICAL,547)@10
-    u0_m0_wo0_wi0_r0_delayr32_cmp_a <= u0_m0_wo0_wi0_r0_delayr32_mem_last_q;
+    -- u0_m0_wo0_wi0_r0_delayr32_cmp(LOGICAL,556)@10
     u0_m0_wo0_wi0_r0_delayr32_cmp_b <= STD_LOGIC_VECTOR("0" & u0_m0_wo0_wi0_r0_delayr32_rdmux_q);
-    u0_m0_wo0_wi0_r0_delayr32_cmp_q <= "1" WHEN u0_m0_wo0_wi0_r0_delayr32_cmp_a = u0_m0_wo0_wi0_r0_delayr32_cmp_b ELSE "0";
+    u0_m0_wo0_wi0_r0_delayr32_cmp_q <= "1" WHEN u0_m0_wo0_wi0_r0_delayr32_mem_last_q = u0_m0_wo0_wi0_r0_delayr32_cmp_b ELSE "0";
 
-    -- u0_m0_wo0_wi0_r0_delayr32_cmpReg(REG,548)@10 + 1
+    -- u0_m0_wo0_wi0_r0_delayr32_cmpReg(REG,557)@10 + 1
     u0_m0_wo0_wi0_r0_delayr32_cmpReg_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
@@ -663,7 +666,7 @@ begin
         END IF;
     END PROCESS;
 
-    -- u0_m0_wo0_wi0_r0_delayr32_sticky_ena(REG,551)@10 + 1
+    -- u0_m0_wo0_wi0_r0_delayr32_sticky_ena(REG,560)@10 + 1
     u0_m0_wo0_wi0_r0_delayr32_sticky_ena_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
@@ -675,12 +678,10 @@ begin
         END IF;
     END PROCESS;
 
-    -- u0_m0_wo0_wi0_r0_delayr32_enaAnd(LOGICAL,552)@10
-    u0_m0_wo0_wi0_r0_delayr32_enaAnd_a <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q);
-    u0_m0_wo0_wi0_r0_delayr32_enaAnd_b <= STD_LOGIC_VECTOR(input_valid_q);
-    u0_m0_wo0_wi0_r0_delayr32_enaAnd_q <= u0_m0_wo0_wi0_r0_delayr32_enaAnd_a and u0_m0_wo0_wi0_r0_delayr32_enaAnd_b;
+    -- u0_m0_wo0_wi0_r0_delayr32_enaAnd(LOGICAL,561)@10
+    u0_m0_wo0_wi0_r0_delayr32_enaAnd_q <= u0_m0_wo0_wi0_r0_delayr32_sticky_ena_q and input_valid_q;
 
-    -- u0_m0_wo0_wi0_r0_delayr32_rdcnt(COUNTER,543)@10 + 1
+    -- u0_m0_wo0_wi0_r0_delayr32_rdcnt(COUNTER,552)@10 + 1
     -- low=0, high=30, step=1, init=0
     u0_m0_wo0_wi0_r0_delayr32_rdcnt_clkproc: PROCESS (clk, areset)
     BEGIN
@@ -704,7 +705,7 @@ begin
     END PROCESS;
     u0_m0_wo0_wi0_r0_delayr32_rdcnt_q <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(RESIZE(u0_m0_wo0_wi0_r0_delayr32_rdcnt_i, 5)));
 
-    -- u0_m0_wo0_wi0_r0_delayr32_rdmux(MUX,544)@10
+    -- u0_m0_wo0_wi0_r0_delayr32_rdmux(MUX,553)@10
     u0_m0_wo0_wi0_r0_delayr32_rdmux_s <= input_valid_q;
     u0_m0_wo0_wi0_r0_delayr32_rdmux_combproc: PROCESS (u0_m0_wo0_wi0_r0_delayr32_rdmux_s, u0_m0_wo0_wi0_r0_delayr32_wraddr_q, u0_m0_wo0_wi0_r0_delayr32_rdcnt_q)
     BEGIN
@@ -715,12 +716,10 @@ begin
         END CASE;
     END PROCESS;
 
-    -- xIn(PORTIN,2)@10
-
-    -- u0_m0_wo0_wi0_r0_join32(BITJOIN,46)@10
+    -- u0_m0_wo0_wi0_r0_join32(BITJOIN,52)@10
     u0_m0_wo0_wi0_r0_join32_q <= u0_m0_wo0_wi0_r0_split32_c & u0_m0_wo0_wi0_r0_split32_b & xIn_0;
 
-    -- u0_m0_wo0_wi0_r0_delayr32_wraddr(REG,545)@10 + 1
+    -- u0_m0_wo0_wi0_r0_delayr32_wraddr(REG,554)@10 + 1
     u0_m0_wo0_wi0_r0_delayr32_wraddr_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
@@ -730,7 +729,7 @@ begin
         END IF;
     END PROCESS;
 
-    -- u0_m0_wo0_wi0_r0_delayr32_mem(DUALMEM,542)@10 + 2
+    -- u0_m0_wo0_wi0_r0_delayr32_mem(DUALMEM,551)@10 + 2
     u0_m0_wo0_wi0_r0_delayr32_mem_ia <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_join32_q);
     u0_m0_wo0_wi0_r0_delayr32_mem_aa <= u0_m0_wo0_wi0_r0_delayr32_wraddr_q;
     u0_m0_wo0_wi0_r0_delayr32_mem_ab <= u0_m0_wo0_wi0_r0_delayr32_rdmux_q;
@@ -774,23 +773,23 @@ begin
     );
     u0_m0_wo0_wi0_r0_delayr32_mem_q <= u0_m0_wo0_wi0_r0_delayr32_mem_iq(47 downto 0);
 
-    -- u0_m0_wo0_wi0_r0_split32(BITSELECT,47)@10
-    u0_m0_wo0_wi0_r0_split32_in <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_mem_q);
-    u0_m0_wo0_wi0_r0_split32_b <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_split32_in(15 downto 0));
-    u0_m0_wo0_wi0_r0_split32_c <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_split32_in(31 downto 16));
-    u0_m0_wo0_wi0_r0_split32_d <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_split32_in(47 downto 32));
+    -- u0_m0_wo0_wi0_r0_split32(BITSELECT,53)@10
+    u0_m0_wo0_wi0_r0_split32_b <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_mem_q(15 downto 0));
+    u0_m0_wo0_wi0_r0_split32_c <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_mem_q(31 downto 16));
+    u0_m0_wo0_wi0_r0_split32_d <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr32_mem_q(47 downto 32));
 
-    -- d_u0_m0_wo0_compute_q_11(DELAY,540)@10 + 1
+    -- d_u0_m0_wo0_compute_q_11(DELAY,549)@10 + 1
     d_u0_m0_wo0_compute_q_11 : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => input_valid_q, xout => d_u0_m0_wo0_compute_q_11_q, clk => clk, aclr => areset );
 
     -- input_valid(LOGICAL,3)@10
-    input_valid_a <= STD_LOGIC_VECTOR(xIn_v);
-    input_valid_b <= STD_LOGIC_VECTOR(enable_i);
-    input_valid_q <= input_valid_a and input_valid_b;
+    input_valid_q <= xIn_v and enable_i;
 
-    -- u0_m0_wo0_cma3(CHAINMULTADD,529)@10 + 2
+    -- u0_m0_wo0_cma3(CHAINMULTADD,538)@10 + 2
+    u0_m0_wo0_cma3_reset <= areset;
+    u0_m0_wo0_cma3_ena0 <= input_valid_q(0);
+    u0_m0_wo0_cma3_ena1 <= d_u0_m0_wo0_compute_q_11_q(0);
     u0_m0_wo0_cma3_l(0) <= RESIZE(u0_m0_wo0_cma3_a0(0),17) + RESIZE(u0_m0_wo0_cma3_b0(0),17);
     u0_m0_wo0_cma3_l(1) <= RESIZE(u0_m0_wo0_cma3_a0(1),17) + RESIZE(u0_m0_wo0_cma3_b0(1),17);
     u0_m0_wo0_cma3_l(2) <= RESIZE(u0_m0_wo0_cma3_a0(2),17) + RESIZE(u0_m0_wo0_cma3_b0(2),17);
@@ -1113,79 +1112,78 @@ begin
     u0_m0_wo0_cma3_y(29) <= u0_m0_wo0_cma3_s(30) + u0_m0_wo0_cma3_x(29);
     u0_m0_wo0_cma3_y(30) <= u0_m0_wo0_cma3_s(31) + u0_m0_wo0_cma3_x(30);
     u0_m0_wo0_cma3_y(31) <= u0_m0_wo0_cma3_x(31);
-    u0_m0_wo0_cma3_chainmultadd: PROCESS (clk, areset)
+    u0_m0_wo0_cma3_chainmultadd_input: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
             u0_m0_wo0_cma3_a0 <= (others => (others => '0'));
             u0_m0_wo0_cma3_b0 <= (others => (others => '0'));
             u0_m0_wo0_cma3_c0 <= (others => (others => '0'));
             u0_m0_wo0_cma3_d <= (others => (others => '0'));
-            u0_m0_wo0_cma3_s <= (others => (others => '0'));
         ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (input_valid_q = "1") THEN
-                u0_m0_wo0_cma3_a0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
-                u0_m0_wo0_cma3_a0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+            IF (u0_m0_wo0_cma3_ena0 = '1') THEN
+                u0_m0_wo0_cma3_a0(0) <= u0_m0_wo0_cma3_d(1);
+                u0_m0_wo0_cma3_a0(1) <= u0_m0_wo0_cma3_d(2);
+                u0_m0_wo0_cma3_a0(2) <= u0_m0_wo0_cma3_d(3);
+                u0_m0_wo0_cma3_a0(3) <= u0_m0_wo0_cma3_d(4);
+                u0_m0_wo0_cma3_a0(4) <= u0_m0_wo0_cma3_d(5);
+                u0_m0_wo0_cma3_a0(5) <= u0_m0_wo0_cma3_d(6);
+                u0_m0_wo0_cma3_a0(6) <= u0_m0_wo0_cma3_d(7);
+                u0_m0_wo0_cma3_a0(7) <= u0_m0_wo0_cma3_d(8);
+                u0_m0_wo0_cma3_a0(8) <= u0_m0_wo0_cma3_d(9);
+                u0_m0_wo0_cma3_a0(9) <= u0_m0_wo0_cma3_d(10);
+                u0_m0_wo0_cma3_a0(10) <= u0_m0_wo0_cma3_d(11);
+                u0_m0_wo0_cma3_a0(11) <= u0_m0_wo0_cma3_d(12);
+                u0_m0_wo0_cma3_a0(12) <= u0_m0_wo0_cma3_d(13);
+                u0_m0_wo0_cma3_a0(13) <= u0_m0_wo0_cma3_d(14);
+                u0_m0_wo0_cma3_a0(14) <= u0_m0_wo0_cma3_d(15);
+                u0_m0_wo0_cma3_a0(15) <= u0_m0_wo0_cma3_d(16);
+                u0_m0_wo0_cma3_a0(16) <= u0_m0_wo0_cma3_d(17);
+                u0_m0_wo0_cma3_a0(17) <= u0_m0_wo0_cma3_d(18);
+                u0_m0_wo0_cma3_a0(18) <= u0_m0_wo0_cma3_d(19);
+                u0_m0_wo0_cma3_a0(19) <= u0_m0_wo0_cma3_d(20);
+                u0_m0_wo0_cma3_a0(20) <= u0_m0_wo0_cma3_d(21);
+                u0_m0_wo0_cma3_a0(21) <= u0_m0_wo0_cma3_d(22);
+                u0_m0_wo0_cma3_a0(22) <= u0_m0_wo0_cma3_d(23);
+                u0_m0_wo0_cma3_a0(23) <= u0_m0_wo0_cma3_d(24);
+                u0_m0_wo0_cma3_a0(24) <= u0_m0_wo0_cma3_d(25);
+                u0_m0_wo0_cma3_a0(25) <= u0_m0_wo0_cma3_d(26);
+                u0_m0_wo0_cma3_a0(26) <= u0_m0_wo0_cma3_d(27);
+                u0_m0_wo0_cma3_a0(27) <= u0_m0_wo0_cma3_d(28);
+                u0_m0_wo0_cma3_a0(28) <= u0_m0_wo0_cma3_d(29);
+                u0_m0_wo0_cma3_a0(29) <= u0_m0_wo0_cma3_d(30);
+                u0_m0_wo0_cma3_a0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr129_q),16);
                 u0_m0_wo0_cma3_a0(31) <= SIGNED(RESIZE(UNSIGNED(GND_q),16));
-                u0_m0_wo0_cma3_b0(0) <= u0_m0_wo0_cma3_d(1);
-                u0_m0_wo0_cma3_b0(1) <= u0_m0_wo0_cma3_d(2);
-                u0_m0_wo0_cma3_b0(2) <= u0_m0_wo0_cma3_d(3);
-                u0_m0_wo0_cma3_b0(3) <= u0_m0_wo0_cma3_d(4);
-                u0_m0_wo0_cma3_b0(4) <= u0_m0_wo0_cma3_d(5);
-                u0_m0_wo0_cma3_b0(5) <= u0_m0_wo0_cma3_d(6);
-                u0_m0_wo0_cma3_b0(6) <= u0_m0_wo0_cma3_d(7);
-                u0_m0_wo0_cma3_b0(7) <= u0_m0_wo0_cma3_d(8);
-                u0_m0_wo0_cma3_b0(8) <= u0_m0_wo0_cma3_d(9);
-                u0_m0_wo0_cma3_b0(9) <= u0_m0_wo0_cma3_d(10);
-                u0_m0_wo0_cma3_b0(10) <= u0_m0_wo0_cma3_d(11);
-                u0_m0_wo0_cma3_b0(11) <= u0_m0_wo0_cma3_d(12);
-                u0_m0_wo0_cma3_b0(12) <= u0_m0_wo0_cma3_d(13);
-                u0_m0_wo0_cma3_b0(13) <= u0_m0_wo0_cma3_d(14);
-                u0_m0_wo0_cma3_b0(14) <= u0_m0_wo0_cma3_d(15);
-                u0_m0_wo0_cma3_b0(15) <= u0_m0_wo0_cma3_d(16);
-                u0_m0_wo0_cma3_b0(16) <= u0_m0_wo0_cma3_d(17);
-                u0_m0_wo0_cma3_b0(17) <= u0_m0_wo0_cma3_d(18);
-                u0_m0_wo0_cma3_b0(18) <= u0_m0_wo0_cma3_d(19);
-                u0_m0_wo0_cma3_b0(19) <= u0_m0_wo0_cma3_d(20);
-                u0_m0_wo0_cma3_b0(20) <= u0_m0_wo0_cma3_d(21);
-                u0_m0_wo0_cma3_b0(21) <= u0_m0_wo0_cma3_d(22);
-                u0_m0_wo0_cma3_b0(22) <= u0_m0_wo0_cma3_d(23);
-                u0_m0_wo0_cma3_b0(23) <= u0_m0_wo0_cma3_d(24);
-                u0_m0_wo0_cma3_b0(24) <= u0_m0_wo0_cma3_d(25);
-                u0_m0_wo0_cma3_b0(25) <= u0_m0_wo0_cma3_d(26);
-                u0_m0_wo0_cma3_b0(26) <= u0_m0_wo0_cma3_d(27);
-                u0_m0_wo0_cma3_b0(27) <= u0_m0_wo0_cma3_d(28);
-                u0_m0_wo0_cma3_b0(28) <= u0_m0_wo0_cma3_d(29);
-                u0_m0_wo0_cma3_b0(29) <= u0_m0_wo0_cma3_d(30);
-                u0_m0_wo0_cma3_b0(30) <= u0_m0_wo0_cma3_d(31);
+                u0_m0_wo0_cma3_b0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
+                u0_m0_wo0_cma3_b0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
                 u0_m0_wo0_cma3_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_d),16);
                 u0_m0_wo0_cma3_c0(0) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma3_c0(1) <= RESIZE(UNSIGNED(GND_q),3);
@@ -1219,40 +1217,47 @@ begin
                 u0_m0_wo0_cma3_c0(29) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma3_c0(30) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma3_c0(31) <= RESIZE(UNSIGNED(GND_q),3);
-                u0_m0_wo0_cma3_d(0) <= u0_m0_wo0_cma3_b0(0);
-                u0_m0_wo0_cma3_d(1) <= u0_m0_wo0_cma3_b0(1);
-                u0_m0_wo0_cma3_d(2) <= u0_m0_wo0_cma3_b0(2);
-                u0_m0_wo0_cma3_d(3) <= u0_m0_wo0_cma3_b0(3);
-                u0_m0_wo0_cma3_d(4) <= u0_m0_wo0_cma3_b0(4);
-                u0_m0_wo0_cma3_d(5) <= u0_m0_wo0_cma3_b0(5);
-                u0_m0_wo0_cma3_d(6) <= u0_m0_wo0_cma3_b0(6);
-                u0_m0_wo0_cma3_d(7) <= u0_m0_wo0_cma3_b0(7);
-                u0_m0_wo0_cma3_d(8) <= u0_m0_wo0_cma3_b0(8);
-                u0_m0_wo0_cma3_d(9) <= u0_m0_wo0_cma3_b0(9);
-                u0_m0_wo0_cma3_d(10) <= u0_m0_wo0_cma3_b0(10);
-                u0_m0_wo0_cma3_d(11) <= u0_m0_wo0_cma3_b0(11);
-                u0_m0_wo0_cma3_d(12) <= u0_m0_wo0_cma3_b0(12);
-                u0_m0_wo0_cma3_d(13) <= u0_m0_wo0_cma3_b0(13);
-                u0_m0_wo0_cma3_d(14) <= u0_m0_wo0_cma3_b0(14);
-                u0_m0_wo0_cma3_d(15) <= u0_m0_wo0_cma3_b0(15);
-                u0_m0_wo0_cma3_d(16) <= u0_m0_wo0_cma3_b0(16);
-                u0_m0_wo0_cma3_d(17) <= u0_m0_wo0_cma3_b0(17);
-                u0_m0_wo0_cma3_d(18) <= u0_m0_wo0_cma3_b0(18);
-                u0_m0_wo0_cma3_d(19) <= u0_m0_wo0_cma3_b0(19);
-                u0_m0_wo0_cma3_d(20) <= u0_m0_wo0_cma3_b0(20);
-                u0_m0_wo0_cma3_d(21) <= u0_m0_wo0_cma3_b0(21);
-                u0_m0_wo0_cma3_d(22) <= u0_m0_wo0_cma3_b0(22);
-                u0_m0_wo0_cma3_d(23) <= u0_m0_wo0_cma3_b0(23);
-                u0_m0_wo0_cma3_d(24) <= u0_m0_wo0_cma3_b0(24);
-                u0_m0_wo0_cma3_d(25) <= u0_m0_wo0_cma3_b0(25);
-                u0_m0_wo0_cma3_d(26) <= u0_m0_wo0_cma3_b0(26);
-                u0_m0_wo0_cma3_d(27) <= u0_m0_wo0_cma3_b0(27);
-                u0_m0_wo0_cma3_d(28) <= u0_m0_wo0_cma3_b0(28);
-                u0_m0_wo0_cma3_d(29) <= u0_m0_wo0_cma3_b0(29);
-                u0_m0_wo0_cma3_d(30) <= u0_m0_wo0_cma3_b0(30);
-                u0_m0_wo0_cma3_d(31) <= u0_m0_wo0_cma3_b0(31);
+                u0_m0_wo0_cma3_d(0) <= u0_m0_wo0_cma3_a0(0);
+                u0_m0_wo0_cma3_d(1) <= u0_m0_wo0_cma3_a0(1);
+                u0_m0_wo0_cma3_d(2) <= u0_m0_wo0_cma3_a0(2);
+                u0_m0_wo0_cma3_d(3) <= u0_m0_wo0_cma3_a0(3);
+                u0_m0_wo0_cma3_d(4) <= u0_m0_wo0_cma3_a0(4);
+                u0_m0_wo0_cma3_d(5) <= u0_m0_wo0_cma3_a0(5);
+                u0_m0_wo0_cma3_d(6) <= u0_m0_wo0_cma3_a0(6);
+                u0_m0_wo0_cma3_d(7) <= u0_m0_wo0_cma3_a0(7);
+                u0_m0_wo0_cma3_d(8) <= u0_m0_wo0_cma3_a0(8);
+                u0_m0_wo0_cma3_d(9) <= u0_m0_wo0_cma3_a0(9);
+                u0_m0_wo0_cma3_d(10) <= u0_m0_wo0_cma3_a0(10);
+                u0_m0_wo0_cma3_d(11) <= u0_m0_wo0_cma3_a0(11);
+                u0_m0_wo0_cma3_d(12) <= u0_m0_wo0_cma3_a0(12);
+                u0_m0_wo0_cma3_d(13) <= u0_m0_wo0_cma3_a0(13);
+                u0_m0_wo0_cma3_d(14) <= u0_m0_wo0_cma3_a0(14);
+                u0_m0_wo0_cma3_d(15) <= u0_m0_wo0_cma3_a0(15);
+                u0_m0_wo0_cma3_d(16) <= u0_m0_wo0_cma3_a0(16);
+                u0_m0_wo0_cma3_d(17) <= u0_m0_wo0_cma3_a0(17);
+                u0_m0_wo0_cma3_d(18) <= u0_m0_wo0_cma3_a0(18);
+                u0_m0_wo0_cma3_d(19) <= u0_m0_wo0_cma3_a0(19);
+                u0_m0_wo0_cma3_d(20) <= u0_m0_wo0_cma3_a0(20);
+                u0_m0_wo0_cma3_d(21) <= u0_m0_wo0_cma3_a0(21);
+                u0_m0_wo0_cma3_d(22) <= u0_m0_wo0_cma3_a0(22);
+                u0_m0_wo0_cma3_d(23) <= u0_m0_wo0_cma3_a0(23);
+                u0_m0_wo0_cma3_d(24) <= u0_m0_wo0_cma3_a0(24);
+                u0_m0_wo0_cma3_d(25) <= u0_m0_wo0_cma3_a0(25);
+                u0_m0_wo0_cma3_d(26) <= u0_m0_wo0_cma3_a0(26);
+                u0_m0_wo0_cma3_d(27) <= u0_m0_wo0_cma3_a0(27);
+                u0_m0_wo0_cma3_d(28) <= u0_m0_wo0_cma3_a0(28);
+                u0_m0_wo0_cma3_d(29) <= u0_m0_wo0_cma3_a0(29);
+                u0_m0_wo0_cma3_d(30) <= u0_m0_wo0_cma3_a0(30);
+                u0_m0_wo0_cma3_d(31) <= u0_m0_wo0_cma3_a0(31);
             END IF;
-            IF (d_u0_m0_wo0_compute_q_11_q = "1") THEN
+        END IF;
+    END PROCESS;
+    u0_m0_wo0_cma3_chainmultadd_output: PROCESS (clk, areset)
+    BEGIN
+        IF (areset = '1') THEN
+            u0_m0_wo0_cma3_s <= (others => (others => '0'));
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            IF (u0_m0_wo0_cma3_ena1 = '1') THEN
                 u0_m0_wo0_cma3_s(0) <= u0_m0_wo0_cma3_y(0);
                 u0_m0_wo0_cma3_s(1) <= u0_m0_wo0_cma3_y(1);
                 u0_m0_wo0_cma3_s(2) <= u0_m0_wo0_cma3_y(2);
@@ -1293,90 +1298,88 @@ begin
     PORT MAP ( xin => STD_LOGIC_VECTOR(u0_m0_wo0_cma3_s(0)(34 downto 0)), xout => u0_m0_wo0_cma3_qq, clk => clk, aclr => areset );
     u0_m0_wo0_cma3_q <= STD_LOGIC_VECTOR(u0_m0_wo0_cma3_qq(34 downto 0));
 
-    -- u0_m0_wo0_wi0_r0_delayr129(DELAY,143)@10
-    u0_m0_wo0_wi0_r0_delayr129 : dspba_delay
-    GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => u0_m0_wo0_wi0_r0_split32_d, xout => u0_m0_wo0_wi0_r0_delayr129_q, ena => input_valid_q(0), clk => clk, aclr => areset );
-
-    -- u0_m0_wo0_wi0_r0_delayr130(DELAY,144)@10
+    -- u0_m0_wo0_wi0_r0_delayr130(DELAY,150)@10
     u0_m0_wo0_wi0_r0_delayr130 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr129_q, xout => u0_m0_wo0_wi0_r0_delayr130_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr131(DELAY,145)@10
+    -- u0_m0_wo0_wi0_r0_delayr131(DELAY,151)@10
     u0_m0_wo0_wi0_r0_delayr131 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr130_q, xout => u0_m0_wo0_wi0_r0_delayr131_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr132(DELAY,146)@10
+    -- u0_m0_wo0_wi0_r0_delayr132(DELAY,152)@10
     u0_m0_wo0_wi0_r0_delayr132 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr131_q, xout => u0_m0_wo0_wi0_r0_delayr132_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr133(DELAY,147)@10
+    -- u0_m0_wo0_wi0_r0_delayr133(DELAY,153)@10
     u0_m0_wo0_wi0_r0_delayr133 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr132_q, xout => u0_m0_wo0_wi0_r0_delayr133_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr134(DELAY,148)@10
+    -- u0_m0_wo0_wi0_r0_delayr134(DELAY,154)@10
     u0_m0_wo0_wi0_r0_delayr134 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr133_q, xout => u0_m0_wo0_wi0_r0_delayr134_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr135(DELAY,149)@10
+    -- u0_m0_wo0_wi0_r0_delayr135(DELAY,155)@10
     u0_m0_wo0_wi0_r0_delayr135 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr134_q, xout => u0_m0_wo0_wi0_r0_delayr135_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr136(DELAY,150)@10
+    -- u0_m0_wo0_wi0_r0_delayr136(DELAY,156)@10
     u0_m0_wo0_wi0_r0_delayr136 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr135_q, xout => u0_m0_wo0_wi0_r0_delayr136_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr137(DELAY,151)@10
+    -- u0_m0_wo0_wi0_r0_delayr137(DELAY,157)@10
     u0_m0_wo0_wi0_r0_delayr137 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr136_q, xout => u0_m0_wo0_wi0_r0_delayr137_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr138(DELAY,152)@10
+    -- u0_m0_wo0_wi0_r0_delayr138(DELAY,158)@10
     u0_m0_wo0_wi0_r0_delayr138 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr137_q, xout => u0_m0_wo0_wi0_r0_delayr138_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr139(DELAY,153)@10
+    -- u0_m0_wo0_wi0_r0_delayr139(DELAY,159)@10
     u0_m0_wo0_wi0_r0_delayr139 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr138_q, xout => u0_m0_wo0_wi0_r0_delayr139_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr140(DELAY,154)@10
+    -- u0_m0_wo0_wi0_r0_delayr140(DELAY,160)@10
     u0_m0_wo0_wi0_r0_delayr140 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr139_q, xout => u0_m0_wo0_wi0_r0_delayr140_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr141(DELAY,155)@10
+    -- u0_m0_wo0_wi0_r0_delayr141(DELAY,161)@10
     u0_m0_wo0_wi0_r0_delayr141 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr140_q, xout => u0_m0_wo0_wi0_r0_delayr141_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr142(DELAY,156)@10
+    -- u0_m0_wo0_wi0_r0_delayr142(DELAY,162)@10
     u0_m0_wo0_wi0_r0_delayr142 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr141_q, xout => u0_m0_wo0_wi0_r0_delayr142_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr143(DELAY,157)@10
+    -- u0_m0_wo0_wi0_r0_delayr143(DELAY,163)@10
     u0_m0_wo0_wi0_r0_delayr143 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr142_q, xout => u0_m0_wo0_wi0_r0_delayr143_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr144(DELAY,158)@10
+    -- u0_m0_wo0_wi0_r0_delayr144(DELAY,164)@10
     u0_m0_wo0_wi0_r0_delayr144 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr143_q, xout => u0_m0_wo0_wi0_r0_delayr144_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr160(DELAY,174)@10
+    -- u0_m0_wo0_wi0_r0_delayr160(DELAY,180)@10
     u0_m0_wo0_wi0_r0_delayr160_q <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr144_q);
 
-    -- u0_m0_wo0_cma2(CHAINMULTADD,528)@10 + 2
+    -- u0_m0_wo0_cma2(CHAINMULTADD,537)@10 + 2
+    u0_m0_wo0_cma2_reset <= areset;
+    u0_m0_wo0_cma2_ena0 <= input_valid_q(0);
+    u0_m0_wo0_cma2_ena1 <= d_u0_m0_wo0_compute_q_11_q(0);
     u0_m0_wo0_cma2_l(0) <= RESIZE(u0_m0_wo0_cma2_a0(0),17) + RESIZE(u0_m0_wo0_cma2_b0(0),17);
     u0_m0_wo0_cma2_l(1) <= RESIZE(u0_m0_wo0_cma2_a0(1),17) + RESIZE(u0_m0_wo0_cma2_b0(1),17);
     u0_m0_wo0_cma2_l(2) <= RESIZE(u0_m0_wo0_cma2_a0(2),17) + RESIZE(u0_m0_wo0_cma2_b0(2),17);
@@ -1699,80 +1702,79 @@ begin
     u0_m0_wo0_cma2_y(29) <= u0_m0_wo0_cma2_s(30) + u0_m0_wo0_cma2_x(29);
     u0_m0_wo0_cma2_y(30) <= u0_m0_wo0_cma2_s(31) + u0_m0_wo0_cma2_x(30);
     u0_m0_wo0_cma2_y(31) <= u0_m0_wo0_cma2_x(31);
-    u0_m0_wo0_cma2_chainmultadd: PROCESS (clk, areset)
+    u0_m0_wo0_cma2_chainmultadd_input: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
             u0_m0_wo0_cma2_a0 <= (others => (others => '0'));
             u0_m0_wo0_cma2_b0 <= (others => (others => '0'));
             u0_m0_wo0_cma2_c0 <= (others => (others => '0'));
             u0_m0_wo0_cma2_d <= (others => (others => '0'));
-            u0_m0_wo0_cma2_s <= (others => (others => '0'));
         ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (input_valid_q = "1") THEN
-                u0_m0_wo0_cma2_a0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_a0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
-                u0_m0_wo0_cma2_b0(0) <= u0_m0_wo0_cma2_d(1);
-                u0_m0_wo0_cma2_b0(1) <= u0_m0_wo0_cma2_d(2);
-                u0_m0_wo0_cma2_b0(2) <= u0_m0_wo0_cma2_d(3);
-                u0_m0_wo0_cma2_b0(3) <= u0_m0_wo0_cma2_d(4);
-                u0_m0_wo0_cma2_b0(4) <= u0_m0_wo0_cma2_d(5);
-                u0_m0_wo0_cma2_b0(5) <= u0_m0_wo0_cma2_d(6);
-                u0_m0_wo0_cma2_b0(6) <= u0_m0_wo0_cma2_d(7);
-                u0_m0_wo0_cma2_b0(7) <= u0_m0_wo0_cma2_d(8);
-                u0_m0_wo0_cma2_b0(8) <= u0_m0_wo0_cma2_d(9);
-                u0_m0_wo0_cma2_b0(9) <= u0_m0_wo0_cma2_d(10);
-                u0_m0_wo0_cma2_b0(10) <= u0_m0_wo0_cma2_d(11);
-                u0_m0_wo0_cma2_b0(11) <= u0_m0_wo0_cma2_d(12);
-                u0_m0_wo0_cma2_b0(12) <= u0_m0_wo0_cma2_d(13);
-                u0_m0_wo0_cma2_b0(13) <= u0_m0_wo0_cma2_d(14);
-                u0_m0_wo0_cma2_b0(14) <= u0_m0_wo0_cma2_d(15);
-                u0_m0_wo0_cma2_b0(15) <= u0_m0_wo0_cma2_d(16);
-                u0_m0_wo0_cma2_b0(16) <= u0_m0_wo0_cma2_d(17);
-                u0_m0_wo0_cma2_b0(17) <= u0_m0_wo0_cma2_d(18);
-                u0_m0_wo0_cma2_b0(18) <= u0_m0_wo0_cma2_d(19);
-                u0_m0_wo0_cma2_b0(19) <= u0_m0_wo0_cma2_d(20);
-                u0_m0_wo0_cma2_b0(20) <= u0_m0_wo0_cma2_d(21);
-                u0_m0_wo0_cma2_b0(21) <= u0_m0_wo0_cma2_d(22);
-                u0_m0_wo0_cma2_b0(22) <= u0_m0_wo0_cma2_d(23);
-                u0_m0_wo0_cma2_b0(23) <= u0_m0_wo0_cma2_d(24);
-                u0_m0_wo0_cma2_b0(24) <= u0_m0_wo0_cma2_d(25);
-                u0_m0_wo0_cma2_b0(25) <= u0_m0_wo0_cma2_d(26);
-                u0_m0_wo0_cma2_b0(26) <= u0_m0_wo0_cma2_d(27);
-                u0_m0_wo0_cma2_b0(27) <= u0_m0_wo0_cma2_d(28);
-                u0_m0_wo0_cma2_b0(28) <= u0_m0_wo0_cma2_d(29);
-                u0_m0_wo0_cma2_b0(29) <= u0_m0_wo0_cma2_d(30);
-                u0_m0_wo0_cma2_b0(30) <= u0_m0_wo0_cma2_d(31);
-                u0_m0_wo0_cma2_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr160_q),16);
+            IF (u0_m0_wo0_cma2_ena0 = '1') THEN
+                u0_m0_wo0_cma2_a0(0) <= u0_m0_wo0_cma2_d(1);
+                u0_m0_wo0_cma2_a0(1) <= u0_m0_wo0_cma2_d(2);
+                u0_m0_wo0_cma2_a0(2) <= u0_m0_wo0_cma2_d(3);
+                u0_m0_wo0_cma2_a0(3) <= u0_m0_wo0_cma2_d(4);
+                u0_m0_wo0_cma2_a0(4) <= u0_m0_wo0_cma2_d(5);
+                u0_m0_wo0_cma2_a0(5) <= u0_m0_wo0_cma2_d(6);
+                u0_m0_wo0_cma2_a0(6) <= u0_m0_wo0_cma2_d(7);
+                u0_m0_wo0_cma2_a0(7) <= u0_m0_wo0_cma2_d(8);
+                u0_m0_wo0_cma2_a0(8) <= u0_m0_wo0_cma2_d(9);
+                u0_m0_wo0_cma2_a0(9) <= u0_m0_wo0_cma2_d(10);
+                u0_m0_wo0_cma2_a0(10) <= u0_m0_wo0_cma2_d(11);
+                u0_m0_wo0_cma2_a0(11) <= u0_m0_wo0_cma2_d(12);
+                u0_m0_wo0_cma2_a0(12) <= u0_m0_wo0_cma2_d(13);
+                u0_m0_wo0_cma2_a0(13) <= u0_m0_wo0_cma2_d(14);
+                u0_m0_wo0_cma2_a0(14) <= u0_m0_wo0_cma2_d(15);
+                u0_m0_wo0_cma2_a0(15) <= u0_m0_wo0_cma2_d(16);
+                u0_m0_wo0_cma2_a0(16) <= u0_m0_wo0_cma2_d(17);
+                u0_m0_wo0_cma2_a0(17) <= u0_m0_wo0_cma2_d(18);
+                u0_m0_wo0_cma2_a0(18) <= u0_m0_wo0_cma2_d(19);
+                u0_m0_wo0_cma2_a0(19) <= u0_m0_wo0_cma2_d(20);
+                u0_m0_wo0_cma2_a0(20) <= u0_m0_wo0_cma2_d(21);
+                u0_m0_wo0_cma2_a0(21) <= u0_m0_wo0_cma2_d(22);
+                u0_m0_wo0_cma2_a0(22) <= u0_m0_wo0_cma2_d(23);
+                u0_m0_wo0_cma2_a0(23) <= u0_m0_wo0_cma2_d(24);
+                u0_m0_wo0_cma2_a0(24) <= u0_m0_wo0_cma2_d(25);
+                u0_m0_wo0_cma2_a0(25) <= u0_m0_wo0_cma2_d(26);
+                u0_m0_wo0_cma2_a0(26) <= u0_m0_wo0_cma2_d(27);
+                u0_m0_wo0_cma2_a0(27) <= u0_m0_wo0_cma2_d(28);
+                u0_m0_wo0_cma2_a0(28) <= u0_m0_wo0_cma2_d(29);
+                u0_m0_wo0_cma2_a0(29) <= u0_m0_wo0_cma2_d(30);
+                u0_m0_wo0_cma2_a0(30) <= u0_m0_wo0_cma2_d(31);
+                u0_m0_wo0_cma2_a0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr160_q),16);
+                u0_m0_wo0_cma2_b0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
+                u0_m0_wo0_cma2_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_c),16);
                 u0_m0_wo0_cma2_c0(0) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma2_c0(1) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma2_c0(2) <= RESIZE(UNSIGNED(GND_q),3);
@@ -1805,40 +1807,47 @@ begin
                 u0_m0_wo0_cma2_c0(29) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma2_c0(30) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma2_c0(31) <= RESIZE(UNSIGNED(GND_q),3);
-                u0_m0_wo0_cma2_d(0) <= u0_m0_wo0_cma2_b0(0);
-                u0_m0_wo0_cma2_d(1) <= u0_m0_wo0_cma2_b0(1);
-                u0_m0_wo0_cma2_d(2) <= u0_m0_wo0_cma2_b0(2);
-                u0_m0_wo0_cma2_d(3) <= u0_m0_wo0_cma2_b0(3);
-                u0_m0_wo0_cma2_d(4) <= u0_m0_wo0_cma2_b0(4);
-                u0_m0_wo0_cma2_d(5) <= u0_m0_wo0_cma2_b0(5);
-                u0_m0_wo0_cma2_d(6) <= u0_m0_wo0_cma2_b0(6);
-                u0_m0_wo0_cma2_d(7) <= u0_m0_wo0_cma2_b0(7);
-                u0_m0_wo0_cma2_d(8) <= u0_m0_wo0_cma2_b0(8);
-                u0_m0_wo0_cma2_d(9) <= u0_m0_wo0_cma2_b0(9);
-                u0_m0_wo0_cma2_d(10) <= u0_m0_wo0_cma2_b0(10);
-                u0_m0_wo0_cma2_d(11) <= u0_m0_wo0_cma2_b0(11);
-                u0_m0_wo0_cma2_d(12) <= u0_m0_wo0_cma2_b0(12);
-                u0_m0_wo0_cma2_d(13) <= u0_m0_wo0_cma2_b0(13);
-                u0_m0_wo0_cma2_d(14) <= u0_m0_wo0_cma2_b0(14);
-                u0_m0_wo0_cma2_d(15) <= u0_m0_wo0_cma2_b0(15);
-                u0_m0_wo0_cma2_d(16) <= u0_m0_wo0_cma2_b0(16);
-                u0_m0_wo0_cma2_d(17) <= u0_m0_wo0_cma2_b0(17);
-                u0_m0_wo0_cma2_d(18) <= u0_m0_wo0_cma2_b0(18);
-                u0_m0_wo0_cma2_d(19) <= u0_m0_wo0_cma2_b0(19);
-                u0_m0_wo0_cma2_d(20) <= u0_m0_wo0_cma2_b0(20);
-                u0_m0_wo0_cma2_d(21) <= u0_m0_wo0_cma2_b0(21);
-                u0_m0_wo0_cma2_d(22) <= u0_m0_wo0_cma2_b0(22);
-                u0_m0_wo0_cma2_d(23) <= u0_m0_wo0_cma2_b0(23);
-                u0_m0_wo0_cma2_d(24) <= u0_m0_wo0_cma2_b0(24);
-                u0_m0_wo0_cma2_d(25) <= u0_m0_wo0_cma2_b0(25);
-                u0_m0_wo0_cma2_d(26) <= u0_m0_wo0_cma2_b0(26);
-                u0_m0_wo0_cma2_d(27) <= u0_m0_wo0_cma2_b0(27);
-                u0_m0_wo0_cma2_d(28) <= u0_m0_wo0_cma2_b0(28);
-                u0_m0_wo0_cma2_d(29) <= u0_m0_wo0_cma2_b0(29);
-                u0_m0_wo0_cma2_d(30) <= u0_m0_wo0_cma2_b0(30);
-                u0_m0_wo0_cma2_d(31) <= u0_m0_wo0_cma2_b0(31);
+                u0_m0_wo0_cma2_d(0) <= u0_m0_wo0_cma2_a0(0);
+                u0_m0_wo0_cma2_d(1) <= u0_m0_wo0_cma2_a0(1);
+                u0_m0_wo0_cma2_d(2) <= u0_m0_wo0_cma2_a0(2);
+                u0_m0_wo0_cma2_d(3) <= u0_m0_wo0_cma2_a0(3);
+                u0_m0_wo0_cma2_d(4) <= u0_m0_wo0_cma2_a0(4);
+                u0_m0_wo0_cma2_d(5) <= u0_m0_wo0_cma2_a0(5);
+                u0_m0_wo0_cma2_d(6) <= u0_m0_wo0_cma2_a0(6);
+                u0_m0_wo0_cma2_d(7) <= u0_m0_wo0_cma2_a0(7);
+                u0_m0_wo0_cma2_d(8) <= u0_m0_wo0_cma2_a0(8);
+                u0_m0_wo0_cma2_d(9) <= u0_m0_wo0_cma2_a0(9);
+                u0_m0_wo0_cma2_d(10) <= u0_m0_wo0_cma2_a0(10);
+                u0_m0_wo0_cma2_d(11) <= u0_m0_wo0_cma2_a0(11);
+                u0_m0_wo0_cma2_d(12) <= u0_m0_wo0_cma2_a0(12);
+                u0_m0_wo0_cma2_d(13) <= u0_m0_wo0_cma2_a0(13);
+                u0_m0_wo0_cma2_d(14) <= u0_m0_wo0_cma2_a0(14);
+                u0_m0_wo0_cma2_d(15) <= u0_m0_wo0_cma2_a0(15);
+                u0_m0_wo0_cma2_d(16) <= u0_m0_wo0_cma2_a0(16);
+                u0_m0_wo0_cma2_d(17) <= u0_m0_wo0_cma2_a0(17);
+                u0_m0_wo0_cma2_d(18) <= u0_m0_wo0_cma2_a0(18);
+                u0_m0_wo0_cma2_d(19) <= u0_m0_wo0_cma2_a0(19);
+                u0_m0_wo0_cma2_d(20) <= u0_m0_wo0_cma2_a0(20);
+                u0_m0_wo0_cma2_d(21) <= u0_m0_wo0_cma2_a0(21);
+                u0_m0_wo0_cma2_d(22) <= u0_m0_wo0_cma2_a0(22);
+                u0_m0_wo0_cma2_d(23) <= u0_m0_wo0_cma2_a0(23);
+                u0_m0_wo0_cma2_d(24) <= u0_m0_wo0_cma2_a0(24);
+                u0_m0_wo0_cma2_d(25) <= u0_m0_wo0_cma2_a0(25);
+                u0_m0_wo0_cma2_d(26) <= u0_m0_wo0_cma2_a0(26);
+                u0_m0_wo0_cma2_d(27) <= u0_m0_wo0_cma2_a0(27);
+                u0_m0_wo0_cma2_d(28) <= u0_m0_wo0_cma2_a0(28);
+                u0_m0_wo0_cma2_d(29) <= u0_m0_wo0_cma2_a0(29);
+                u0_m0_wo0_cma2_d(30) <= u0_m0_wo0_cma2_a0(30);
+                u0_m0_wo0_cma2_d(31) <= u0_m0_wo0_cma2_a0(31);
             END IF;
-            IF (d_u0_m0_wo0_compute_q_11_q = "1") THEN
+        END IF;
+    END PROCESS;
+    u0_m0_wo0_cma2_chainmultadd_output: PROCESS (clk, areset)
+    BEGIN
+        IF (areset = '1') THEN
+            u0_m0_wo0_cma2_s <= (others => (others => '0'));
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            IF (u0_m0_wo0_cma2_ena1 = '1') THEN
                 u0_m0_wo0_cma2_s(0) <= u0_m0_wo0_cma2_y(0);
                 u0_m0_wo0_cma2_s(1) <= u0_m0_wo0_cma2_y(1);
                 u0_m0_wo0_cma2_s(2) <= u0_m0_wo0_cma2_y(2);
@@ -1879,7 +1888,7 @@ begin
     PORT MAP ( xin => STD_LOGIC_VECTOR(u0_m0_wo0_cma2_s(0)(32 downto 0)), xout => u0_m0_wo0_cma2_qq, clk => clk, aclr => areset );
     u0_m0_wo0_cma2_q <= STD_LOGIC_VECTOR(u0_m0_wo0_cma2_qq(32 downto 0));
 
-    -- u0_m0_wo0_mtree_add0_1(ADD,531)@12 + 1
+    -- u0_m0_wo0_mtree_add0_1(ADD,540)@12 + 1
     u0_m0_wo0_mtree_add0_1_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((35 downto 33 => u0_m0_wo0_cma2_q(32)) & u0_m0_wo0_cma2_q));
     u0_m0_wo0_mtree_add0_1_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((35 downto 35 => u0_m0_wo0_cma3_q(34)) & u0_m0_wo0_cma3_q));
     u0_m0_wo0_mtree_add0_1_clkproc: PROCESS (clk, areset)
@@ -1892,90 +1901,93 @@ begin
     END PROCESS;
     u0_m0_wo0_mtree_add0_1_q <= u0_m0_wo0_mtree_add0_1_o(35 downto 0);
 
-    -- u0_m0_wo0_wi0_r0_delayr161(DELAY,175)@10
+    -- u0_m0_wo0_wi0_r0_delayr161(DELAY,181)@10
     u0_m0_wo0_wi0_r0_delayr161 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr160_q, xout => u0_m0_wo0_wi0_r0_delayr161_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr162(DELAY,176)@10
+    -- u0_m0_wo0_wi0_r0_delayr162(DELAY,182)@10
     u0_m0_wo0_wi0_r0_delayr162 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr161_q, xout => u0_m0_wo0_wi0_r0_delayr162_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr163(DELAY,177)@10
+    -- u0_m0_wo0_wi0_r0_delayr163(DELAY,183)@10
     u0_m0_wo0_wi0_r0_delayr163 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr162_q, xout => u0_m0_wo0_wi0_r0_delayr163_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr164(DELAY,178)@10
+    -- u0_m0_wo0_wi0_r0_delayr164(DELAY,184)@10
     u0_m0_wo0_wi0_r0_delayr164 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr163_q, xout => u0_m0_wo0_wi0_r0_delayr164_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr165(DELAY,179)@10
+    -- u0_m0_wo0_wi0_r0_delayr165(DELAY,185)@10
     u0_m0_wo0_wi0_r0_delayr165 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr164_q, xout => u0_m0_wo0_wi0_r0_delayr165_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr166(DELAY,180)@10
+    -- u0_m0_wo0_wi0_r0_delayr166(DELAY,186)@10
     u0_m0_wo0_wi0_r0_delayr166 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr165_q, xout => u0_m0_wo0_wi0_r0_delayr166_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr167(DELAY,181)@10
+    -- u0_m0_wo0_wi0_r0_delayr167(DELAY,187)@10
     u0_m0_wo0_wi0_r0_delayr167 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr166_q, xout => u0_m0_wo0_wi0_r0_delayr167_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr168(DELAY,182)@10
+    -- u0_m0_wo0_wi0_r0_delayr168(DELAY,188)@10
     u0_m0_wo0_wi0_r0_delayr168 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr167_q, xout => u0_m0_wo0_wi0_r0_delayr168_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr169(DELAY,183)@10
+    -- u0_m0_wo0_wi0_r0_delayr169(DELAY,189)@10
     u0_m0_wo0_wi0_r0_delayr169 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr168_q, xout => u0_m0_wo0_wi0_r0_delayr169_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr170(DELAY,184)@10
+    -- u0_m0_wo0_wi0_r0_delayr170(DELAY,190)@10
     u0_m0_wo0_wi0_r0_delayr170 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr169_q, xout => u0_m0_wo0_wi0_r0_delayr170_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr171(DELAY,185)@10
+    -- u0_m0_wo0_wi0_r0_delayr171(DELAY,191)@10
     u0_m0_wo0_wi0_r0_delayr171 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr170_q, xout => u0_m0_wo0_wi0_r0_delayr171_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr172(DELAY,186)@10
+    -- u0_m0_wo0_wi0_r0_delayr172(DELAY,192)@10
     u0_m0_wo0_wi0_r0_delayr172 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr171_q, xout => u0_m0_wo0_wi0_r0_delayr172_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr173(DELAY,187)@10
+    -- u0_m0_wo0_wi0_r0_delayr173(DELAY,193)@10
     u0_m0_wo0_wi0_r0_delayr173 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr172_q, xout => u0_m0_wo0_wi0_r0_delayr173_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr174(DELAY,188)@10
+    -- u0_m0_wo0_wi0_r0_delayr174(DELAY,194)@10
     u0_m0_wo0_wi0_r0_delayr174 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr173_q, xout => u0_m0_wo0_wi0_r0_delayr174_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr175(DELAY,189)@10
+    -- u0_m0_wo0_wi0_r0_delayr175(DELAY,195)@10
     u0_m0_wo0_wi0_r0_delayr175 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr174_q, xout => u0_m0_wo0_wi0_r0_delayr175_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr176(DELAY,190)@10
+    -- u0_m0_wo0_wi0_r0_delayr176(DELAY,196)@10
     u0_m0_wo0_wi0_r0_delayr176 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr175_q, xout => u0_m0_wo0_wi0_r0_delayr176_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr192(DELAY,206)@10
+    -- u0_m0_wo0_wi0_r0_delayr192(DELAY,212)@10
     u0_m0_wo0_wi0_r0_delayr192_q <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr176_q);
 
-    -- u0_m0_wo0_cma1(CHAINMULTADD,527)@10 + 2
+    -- u0_m0_wo0_cma1(CHAINMULTADD,536)@10 + 2
+    u0_m0_wo0_cma1_reset <= areset;
+    u0_m0_wo0_cma1_ena0 <= input_valid_q(0);
+    u0_m0_wo0_cma1_ena1 <= d_u0_m0_wo0_compute_q_11_q(0);
     u0_m0_wo0_cma1_l(0) <= RESIZE(u0_m0_wo0_cma1_a0(0),17) + RESIZE(u0_m0_wo0_cma1_b0(0),17);
     u0_m0_wo0_cma1_l(1) <= RESIZE(u0_m0_wo0_cma1_a0(1),17) + RESIZE(u0_m0_wo0_cma1_b0(1),17);
     u0_m0_wo0_cma1_l(2) <= RESIZE(u0_m0_wo0_cma1_a0(2),17) + RESIZE(u0_m0_wo0_cma1_b0(2),17);
@@ -2298,80 +2310,79 @@ begin
     u0_m0_wo0_cma1_y(29) <= u0_m0_wo0_cma1_s(30) + u0_m0_wo0_cma1_x(29);
     u0_m0_wo0_cma1_y(30) <= u0_m0_wo0_cma1_s(31) + u0_m0_wo0_cma1_x(30);
     u0_m0_wo0_cma1_y(31) <= u0_m0_wo0_cma1_x(31);
-    u0_m0_wo0_cma1_chainmultadd: PROCESS (clk, areset)
+    u0_m0_wo0_cma1_chainmultadd_input: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
             u0_m0_wo0_cma1_a0 <= (others => (others => '0'));
             u0_m0_wo0_cma1_b0 <= (others => (others => '0'));
             u0_m0_wo0_cma1_c0 <= (others => (others => '0'));
             u0_m0_wo0_cma1_d <= (others => (others => '0'));
-            u0_m0_wo0_cma1_s <= (others => (others => '0'));
         ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (input_valid_q = "1") THEN
-                u0_m0_wo0_cma1_a0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_a0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
-                u0_m0_wo0_cma1_b0(0) <= u0_m0_wo0_cma1_d(1);
-                u0_m0_wo0_cma1_b0(1) <= u0_m0_wo0_cma1_d(2);
-                u0_m0_wo0_cma1_b0(2) <= u0_m0_wo0_cma1_d(3);
-                u0_m0_wo0_cma1_b0(3) <= u0_m0_wo0_cma1_d(4);
-                u0_m0_wo0_cma1_b0(4) <= u0_m0_wo0_cma1_d(5);
-                u0_m0_wo0_cma1_b0(5) <= u0_m0_wo0_cma1_d(6);
-                u0_m0_wo0_cma1_b0(6) <= u0_m0_wo0_cma1_d(7);
-                u0_m0_wo0_cma1_b0(7) <= u0_m0_wo0_cma1_d(8);
-                u0_m0_wo0_cma1_b0(8) <= u0_m0_wo0_cma1_d(9);
-                u0_m0_wo0_cma1_b0(9) <= u0_m0_wo0_cma1_d(10);
-                u0_m0_wo0_cma1_b0(10) <= u0_m0_wo0_cma1_d(11);
-                u0_m0_wo0_cma1_b0(11) <= u0_m0_wo0_cma1_d(12);
-                u0_m0_wo0_cma1_b0(12) <= u0_m0_wo0_cma1_d(13);
-                u0_m0_wo0_cma1_b0(13) <= u0_m0_wo0_cma1_d(14);
-                u0_m0_wo0_cma1_b0(14) <= u0_m0_wo0_cma1_d(15);
-                u0_m0_wo0_cma1_b0(15) <= u0_m0_wo0_cma1_d(16);
-                u0_m0_wo0_cma1_b0(16) <= u0_m0_wo0_cma1_d(17);
-                u0_m0_wo0_cma1_b0(17) <= u0_m0_wo0_cma1_d(18);
-                u0_m0_wo0_cma1_b0(18) <= u0_m0_wo0_cma1_d(19);
-                u0_m0_wo0_cma1_b0(19) <= u0_m0_wo0_cma1_d(20);
-                u0_m0_wo0_cma1_b0(20) <= u0_m0_wo0_cma1_d(21);
-                u0_m0_wo0_cma1_b0(21) <= u0_m0_wo0_cma1_d(22);
-                u0_m0_wo0_cma1_b0(22) <= u0_m0_wo0_cma1_d(23);
-                u0_m0_wo0_cma1_b0(23) <= u0_m0_wo0_cma1_d(24);
-                u0_m0_wo0_cma1_b0(24) <= u0_m0_wo0_cma1_d(25);
-                u0_m0_wo0_cma1_b0(25) <= u0_m0_wo0_cma1_d(26);
-                u0_m0_wo0_cma1_b0(26) <= u0_m0_wo0_cma1_d(27);
-                u0_m0_wo0_cma1_b0(27) <= u0_m0_wo0_cma1_d(28);
-                u0_m0_wo0_cma1_b0(28) <= u0_m0_wo0_cma1_d(29);
-                u0_m0_wo0_cma1_b0(29) <= u0_m0_wo0_cma1_d(30);
-                u0_m0_wo0_cma1_b0(30) <= u0_m0_wo0_cma1_d(31);
-                u0_m0_wo0_cma1_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr192_q),16);
+            IF (u0_m0_wo0_cma1_ena0 = '1') THEN
+                u0_m0_wo0_cma1_a0(0) <= u0_m0_wo0_cma1_d(1);
+                u0_m0_wo0_cma1_a0(1) <= u0_m0_wo0_cma1_d(2);
+                u0_m0_wo0_cma1_a0(2) <= u0_m0_wo0_cma1_d(3);
+                u0_m0_wo0_cma1_a0(3) <= u0_m0_wo0_cma1_d(4);
+                u0_m0_wo0_cma1_a0(4) <= u0_m0_wo0_cma1_d(5);
+                u0_m0_wo0_cma1_a0(5) <= u0_m0_wo0_cma1_d(6);
+                u0_m0_wo0_cma1_a0(6) <= u0_m0_wo0_cma1_d(7);
+                u0_m0_wo0_cma1_a0(7) <= u0_m0_wo0_cma1_d(8);
+                u0_m0_wo0_cma1_a0(8) <= u0_m0_wo0_cma1_d(9);
+                u0_m0_wo0_cma1_a0(9) <= u0_m0_wo0_cma1_d(10);
+                u0_m0_wo0_cma1_a0(10) <= u0_m0_wo0_cma1_d(11);
+                u0_m0_wo0_cma1_a0(11) <= u0_m0_wo0_cma1_d(12);
+                u0_m0_wo0_cma1_a0(12) <= u0_m0_wo0_cma1_d(13);
+                u0_m0_wo0_cma1_a0(13) <= u0_m0_wo0_cma1_d(14);
+                u0_m0_wo0_cma1_a0(14) <= u0_m0_wo0_cma1_d(15);
+                u0_m0_wo0_cma1_a0(15) <= u0_m0_wo0_cma1_d(16);
+                u0_m0_wo0_cma1_a0(16) <= u0_m0_wo0_cma1_d(17);
+                u0_m0_wo0_cma1_a0(17) <= u0_m0_wo0_cma1_d(18);
+                u0_m0_wo0_cma1_a0(18) <= u0_m0_wo0_cma1_d(19);
+                u0_m0_wo0_cma1_a0(19) <= u0_m0_wo0_cma1_d(20);
+                u0_m0_wo0_cma1_a0(20) <= u0_m0_wo0_cma1_d(21);
+                u0_m0_wo0_cma1_a0(21) <= u0_m0_wo0_cma1_d(22);
+                u0_m0_wo0_cma1_a0(22) <= u0_m0_wo0_cma1_d(23);
+                u0_m0_wo0_cma1_a0(23) <= u0_m0_wo0_cma1_d(24);
+                u0_m0_wo0_cma1_a0(24) <= u0_m0_wo0_cma1_d(25);
+                u0_m0_wo0_cma1_a0(25) <= u0_m0_wo0_cma1_d(26);
+                u0_m0_wo0_cma1_a0(26) <= u0_m0_wo0_cma1_d(27);
+                u0_m0_wo0_cma1_a0(27) <= u0_m0_wo0_cma1_d(28);
+                u0_m0_wo0_cma1_a0(28) <= u0_m0_wo0_cma1_d(29);
+                u0_m0_wo0_cma1_a0(29) <= u0_m0_wo0_cma1_d(30);
+                u0_m0_wo0_cma1_a0(30) <= u0_m0_wo0_cma1_d(31);
+                u0_m0_wo0_cma1_a0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr192_q),16);
+                u0_m0_wo0_cma1_b0(0) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(1) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(2) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(3) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(4) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(5) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(6) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(7) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(8) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(9) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(10) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(11) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(12) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(13) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(14) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(15) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(16) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(17) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(18) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(19) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(20) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(21) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(22) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(23) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(24) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(25) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(26) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(27) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(28) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(29) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(30) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
+                u0_m0_wo0_cma1_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_split32_b),16);
                 u0_m0_wo0_cma1_c0(0) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma1_c0(1) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma1_c0(2) <= RESIZE(UNSIGNED(GND_q),3);
@@ -2404,40 +2415,47 @@ begin
                 u0_m0_wo0_cma1_c0(29) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma1_c0(30) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma1_c0(31) <= RESIZE(UNSIGNED(GND_q),3);
-                u0_m0_wo0_cma1_d(0) <= u0_m0_wo0_cma1_b0(0);
-                u0_m0_wo0_cma1_d(1) <= u0_m0_wo0_cma1_b0(1);
-                u0_m0_wo0_cma1_d(2) <= u0_m0_wo0_cma1_b0(2);
-                u0_m0_wo0_cma1_d(3) <= u0_m0_wo0_cma1_b0(3);
-                u0_m0_wo0_cma1_d(4) <= u0_m0_wo0_cma1_b0(4);
-                u0_m0_wo0_cma1_d(5) <= u0_m0_wo0_cma1_b0(5);
-                u0_m0_wo0_cma1_d(6) <= u0_m0_wo0_cma1_b0(6);
-                u0_m0_wo0_cma1_d(7) <= u0_m0_wo0_cma1_b0(7);
-                u0_m0_wo0_cma1_d(8) <= u0_m0_wo0_cma1_b0(8);
-                u0_m0_wo0_cma1_d(9) <= u0_m0_wo0_cma1_b0(9);
-                u0_m0_wo0_cma1_d(10) <= u0_m0_wo0_cma1_b0(10);
-                u0_m0_wo0_cma1_d(11) <= u0_m0_wo0_cma1_b0(11);
-                u0_m0_wo0_cma1_d(12) <= u0_m0_wo0_cma1_b0(12);
-                u0_m0_wo0_cma1_d(13) <= u0_m0_wo0_cma1_b0(13);
-                u0_m0_wo0_cma1_d(14) <= u0_m0_wo0_cma1_b0(14);
-                u0_m0_wo0_cma1_d(15) <= u0_m0_wo0_cma1_b0(15);
-                u0_m0_wo0_cma1_d(16) <= u0_m0_wo0_cma1_b0(16);
-                u0_m0_wo0_cma1_d(17) <= u0_m0_wo0_cma1_b0(17);
-                u0_m0_wo0_cma1_d(18) <= u0_m0_wo0_cma1_b0(18);
-                u0_m0_wo0_cma1_d(19) <= u0_m0_wo0_cma1_b0(19);
-                u0_m0_wo0_cma1_d(20) <= u0_m0_wo0_cma1_b0(20);
-                u0_m0_wo0_cma1_d(21) <= u0_m0_wo0_cma1_b0(21);
-                u0_m0_wo0_cma1_d(22) <= u0_m0_wo0_cma1_b0(22);
-                u0_m0_wo0_cma1_d(23) <= u0_m0_wo0_cma1_b0(23);
-                u0_m0_wo0_cma1_d(24) <= u0_m0_wo0_cma1_b0(24);
-                u0_m0_wo0_cma1_d(25) <= u0_m0_wo0_cma1_b0(25);
-                u0_m0_wo0_cma1_d(26) <= u0_m0_wo0_cma1_b0(26);
-                u0_m0_wo0_cma1_d(27) <= u0_m0_wo0_cma1_b0(27);
-                u0_m0_wo0_cma1_d(28) <= u0_m0_wo0_cma1_b0(28);
-                u0_m0_wo0_cma1_d(29) <= u0_m0_wo0_cma1_b0(29);
-                u0_m0_wo0_cma1_d(30) <= u0_m0_wo0_cma1_b0(30);
-                u0_m0_wo0_cma1_d(31) <= u0_m0_wo0_cma1_b0(31);
+                u0_m0_wo0_cma1_d(0) <= u0_m0_wo0_cma1_a0(0);
+                u0_m0_wo0_cma1_d(1) <= u0_m0_wo0_cma1_a0(1);
+                u0_m0_wo0_cma1_d(2) <= u0_m0_wo0_cma1_a0(2);
+                u0_m0_wo0_cma1_d(3) <= u0_m0_wo0_cma1_a0(3);
+                u0_m0_wo0_cma1_d(4) <= u0_m0_wo0_cma1_a0(4);
+                u0_m0_wo0_cma1_d(5) <= u0_m0_wo0_cma1_a0(5);
+                u0_m0_wo0_cma1_d(6) <= u0_m0_wo0_cma1_a0(6);
+                u0_m0_wo0_cma1_d(7) <= u0_m0_wo0_cma1_a0(7);
+                u0_m0_wo0_cma1_d(8) <= u0_m0_wo0_cma1_a0(8);
+                u0_m0_wo0_cma1_d(9) <= u0_m0_wo0_cma1_a0(9);
+                u0_m0_wo0_cma1_d(10) <= u0_m0_wo0_cma1_a0(10);
+                u0_m0_wo0_cma1_d(11) <= u0_m0_wo0_cma1_a0(11);
+                u0_m0_wo0_cma1_d(12) <= u0_m0_wo0_cma1_a0(12);
+                u0_m0_wo0_cma1_d(13) <= u0_m0_wo0_cma1_a0(13);
+                u0_m0_wo0_cma1_d(14) <= u0_m0_wo0_cma1_a0(14);
+                u0_m0_wo0_cma1_d(15) <= u0_m0_wo0_cma1_a0(15);
+                u0_m0_wo0_cma1_d(16) <= u0_m0_wo0_cma1_a0(16);
+                u0_m0_wo0_cma1_d(17) <= u0_m0_wo0_cma1_a0(17);
+                u0_m0_wo0_cma1_d(18) <= u0_m0_wo0_cma1_a0(18);
+                u0_m0_wo0_cma1_d(19) <= u0_m0_wo0_cma1_a0(19);
+                u0_m0_wo0_cma1_d(20) <= u0_m0_wo0_cma1_a0(20);
+                u0_m0_wo0_cma1_d(21) <= u0_m0_wo0_cma1_a0(21);
+                u0_m0_wo0_cma1_d(22) <= u0_m0_wo0_cma1_a0(22);
+                u0_m0_wo0_cma1_d(23) <= u0_m0_wo0_cma1_a0(23);
+                u0_m0_wo0_cma1_d(24) <= u0_m0_wo0_cma1_a0(24);
+                u0_m0_wo0_cma1_d(25) <= u0_m0_wo0_cma1_a0(25);
+                u0_m0_wo0_cma1_d(26) <= u0_m0_wo0_cma1_a0(26);
+                u0_m0_wo0_cma1_d(27) <= u0_m0_wo0_cma1_a0(27);
+                u0_m0_wo0_cma1_d(28) <= u0_m0_wo0_cma1_a0(28);
+                u0_m0_wo0_cma1_d(29) <= u0_m0_wo0_cma1_a0(29);
+                u0_m0_wo0_cma1_d(30) <= u0_m0_wo0_cma1_a0(30);
+                u0_m0_wo0_cma1_d(31) <= u0_m0_wo0_cma1_a0(31);
             END IF;
-            IF (d_u0_m0_wo0_compute_q_11_q = "1") THEN
+        END IF;
+    END PROCESS;
+    u0_m0_wo0_cma1_chainmultadd_output: PROCESS (clk, areset)
+    BEGIN
+        IF (areset = '1') THEN
+            u0_m0_wo0_cma1_s <= (others => (others => '0'));
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            IF (u0_m0_wo0_cma1_ena1 = '1') THEN
                 u0_m0_wo0_cma1_s(0) <= u0_m0_wo0_cma1_y(0);
                 u0_m0_wo0_cma1_s(1) <= u0_m0_wo0_cma1_y(1);
                 u0_m0_wo0_cma1_s(2) <= u0_m0_wo0_cma1_y(2);
@@ -2478,90 +2496,93 @@ begin
     PORT MAP ( xin => STD_LOGIC_VECTOR(u0_m0_wo0_cma1_s(0)(32 downto 0)), xout => u0_m0_wo0_cma1_qq, clk => clk, aclr => areset );
     u0_m0_wo0_cma1_q <= STD_LOGIC_VECTOR(u0_m0_wo0_cma1_qq(32 downto 0));
 
-    -- u0_m0_wo0_wi0_r0_delayr193(DELAY,207)@10
+    -- u0_m0_wo0_wi0_r0_delayr193(DELAY,213)@10
     u0_m0_wo0_wi0_r0_delayr193 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr192_q, xout => u0_m0_wo0_wi0_r0_delayr193_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr194(DELAY,208)@10
+    -- u0_m0_wo0_wi0_r0_delayr194(DELAY,214)@10
     u0_m0_wo0_wi0_r0_delayr194 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr193_q, xout => u0_m0_wo0_wi0_r0_delayr194_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr195(DELAY,209)@10
+    -- u0_m0_wo0_wi0_r0_delayr195(DELAY,215)@10
     u0_m0_wo0_wi0_r0_delayr195 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr194_q, xout => u0_m0_wo0_wi0_r0_delayr195_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr196(DELAY,210)@10
+    -- u0_m0_wo0_wi0_r0_delayr196(DELAY,216)@10
     u0_m0_wo0_wi0_r0_delayr196 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr195_q, xout => u0_m0_wo0_wi0_r0_delayr196_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr197(DELAY,211)@10
+    -- u0_m0_wo0_wi0_r0_delayr197(DELAY,217)@10
     u0_m0_wo0_wi0_r0_delayr197 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr196_q, xout => u0_m0_wo0_wi0_r0_delayr197_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr198(DELAY,212)@10
+    -- u0_m0_wo0_wi0_r0_delayr198(DELAY,218)@10
     u0_m0_wo0_wi0_r0_delayr198 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr197_q, xout => u0_m0_wo0_wi0_r0_delayr198_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr199(DELAY,213)@10
+    -- u0_m0_wo0_wi0_r0_delayr199(DELAY,219)@10
     u0_m0_wo0_wi0_r0_delayr199 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr198_q, xout => u0_m0_wo0_wi0_r0_delayr199_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr200(DELAY,214)@10
+    -- u0_m0_wo0_wi0_r0_delayr200(DELAY,220)@10
     u0_m0_wo0_wi0_r0_delayr200 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr199_q, xout => u0_m0_wo0_wi0_r0_delayr200_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr201(DELAY,215)@10
+    -- u0_m0_wo0_wi0_r0_delayr201(DELAY,221)@10
     u0_m0_wo0_wi0_r0_delayr201 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr200_q, xout => u0_m0_wo0_wi0_r0_delayr201_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr202(DELAY,216)@10
+    -- u0_m0_wo0_wi0_r0_delayr202(DELAY,222)@10
     u0_m0_wo0_wi0_r0_delayr202 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr201_q, xout => u0_m0_wo0_wi0_r0_delayr202_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr203(DELAY,217)@10
+    -- u0_m0_wo0_wi0_r0_delayr203(DELAY,223)@10
     u0_m0_wo0_wi0_r0_delayr203 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr202_q, xout => u0_m0_wo0_wi0_r0_delayr203_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr204(DELAY,218)@10
+    -- u0_m0_wo0_wi0_r0_delayr204(DELAY,224)@10
     u0_m0_wo0_wi0_r0_delayr204 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr203_q, xout => u0_m0_wo0_wi0_r0_delayr204_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr205(DELAY,219)@10
+    -- u0_m0_wo0_wi0_r0_delayr205(DELAY,225)@10
     u0_m0_wo0_wi0_r0_delayr205 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr204_q, xout => u0_m0_wo0_wi0_r0_delayr205_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr206(DELAY,220)@10
+    -- u0_m0_wo0_wi0_r0_delayr206(DELAY,226)@10
     u0_m0_wo0_wi0_r0_delayr206 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr205_q, xout => u0_m0_wo0_wi0_r0_delayr206_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr207(DELAY,221)@10
+    -- u0_m0_wo0_wi0_r0_delayr207(DELAY,227)@10
     u0_m0_wo0_wi0_r0_delayr207 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr206_q, xout => u0_m0_wo0_wi0_r0_delayr207_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr208(DELAY,222)@10
+    -- u0_m0_wo0_wi0_r0_delayr208(DELAY,228)@10
     u0_m0_wo0_wi0_r0_delayr208 : dspba_delay
     GENERIC MAP ( width => 16, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => u0_m0_wo0_wi0_r0_delayr207_q, xout => u0_m0_wo0_wi0_r0_delayr208_q, ena => input_valid_q(0), clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_wi0_r0_delayr224(DELAY,238)@10
+    -- u0_m0_wo0_wi0_r0_delayr224(DELAY,244)@10
     u0_m0_wo0_wi0_r0_delayr224_q <= STD_LOGIC_VECTOR(u0_m0_wo0_wi0_r0_delayr208_q);
 
-    -- u0_m0_wo0_cma0(CHAINMULTADD,526)@10 + 2
+    -- u0_m0_wo0_cma0(CHAINMULTADD,535)@10 + 2
+    u0_m0_wo0_cma0_reset <= areset;
+    u0_m0_wo0_cma0_ena0 <= input_valid_q(0);
+    u0_m0_wo0_cma0_ena1 <= d_u0_m0_wo0_compute_q_11_q(0);
     u0_m0_wo0_cma0_l(0) <= RESIZE(u0_m0_wo0_cma0_a0(0),17) + RESIZE(u0_m0_wo0_cma0_b0(0),17);
     u0_m0_wo0_cma0_l(1) <= RESIZE(u0_m0_wo0_cma0_a0(1),17) + RESIZE(u0_m0_wo0_cma0_b0(1),17);
     u0_m0_wo0_cma0_l(2) <= RESIZE(u0_m0_wo0_cma0_a0(2),17) + RESIZE(u0_m0_wo0_cma0_b0(2),17);
@@ -2884,80 +2905,79 @@ begin
     u0_m0_wo0_cma0_y(29) <= u0_m0_wo0_cma0_s(30) + u0_m0_wo0_cma0_x(29);
     u0_m0_wo0_cma0_y(30) <= u0_m0_wo0_cma0_s(31) + u0_m0_wo0_cma0_x(30);
     u0_m0_wo0_cma0_y(31) <= u0_m0_wo0_cma0_x(31);
-    u0_m0_wo0_cma0_chainmultadd: PROCESS (clk, areset)
+    u0_m0_wo0_cma0_chainmultadd_input: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
             u0_m0_wo0_cma0_a0 <= (others => (others => '0'));
             u0_m0_wo0_cma0_b0 <= (others => (others => '0'));
             u0_m0_wo0_cma0_c0 <= (others => (others => '0'));
             u0_m0_wo0_cma0_d <= (others => (others => '0'));
-            u0_m0_wo0_cma0_s <= (others => (others => '0'));
         ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (input_valid_q = "1") THEN
-                u0_m0_wo0_cma0_a0(0) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(1) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(2) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(3) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(4) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(5) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(6) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(7) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(8) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(9) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(10) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(11) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(12) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(13) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(14) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(15) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(16) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(17) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(18) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(19) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(20) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(21) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(22) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(23) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(24) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(25) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(26) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(27) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(28) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(29) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(30) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_a0(31) <= RESIZE(SIGNED(xIn_0),16);
-                u0_m0_wo0_cma0_b0(0) <= u0_m0_wo0_cma0_d(1);
-                u0_m0_wo0_cma0_b0(1) <= u0_m0_wo0_cma0_d(2);
-                u0_m0_wo0_cma0_b0(2) <= u0_m0_wo0_cma0_d(3);
-                u0_m0_wo0_cma0_b0(3) <= u0_m0_wo0_cma0_d(4);
-                u0_m0_wo0_cma0_b0(4) <= u0_m0_wo0_cma0_d(5);
-                u0_m0_wo0_cma0_b0(5) <= u0_m0_wo0_cma0_d(6);
-                u0_m0_wo0_cma0_b0(6) <= u0_m0_wo0_cma0_d(7);
-                u0_m0_wo0_cma0_b0(7) <= u0_m0_wo0_cma0_d(8);
-                u0_m0_wo0_cma0_b0(8) <= u0_m0_wo0_cma0_d(9);
-                u0_m0_wo0_cma0_b0(9) <= u0_m0_wo0_cma0_d(10);
-                u0_m0_wo0_cma0_b0(10) <= u0_m0_wo0_cma0_d(11);
-                u0_m0_wo0_cma0_b0(11) <= u0_m0_wo0_cma0_d(12);
-                u0_m0_wo0_cma0_b0(12) <= u0_m0_wo0_cma0_d(13);
-                u0_m0_wo0_cma0_b0(13) <= u0_m0_wo0_cma0_d(14);
-                u0_m0_wo0_cma0_b0(14) <= u0_m0_wo0_cma0_d(15);
-                u0_m0_wo0_cma0_b0(15) <= u0_m0_wo0_cma0_d(16);
-                u0_m0_wo0_cma0_b0(16) <= u0_m0_wo0_cma0_d(17);
-                u0_m0_wo0_cma0_b0(17) <= u0_m0_wo0_cma0_d(18);
-                u0_m0_wo0_cma0_b0(18) <= u0_m0_wo0_cma0_d(19);
-                u0_m0_wo0_cma0_b0(19) <= u0_m0_wo0_cma0_d(20);
-                u0_m0_wo0_cma0_b0(20) <= u0_m0_wo0_cma0_d(21);
-                u0_m0_wo0_cma0_b0(21) <= u0_m0_wo0_cma0_d(22);
-                u0_m0_wo0_cma0_b0(22) <= u0_m0_wo0_cma0_d(23);
-                u0_m0_wo0_cma0_b0(23) <= u0_m0_wo0_cma0_d(24);
-                u0_m0_wo0_cma0_b0(24) <= u0_m0_wo0_cma0_d(25);
-                u0_m0_wo0_cma0_b0(25) <= u0_m0_wo0_cma0_d(26);
-                u0_m0_wo0_cma0_b0(26) <= u0_m0_wo0_cma0_d(27);
-                u0_m0_wo0_cma0_b0(27) <= u0_m0_wo0_cma0_d(28);
-                u0_m0_wo0_cma0_b0(28) <= u0_m0_wo0_cma0_d(29);
-                u0_m0_wo0_cma0_b0(29) <= u0_m0_wo0_cma0_d(30);
-                u0_m0_wo0_cma0_b0(30) <= u0_m0_wo0_cma0_d(31);
-                u0_m0_wo0_cma0_b0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr224_q),16);
+            IF (u0_m0_wo0_cma0_ena0 = '1') THEN
+                u0_m0_wo0_cma0_a0(0) <= u0_m0_wo0_cma0_d(1);
+                u0_m0_wo0_cma0_a0(1) <= u0_m0_wo0_cma0_d(2);
+                u0_m0_wo0_cma0_a0(2) <= u0_m0_wo0_cma0_d(3);
+                u0_m0_wo0_cma0_a0(3) <= u0_m0_wo0_cma0_d(4);
+                u0_m0_wo0_cma0_a0(4) <= u0_m0_wo0_cma0_d(5);
+                u0_m0_wo0_cma0_a0(5) <= u0_m0_wo0_cma0_d(6);
+                u0_m0_wo0_cma0_a0(6) <= u0_m0_wo0_cma0_d(7);
+                u0_m0_wo0_cma0_a0(7) <= u0_m0_wo0_cma0_d(8);
+                u0_m0_wo0_cma0_a0(8) <= u0_m0_wo0_cma0_d(9);
+                u0_m0_wo0_cma0_a0(9) <= u0_m0_wo0_cma0_d(10);
+                u0_m0_wo0_cma0_a0(10) <= u0_m0_wo0_cma0_d(11);
+                u0_m0_wo0_cma0_a0(11) <= u0_m0_wo0_cma0_d(12);
+                u0_m0_wo0_cma0_a0(12) <= u0_m0_wo0_cma0_d(13);
+                u0_m0_wo0_cma0_a0(13) <= u0_m0_wo0_cma0_d(14);
+                u0_m0_wo0_cma0_a0(14) <= u0_m0_wo0_cma0_d(15);
+                u0_m0_wo0_cma0_a0(15) <= u0_m0_wo0_cma0_d(16);
+                u0_m0_wo0_cma0_a0(16) <= u0_m0_wo0_cma0_d(17);
+                u0_m0_wo0_cma0_a0(17) <= u0_m0_wo0_cma0_d(18);
+                u0_m0_wo0_cma0_a0(18) <= u0_m0_wo0_cma0_d(19);
+                u0_m0_wo0_cma0_a0(19) <= u0_m0_wo0_cma0_d(20);
+                u0_m0_wo0_cma0_a0(20) <= u0_m0_wo0_cma0_d(21);
+                u0_m0_wo0_cma0_a0(21) <= u0_m0_wo0_cma0_d(22);
+                u0_m0_wo0_cma0_a0(22) <= u0_m0_wo0_cma0_d(23);
+                u0_m0_wo0_cma0_a0(23) <= u0_m0_wo0_cma0_d(24);
+                u0_m0_wo0_cma0_a0(24) <= u0_m0_wo0_cma0_d(25);
+                u0_m0_wo0_cma0_a0(25) <= u0_m0_wo0_cma0_d(26);
+                u0_m0_wo0_cma0_a0(26) <= u0_m0_wo0_cma0_d(27);
+                u0_m0_wo0_cma0_a0(27) <= u0_m0_wo0_cma0_d(28);
+                u0_m0_wo0_cma0_a0(28) <= u0_m0_wo0_cma0_d(29);
+                u0_m0_wo0_cma0_a0(29) <= u0_m0_wo0_cma0_d(30);
+                u0_m0_wo0_cma0_a0(30) <= u0_m0_wo0_cma0_d(31);
+                u0_m0_wo0_cma0_a0(31) <= RESIZE(SIGNED(u0_m0_wo0_wi0_r0_delayr224_q),16);
+                u0_m0_wo0_cma0_b0(0) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(1) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(2) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(3) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(4) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(5) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(6) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(7) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(8) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(9) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(10) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(11) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(12) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(13) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(14) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(15) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(16) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(17) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(18) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(19) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(20) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(21) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(22) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(23) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(24) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(25) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(26) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(27) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(28) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(29) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(30) <= RESIZE(SIGNED(xIn_0),16);
+                u0_m0_wo0_cma0_b0(31) <= RESIZE(SIGNED(xIn_0),16);
                 u0_m0_wo0_cma0_c0(0) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma0_c0(1) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma0_c0(2) <= RESIZE(UNSIGNED(GND_q),3);
@@ -2990,40 +3010,47 @@ begin
                 u0_m0_wo0_cma0_c0(29) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma0_c0(30) <= RESIZE(UNSIGNED(GND_q),3);
                 u0_m0_wo0_cma0_c0(31) <= RESIZE(UNSIGNED(GND_q),3);
-                u0_m0_wo0_cma0_d(0) <= u0_m0_wo0_cma0_b0(0);
-                u0_m0_wo0_cma0_d(1) <= u0_m0_wo0_cma0_b0(1);
-                u0_m0_wo0_cma0_d(2) <= u0_m0_wo0_cma0_b0(2);
-                u0_m0_wo0_cma0_d(3) <= u0_m0_wo0_cma0_b0(3);
-                u0_m0_wo0_cma0_d(4) <= u0_m0_wo0_cma0_b0(4);
-                u0_m0_wo0_cma0_d(5) <= u0_m0_wo0_cma0_b0(5);
-                u0_m0_wo0_cma0_d(6) <= u0_m0_wo0_cma0_b0(6);
-                u0_m0_wo0_cma0_d(7) <= u0_m0_wo0_cma0_b0(7);
-                u0_m0_wo0_cma0_d(8) <= u0_m0_wo0_cma0_b0(8);
-                u0_m0_wo0_cma0_d(9) <= u0_m0_wo0_cma0_b0(9);
-                u0_m0_wo0_cma0_d(10) <= u0_m0_wo0_cma0_b0(10);
-                u0_m0_wo0_cma0_d(11) <= u0_m0_wo0_cma0_b0(11);
-                u0_m0_wo0_cma0_d(12) <= u0_m0_wo0_cma0_b0(12);
-                u0_m0_wo0_cma0_d(13) <= u0_m0_wo0_cma0_b0(13);
-                u0_m0_wo0_cma0_d(14) <= u0_m0_wo0_cma0_b0(14);
-                u0_m0_wo0_cma0_d(15) <= u0_m0_wo0_cma0_b0(15);
-                u0_m0_wo0_cma0_d(16) <= u0_m0_wo0_cma0_b0(16);
-                u0_m0_wo0_cma0_d(17) <= u0_m0_wo0_cma0_b0(17);
-                u0_m0_wo0_cma0_d(18) <= u0_m0_wo0_cma0_b0(18);
-                u0_m0_wo0_cma0_d(19) <= u0_m0_wo0_cma0_b0(19);
-                u0_m0_wo0_cma0_d(20) <= u0_m0_wo0_cma0_b0(20);
-                u0_m0_wo0_cma0_d(21) <= u0_m0_wo0_cma0_b0(21);
-                u0_m0_wo0_cma0_d(22) <= u0_m0_wo0_cma0_b0(22);
-                u0_m0_wo0_cma0_d(23) <= u0_m0_wo0_cma0_b0(23);
-                u0_m0_wo0_cma0_d(24) <= u0_m0_wo0_cma0_b0(24);
-                u0_m0_wo0_cma0_d(25) <= u0_m0_wo0_cma0_b0(25);
-                u0_m0_wo0_cma0_d(26) <= u0_m0_wo0_cma0_b0(26);
-                u0_m0_wo0_cma0_d(27) <= u0_m0_wo0_cma0_b0(27);
-                u0_m0_wo0_cma0_d(28) <= u0_m0_wo0_cma0_b0(28);
-                u0_m0_wo0_cma0_d(29) <= u0_m0_wo0_cma0_b0(29);
-                u0_m0_wo0_cma0_d(30) <= u0_m0_wo0_cma0_b0(30);
-                u0_m0_wo0_cma0_d(31) <= u0_m0_wo0_cma0_b0(31);
+                u0_m0_wo0_cma0_d(0) <= u0_m0_wo0_cma0_a0(0);
+                u0_m0_wo0_cma0_d(1) <= u0_m0_wo0_cma0_a0(1);
+                u0_m0_wo0_cma0_d(2) <= u0_m0_wo0_cma0_a0(2);
+                u0_m0_wo0_cma0_d(3) <= u0_m0_wo0_cma0_a0(3);
+                u0_m0_wo0_cma0_d(4) <= u0_m0_wo0_cma0_a0(4);
+                u0_m0_wo0_cma0_d(5) <= u0_m0_wo0_cma0_a0(5);
+                u0_m0_wo0_cma0_d(6) <= u0_m0_wo0_cma0_a0(6);
+                u0_m0_wo0_cma0_d(7) <= u0_m0_wo0_cma0_a0(7);
+                u0_m0_wo0_cma0_d(8) <= u0_m0_wo0_cma0_a0(8);
+                u0_m0_wo0_cma0_d(9) <= u0_m0_wo0_cma0_a0(9);
+                u0_m0_wo0_cma0_d(10) <= u0_m0_wo0_cma0_a0(10);
+                u0_m0_wo0_cma0_d(11) <= u0_m0_wo0_cma0_a0(11);
+                u0_m0_wo0_cma0_d(12) <= u0_m0_wo0_cma0_a0(12);
+                u0_m0_wo0_cma0_d(13) <= u0_m0_wo0_cma0_a0(13);
+                u0_m0_wo0_cma0_d(14) <= u0_m0_wo0_cma0_a0(14);
+                u0_m0_wo0_cma0_d(15) <= u0_m0_wo0_cma0_a0(15);
+                u0_m0_wo0_cma0_d(16) <= u0_m0_wo0_cma0_a0(16);
+                u0_m0_wo0_cma0_d(17) <= u0_m0_wo0_cma0_a0(17);
+                u0_m0_wo0_cma0_d(18) <= u0_m0_wo0_cma0_a0(18);
+                u0_m0_wo0_cma0_d(19) <= u0_m0_wo0_cma0_a0(19);
+                u0_m0_wo0_cma0_d(20) <= u0_m0_wo0_cma0_a0(20);
+                u0_m0_wo0_cma0_d(21) <= u0_m0_wo0_cma0_a0(21);
+                u0_m0_wo0_cma0_d(22) <= u0_m0_wo0_cma0_a0(22);
+                u0_m0_wo0_cma0_d(23) <= u0_m0_wo0_cma0_a0(23);
+                u0_m0_wo0_cma0_d(24) <= u0_m0_wo0_cma0_a0(24);
+                u0_m0_wo0_cma0_d(25) <= u0_m0_wo0_cma0_a0(25);
+                u0_m0_wo0_cma0_d(26) <= u0_m0_wo0_cma0_a0(26);
+                u0_m0_wo0_cma0_d(27) <= u0_m0_wo0_cma0_a0(27);
+                u0_m0_wo0_cma0_d(28) <= u0_m0_wo0_cma0_a0(28);
+                u0_m0_wo0_cma0_d(29) <= u0_m0_wo0_cma0_a0(29);
+                u0_m0_wo0_cma0_d(30) <= u0_m0_wo0_cma0_a0(30);
+                u0_m0_wo0_cma0_d(31) <= u0_m0_wo0_cma0_a0(31);
             END IF;
-            IF (d_u0_m0_wo0_compute_q_11_q = "1") THEN
+        END IF;
+    END PROCESS;
+    u0_m0_wo0_cma0_chainmultadd_output: PROCESS (clk, areset)
+    BEGIN
+        IF (areset = '1') THEN
+            u0_m0_wo0_cma0_s <= (others => (others => '0'));
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            IF (u0_m0_wo0_cma0_ena1 = '1') THEN
                 u0_m0_wo0_cma0_s(0) <= u0_m0_wo0_cma0_y(0);
                 u0_m0_wo0_cma0_s(1) <= u0_m0_wo0_cma0_y(1);
                 u0_m0_wo0_cma0_s(2) <= u0_m0_wo0_cma0_y(2);
@@ -3064,7 +3091,7 @@ begin
     PORT MAP ( xin => STD_LOGIC_VECTOR(u0_m0_wo0_cma0_s(0)(32 downto 0)), xout => u0_m0_wo0_cma0_qq, clk => clk, aclr => areset );
     u0_m0_wo0_cma0_q <= STD_LOGIC_VECTOR(u0_m0_wo0_cma0_qq(32 downto 0));
 
-    -- u0_m0_wo0_mtree_add0_0(ADD,530)@12 + 1
+    -- u0_m0_wo0_mtree_add0_0(ADD,539)@12 + 1
     u0_m0_wo0_mtree_add0_0_a <= STD_LOGIC_VECTOR(u0_m0_wo0_cma0_q(30 downto 0));
     u0_m0_wo0_mtree_add0_0_b <= STD_LOGIC_VECTOR(u0_m0_wo0_cma1_q(30 downto 0));
     u0_m0_wo0_mtree_add0_0_clkproc: PROCESS (clk, areset)
@@ -3077,7 +3104,7 @@ begin
     END PROCESS;
     u0_m0_wo0_mtree_add0_0_q <= u0_m0_wo0_mtree_add0_0_o(30 downto 0);
 
-    -- u0_m0_wo0_mtree_add1_0(ADD,532)@13 + 1
+    -- u0_m0_wo0_mtree_add1_0(ADD,541)@13 + 1
     u0_m0_wo0_mtree_add1_0_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((36 downto 31 => u0_m0_wo0_mtree_add0_0_q(30)) & u0_m0_wo0_mtree_add0_0_q));
     u0_m0_wo0_mtree_add1_0_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((36 downto 36 => u0_m0_wo0_mtree_add0_1_q(35)) & u0_m0_wo0_mtree_add0_1_q));
     u0_m0_wo0_mtree_add1_0_clkproc: PROCESS (clk, areset)
@@ -3093,12 +3120,12 @@ begin
     -- GND(CONSTANT,0)@0
     GND_q <= "0";
 
-    -- d_u0_m0_wo0_compute_q_13(DELAY,541)@11 + 2
+    -- d_u0_m0_wo0_compute_q_13(DELAY,550)@11 + 2
     d_u0_m0_wo0_compute_q_13 : dspba_delay
     GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
     PORT MAP ( xin => d_u0_m0_wo0_compute_q_11_q, xout => d_u0_m0_wo0_compute_q_13_q, clk => clk, aclr => areset );
 
-    -- u0_m0_wo0_oseq_gated_reg(REG,533)@13 + 1
+    -- u0_m0_wo0_oseq_gated_reg(REG,542)@13 + 1
     u0_m0_wo0_oseq_gated_reg_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
@@ -3108,13 +3135,13 @@ begin
         END IF;
     END PROCESS;
 
-    -- out0_m0_wo0_lineup_select_delay_0(DELAY,535)@14
+    -- out0_m0_wo0_lineup_select_delay_0(DELAY,544)@14
     out0_m0_wo0_lineup_select_delay_0_q <= STD_LOGIC_VECTOR(u0_m0_wo0_oseq_gated_reg_q);
 
-    -- out0_m0_wo0_assign_id3(DELAY,537)@14
+    -- out0_m0_wo0_assign_id3(DELAY,546)@14
     out0_m0_wo0_assign_id3_q <= STD_LOGIC_VECTOR(out0_m0_wo0_lineup_select_delay_0_q);
 
-    -- xOut(PORTOUT,538)@14 + 1
+    -- xOut(PORTOUT,547)@14 + 1
     xOut_v <= out0_m0_wo0_assign_id3_q;
     xOut_c <= STD_LOGIC_VECTOR("0000000" & GND_q);
     xOut_0 <= STD_LOGIC_VECTOR((39 downto 37 => u0_m0_wo0_mtree_add1_0_q(36)) & u0_m0_wo0_mtree_add1_0_q);

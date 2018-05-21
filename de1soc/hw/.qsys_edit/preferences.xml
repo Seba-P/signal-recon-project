@@ -3,17 +3,18 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="351" />
+   <connections preferredWidth="639" />
    <irq preferredWidth="34" />
    <security visible="1" />
   </columns>
  </systemtable>
  <library expandedCategories="Project,Library" />
- <window width="1600" height="860" x="0" y="0" />
+ <window width="1920" height="1040" x="0" y="0" />
  <hdlexample language="VHDL" />
  <generation
    block_symbol_file="1"
    synthesis="VERILOG"
    greybox="0"
-   simulation="NONE" />
+   testbench_system="STANDARD"
+   simulation="VERILOG" />
 </preferences>

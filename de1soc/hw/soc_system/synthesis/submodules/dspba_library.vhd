@@ -1,14 +1,15 @@
--- (C) 2012 Altera Corporation. All rights reserved.
--- Your use of Altera Corporation's design tools, logic functions and other
--- software and tools, and its AMPP partner logic functions, and any output
--- files any of the foregoing (including device programming or simulation
--- files), and any associated documentation or information are expressly subject
--- to the terms and conditions of the Altera Program License Subscription
--- Agreement, Altera MegaCore Function License Agreement, or other applicable
--- license agreement, including, without limitation, that your use is for the
--- sole purpose of programming logic devices manufactured by Altera and sold by
--- Altera or its authorized distributors.  Please refer to the applicable
+-- Legal Notice: Copyright 2017 Intel Corporation.  All rights reserved.
+-- Your use of  Intel  Corporation's design tools,  logic functions and other
+-- software and tools,  and its AMPP  partner logic functions, and  any output
+-- files  any of the  foregoing  device programming or simulation files),  and
+-- any associated  documentation or information are expressly subject  to  the
+-- terms and conditions  of the Intel FPGA Software License Agreement,
+-- Intel  MegaCore  Function  License  Agreement, or other applicable license
+-- agreement,  including,  without limitation,  that your use  is for the sole
+-- purpose of  programming  logic  devices  manufactured by Intel and sold by
+-- Intel or its authorized  distributors.  Please  refer  to  the  applicable
 -- agreement for further details.
+
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -40,7 +41,7 @@ begin
     begin
         delay_loop: for i in depth-1 downto 0 generate
         begin
-            sync_reset: if reset_kind = "ASYNC" generate
+            async_reset: if reset_kind = "ASYNC" generate
                 process(clk, aclr)
                 begin
                     if aclr=reset_high then
@@ -53,7 +54,7 @@ begin
                 end process;
             end generate;
 
-            async_reset: if reset_kind = "SYNC" generate
+            sync_reset: if reset_kind = "SYNC" generate
                 process(clk)
                 begin
                     if clk'event and clk='1' then
@@ -82,6 +83,7 @@ begin
     xout <= delay_signals(0);
 end delay;
 
+--------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -120,10 +122,10 @@ architecture sync_reg of dspba_sync_reg is
     signal oclk_data : std_logic_vector(width2-1 downto 0); 
 
     -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops 
-    -- For TimeQuest this means: identify these flip-flops as synchronizer to enable aitomatic MTBF analysis
+    -- For TimeQuest this means: identify these flip-flops as synchronizer to enable automatic MTBF analysis
     signal sync_regs : bit_array;
     attribute altera_attribute : string;
-    attribute altera_attribute of sync_regs : signal is "-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS; -name DONT_MERGE_REGISTER ON; -name PRESERVE_REGISTER ON";
+    attribute altera_attribute of sync_regs : signal is "-name ADV_NETLIST_OPT_ALLOWED NEVER_ALLOW; -name SYNCHRONIZER_IDENTIFICATION FORCED; -name DONT_MERGE_REGISTER ON; -name PRESERVE_REGISTER ON";
 
     signal oclk_enable : std_logic;
 
@@ -331,3 +333,45 @@ begin
     sxout <= oclk_data;
 
 end sync_reg;
+
+--------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity dspba_pipe is
+    generic(
+        num_bits   : positive  := 8;
+        num_stages : natural   := 0;
+        init_value : std_logic := 'X'
+    );
+    port(
+        clk: in    std_logic;
+        d  : in    std_logic_vector(num_bits-1 downto 0);
+        q  :   out std_logic_vector(num_bits-1 downto 0)
+    );
+end entity dspba_pipe;
+
+architecture rtl of dspba_pipe is
+    attribute altera_attribute : string;
+    attribute altera_attribute of rtl : architecture is "-name AUTO_SHIFT_REGISTER_RECOGNITION off";
+
+    type stage_array_type is array(0 to num_stages) of std_logic_vector(num_bits-1 downto 0);
+    signal stage_array : stage_array_type := (others => (others => init_value));
+begin
+    stage_array(0) <= d;
+
+    g_pipe : for i in 1 to num_stages generate
+        p_stage : process (clk) is
+        begin
+            if rising_edge(clk) then
+                stage_array(i) <= stage_array(i-1);
+            end if;
+        end process p_stage;
+    end generate g_pipe;
+
+    q <= stage_array(num_stages);
+
+end rtl;
+
