@@ -2,18 +2,16 @@
 # Untracked files
 /matlab/*.asv
 
-/de1soc/hps_sw/workspace/.metadata/*
-/de1soc/hps_sw/workspace/debugger/*
-/de1soc/hps_sw/workspace/RemoteSystemsTempFiles/*
-/de1soc/hps_sw/workspace/.ut.dat
-/de1soc/hw/db/*
-/de1soc/hw/incremental_db/*
-/de1soc/hw/ip/simulation/libraries/*
-/de1soc/hw/ip/simulation/work/*
-/de1soc/hw/ip/work/*
-/de1soc/hw/output_files/*
-/de1soc/hw/release/*
-/de1soc/backup/*
+/de1soc/hps_sw/workspace/
+/de1soc/hw/db/
+/de1soc/hw/incremental_db/
+/de1soc/hw/ip/simulation/libraries/
+/de1soc/hw/ip/simulation/work/
+/de1soc/hw/ip/work/
+/de1soc/hw/output_files/
+/de1soc/hw/release/
+/de1soc/backup/
+/de1soc/hw/soc_system/
 
 *.hex
 *.bin

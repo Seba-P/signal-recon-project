@@ -1,5 +1,5 @@
 #!/bin/sh
 sopc-create-header-files \
 "./soc_system.sopcinfo" \
---single hps_0.h \
+--single hps_def.h \
 --module hps_0
