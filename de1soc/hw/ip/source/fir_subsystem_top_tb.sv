@@ -84,10 +84,10 @@ bit   [ 4:0] curr_lvl;
 bit   [15:0] lvls_step;
 bit   [15:0] expected_value;
 bit   [31:0] expected_limits;
-wire         not_max_lvl;
-wire         not_min_lvl;
-wire         upper_lvl_idx;
-wire         lower_lvl_idx;
+int          curr_iter, iter_sample;
+int          duration, total_duration;
+wire         not_max_lvl, not_min_lvl;
+wire         upper_lvl_idx, lower_lvl_idx;
 
 bit [0:31][15:0] lvls_values = 
 {
@@ -108,8 +108,6 @@ assign upper_lvl_idx   = curr_lvl + not_max_lvl;
 assign lower_lvl_idx   = curr_lvl - not_min_lvl;
 
 task send_sample(LVL_CROSS_SAMPLE_T sample);
-  int duration;
-
   curr_lvl        <= sample.lvl_cross_dir ? curr_lvl + (curr_lvl != LVLS_NUM-1) : curr_lvl - (curr_lvl != 0);
   lvls_step       <= sample.lvl_cross_dir ? lvls_values[curr_lvl+(curr_lvl != LVLS_NUM-1)] - lvls_values[curr_lvl] :
                                             lvls_values[curr_lvl] - lvls_values[curr_lvl-(curr_lvl != 0)];
@@ -128,19 +126,40 @@ task send_sample(LVL_CROSS_SAMPLE_T sample);
 endtask : send_sample
 
 task verify_output(LVL_CROSS_SAMPLE_T sample);
-  localparam DELAY = 3;
-  int duration;
-
-
-  for(duration = 0; duration < DELAY; duration++)
-  begin
-    @(posedge clock);
-  end
+  localparam DELAY = 5;
 
   for(duration = 0; duration < sample.timestamp; duration++)
   begin
     @(posedge clock);
-    /*
+    /*if(!st2mm_valid)
+      @(posedge st2mm_valid);
+
+    recv_fir_data[total_duration++%MAX_SAMPLES_IN_RAM] = st2mm_data;
+    if(st2mm_data != expected_value)
+      $display("Invalid output data (0x%x/0x%x) @ sample #%0d/%0d!", st2mm_data, expected_value, duration, total_duration-1);*/
+    
+    if((++total_duration % MAX_SAMPLES_IN_RAM) == 0)
+    begin
+      while(curr_iter < ITER_NUM)
+      begin
+        for(iter_sample = 0; iter_sample < MAX_SAMPLES_IN_RAM; iter_sample++)
+        begin
+          @(posedge clock);
+          /*if(!st2mm_valid)
+            @(posedge st2mm_valid);
+          if(st2mm_data != recv_fir_data[iter_sample])
+            $display("Invalid output data (0x%x/0x%x) @ sample #%0d(RAM))!", st2mm_data, expected_value, iter_sample);*/
+        end
+        curr_iter++;
+      end
+      curr_iter = 0;
+    end
+  end
+
+  /*for(duration = 0; duration < sample.timestamp; duration++)
+  begin
+    @(posedge clock);
+
     if(mm2st_ready)
       $display("ERROR @%g(#%d): mm2st_ready asserted!", $time, duration + DELAY);
 
@@ -148,8 +167,8 @@ task verify_output(LVL_CROSS_SAMPLE_T sample);
       $display("ERROR @%g(#%d): st2mm_valid deasserted!", $time, duration + DELAY);
 
     if(st2mm_data != expected_value)
-      $display("ERROR @%g(#%d): invalid output value (0x%0h/0x%0h)!", $time, duration + DELAY, st2mm_data, expected_value);*/
-  end
+      $display("ERROR @%g(#%d): invalid output value (0x%0h/0x%0h)!", $time, duration + DELAY, st2mm_data, expected_value);
+  end*/
 
 endtask : verify_output
 
@@ -163,6 +182,7 @@ end
 initial
 begin
   #150 curr_lvl = LVL_RESET_VALUE;
+  curr_iter     = 0;
   st2mm_ready   = 'd1;
 
   /* Verify lvls generation */
@@ -182,14 +202,18 @@ begin
 
   /* Verify iterative processing */
   #  5 curr_lvl   = LVL_RESET_VALUE;
+  curr_iter       = 0;
+  total_duration  = 0;
   # 20 reset      = 'd1;
   #100 reset      = 'd0;
 
   sample = '{ 1'b1, 15'd400 };
   send_sample(sample);
+  verify_output(sample);
 
   sample = '{ 1'b1, 15'd40 };
   send_sample(sample);
+  verify_output(sample);
   mm2st_valid = 'd0;
 
   # 50 $stop;

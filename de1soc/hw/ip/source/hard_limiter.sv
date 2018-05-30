@@ -25,14 +25,19 @@ module hard_limiter
 
 typedef enum reg [1:0]
 {
-  INBOUND   = 2'd0,
-  BELOW_MIN = 2'd1,
-  ABOVE_MAX = 2'd2,
-  INVALID   = 2'd3
+  INBOUND   = 2'b00,
+  BELOW_MIN = 2'b01,
+  ABOVE_MAX = 2'b10,
+  INVALID   = 2'b11
 } SIGNAL_CASE_T;
 
-// wire [ 1:0] signal_case;
+// localparam INBOUND    = 2'b00;
+// localparam BELOW_MIN  = 2'b01;
+// localparam ABOVE_MAX  = 2'b10;
+// localparam INVALID    = 2'b11;
+
 SIGNAL_CASE_T signal_case;
+// wire [ 1:0] signal_case;
 wire        below_min;
 wire        above_max;
 

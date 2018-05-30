@@ -51,12 +51,16 @@ reg  [15:0] fir_driver_data_r;
 reg         fir_driver_valid_r;
 
 reg  [12:0] ram_signal_address_a_r;
+reg  [12:0] ram_signal_address_a_p1_r;
 reg         ram_signal_chipselect_a_r;
 reg         ram_signal_write_a_r;
+reg         ram_signal_write_a_p1_r;
 reg  [31:0] ram_signal_writedata_a_r;
+reg  [31:0] ram_signal_writedata_a_p1_r;
 reg  [ 3:0] ram_signal_byteenable_a_r;
 
 reg  [12:0] ram_signal_address_b_r;
+reg  [12:0] ram_signal_address_b_p1_r;
 reg         ram_signal_chipselect_b_r;
 reg         ram_signal_read_b_r;
 reg  [ 3:0] ram_signal_byteenable_b_r;
@@ -71,14 +75,14 @@ assign limiter_ready            = limiter_ready_r;
 assign fir_driver_data          = fir_driver_data_r;
 assign fir_driver_valid         = fir_driver_valid_r;
 
-assign ram_signal_address_a     = ram_signal_address_a_r;
+assign ram_signal_address_a     = ram_signal_waitrequest_a ? ram_signal_address_a_r : ram_signal_address_a_p1_r;
 assign ram_signal_chipselect_a  = ram_signal_chipselect_a_r;
 assign ram_signal_read_a        = '0;
-assign ram_signal_write_a       = ram_signal_write_a_r;
-assign ram_signal_writedata_a   = ram_signal_writedata_a_r;
+assign ram_signal_write_a       = ram_signal_waitrequest_a ? ram_signal_write_a_r : ram_signal_write_a_p1_r;
+assign ram_signal_writedata_a   = ram_signal_waitrequest_a ? ram_signal_writedata_a_r : ram_signal_writedata_a_p1_r;
 assign ram_signal_byteenable_a  = ram_signal_byteenable_a_r;
 
-assign ram_signal_address_b     = ram_signal_address_b_r;
+assign ram_signal_address_b     = ram_signal_waitrequest_b ? ram_signal_address_b_r : ram_signal_address_b_p1_r;
 assign ram_signal_chipselect_b  = ram_signal_chipselect_b_r;
 assign ram_signal_read_b        = ram_signal_read_b_r;
 assign ram_signal_write_b       = '0;
@@ -94,25 +98,31 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
-    ram_signal_address_a_r    <= '0;
-    ram_signal_chipselect_a_r <= '0;
-    ram_signal_write_a_r      <= '0;
-    ram_signal_writedata_a_r  <= '0;
-    ram_signal_byteenable_a_r <= '0;
+    ram_signal_address_a_r      <= '0;
+    ram_signal_address_a_p1_r   <= '0;
+    ram_signal_chipselect_a_r   <= '0;
+    ram_signal_write_a_r        <= '0;
+    ram_signal_write_a_p1_r     <= '0;
+    ram_signal_writedata_a_r    <= '0;
+    ram_signal_writedata_a_p1_r <= '0;
+    ram_signal_byteenable_a_r   <= '0;
 
-    symbol_cnt_a_r            <= '0;
+    symbol_cnt_a_r              <= '0;
   end
   else
   begin
     // TODO: especially input_mux
     // ram_signal_address_a_r    <= '{ iter_iter_num, symbol_cnt_a_r, 1'b0 }; // is address unit in bytes? 
-    ram_signal_address_a_r    <= { iter_iter_num[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words! 
-    ram_signal_chipselect_a_r <= 'd1;
-    ram_signal_write_a_r      <= iter_input_enable & lvl_gen_valid; // TODO
-    ram_signal_writedata_a_r  <= lvl_gen_data; // TODO
-    ram_signal_byteenable_a_r <= '1;
+    ram_signal_address_a_r      <= { iter_iter_num[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words! 
+    ram_signal_address_a_p1_r   <= ram_signal_address_a_r; // address unit is in words! 
+    ram_signal_chipselect_a_r   <= 'd1;
+    ram_signal_write_a_r        <= iter_input_enable & lvl_gen_valid; // TODO
+    ram_signal_write_a_p1_r     <= ram_signal_write_a_r;
+    ram_signal_writedata_a_r    <= lvl_gen_data; // TODO
+    ram_signal_writedata_a_p1_r <= ram_signal_writedata_a_r;
+    ram_signal_byteenable_a_r   <= '1;
 
-    symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid); // ? // TODO
+    symbol_cnt_a_r              <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_signal_waitrequest_a); // ? // TODO
   end
 end
 
