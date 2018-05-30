@@ -284,22 +284,6 @@
    type="SDC"
    library="rst_controller" />
  <file
-   path="simulation/submodules/soc_system_mm_interconnect_5.v"
-   type="VERILOG"
-   library="mm_interconnect_5" />
- <file
-   path="simulation/submodules/soc_system_mm_interconnect_4.v"
-   type="VERILOG"
-   library="mm_interconnect_4" />
- <file
-   path="simulation/submodules/soc_system_mm_interconnect_3.v"
-   type="VERILOG"
-   library="mm_interconnect_3" />
- <file
-   path="simulation/submodules/soc_system_mm_interconnect_2.v"
-   type="VERILOG"
-   library="mm_interconnect_2" />
- <file
    path="simulation/submodules/soc_system_mm_interconnect_1.v"
    type="VERILOG"
    library="mm_interconnect_1" />
@@ -322,9 +306,10 @@
    library="signal_buffer_ctrl"
    simulator="modelsim" />
  <file
-   path="simulation/submodules/soc_system_signal_buffer.v"
-   type="VERILOG"
-   library="signal_buffer" />
+   path="simulation/submodules/signal_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="signal_buffer"
+   simulator="modelsim" />
  <file
    path="simulation/submodules/soc_system_sgdma_st2mm.v"
    type="VERILOG"
@@ -336,17 +321,17 @@
  <file
    path="simulation/submodules/sample2lvl_converter.sv"
    type="SYSTEM_VERILOG"
-   library="sample2lvl_converter_0"
+   library="sample2lvl_converter"
    simulator="modelsim" />
  <file
    path="simulation/submodules/lvl_generator.sv"
    type="SYSTEM_VERILOG"
-   library="sample2lvl_converter_0"
+   library="sample2lvl_converter"
    simulator="modelsim" />
  <file
    path="simulation/submodules/sample_dispatcher.sv"
    type="SYSTEM_VERILOG"
-   library="sample2lvl_converter_0"
+   library="sample2lvl_converter"
    simulator="modelsim" />
  <file
    path="simulation/submodules/output_ctrl.sv"
@@ -372,9 +357,10 @@
    library="limits_buffer_ctrl"
    simulator="modelsim" />
  <file
-   path="simulation/submodules/soc_system_limits_buffer.v"
-   type="VERILOG"
-   library="limits_buffer" />
+   path="simulation/submodules/limits_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="limits_buffer"
+   simulator="modelsim" />
  <file
    path="simulation/submodules/soc_system_led_pio.v"
    type="VERILOG"
@@ -505,12 +491,6 @@
    controllerPath="soc_system.hps_0.hps_io"
    modelPath="soc_system.hps_0.hps_io" />
  <modelMap
-   controllerPath="soc_system.limits_buffer"
-   modelPath="soc_system.limits_buffer" />
- <modelMap
    controllerPath="soc_system.onchip_RAM"
    modelPath="soc_system.onchip_RAM" />
- <modelMap
-   controllerPath="soc_system.signal_buffer"
-   modelPath="soc_system.signal_buffer" />
 </simPackage>

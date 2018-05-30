@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 17.1 593 win32 2018.05.18.16:35:41
+# ACDS 17.1 593 win32 2018.05.30.10:57:17
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -106,12 +106,12 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 17.1 593 win32 2018.05.18.16:35:41
+# ACDS 17.1 593 win32 2018.05.30.10:57:17
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="soc_system"
 QSYS_SIMDIR="./../"
-QUARTUS_INSTALL_DIR="C:/intelfpga/17.1/quartus/"
+QUARTUS_INSTALL_DIR="D:/intelfpga_lite/17.1/quartus/"
 SKIP_FILE_COPY=0
 SKIP_DEV_COM=0
 SKIP_COM=0
@@ -170,18 +170,12 @@ mkdir -p ./libraries/sgdma_mm2st_descriptor_read_translator/
 mkdir -p ./libraries/hps_io/
 mkdir -p ./libraries/fpga_interfaces/
 mkdir -p ./libraries/rst_controller/
-mkdir -p ./libraries/mm_interconnect_5/
-mkdir -p ./libraries/mm_interconnect_4/
-mkdir -p ./libraries/mm_interconnect_3/
-mkdir -p ./libraries/mm_interconnect_2/
 mkdir -p ./libraries/mm_interconnect_1/
 mkdir -p ./libraries/mm_interconnect_0/
 mkdir -p ./libraries/sysid_qsys/
-mkdir -p ./libraries/signal_buffer/
 mkdir -p ./libraries/sgdma_st2mm/
 mkdir -p ./libraries/sgdma_mm2st/
 mkdir -p ./libraries/onchip_RAM/
-mkdir -p ./libraries/limits_buffer/
 mkdir -p ./libraries/led_pio/
 mkdir -p ./libraries/hps_0/
 mkdir -p ./libraries/hard_limiter_out_splitter/
@@ -313,18 +307,12 @@ if [ $SKIP_COM -eq 0 ]; then
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_hps_0_fpga_interfaces.sv"                               -work fpga_interfaces                                -cdslib ./cds_libs/fpga_interfaces.cds.lib                               
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                         -work rst_controller                                 -cdslib ./cds_libs/rst_controller.cds.lib                                
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                       -work rst_controller                                 -cdslib ./cds_libs/rst_controller.cds.lib                                
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_5.v"                                    -work mm_interconnect_5                              -cdslib ./cds_libs/mm_interconnect_5.cds.lib                             
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_4.v"                                    -work mm_interconnect_4                              -cdslib ./cds_libs/mm_interconnect_4.cds.lib                             
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_3.v"                                    -work mm_interconnect_3                              -cdslib ./cds_libs/mm_interconnect_3.cds.lib                             
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_2.v"                                    -work mm_interconnect_2                              -cdslib ./cds_libs/mm_interconnect_2.cds.lib                             
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_1.v"                                    -work mm_interconnect_1                              -cdslib ./cds_libs/mm_interconnect_1.cds.lib                             
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_0.v"                                    -work mm_interconnect_0                              -cdslib ./cds_libs/mm_interconnect_0.cds.lib                             
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_sysid_qsys.v"                                           -work sysid_qsys                                     -cdslib ./cds_libs/sysid_qsys.cds.lib                                    
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_signal_buffer.v"                                        -work signal_buffer                                  -cdslib ./cds_libs/signal_buffer.cds.lib                                 
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_sgdma_st2mm.v"                                          -work sgdma_st2mm                                    -cdslib ./cds_libs/sgdma_st2mm.cds.lib                                   
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_sgdma_mm2st.v"                                          -work sgdma_mm2st                                    -cdslib ./cds_libs/sgdma_mm2st.cds.lib                                   
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_onchip_RAM.v"                                           -work onchip_RAM                                     -cdslib ./cds_libs/onchip_RAM.cds.lib                                    
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_limits_buffer.v"                                        -work limits_buffer                                  -cdslib ./cds_libs/limits_buffer.cds.lib                                 
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_led_pio.v"                                              -work led_pio                                        -cdslib ./cds_libs/led_pio.cds.lib                                       
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/soc_system_hps_0.v"                                                -work hps_0                                          -cdslib ./cds_libs/hps_0.cds.lib                                         
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_splitter.sv"                                      -work hard_limiter_out_splitter                      -cdslib ./cds_libs/hard_limiter_out_splitter.cds.lib                     

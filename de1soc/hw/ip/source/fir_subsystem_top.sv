@@ -21,6 +21,38 @@ module fir_subsystem_top
   input  wire        st2mm_ready
 );
 
+wire         limits_buffer_ctrl_port_a_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_a -> limits_buffer:port_a_chipselect
+wire  [31:0] limits_buffer_ctrl_port_a_readdata;                  // limits_buffer:port_a_readdata -> limits_buffer_ctrl:ram_limits_readdata_a
+wire         limits_buffer_ctrl_port_a_waitrequest;               // limits_buffer:port_a_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_a
+wire   [7:0] limits_buffer_ctrl_port_a_address;                   // limits_buffer_ctrl:ram_limits_address_a -> limits_buffer:port_a_address
+wire   [3:0] limits_buffer_ctrl_port_a_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_a -> limits_buffer:port_a_byteenable
+wire         limits_buffer_ctrl_port_a_read;                      // limits_buffer_ctrl:ram_limits_read_a -> limits_buffer:port_a_read
+wire         limits_buffer_ctrl_port_a_write;                     // limits_buffer_ctrl:ram_limits_write_a -> limits_buffer:port_a_write
+wire  [31:0] limits_buffer_ctrl_port_a_writedata;                 // limits_buffer_ctrl:ram_limits_writedata_a -> limits_buffer:port_a_writedata
+wire         signal_buffer_ctrl_port_a_chipselect;                // signal_buffer_ctrl:ram_signal_chipselect_a -> signal_buffer:port_a_chipselect
+wire  [15:0] signal_buffer_ctrl_port_a_readdata;                  // signal_buffer:port_a_readdata -> signal_buffer_ctrl:ram_signal_readdata_a
+wire         signal_buffer_ctrl_port_a_waitrequest;               // signal_buffer:port_a_waitrequest -> signal_buffer_ctrl:ram_signal_waitrequest_a
+wire  [12:0] signal_buffer_ctrl_port_a_address;                   // signal_buffer_ctrl:ram_signal_address_a -> signal_buffer:port_a_address
+wire   [1:0] signal_buffer_ctrl_port_a_byteenable;                // signal_buffer_ctrl:ram_signal_byteenable_a -> signal_buffer:port_a_byteenable
+wire         signal_buffer_ctrl_port_a_read;                      // signal_buffer_ctrl:ram_signal_read_a -> signal_buffer:port_a_read
+wire         signal_buffer_ctrl_port_a_write;                     // signal_buffer_ctrl:ram_signal_write_a -> signal_buffer:port_a_write
+wire  [15:0] signal_buffer_ctrl_port_a_writedata;                 // signal_buffer_ctrl:ram_signal_writedata_a -> signal_buffer:port_a_writedata
+wire         limits_buffer_ctrl_port_b_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_b -> limits_buffer:port_b_chipselect
+wire  [31:0] limits_buffer_ctrl_port_b_readdata;                  // limits_buffer:port_b_readdata -> limits_buffer_ctrl:ram_limits_readdata_b
+wire         limits_buffer_ctrl_port_b_waitrequest;               // limits_buffer:port_b_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_b
+wire   [7:0] limits_buffer_ctrl_port_b_address;                   // limits_buffer_ctrl:ram_limits_address_b -> limits_buffer:port_b_address
+wire   [3:0] limits_buffer_ctrl_port_b_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_b -> limits_buffer:port_b_byteenable
+wire         limits_buffer_ctrl_port_b_read;                      // limits_buffer_ctrl:ram_limits_read_b -> limits_buffer:port_b_read
+wire         limits_buffer_ctrl_port_b_write;                     // limits_buffer_ctrl:ram_limits_write_b -> limits_buffer:port_b_write
+wire  [31:0] limits_buffer_ctrl_port_b_writedata;                 // limits_buffer_ctrl:ram_limits_writedata_b -> limits_buffer:port_b_writedata
+wire         signal_buffer_ctrl_port_b_chipselect;                // signal_buffer_ctrl:ram_signal_chipselect_b -> signal_buffer:port_b_chipselect
+wire  [15:0] signal_buffer_ctrl_port_b_readdata;                  // signal_buffer:port_b_readdata -> signal_buffer_ctrl:ram_signal_readdata_b
+wire         signal_buffer_ctrl_port_b_waitrequest;               // signal_buffer:port_b_waitrequest -> signal_buffer_ctrl:ram_signal_waitrequest_b
+wire  [12:0] signal_buffer_ctrl_port_b_address;                   // signal_buffer_ctrl:ram_signal_address_b -> signal_buffer:port_b_address
+wire   [1:0] signal_buffer_ctrl_port_b_byteenable;                // signal_buffer_ctrl:ram_signal_byteenable_b -> signal_buffer:port_b_byteenable
+wire         signal_buffer_ctrl_port_b_read;                      // signal_buffer_ctrl:ram_signal_read_b -> signal_buffer:port_b_read
+wire         signal_buffer_ctrl_port_b_write;                     // signal_buffer_ctrl:ram_signal_write_b -> signal_buffer:port_b_write
+wire  [15:0] signal_buffer_ctrl_port_b_writedata;                 // signal_buffer_ctrl:ram_signal_writedata_b -> signal_buffer:port_b_writedata
 wire         fir_filter_avalon_streaming_source_valid;            // fir_filter:ast_source_valid -> hard_limiter:fir_valid
 wire  [15:0] fir_filter_avalon_streaming_source_data;             // fir_filter:ast_source_data -> hard_limiter:fir_data
 wire         fir_filter_avalon_streaming_source_ready;            // hard_limiter:fir_ready -> fir_filter:ast_source_ready
@@ -33,12 +65,15 @@ wire         signal_buffer_ctrl_fir_driver_valid;                 // signal_buff
 wire  [15:0] signal_buffer_ctrl_fir_driver_data;                  // signal_buffer_ctrl:fir_driver_data -> fir_driver:sigbuff_data
 wire         limits_buffer_ctrl_limiter_valid;                    // limits_buffer_ctrl:limiter_valid -> hard_limiter:limbuff_valid
 wire  [31:0] limits_buffer_ctrl_limiter_data;                     // limits_buffer_ctrl:limiter_data -> hard_limiter:limbuff_data
+wire         fir_fifo_out_out_valid;                              // fir_fifo_out:out_valid -> st2mm_data_adapter_0:avalon_st_sink_valid
+wire  [15:0] fir_fifo_out_out_data;                               // fir_fifo_out:out_data -> st2mm_data_adapter_0:avalon_st_sink_data
+wire         fir_fifo_out_out_ready;                              // st2mm_data_adapter_0:avalon_st_sink_ready -> fir_fifo_out:out_ready
+wire         fir_fifo_in_out_valid;                               // fir_fifo_in:out_valid -> sample2lvl_converter_0:in_valid
+wire  [15:0] fir_fifo_in_out_data;                                // fir_fifo_in:out_data -> sample2lvl_converter_0:in_data
+wire         fir_fifo_in_out_ready;                               // sample2lvl_converter_0:in_ready -> fir_fifo_in:out_ready
 wire         hard_limiter_out_valid;                              // hard_limiter:out_valid -> hard_limiter_out_splitter:in0_valid
 wire  [15:0] hard_limiter_out_data;                               // hard_limiter:out_data -> hard_limiter_out_splitter:in0_data
 wire         hard_limiter_out_ready;                              // hard_limiter_out_splitter:in0_ready -> hard_limiter:out_ready
-wire         output_ctrl_out_valid;                               // output_ctrl:out_valid -> fir_fifo_out:in_valid
-wire  [15:0] output_ctrl_out_data;                                // output_ctrl:out_data -> fir_fifo_out:in_data
-wire         output_ctrl_out_ready;                               // fir_fifo_out:in_ready -> output_ctrl:out_ready
 wire         hard_limiter_out_splitter_out0_valid;                // hard_limiter_out_splitter:out0_valid -> signal_buffer_ctrl:limiter_valid
 wire  [15:0] hard_limiter_out_splitter_out0_data;                 // hard_limiter_out_splitter:out0_data -> signal_buffer_ctrl:limiter_data
 wire         hard_limiter_out_splitter_out0_ready;                // signal_buffer_ctrl:limiter_ready -> hard_limiter_out_splitter:out0_ready
@@ -49,90 +84,29 @@ wire  [15:0] hard_limiter_out_splitter_out1_data;                 // hard_limite
 wire         hard_limiter_out_splitter_out1_ready;                // output_ctrl:limiter_ready -> hard_limiter_out_splitter:out1_ready
 wire         lvl_generator_out_splitter_out1_valid;               // lvl_generator_out_splitter:out1_valid -> fir_driver:lvl_gen_valid
 wire  [15:0] lvl_generator_out_splitter_out1_data;                // lvl_generator_out_splitter:out1_data -> fir_driver:lvl_gen_data
-wire         sample2lvl_converter_out_limits_valid;               // sample2lvl_converter:out_limits_valid -> limits_buffer_ctrl:lvl_gen_valid
-wire  [31:0] sample2lvl_converter_out_limits_data;                // sample2lvl_converter:out_limits_data -> limits_buffer_ctrl:lvl_gen_data
-wire         sample2lvl_converter_out_lvl_valid;                  // sample2lvl_converter:out_lvl_valid -> lvl_generator_out_splitter:in0_valid
-wire  [15:0] sample2lvl_converter_out_lvl_data;                   // sample2lvl_converter:out_lvl_data -> lvl_generator_out_splitter:in0_data
+wire         sample2lvl_converter_0_out_limits_valid;             // sample2lvl_converter_0:out_limits_valid -> limits_buffer_ctrl:lvl_gen_valid
+wire  [31:0] sample2lvl_converter_0_out_limits_data;              // sample2lvl_converter_0:out_limits_data -> limits_buffer_ctrl:lvl_gen_data
+wire         sample2lvl_converter_0_out_lvl_valid;                // sample2lvl_converter_0:out_lvl_valid -> lvl_generator_out_splitter:in0_valid
+wire  [15:0] sample2lvl_converter_0_out_lvl_data;                 // sample2lvl_converter_0:out_lvl_data -> lvl_generator_out_splitter:in0_data
 wire         iteration_ctrl_fir_driver_new_signal_1;              // iteration_ctrl:fir_input_enable -> fir_driver:iter_input_enable
 wire         iteration_ctrl_fir_driver_new_signal;                // iteration_ctrl:fir_input_mux -> fir_driver:iter_input_mux
 wire         iteration_ctrl_limbuff_new_signal_1;                 // iteration_ctrl:limbuff_output_enable -> limits_buffer_ctrl:iter_output_enable
 wire         iteration_ctrl_limbuff_new_signal;                   // iteration_ctrl:limbuff_input_enable -> limits_buffer_ctrl:iter_input_enable
-wire         iteration_ctrl_lvl_gen_new_signal_1;                 // iteration_ctrl:lvl_gen_ready -> sample2lvl_converter:iter_ready
-wire         sample2lvl_converter_iter_new_signal;                // sample2lvl_converter:iter_valid -> iteration_ctrl:lvl_gen_valid
+wire         iteration_ctrl_lvl_gen_new_signal_1;                 // iteration_ctrl:lvl_gen_ready -> sample2lvl_converter_0:iter_ready
+wire         sample2lvl_converter_0_iter_new_signal;              // sample2lvl_converter_0:iter_valid -> iteration_ctrl:lvl_gen_valid
 wire         iteration_ctrl_sigbuff_new_signal_1;                 // iteration_ctrl:sigbuff_input_mux -> signal_buffer_ctrl:iter_input_mux
 wire         iteration_ctrl_sigbuff_new_signal_2;                 // iteration_ctrl:sigbuff_input_enable -> signal_buffer_ctrl:iter_input_enable
 wire         iteration_ctrl_sigbuff_new_signal_3;                 // iteration_ctrl:sigbuff_output_enable -> signal_buffer_ctrl:iter_output_enable
 wire   [4:0] iteration_ctrl_sigbuff_new_signal;                   // iteration_ctrl:sigbuff_iter_num -> signal_buffer_ctrl:iter_iter_num
 wire         iteration_ctrl_limiter_new_signal;                   // iteration_ctrl:limiter_input_enable -> hard_limiter:iter_input_enable
 wire         iteration_ctrl_out_ctrl_new_signal;                  // iteration_ctrl:out_ctrl_output_enable -> output_ctrl:iter_output_enable
-wire         limits_buffer_ctrl_port_a_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_chipselect
-wire  [31:0] limits_buffer_ctrl_port_a_readdata;                  // mm_interconnect_2:limits_buffer_ctrl_port_a_readdata -> limits_buffer_ctrl:ram_limits_readdata_a
-wire         limits_buffer_ctrl_port_a_waitrequest;               // mm_interconnect_2:limits_buffer_ctrl_port_a_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_a
-wire   [7:0] limits_buffer_ctrl_port_a_address;                   // limits_buffer_ctrl:ram_limits_address_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_address
-wire   [3:0] limits_buffer_ctrl_port_a_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_byteenable
-wire         limits_buffer_ctrl_port_a_read;                      // limits_buffer_ctrl:ram_limits_read_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_read
-wire         limits_buffer_ctrl_port_a_write;                     // limits_buffer_ctrl:ram_limits_write_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_write
-wire  [31:0] limits_buffer_ctrl_port_a_writedata;                 // limits_buffer_ctrl:ram_limits_writedata_a -> mm_interconnect_2:limits_buffer_ctrl_port_a_writedata
-wire         mm_interconnect_2_limits_buffer_s1_chipselect;       // mm_interconnect_2:limits_buffer_s1_chipselect -> limits_buffer:chipselect
-wire  [31:0] mm_interconnect_2_limits_buffer_s1_readdata;         // limits_buffer:readdata -> mm_interconnect_2:limits_buffer_s1_readdata
-wire   [7:0] mm_interconnect_2_limits_buffer_s1_address;          // mm_interconnect_2:limits_buffer_s1_address -> limits_buffer:address
-wire   [3:0] mm_interconnect_2_limits_buffer_s1_byteenable;       // mm_interconnect_2:limits_buffer_s1_byteenable -> limits_buffer:byteenable
-wire         mm_interconnect_2_limits_buffer_s1_write;            // mm_interconnect_2:limits_buffer_s1_write -> limits_buffer:write
-wire  [31:0] mm_interconnect_2_limits_buffer_s1_writedata;        // mm_interconnect_2:limits_buffer_s1_writedata -> limits_buffer:writedata
-wire         mm_interconnect_2_limits_buffer_s1_clken;            // mm_interconnect_2:limits_buffer_s1_clken -> limits_buffer:clken
-wire         signal_buffer_ctrl_port_a_chipselect;                // signal_buffer_ctrl:ram_signal_chipselect_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_chipselect
-wire  [15:0] signal_buffer_ctrl_port_a_readdata;                  // mm_interconnect_3:signal_buffer_ctrl_port_a_readdata -> signal_buffer_ctrl:ram_signal_readdata_a
-wire         signal_buffer_ctrl_port_a_waitrequest;               // mm_interconnect_3:signal_buffer_ctrl_port_a_waitrequest -> signal_buffer_ctrl:ram_signal_waitrequest_a
-wire  [12:0] signal_buffer_ctrl_port_a_address;                   // signal_buffer_ctrl:ram_signal_address_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_address
-wire   [1:0] signal_buffer_ctrl_port_a_byteenable;                // signal_buffer_ctrl:ram_signal_byteenable_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_byteenable
-wire         signal_buffer_ctrl_port_a_read;                      // signal_buffer_ctrl:ram_signal_read_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_read
-wire         signal_buffer_ctrl_port_a_write;                     // signal_buffer_ctrl:ram_signal_write_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_write
-wire  [15:0] signal_buffer_ctrl_port_a_writedata;                 // signal_buffer_ctrl:ram_signal_writedata_a -> mm_interconnect_3:signal_buffer_ctrl_port_a_writedata
-wire         mm_interconnect_3_signal_buffer_s1_chipselect;       // mm_interconnect_3:signal_buffer_s1_chipselect -> signal_buffer:chipselect
-wire  [15:0] mm_interconnect_3_signal_buffer_s1_readdata;         // signal_buffer:readdata -> mm_interconnect_3:signal_buffer_s1_readdata
-wire  [12:0] mm_interconnect_3_signal_buffer_s1_address;          // mm_interconnect_3:signal_buffer_s1_address -> signal_buffer:address
-wire   [1:0] mm_interconnect_3_signal_buffer_s1_byteenable;       // mm_interconnect_3:signal_buffer_s1_byteenable -> signal_buffer:byteenable
-wire         mm_interconnect_3_signal_buffer_s1_write;            // mm_interconnect_3:signal_buffer_s1_write -> signal_buffer:write
-wire  [15:0] mm_interconnect_3_signal_buffer_s1_writedata;        // mm_interconnect_3:signal_buffer_s1_writedata -> signal_buffer:writedata
-wire         mm_interconnect_3_signal_buffer_s1_clken;            // mm_interconnect_3:signal_buffer_s1_clken -> signal_buffer:clken
-wire         limits_buffer_ctrl_port_b_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_chipselect
-wire  [31:0] limits_buffer_ctrl_port_b_readdata;                  // mm_interconnect_4:limits_buffer_ctrl_port_b_readdata -> limits_buffer_ctrl:ram_limits_readdata_b
-wire         limits_buffer_ctrl_port_b_waitrequest;               // mm_interconnect_4:limits_buffer_ctrl_port_b_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_b
-wire   [7:0] limits_buffer_ctrl_port_b_address;                   // limits_buffer_ctrl:ram_limits_address_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_address
-wire   [3:0] limits_buffer_ctrl_port_b_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_byteenable
-wire         limits_buffer_ctrl_port_b_read;                      // limits_buffer_ctrl:ram_limits_read_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_read
-wire         limits_buffer_ctrl_port_b_write;                     // limits_buffer_ctrl:ram_limits_write_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_write
-wire  [31:0] limits_buffer_ctrl_port_b_writedata;                 // limits_buffer_ctrl:ram_limits_writedata_b -> mm_interconnect_4:limits_buffer_ctrl_port_b_writedata
-wire         mm_interconnect_4_limits_buffer_s2_chipselect;       // mm_interconnect_4:limits_buffer_s2_chipselect -> limits_buffer:chipselect2
-wire  [31:0] mm_interconnect_4_limits_buffer_s2_readdata;         // limits_buffer:readdata2 -> mm_interconnect_4:limits_buffer_s2_readdata
-wire   [7:0] mm_interconnect_4_limits_buffer_s2_address;          // mm_interconnect_4:limits_buffer_s2_address -> limits_buffer:address2
-wire   [3:0] mm_interconnect_4_limits_buffer_s2_byteenable;       // mm_interconnect_4:limits_buffer_s2_byteenable -> limits_buffer:byteenable2
-wire         mm_interconnect_4_limits_buffer_s2_write;            // mm_interconnect_4:limits_buffer_s2_write -> limits_buffer:write2
-wire  [31:0] mm_interconnect_4_limits_buffer_s2_writedata;        // mm_interconnect_4:limits_buffer_s2_writedata -> limits_buffer:writedata2
-wire         mm_interconnect_4_limits_buffer_s2_clken;            // mm_interconnect_4:limits_buffer_s2_clken -> limits_buffer:clken2
-wire         signal_buffer_ctrl_port_b_chipselect;                // signal_buffer_ctrl:ram_signal_chipselect_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_chipselect
-wire  [15:0] signal_buffer_ctrl_port_b_readdata;                  // mm_interconnect_5:signal_buffer_ctrl_port_b_readdata -> signal_buffer_ctrl:ram_signal_readdata_b
-wire         signal_buffer_ctrl_port_b_waitrequest;               // mm_interconnect_5:signal_buffer_ctrl_port_b_waitrequest -> signal_buffer_ctrl:ram_signal_waitrequest_b
-wire  [12:0] signal_buffer_ctrl_port_b_address;                   // signal_buffer_ctrl:ram_signal_address_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_address
-wire   [1:0] signal_buffer_ctrl_port_b_byteenable;                // signal_buffer_ctrl:ram_signal_byteenable_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_byteenable
-wire         signal_buffer_ctrl_port_b_read;                      // signal_buffer_ctrl:ram_signal_read_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_read
-wire         signal_buffer_ctrl_port_b_write;                     // signal_buffer_ctrl:ram_signal_write_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_write
-wire  [15:0] signal_buffer_ctrl_port_b_writedata;                 // signal_buffer_ctrl:ram_signal_writedata_b -> mm_interconnect_5:signal_buffer_ctrl_port_b_writedata
-wire         mm_interconnect_5_signal_buffer_s2_chipselect;       // mm_interconnect_5:signal_buffer_s2_chipselect -> signal_buffer:chipselect2
-wire  [15:0] mm_interconnect_5_signal_buffer_s2_readdata;         // signal_buffer:readdata2 -> mm_interconnect_5:signal_buffer_s2_readdata
-wire  [12:0] mm_interconnect_5_signal_buffer_s2_address;          // mm_interconnect_5:signal_buffer_s2_address -> signal_buffer:address2
-wire   [1:0] mm_interconnect_5_signal_buffer_s2_byteenable;       // mm_interconnect_5:signal_buffer_s2_byteenable -> signal_buffer:byteenable2
-wire         mm_interconnect_5_signal_buffer_s2_write;            // mm_interconnect_5:signal_buffer_s2_write -> signal_buffer:write2
-wire  [15:0] mm_interconnect_5_signal_buffer_s2_writedata;        // mm_interconnect_5:signal_buffer_s2_writedata -> signal_buffer:writedata2
-wire         mm_interconnect_5_signal_buffer_s2_clken;            // mm_interconnect_5:signal_buffer_s2_clken -> signal_buffer:clken2
-wire         rst_controller_reset_out_reset;                      // rst_controller:reset_out -> [button_pio:reset_n, dipsw_pio:reset_n, fir_driver:reset, fir_fifo_in:reset, fir_fifo_out:reset, fir_filter:reset_n, hard_limiter:reset, hard_limiter_out_splitter:reset, iteration_ctrl:reset, led_pio:reset_n, limits_buffer:reset, limits_buffer:reset2, limits_buffer_ctrl:reset, lvl_generator_out_splitter:reset, mm2st_data_adapter_0:avalon_st_reset, mm_interconnect_0:sgdma_mm2st_reset_reset_bridge_in_reset_reset, mm_interconnect_1:sysid_qsys_reset_reset_bridge_in_reset_reset, mm_interconnect_2:limits_buffer_ctrl_reset_reset_bridge_in_reset_reset, mm_interconnect_3:signal_buffer_ctrl_reset_reset_bridge_in_reset_reset, mm_interconnect_4:limits_buffer_ctrl_reset_reset_bridge_in_reset_reset, mm_interconnect_5:signal_buffer_ctrl_reset_reset_bridge_in_reset_reset, onchip_RAM:reset, output_ctrl:reset, rst_translator:in_reset, sample2lvl_converter:reset,   sgdma_mm2st:system_reset_n, sgdma_st2mm:system_reset_n, signal_buffer:reset, signal_buffer:reset2, signal_buffer_ctrl:reset, st2mm_data_adapter_0:avalon_st_reset, sysid_qsys:reset_n]
+wire         rst_controller_reset_out_reset;                      // rst_controller:reset_out -> [button_pio:reset_n, dipsw_pio:reset_n, fir_driver:reset, fir_fifo_in:reset, fir_fifo_out:reset, fir_filter:reset_n, hard_limiter:reset, hard_limiter_out_splitter:reset, iteration_ctrl:reset, led_pio:reset_n, limits_buffer:reset, limits_buffer_ctrl:reset, lvl_generator_out_splitter:reset, mm2st_data_adapter_0:avalon_st_reset, mm_interconnect_0:sgdma_mm2st_reset_reset_bridge_in_reset_reset, mm_interconnect_1:sysid_qsys_reset_reset_bridge_in_reset_reset, onchip_RAM:reset, output_ctrl:reset, rst_translator:in_reset, sample2lvl_converter_0:reset, sgdma_mm2st:system_reset_n, sgdma_st2mm:system_reset_n, signal_buffer:reset, signal_buffer_ctrl:reset, st2mm_data_adapter_0:avalon_st_reset, sysid_qsys:reset_n]
 wire         rst_controller_reset_out_reset_req;                  // rst_controller:reset_req -> [onchip_RAM:reset_req, rst_translator:reset_req_in]
-wire         rst_controller_001_reset_out_reset;                  // rst_controller_001:reset_out -> [mm_interconnect_0:hps_0_f2h_axi_slave_agent_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset]
 
 fir_driver #(
   .USE_COMB_LOGIC (USE_COMB_LOGIC)
 ) fir_driver (
-  .clock             (clock),                                //   clock.clk
+  .clock             (clock),                                  //   clock.clk
   .reset             (rst_controller_reset_out_reset),         //   reset.reset
   .lvl_gen_data      (lvl_generator_out_splitter_out1_data),   // lvl_gen.data
   .lvl_gen_valid     (lvl_generator_out_splitter_out1_valid),  //        .valid
@@ -147,7 +121,7 @@ fir_driver #(
 );
 
 soc_system_fir_filter fir_filter (
-  .clk              (clock),                                  //                     clk.clk
+  .clk              (clock),                                    //                     clk.clk
   .reset_n          (~rst_controller_reset_out_reset),          //                     rst.reset_n
   .ast_sink_data    (fir_driver_fir_data),                      //   avalon_streaming_sink.data
   .ast_sink_valid   (fir_driver_fir_valid),                     //                        .valid
@@ -162,7 +136,7 @@ soc_system_fir_filter fir_filter (
 hard_limiter #(
   .USE_COMB_LOGIC (USE_COMB_LOGIC)
 ) hard_limiter (
-  .clock             (clock),                                  //   clock.clk
+  .clock             (clock),                                    //   clock.clk
   .reset             (rst_controller_reset_out_reset),           //   reset.reset
   .limbuff_data      (limits_buffer_ctrl_limiter_data),          // limbuff.data
   .limbuff_valid     (limits_buffer_ctrl_limiter_valid),         //        .valid
@@ -186,7 +160,7 @@ altera_avalon_st_splitter #(
   .BITS_PER_SYMBOL   (16),
   .EMPTY_WIDTH       (1)
 ) hard_limiter_out_splitter (
-  .clk                 (clock),                              //   clk.clk
+  .clk                 (clock),                                //   clk.clk
   .reset               (rst_controller_reset_out_reset),       // reset.reset
   .in0_ready           (hard_limiter_out_ready),               //    in.ready
   .in0_valid           (hard_limiter_out_valid),               //      .valid
@@ -330,7 +304,7 @@ iteration_ctrl #(
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .ITER_NUM           (ITER_NUM)
 ) iteration_ctrl (
-  .clock                  (clock),                                //      clock.clk
+  .clock                  (clock),                                  //      clock.clk
   .reset                  (rst_controller_reset_out_reset),         //      reset.reset
   .sigbuff_iter_num       (iteration_ctrl_sigbuff_new_signal),      //    sigbuff.new_signal
   .sigbuff_input_mux      (iteration_ctrl_sigbuff_new_signal_1),    //           .new_signal_1
@@ -338,7 +312,7 @@ iteration_ctrl #(
   .sigbuff_output_enable  (iteration_ctrl_sigbuff_new_signal_3),    //           .new_signal_3
   .limbuff_input_enable   (iteration_ctrl_limbuff_new_signal),      //    limbuff.new_signal
   .limbuff_output_enable  (iteration_ctrl_limbuff_new_signal_1),    //           .new_signal_1
-  .lvl_gen_valid          (sample2lvl_converter_iter_new_signal),   //    lvl_gen.new_signal
+  .lvl_gen_valid          (sample2lvl_converter_0_iter_new_signal), //    lvl_gen.new_signal
   .lvl_gen_ready          (iteration_ctrl_lvl_gen_new_signal_1),    //           .new_signal_1
   .fir_input_mux          (iteration_ctrl_fir_driver_new_signal),   // fir_driver.new_signal
   .fir_input_enable       (iteration_ctrl_fir_driver_new_signal_1), //           .new_signal_1
@@ -346,37 +320,34 @@ iteration_ctrl #(
   .out_ctrl_output_enable (iteration_ctrl_out_ctrl_new_signal)      //   out_ctrl.new_signal
 );
 
-soc_system_limits_buffer limits_buffer (
-  .clk         (clock),                                       //   clk1.clk
-  .address     (mm_interconnect_2_limits_buffer_s1_address),    //     s1.address
-  .clken       (mm_interconnect_2_limits_buffer_s1_clken),      //       .clken
-  .chipselect  (mm_interconnect_2_limits_buffer_s1_chipselect), //       .chipselect
-  .write       (mm_interconnect_2_limits_buffer_s1_write),      //       .write
-  .readdata    (mm_interconnect_2_limits_buffer_s1_readdata),   //       .readdata
-  .writedata   (mm_interconnect_2_limits_buffer_s1_writedata),  //       .writedata
-  .byteenable  (mm_interconnect_2_limits_buffer_s1_byteenable), //       .byteenable
-  .reset       (rst_controller_reset_out_reset),                // reset1.reset
-  .address2    (mm_interconnect_4_limits_buffer_s2_address),    //     s2.address
-  .chipselect2 (mm_interconnect_4_limits_buffer_s2_chipselect), //       .chipselect
-  .clken2      (mm_interconnect_4_limits_buffer_s2_clken),      //       .clken
-  .write2      (mm_interconnect_4_limits_buffer_s2_write),      //       .write
-  .readdata2   (mm_interconnect_4_limits_buffer_s2_readdata),   //       .readdata
-  .writedata2  (mm_interconnect_4_limits_buffer_s2_writedata),  //       .writedata
-  .byteenable2 (mm_interconnect_4_limits_buffer_s2_byteenable), //       .byteenable
-  .clk2        (clock),                                       //   clk2.clk
-  .reset2      (rst_controller_reset_out_reset),                // reset2.reset
-  .reset_req   (1'b0),                                          // (terminated)
-  .freeze      (1'b0),                                          // (terminated)
-  .reset_req2  (1'b0)                                           // (terminated)
+limits_buffer limits_buffer (
+  .clock              (clock),                                 //  clock.clk
+  .reset              (rst_controller_reset_out_reset),        //  reset.reset
+  .port_a_address     (limits_buffer_ctrl_port_a_address),     // port_a.address
+  .port_a_chipselect  (limits_buffer_ctrl_port_a_chipselect),  //       .chipselect
+  .port_a_read        (limits_buffer_ctrl_port_a_read),        //       .read
+  .port_a_readdata    (limits_buffer_ctrl_port_a_readdata),    //       .readdata
+  .port_a_write       (limits_buffer_ctrl_port_a_write),       //       .write
+  .port_a_writedata   (limits_buffer_ctrl_port_a_writedata),   //       .writedata
+  .port_a_byteenable  (limits_buffer_ctrl_port_a_byteenable),  //       .byteenable
+  .port_a_waitrequest (limits_buffer_ctrl_port_a_waitrequest), //       .waitrequest
+  .port_b_address     (limits_buffer_ctrl_port_b_address),     // port_b.address
+  .port_b_chipselect  (limits_buffer_ctrl_port_b_chipselect),  //       .chipselect
+  .port_b_read        (limits_buffer_ctrl_port_b_read),        //       .read
+  .port_b_readdata    (limits_buffer_ctrl_port_b_readdata),    //       .readdata
+  .port_b_write       (limits_buffer_ctrl_port_b_write),       //       .write
+  .port_b_writedata   (limits_buffer_ctrl_port_b_writedata),   //       .writedata
+  .port_b_byteenable  (limits_buffer_ctrl_port_b_byteenable),  //       .byteenable
+  .port_b_waitrequest (limits_buffer_ctrl_port_b_waitrequest)  //       .waitrequest
 );
 
 limits_buffer_ctrl #(
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM)
 ) limits_buffer_ctrl (
-  .clock                    (clock),                                 //   clock.clk
+  .clock                    (clock),                                   //   clock.clk
   .reset                    (rst_controller_reset_out_reset),          //   reset.reset
-  .lvl_gen_valid            (sample2lvl_converter_out_limits_valid),   // lvl_gen.valid
-  .lvl_gen_data             (sample2lvl_converter_out_limits_data),    //        .data
+  .lvl_gen_valid            (sample2lvl_converter_0_out_limits_valid), // lvl_gen.valid
+  .lvl_gen_data             (sample2lvl_converter_0_out_limits_data),  //        .data
   .iter_input_enable        (iteration_ctrl_limbuff_new_signal),       //    iter.new_signal
   .iter_output_enable       (iteration_ctrl_limbuff_new_signal_1),     //        .new_signal_1
   .limiter_data             (limits_buffer_ctrl_limiter_data),         // limiter.data
@@ -409,10 +380,10 @@ altera_avalon_st_splitter #(
   .BITS_PER_SYMBOL   (16),
   .EMPTY_WIDTH       (1)
 ) lvl_generator_out_splitter (
-  .clk                 (clock),                               //   clk.clk
+  .clk                 (clock),                                 //   clk.clk
   .reset               (rst_controller_reset_out_reset),        // reset.reset
-  .in0_valid           (sample2lvl_converter_out_lvl_valid),    //    in.valid
-  .in0_data            (sample2lvl_converter_out_lvl_data),     //      .data
+  .in0_valid           (sample2lvl_converter_0_out_lvl_valid),  //    in.valid
+  .in0_data            (sample2lvl_converter_0_out_lvl_data),   //      .data
   .out0_valid          (lvl_generator_out_splitter_out0_valid), //  out0.valid
   .out0_data           (lvl_generator_out_splitter_out0_data),  //      .data
   .out1_valid          (lvl_generator_out_splitter_out1_valid), //  out1.valid
@@ -567,48 +538,45 @@ sample2lvl_converter #(
   .LVLS_NUM        (LVLS_NUM),
   .LVL_RESET_VALUE (LVL_RESET_VALUE)
 ) sample2lvl_converter (
-  .in_data          (mm2st_data),                             //         in.data
-  .in_valid         (mm2st_valid),                            //           .valid
-  .in_ready         (mm2st_ready),                            //           .ready
-  .clock            (clock),                                  //      clock.clk
+  .in_data          (mm2st_data),                              //         in.data
+  .in_valid         (mm2st_valid),                             //           .valid
+  .in_ready         (mm2st_ready),                             //           .ready
+  .clock            (clock),                                   //      clock.clk
   .reset            (rst_controller_reset_out_reset),          //      reset.reset
-  .out_lvl_data     (sample2lvl_converter_out_lvl_data),       //    out_lvl.data
-  .out_lvl_valid    (sample2lvl_converter_out_lvl_valid),      //           .valid
-  .out_limits_data  (sample2lvl_converter_out_limits_data),    // out_limits.data
-  .out_limits_valid (sample2lvl_converter_out_limits_valid),   //           .valid
-  .iter_valid       (sample2lvl_converter_iter_new_signal),    //       iter.new_signal
+  .out_lvl_data     (sample2lvl_converter_0_out_lvl_data),     //    out_lvl.data
+  .out_lvl_valid    (sample2lvl_converter_0_out_lvl_valid),    //           .valid
+  .out_limits_data  (sample2lvl_converter_0_out_limits_data),  // out_limits.data
+  .out_limits_valid (sample2lvl_converter_0_out_limits_valid), //           .valid
+  .iter_valid       (sample2lvl_converter_0_iter_new_signal),  //       iter.new_signal
   .iter_ready       (iteration_ctrl_lvl_gen_new_signal_1)      //           .new_signal_1
 );
 
-soc_system_signal_buffer signal_buffer (
-  .clk         (clock),                                       //   clk1.clk
-  .address     (mm_interconnect_3_signal_buffer_s1_address),    //     s1.address
-  .clken       (mm_interconnect_3_signal_buffer_s1_clken),      //       .clken
-  .chipselect  (mm_interconnect_3_signal_buffer_s1_chipselect), //       .chipselect
-  .write       (mm_interconnect_3_signal_buffer_s1_write),      //       .write
-  .readdata    (mm_interconnect_3_signal_buffer_s1_readdata),   //       .readdata
-  .writedata   (mm_interconnect_3_signal_buffer_s1_writedata),  //       .writedata
-  .byteenable  (mm_interconnect_3_signal_buffer_s1_byteenable), //       .byteenable
-  .reset       (rst_controller_reset_out_reset),                // reset1.reset
-  .address2    (mm_interconnect_5_signal_buffer_s2_address),    //     s2.address
-  .chipselect2 (mm_interconnect_5_signal_buffer_s2_chipselect), //       .chipselect
-  .clken2      (mm_interconnect_5_signal_buffer_s2_clken),      //       .clken
-  .write2      (mm_interconnect_5_signal_buffer_s2_write),      //       .write
-  .readdata2   (mm_interconnect_5_signal_buffer_s2_readdata),   //       .readdata
-  .writedata2  (mm_interconnect_5_signal_buffer_s2_writedata),  //       .writedata
-  .byteenable2 (mm_interconnect_5_signal_buffer_s2_byteenable), //       .byteenable
-  .clk2        (clock),                                       //   clk2.clk
-  .reset2      (rst_controller_reset_out_reset),                // reset2.reset
-  .reset_req   (1'b0),                                          // (terminated)
-  .freeze      (1'b0),                                          // (terminated)
-  .reset_req2  (1'b0)                                           // (terminated)
+signal_buffer signal_buffer (
+  .clock              (clock),                                 //  clock.clk
+  .reset              (rst_controller_reset_out_reset),        //  reset.reset
+  .port_a_address     (signal_buffer_ctrl_port_a_address),     // port_a.address
+  .port_a_chipselect  (signal_buffer_ctrl_port_a_chipselect),  //       .chipselect
+  .port_a_read        (signal_buffer_ctrl_port_a_read),        //       .read
+  .port_a_readdata    (signal_buffer_ctrl_port_a_readdata),    //       .readdata
+  .port_a_write       (signal_buffer_ctrl_port_a_write),       //       .write
+  .port_a_writedata   (signal_buffer_ctrl_port_a_writedata),   //       .writedata
+  .port_a_byteenable  (signal_buffer_ctrl_port_a_byteenable),  //       .byteenable
+  .port_a_waitrequest (signal_buffer_ctrl_port_a_waitrequest), //       .waitrequest
+  .port_b_address     (signal_buffer_ctrl_port_b_address),     // port_b.address
+  .port_b_chipselect  (signal_buffer_ctrl_port_b_chipselect),  //       .chipselect
+  .port_b_read        (signal_buffer_ctrl_port_b_read),        //       .read
+  .port_b_readdata    (signal_buffer_ctrl_port_b_readdata),    //       .readdata
+  .port_b_write       (signal_buffer_ctrl_port_b_write),       //       .write
+  .port_b_writedata   (signal_buffer_ctrl_port_b_writedata),   //       .writedata
+  .port_b_byteenable  (signal_buffer_ctrl_port_b_byteenable),  //       .byteenable
+  .port_b_waitrequest (signal_buffer_ctrl_port_b_waitrequest)  //       .waitrequest
 );
 
 signal_buffer_ctrl #(
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .ITER_NUM           (ITER_NUM)
 ) signal_buffer_ctrl (
-  .clock                    (clock),                               //      clock.clk
+  .clock                    (clock),                                 //      clock.clk
   .reset                    (rst_controller_reset_out_reset),        //      reset.reset
   .lvl_gen_data             (lvl_generator_out_splitter_out0_data),  //    lvl_gen.data
   .lvl_gen_valid            (lvl_generator_out_splitter_out0_valid), //           .valid
@@ -637,86 +605,6 @@ signal_buffer_ctrl #(
   .ram_signal_read_b        (signal_buffer_ctrl_port_b_read),        //           .read
   .fir_driver_data          (signal_buffer_ctrl_fir_driver_data),    // fir_driver.data
   .fir_driver_valid         (signal_buffer_ctrl_fir_driver_valid)    //           .valid
-);
-
-soc_system_mm_interconnect_2 mm_interconnect_2 (
-  .clk_0_clk_clk                                        (clock),                                       //                                      clk_0_clk.clk
-  .limits_buffer_ctrl_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                // limits_buffer_ctrl_reset_reset_bridge_in_reset.reset
-  .limits_buffer_ctrl_port_a_address                    (limits_buffer_ctrl_port_a_address),             //                      limits_buffer_ctrl_port_a.address
-  .limits_buffer_ctrl_port_a_waitrequest                (limits_buffer_ctrl_port_a_waitrequest),         //                                               .waitrequest
-  .limits_buffer_ctrl_port_a_byteenable                 (limits_buffer_ctrl_port_a_byteenable),          //                                               .byteenable
-  .limits_buffer_ctrl_port_a_chipselect                 (limits_buffer_ctrl_port_a_chipselect),          //                                               .chipselect
-  .limits_buffer_ctrl_port_a_read                       (limits_buffer_ctrl_port_a_read),                //                                               .read
-  .limits_buffer_ctrl_port_a_readdata                   (limits_buffer_ctrl_port_a_readdata),            //                                               .readdata
-  .limits_buffer_ctrl_port_a_write                      (limits_buffer_ctrl_port_a_write),               //                                               .write
-  .limits_buffer_ctrl_port_a_writedata                  (limits_buffer_ctrl_port_a_writedata),           //                                               .writedata
-  .limits_buffer_s1_address                             (mm_interconnect_2_limits_buffer_s1_address),    //                               limits_buffer_s1.address
-  .limits_buffer_s1_write                               (mm_interconnect_2_limits_buffer_s1_write),      //                                               .write
-  .limits_buffer_s1_readdata                            (mm_interconnect_2_limits_buffer_s1_readdata),   //                                               .readdata
-  .limits_buffer_s1_writedata                           (mm_interconnect_2_limits_buffer_s1_writedata),  //                                               .writedata
-  .limits_buffer_s1_byteenable                          (mm_interconnect_2_limits_buffer_s1_byteenable), //                                               .byteenable
-  .limits_buffer_s1_chipselect                          (mm_interconnect_2_limits_buffer_s1_chipselect), //                                               .chipselect
-  .limits_buffer_s1_clken                               (mm_interconnect_2_limits_buffer_s1_clken)       //                                               .clken
-);
-
-soc_system_mm_interconnect_3 mm_interconnect_3 (
-  .clk_0_clk_clk                                        (clock),                                       //                                      clk_0_clk.clk
-  .signal_buffer_ctrl_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                // signal_buffer_ctrl_reset_reset_bridge_in_reset.reset
-  .signal_buffer_ctrl_port_a_address                    (signal_buffer_ctrl_port_a_address),             //                      signal_buffer_ctrl_port_a.address
-  .signal_buffer_ctrl_port_a_waitrequest                (signal_buffer_ctrl_port_a_waitrequest),         //                                               .waitrequest
-  .signal_buffer_ctrl_port_a_byteenable                 (signal_buffer_ctrl_port_a_byteenable),          //                                               .byteenable
-  .signal_buffer_ctrl_port_a_chipselect                 (signal_buffer_ctrl_port_a_chipselect),          //                                               .chipselect
-  .signal_buffer_ctrl_port_a_read                       (signal_buffer_ctrl_port_a_read),                //                                               .read
-  .signal_buffer_ctrl_port_a_readdata                   (signal_buffer_ctrl_port_a_readdata),            //                                               .readdata
-  .signal_buffer_ctrl_port_a_write                      (signal_buffer_ctrl_port_a_write),               //                                               .write
-  .signal_buffer_ctrl_port_a_writedata                  (signal_buffer_ctrl_port_a_writedata),           //                                               .writedata
-  .signal_buffer_s1_address                             (mm_interconnect_3_signal_buffer_s1_address),    //                               signal_buffer_s1.address
-  .signal_buffer_s1_write                               (mm_interconnect_3_signal_buffer_s1_write),      //                                               .write
-  .signal_buffer_s1_readdata                            (mm_interconnect_3_signal_buffer_s1_readdata),   //                                               .readdata
-  .signal_buffer_s1_writedata                           (mm_interconnect_3_signal_buffer_s1_writedata),  //                                               .writedata
-  .signal_buffer_s1_byteenable                          (mm_interconnect_3_signal_buffer_s1_byteenable), //                                               .byteenable
-  .signal_buffer_s1_chipselect                          (mm_interconnect_3_signal_buffer_s1_chipselect), //                                               .chipselect
-  .signal_buffer_s1_clken                               (mm_interconnect_3_signal_buffer_s1_clken)       //                                               .clken
-);
-
-soc_system_mm_interconnect_4 mm_interconnect_4 (
-  .clk_0_clk_clk                                        (clock),                                       //                                      clk_0_clk.clk
-  .limits_buffer_ctrl_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                // limits_buffer_ctrl_reset_reset_bridge_in_reset.reset
-  .limits_buffer_ctrl_port_b_address                    (limits_buffer_ctrl_port_b_address),             //                      limits_buffer_ctrl_port_b.address
-  .limits_buffer_ctrl_port_b_waitrequest                (limits_buffer_ctrl_port_b_waitrequest),         //                                               .waitrequest
-  .limits_buffer_ctrl_port_b_byteenable                 (limits_buffer_ctrl_port_b_byteenable),          //                                               .byteenable
-  .limits_buffer_ctrl_port_b_chipselect                 (limits_buffer_ctrl_port_b_chipselect),          //                                               .chipselect
-  .limits_buffer_ctrl_port_b_read                       (limits_buffer_ctrl_port_b_read),                //                                               .read
-  .limits_buffer_ctrl_port_b_readdata                   (limits_buffer_ctrl_port_b_readdata),            //                                               .readdata
-  .limits_buffer_ctrl_port_b_write                      (limits_buffer_ctrl_port_b_write),               //                                               .write
-  .limits_buffer_ctrl_port_b_writedata                  (limits_buffer_ctrl_port_b_writedata),           //                                               .writedata
-  .limits_buffer_s2_address                             (mm_interconnect_4_limits_buffer_s2_address),    //                               limits_buffer_s2.address
-  .limits_buffer_s2_write                               (mm_interconnect_4_limits_buffer_s2_write),      //                                               .write
-  .limits_buffer_s2_readdata                            (mm_interconnect_4_limits_buffer_s2_readdata),   //                                               .readdata
-  .limits_buffer_s2_writedata                           (mm_interconnect_4_limits_buffer_s2_writedata),  //                                               .writedata
-  .limits_buffer_s2_byteenable                          (mm_interconnect_4_limits_buffer_s2_byteenable), //                                               .byteenable
-  .limits_buffer_s2_chipselect                          (mm_interconnect_4_limits_buffer_s2_chipselect), //                                               .chipselect
-  .limits_buffer_s2_clken                               (mm_interconnect_4_limits_buffer_s2_clken)       //                                               .clken
-);
-
-soc_system_mm_interconnect_5 mm_interconnect_5 (
-  .clk_0_clk_clk                                        (clock),                                       //                                      clk_0_clk.clk
-  .signal_buffer_ctrl_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                // signal_buffer_ctrl_reset_reset_bridge_in_reset.reset
-  .signal_buffer_ctrl_port_b_address                    (signal_buffer_ctrl_port_b_address),             //                      signal_buffer_ctrl_port_b.address
-  .signal_buffer_ctrl_port_b_waitrequest                (signal_buffer_ctrl_port_b_waitrequest),         //                                               .waitrequest
-  .signal_buffer_ctrl_port_b_byteenable                 (signal_buffer_ctrl_port_b_byteenable),          //                                               .byteenable
-  .signal_buffer_ctrl_port_b_chipselect                 (signal_buffer_ctrl_port_b_chipselect),          //                                               .chipselect
-  .signal_buffer_ctrl_port_b_read                       (signal_buffer_ctrl_port_b_read),                //                                               .read
-  .signal_buffer_ctrl_port_b_readdata                   (signal_buffer_ctrl_port_b_readdata),            //                                               .readdata
-  .signal_buffer_ctrl_port_b_write                      (signal_buffer_ctrl_port_b_write),               //                                               .write
-  .signal_buffer_ctrl_port_b_writedata                  (signal_buffer_ctrl_port_b_writedata),           //                                               .writedata
-  .signal_buffer_s2_address                             (mm_interconnect_5_signal_buffer_s2_address),    //                               signal_buffer_s2.address
-  .signal_buffer_s2_write                               (mm_interconnect_5_signal_buffer_s2_write),      //                                               .write
-  .signal_buffer_s2_readdata                            (mm_interconnect_5_signal_buffer_s2_readdata),   //                                               .readdata
-  .signal_buffer_s2_writedata                           (mm_interconnect_5_signal_buffer_s2_writedata),  //                                               .writedata
-  .signal_buffer_s2_byteenable                          (mm_interconnect_5_signal_buffer_s2_byteenable), //                                               .byteenable
-  .signal_buffer_s2_chipselect                          (mm_interconnect_5_signal_buffer_s2_chipselect), //                                               .chipselect
-  .signal_buffer_s2_clken                               (mm_interconnect_5_signal_buffer_s2_clken)       //                                               .clken
 );
 
 altera_reset_controller #(
@@ -781,68 +669,5 @@ altera_reset_controller #(
   .reset_in15     (1'b0),                               // (terminated)
   .reset_req_in15 (1'b0)                                // (terminated)
 );
-
-/*altera_reset_controller #(
-  .NUM_RESET_INPUTS          (1),
-  .OUTPUT_RESET_SYNC_EDGES   ("deassert"),
-  .SYNC_DEPTH                (2),
-  .RESET_REQUEST_PRESENT     (0),
-  .RESET_REQ_WAIT_TIME       (1),
-  .MIN_RST_ASSERTION_TIME    (3),
-  .RESET_REQ_EARLY_DSRT_TIME (1),
-  .USE_RESET_REQUEST_IN0     (0),
-  .USE_RESET_REQUEST_IN1     (0),
-  .USE_RESET_REQUEST_IN2     (0),
-  .USE_RESET_REQUEST_IN3     (0),
-  .USE_RESET_REQUEST_IN4     (0),
-  .USE_RESET_REQUEST_IN5     (0),
-  .USE_RESET_REQUEST_IN6     (0),
-  .USE_RESET_REQUEST_IN7     (0),
-  .USE_RESET_REQUEST_IN8     (0),
-  .USE_RESET_REQUEST_IN9     (0),
-  .USE_RESET_REQUEST_IN10    (0),
-  .USE_RESET_REQUEST_IN11    (0),
-  .USE_RESET_REQUEST_IN12    (0),
-  .USE_RESET_REQUEST_IN13    (0),
-  .USE_RESET_REQUEST_IN14    (0),
-  .USE_RESET_REQUEST_IN15    (0),
-  .ADAPT_RESET_REQUEST       (0)
-) rst_controller_001 (
-  .reset_in0      (~reset),                             // reset_in0.reset
-  .clk            (clock),                              //       clk.clk
-  .reset_out      (rst_controller_001_reset_out_reset), // reset_out.reset
-  .reset_req      (),                                   // (terminated)
-  .reset_req_in0  (1'b0),                               // (terminated)
-  .reset_in1      (1'b0),                               // (terminated)
-  .reset_req_in1  (1'b0),                               // (terminated)
-  .reset_in2      (1'b0),                               // (terminated)
-  .reset_req_in2  (1'b0),                               // (terminated)
-  .reset_in3      (1'b0),                               // (terminated)
-  .reset_req_in3  (1'b0),                               // (terminated)
-  .reset_in4      (1'b0),                               // (terminated)
-  .reset_req_in4  (1'b0),                               // (terminated)
-  .reset_in5      (1'b0),                               // (terminated)
-  .reset_req_in5  (1'b0),                               // (terminated)
-  .reset_in6      (1'b0),                               // (terminated)
-  .reset_req_in6  (1'b0),                               // (terminated)
-  .reset_in7      (1'b0),                               // (terminated)
-  .reset_req_in7  (1'b0),                               // (terminated)
-  .reset_in8      (1'b0),                               // (terminated)
-  .reset_req_in8  (1'b0),                               // (terminated)
-  .reset_in9      (1'b0),                               // (terminated)
-  .reset_req_in9  (1'b0),                               // (terminated)
-  .reset_in10     (1'b0),                               // (terminated)
-  .reset_req_in10 (1'b0),                               // (terminated)
-  .reset_in11     (1'b0),                               // (terminated)
-  .reset_req_in11 (1'b0),                               // (terminated)
-  .reset_in12     (1'b0),                               // (terminated)
-  .reset_req_in12 (1'b0),                               // (terminated)
-  .reset_in13     (1'b0),                               // (terminated)
-  .reset_req_in13 (1'b0),                               // (terminated)
-  .reset_in14     (1'b0),                               // (terminated)
-  .reset_req_in14 (1'b0),                               // (terminated)
-  .reset_in15     (1'b0),                               // (terminated)
-  .reset_req_in15 (1'b0)                                // (terminated)
-);*/
 
 endmodule

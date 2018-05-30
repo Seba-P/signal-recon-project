@@ -29,7 +29,7 @@ set top_entity soc_system_fir_filter
 set timing_resolution "1ps"
 set core_version 17.1
 set device_family "Cyclone V"
-set quartus_rootdir C:/intelfpga/17.1/quartus
+set quartus_rootdir D:/intelfpga_lite/17.1/quartus
 # Change to "gate_level" for gate-level sim
 set sim_type "rtl"
 # END MEGAWIZARD INSERT VARIABLES

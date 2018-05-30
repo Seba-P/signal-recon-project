@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 17.1 593 win32 2018.05.18.16:35:41
+# ACDS 17.1 593 win32 2018.05.30.10:57:17
 # ----------------------------------------
 # Auto-generated simulation script rivierapro_setup.tcl
 # ----------------------------------------
@@ -113,7 +113,7 @@ if ![info exists QSYS_SIMDIR] {
 }
 
 if ![info exists QUARTUS_INSTALL_DIR] { 
-  set QUARTUS_INSTALL_DIR "C:/intelfpga/17.1/quartus/"
+  set QUARTUS_INSTALL_DIR "D:/intelfpga_lite/17.1/quartus/"
 }
 
 if ![info exists USER_DEFINED_COMPILE_OPTIONS] { 
@@ -237,30 +237,18 @@ ensure_lib                                                ./libraries/fpga_inter
 vmap       fpga_interfaces                                ./libraries/fpga_interfaces                               
 ensure_lib                                                ./libraries/rst_controller                                
 vmap       rst_controller                                 ./libraries/rst_controller                                
-ensure_lib                                                ./libraries/mm_interconnect_5                             
-vmap       mm_interconnect_5                              ./libraries/mm_interconnect_5                             
-ensure_lib                                                ./libraries/mm_interconnect_4                             
-vmap       mm_interconnect_4                              ./libraries/mm_interconnect_4                             
-ensure_lib                                                ./libraries/mm_interconnect_3                             
-vmap       mm_interconnect_3                              ./libraries/mm_interconnect_3                             
-ensure_lib                                                ./libraries/mm_interconnect_2                             
-vmap       mm_interconnect_2                              ./libraries/mm_interconnect_2                             
 ensure_lib                                                ./libraries/mm_interconnect_1                             
 vmap       mm_interconnect_1                              ./libraries/mm_interconnect_1                             
 ensure_lib                                                ./libraries/mm_interconnect_0                             
 vmap       mm_interconnect_0                              ./libraries/mm_interconnect_0                             
 ensure_lib                                                ./libraries/sysid_qsys                                    
 vmap       sysid_qsys                                     ./libraries/sysid_qsys                                    
-ensure_lib                                                ./libraries/signal_buffer                                 
-vmap       signal_buffer                                  ./libraries/signal_buffer                                 
 ensure_lib                                                ./libraries/sgdma_st2mm                                   
 vmap       sgdma_st2mm                                    ./libraries/sgdma_st2mm                                   
 ensure_lib                                                ./libraries/sgdma_mm2st                                   
 vmap       sgdma_mm2st                                    ./libraries/sgdma_mm2st                                   
 ensure_lib                                                ./libraries/onchip_RAM                                    
 vmap       onchip_RAM                                     ./libraries/onchip_RAM                                    
-ensure_lib                                                ./libraries/limits_buffer                                 
-vmap       limits_buffer                                  ./libraries/limits_buffer                                 
 ensure_lib                                                ./libraries/led_pio                                       
 vmap       led_pio                                        ./libraries/led_pio                                       
 ensure_lib                                                ./libraries/hps_0                                         
@@ -384,18 +372,12 @@ alias com {
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/soc_system_hps_0_fpga_interfaces.sv"                               -l altera_common_sv_packages -work fpga_interfaces                               
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                                                      -work rst_controller                                
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                                                    -work rst_controller                                
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_5.v"                                                                 -work mm_interconnect_5                             
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_4.v"                                                                 -work mm_interconnect_4                             
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_3.v"                                                                 -work mm_interconnect_3                             
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_2.v"                                                                 -work mm_interconnect_2                             
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_1.v"                                                                 -work mm_interconnect_1                             
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_mm_interconnect_0.v"                                                                 -work mm_interconnect_0                             
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_sysid_qsys.v"                                                                        -work sysid_qsys                                    
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_signal_buffer.v"                                                                     -work signal_buffer                                 
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_sgdma_st2mm.v"                                                                       -work sgdma_st2mm                                   
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_sgdma_mm2st.v"                                                                       -work sgdma_mm2st                                   
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_onchip_RAM.v"                                                                        -work onchip_RAM                                    
-  eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_limits_buffer.v"                                                                     -work limits_buffer                                 
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_led_pio.v"                                                                           -work led_pio                                       
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/soc_system_hps_0.v"                                                                             -work hps_0                                         
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_splitter.sv"                                      -l altera_common_sv_packages -work hard_limiter_out_splitter                     
@@ -422,14 +404,14 @@ alias com {
 # Elaborate top level design
 alias elab {
   echo "\[exec\] elab"
-  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L avalon_st_adapter -L rsp_mux -L rsp_demux -L cmd_mux -L cmd_demux -L sysid_qsys_control_slave_burst_adapter -L router_002 -L router -L sysid_qsys_control_slave_agent -L hps_0_h2f_lw_axi_master_agent -L sysid_qsys_control_slave_translator -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_5 -L mm_interconnect_4 -L mm_interconnect_3 -L mm_interconnect_2 -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys -L signal_buffer -L sgdma_st2mm -L sgdma_mm2st -L onchip_RAM -L limits_buffer -L led_pio -L hps_0 -L hard_limiter_out_splitter -L fir_filter -L fir_fifo_in -L dipsw_pio -L button_pio -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev $TOP_LEVEL_NAME
+  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L avalon_st_adapter -L rsp_mux -L rsp_demux -L cmd_mux -L cmd_demux -L sysid_qsys_control_slave_burst_adapter -L router_002 -L router -L sysid_qsys_control_slave_agent -L hps_0_h2f_lw_axi_master_agent -L sysid_qsys_control_slave_translator -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys -L sgdma_st2mm -L sgdma_mm2st -L onchip_RAM -L led_pio -L hps_0 -L hard_limiter_out_splitter -L fir_filter -L fir_fifo_in -L dipsw_pio -L button_pio -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
 # Elaborate the top level design with -dbg -O2 option
 alias elab_debug {
   echo "\[exec\] elab_debug"
-  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L avalon_st_adapter -L rsp_mux -L rsp_demux -L cmd_mux -L cmd_demux -L sysid_qsys_control_slave_burst_adapter -L router_002 -L router -L sysid_qsys_control_slave_agent -L hps_0_h2f_lw_axi_master_agent -L sysid_qsys_control_slave_translator -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_5 -L mm_interconnect_4 -L mm_interconnect_3 -L mm_interconnect_2 -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys -L signal_buffer -L sgdma_st2mm -L sgdma_mm2st -L onchip_RAM -L limits_buffer -L led_pio -L hps_0 -L hard_limiter_out_splitter -L fir_filter -L fir_fifo_in -L dipsw_pio -L button_pio -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev $TOP_LEVEL_NAME
+  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L avalon_st_adapter -L rsp_mux -L rsp_demux -L cmd_mux -L cmd_demux -L sysid_qsys_control_slave_burst_adapter -L router_002 -L router -L sysid_qsys_control_slave_agent -L hps_0_h2f_lw_axi_master_agent -L sysid_qsys_control_slave_translator -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys -L sgdma_st2mm -L sgdma_mm2st -L onchip_RAM -L led_pio -L hps_0 -L hard_limiter_out_splitter -L fir_filter -L fir_fifo_in -L dipsw_pio -L button_pio -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------

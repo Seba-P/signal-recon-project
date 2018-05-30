@@ -1,12 +1,12 @@
-# system info soc_system on 2018.05.18.16:35:39
+# system info soc_system on 2018.05.30.10:57:15
 system_info:
 name,value
 DEVICE,5CSEMA5F31C6
 DEVICE_FAMILY,Cyclone V
-GENERATION_ID,1526654104
+GENERATION_ID,1527670598
 #
 #
-# Files generated for soc_system on 2018.05.18.16:35:39
+# Files generated for soc_system on 2018.05.30.10:57:15
 files:
 filepath,kind,attributes,module,is_top
 simulation/soc_system.v,VERILOG,,soc_system,true
@@ -39,7 +39,7 @@ simulation/submodules/altera_avalon_st_splitter.sv,SYSTEM_VERILOG,,altera_avalon
 simulation/submodules/soc_system_hps_0.v,VERILOG,,soc_system_hps_0,false
 simulation/submodules/iteration_ctrl.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,iteration_ctrl,false
 simulation/submodules/soc_system_led_pio.v,VERILOG,,soc_system_led_pio,false
-simulation/submodules/soc_system_limits_buffer.v,VERILOG,,soc_system_limits_buffer,false
+simulation/submodules/limits_buffer.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,limits_buffer,false
 simulation/submodules/limits_buffer_ctrl.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,limits_buffer_ctrl,false
 simulation/submodules/mm2st_data_adapter.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,mm2st_data_adapter,false
 simulation/submodules/soc_system_onchip_RAM.hex,HEX,,soc_system_onchip_RAM,false
@@ -50,16 +50,12 @@ simulation/submodules/lvl_generator.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,sample2lvl
 simulation/submodules/sample_dispatcher.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,sample2lvl_converter,false
 simulation/submodules/soc_system_sgdma_mm2st.v,VERILOG,,soc_system_sgdma_mm2st,false
 simulation/submodules/soc_system_sgdma_st2mm.v,VERILOG,,soc_system_sgdma_st2mm,false
-simulation/submodules/soc_system_signal_buffer.v,VERILOG,,soc_system_signal_buffer,false
+simulation/submodules/signal_buffer.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,signal_buffer,false
 simulation/submodules/signal_buffer_ctrl.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,signal_buffer_ctrl,false
 simulation/submodules/st2mm_data_adapter.sv,SYSTEM_VERILOG,MENTOR_SPECIFIC,st2mm_data_adapter,false
 simulation/submodules/soc_system_sysid_qsys.v,VERILOG,,soc_system_sysid_qsys,false
 simulation/submodules/soc_system_mm_interconnect_0.v,VERILOG,,soc_system_mm_interconnect_0,false
 simulation/submodules/soc_system_mm_interconnect_1.v,VERILOG,,soc_system_mm_interconnect_1,false
-simulation/submodules/soc_system_mm_interconnect_2.v,VERILOG,,soc_system_mm_interconnect_2,false
-simulation/submodules/soc_system_mm_interconnect_3.v,VERILOG,,soc_system_mm_interconnect_3,false
-simulation/submodules/soc_system_mm_interconnect_4.v,VERILOG,,soc_system_mm_interconnect_4,false
-simulation/submodules/soc_system_mm_interconnect_5.v,VERILOG,,soc_system_mm_interconnect_5,false
 simulation/submodules/altera_reset_controller.v,VERILOG,,altera_reset_controller,false
 simulation/submodules/altera_reset_synchronizer.v,VERILOG,,altera_reset_controller,false
 simulation/submodules/altera_reset_controller.sdc,SDC,,altera_reset_controller,false
@@ -152,15 +148,15 @@ soc_system.hps_0.hps_io,soc_system_hps_0_hps_io
 soc_system.hps_0.hps_io.border,soc_system_hps_0_hps_io_border
 soc_system.iteration_ctrl,iteration_ctrl
 soc_system.led_pio,soc_system_led_pio
-soc_system.limits_buffer,soc_system_limits_buffer
+soc_system.limits_buffer,limits_buffer
 soc_system.limits_buffer_ctrl,limits_buffer_ctrl
 soc_system.mm2st_data_adapter_0,mm2st_data_adapter
 soc_system.onchip_RAM,soc_system_onchip_RAM
 soc_system.output_ctrl,output_ctrl
-soc_system.sample2lvl_converter_0,sample2lvl_converter
+soc_system.sample2lvl_converter,sample2lvl_converter
 soc_system.sgdma_mm2st,soc_system_sgdma_mm2st
 soc_system.sgdma_st2mm,soc_system_sgdma_st2mm
-soc_system.signal_buffer,soc_system_signal_buffer
+soc_system.signal_buffer,signal_buffer
 soc_system.signal_buffer_ctrl,signal_buffer_ctrl
 soc_system.st2mm_data_adapter_0,st2mm_data_adapter
 soc_system.sysid_qsys,soc_system_sysid_qsys
@@ -317,17 +313,5 @@ soc_system.mm_interconnect_1.avalon_st_adapter_007,soc_system_mm_interconnect_1_
 soc_system.mm_interconnect_1.avalon_st_adapter_007.error_adapter_0,soc_system_mm_interconnect_1_avalon_st_adapter_error_adapter_0
 soc_system.mm_interconnect_1.avalon_st_adapter_008,soc_system_mm_interconnect_1_avalon_st_adapter
 soc_system.mm_interconnect_1.avalon_st_adapter_008.error_adapter_0,soc_system_mm_interconnect_1_avalon_st_adapter_error_adapter_0
-soc_system.mm_interconnect_2,soc_system_mm_interconnect_2
-soc_system.mm_interconnect_2.limits_buffer_ctrl_port_a_translator,altera_merlin_master_translator
-soc_system.mm_interconnect_2.limits_buffer_s1_translator,altera_merlin_slave_translator
-soc_system.mm_interconnect_3,soc_system_mm_interconnect_3
-soc_system.mm_interconnect_3.signal_buffer_ctrl_port_a_translator,altera_merlin_master_translator
-soc_system.mm_interconnect_3.signal_buffer_s1_translator,altera_merlin_slave_translator
-soc_system.mm_interconnect_4,soc_system_mm_interconnect_4
-soc_system.mm_interconnect_4.limits_buffer_ctrl_port_b_translator,altera_merlin_master_translator
-soc_system.mm_interconnect_4.limits_buffer_s2_translator,altera_merlin_slave_translator
-soc_system.mm_interconnect_5,soc_system_mm_interconnect_5
-soc_system.mm_interconnect_5.signal_buffer_ctrl_port_b_translator,altera_merlin_master_translator
-soc_system.mm_interconnect_5.signal_buffer_s2_translator,altera_merlin_slave_translator
 soc_system.rst_controller,altera_reset_controller
 soc_system.rst_controller_001,altera_reset_controller
