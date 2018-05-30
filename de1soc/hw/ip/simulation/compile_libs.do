@@ -1,5 +1,5 @@
 set QSYS_SIMDIR "./../../soc_system/simulation"
-source $QSYS_SIMDIR/mentor/msim_setup_modified.tcl
+source msim_setup.do
 
 dev_com
 com
