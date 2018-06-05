@@ -138,7 +138,7 @@ task verify_output(LVL_CROSS_SAMPLE_T sample);
     if(st2mm_data != expected_value)
       $display("Invalid output data (0x%x/0x%x) @ sample #%0d/%0d!", st2mm_data, expected_value, duration, total_duration-1);*/
     
-    if((++total_duration % MAX_SAMPLES_IN_RAM) == 0)
+    if((++total_duration % MAX_SAMPLES_IN_RAM) == 0) // TODO: ITER_NUM > 1
     begin
       while(curr_iter < ITER_NUM)
       begin
@@ -185,6 +185,10 @@ begin
   curr_iter     = 0;
   st2mm_ready   = 'd1;
 
+  /* Pipeline init after reset */
+  repeat(MAX_SAMPLES_IN_RAM+5)
+    @(posedge clock);
+
   /* Verify lvls generation */
   repeat(LVLS_NUM/2+2)
   begin
@@ -206,6 +210,10 @@ begin
   total_duration  = 0;
   # 20 reset      = 'd1;
   #100 reset      = 'd0;
+
+  /* Pipeline init after reset */
+  repeat(MAX_SAMPLES_IN_RAM+5)
+    @(posedge clock);
 
   sample = '{ 1'b1, 15'd400 };
   send_sample(sample);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.06.04.11:47:50 -->
+ <!-- 2018.06.04.15:17:09 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1528105669</value>
+  <value>1528118228</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -80000,6 +80000,12 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>new_signal_4</role>
    </port>
+   <port>
+    <name>sigbuff_init</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>new_signal_5</role>
+   </port>
   </interface>
   <interface name="limbuff" kind="conduit_end" version="17.1">
    <!-- The connection points exposed by a module instance for the
@@ -80056,6 +80062,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>new_signal_2</role>
+   </port>
+   <port>
+    <name>limbuff_init</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>new_signal_3</role>
    </port>
   </interface>
   <interface name="lvl_gen" kind="conduit_end" version="17.1">
@@ -82230,6 +82242,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>new_signal_2</role>
+   </port>
+   <port>
+    <name>iter_init</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>new_signal_3</role>
    </port>
   </interface>
   <interface name="limiter" kind="avalon_streaming_source" version="17.1">
@@ -93046,6 +93064,12 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>new_signal_4</role>
    </port>
+   <port>
+    <name>iter_init</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>new_signal_5</role>
+   </port>
   </interface>
   <interface name="port_a" kind="avalon_master" version="17.1">
    <!-- The connection points exposed by a module instance for the
@@ -94281,7 +94305,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1528105669</value>
+   <value>1528118228</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -94301,7 +94325,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1528105669</value>
+   <value>1528118228</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -94317,7 +94341,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1528105669</value>
+   <value>1528118228</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

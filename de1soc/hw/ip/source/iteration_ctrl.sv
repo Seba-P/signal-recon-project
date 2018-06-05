@@ -6,41 +6,45 @@ module iteration_ctrl
 )
 (
   /* Common IF */
-  input  wire       reset,                  //    reset.reset
-  input  wire       clock,                  //    clock.clk
+  input  wire        reset,                   //    reset.reset
+  input  wire        clock,                   //    clock.clk
   /* Lvl generator IF */
-  input  wire       lvl_gen_valid,          //  lvl_gen.new_signal
-  output wire       lvl_gen_ready,          //         .new_signal_1
+  input  wire        lvl_gen_valid,           //  lvl_gen.new_signal
+  output wire        lvl_gen_ready,           //         .new_signal_1
   /* Signal buffer controller IF */
-  output wire [4:0] sigbuff_iter_num,       //  sigbuff.new_signal
-  output wire       sigbuff_input_mux,      //         .new_signal_1
-  output wire       sigbuff_input_enable,   //         .new_signal_2
-  output wire       sigbuff_output_enable,  //         .new_signal_3
-  input  wire       sigbuff_ready,          //         .new_signal_4
+  output wire [ 4:0] sigbuff_iter_num,        //  sigbuff.new_signal
+  output wire        sigbuff_input_mux,       //         .new_signal_1
+  output wire        sigbuff_input_enable,    //         .new_signal_2
+  output wire        sigbuff_output_enable,   //         .new_signal_3
+  input  wire        sigbuff_ready,           //         .new_signal_4
+  output wire        sigbuff_init,            //         .new_signal_5
   /* Limits buffer controller IF */
-  output wire       limbuff_input_enable,   //  limbuff.new_signal
-  output wire       limbuff_output_enable,  //         .new_signal_1
-  input  wire       limbuff_ready,          //         .new_signal_2
+  output wire        limbuff_input_enable,    //  limbuff.new_signal
+  output wire        limbuff_output_enable,   //         .new_signal_1
+  input  wire        limbuff_ready,           //         .new_signal_2
+  output wire        limbuff_init,            //         .new_signal_3
   /* FIR driver IF */
-  output wire       fir_input_mux,          //   fir_fe.new_signal
-  output wire       fir_input_enable,       //         .new_signal_1
-  input  wire       fir_ready,              //         .new_signal_2
+  output wire        fir_input_mux,           //   fir_fe.new_signal
+  output wire        fir_input_enable,        //         .new_signal_1
+  input  wire        fir_ready,               //         .new_signal_2
   /* Hard limiter IF */
-  output wire       limiter_input_enable,   //  limiter.new_signal
-  input  wire       limiter_ready,          //         .new_signal_1
+  output wire        limiter_input_enable,    //  limiter.new_signal
+  input  wire        limiter_ready,           //         .new_signal_1
   /* Output controller IF */
-  output wire       out_ctrl_output_enable, // out_ctrl.new_signal
-  input  wire       out_ctrl_ready          //         .new_signal_1
+  output wire        out_ctrl_output_enable,  // out_ctrl.new_signal
+  input  wire        out_ctrl_ready           //         .new_signal_1
 );
 
 reg         lvl_gen_ready_r;
 reg         sigbuff_input_mux_r;
 reg         sigbuff_input_enable_r;
 reg         sigbuff_output_enable_r;
+reg         sigbuff_init_r;
 reg         limbuff_input_enable_r;
 reg         limbuff_output_enable_r;
 reg         limbuff_output_enable_p1_r;
 reg         limbuff_output_enable_p2_r;
+reg         limbuff_init_r;
 reg  [ 1:0] fir_input_mux_r;
 reg         fir_input_enable_r;
 reg         limiter_input_enable_r;
@@ -56,15 +60,18 @@ reg         pipeline_prep_r; // prepare FIR pipeline for next iteration
 wire        curr_iter_end;
 wire        first_iter;
 wire        last_iter;
+wire        buffers_ready;
 // wire        full_buffer;
 
-assign lvl_gen_ready          = lvl_gen_ready_r;
+assign lvl_gen_ready          = lvl_gen_ready_r & buffers_ready;
 assign sigbuff_iter_num       = curr_iter_r;
 assign sigbuff_input_mux      = sigbuff_input_mux_r;
 assign sigbuff_input_enable   = sigbuff_input_enable_r;
 assign sigbuff_output_enable  = sigbuff_output_enable_r;
+assign sigbuff_init           = sigbuff_init_r;
 assign limbuff_input_enable   = limbuff_input_enable_r;
 assign limbuff_output_enable  = limbuff_output_enable_p2_r;
+assign limbuff_init           = limbuff_init_r;
 assign fir_input_mux          = fir_input_mux_r;
 assign fir_input_enable       = fir_input_enable_r;
 assign limiter_input_enable   = limiter_input_enable_r;
@@ -77,6 +84,7 @@ assign curr_iter_end    = (iter_symbol_cnt_r == MAX_SAMPLES_IN_RAM - 'd1);
 // assign full_buffer      = (recv_symbol_cnt_r == MAX_SAMPLES_IN_RAM - 'd1);
 assign first_iter       = (curr_iter_r == 'd0);
 assign last_iter        = (curr_iter_r == iter_num_r - 'd1);
+assign buffers_ready    = sigbuff_ready & limbuff_ready;
 
 // assign fir_input_enable = 1'b1; // ???
 
@@ -85,12 +93,18 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
+    sigbuff_init_r          <= '1;
+    limbuff_init_r          <= '1;
+
     iter_symbol_cnt_r       <= '0;
     curr_iter_r             <= '0;
     pipeline_prep_r         <= '1; // ?
   end
   else
   begin
+    sigbuff_init_r          <= 'd0;
+    limbuff_init_r          <= 'd0;
+
     if(curr_iter_end)
     begin
       if(~pipeline_prep_r)

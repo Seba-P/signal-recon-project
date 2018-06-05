@@ -14,6 +14,7 @@ module limits_buffer_ctrl
   input  wire        iter_input_enable,         //    iter.new_signal
   input  wire        iter_output_enable,        //        .new_signal_1
   output wire        iter_ready,                //        .new_signal_2
+  input  wire        iter_init,                 //        .new_signal_3
   /* Hard limiter IF */
   output wire [31:0] limiter_data,              // limiter.data
   output wire        limiter_valid,             //        .valid
@@ -42,7 +43,7 @@ reg  [31:0] limiter_data_r;
 // reg  [31:0] limiter_data_p1_r;
 reg         limiter_valid_r;
 // reg         limiter_valid_p1_r;
-
+reg         iter_ready_r;
 reg  [ 7:0] ram_limits_address_a_r;
 reg  [ 7:0] ram_limits_address_a_p1_r;
 reg         ram_limits_chipselect_a_r;
@@ -51,7 +52,6 @@ reg         ram_limits_write_a_p1_r;
 reg  [31:0] ram_limits_writedata_a_r;
 reg  [31:0] ram_limits_writedata_a_p1_r;
 reg  [ 3:0] ram_limits_byteenable_a_r;
-
 reg  [ 7:0] ram_limits_address_b_r;
 reg  [ 7:0] ram_limits_address_b_p1_r;
 reg         ram_limits_chipselect_b_r;
@@ -60,11 +60,11 @@ reg  [ 3:0] ram_limits_byteenable_b_r;
 
 reg  [ 7:0] symbol_cnt_a_r;
 reg  [ 7:0] symbol_cnt_b_r;
+reg         pipeline_init_r;
 wire        full_buffer;
 wire        buffer_end;
 
-assign iter_ready               = ram_limits_waitrequest_b;
-
+assign iter_ready               = iter_ready_r & ~ram_limits_waitrequest_b;
 assign limiter_data             = limiter_data_r;
 assign limiter_valid            = limiter_valid_r;
 // assign limiter_data             = ram_limits_waitrequest_b ? limiter_data_p1_r : limiter_data_r;
@@ -94,7 +94,7 @@ assign buffer_end   = (symbol_cnt_b_r == MAX_SAMPLES_IN_RAM - 'd1);
 /* Input controller */
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if(reset | iter_init)
   begin
     ram_limits_address_a_r      <= '0;
     ram_limits_address_a_p1_r   <= '0;
@@ -105,21 +105,38 @@ begin
     ram_limits_writedata_a_p1_r <= '0;
     ram_limits_byteenable_a_r   <= '0;
 
+    pipeline_init_r             <= '1;
     symbol_cnt_a_r              <= '0;
   end
   else
   begin
-    // ram_limits_address_a_r    <= '{ symbol_cnt_a_r, 2'b00 }; // is address unit in bytes?
     ram_limits_address_a_r      <= symbol_cnt_a_r; // address unit is in words!
     ram_limits_address_a_p1_r   <= ram_limits_address_a_r;
     ram_limits_chipselect_a_r   <= 'd1;
-    ram_limits_write_a_r        <= iter_input_enable & lvl_gen_valid;
+
+    if(pipeline_init_r)
+    begin
+      ram_limits_write_a_r      <= 'd1;
+      ram_limits_writedata_a_r  <= 'd0;
+
+      symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(1'b1 & ~ram_limits_waitrequest_a);
+
+      if(full_buffer)
+      begin
+        pipeline_init_r         <= '0;
+      end
+    end
+    else
+    begin
+      ram_limits_write_a_r      <= iter_input_enable & lvl_gen_valid;
+      ram_limits_writedata_a_r  <= lvl_gen_data;
+
+      symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_limits_waitrequest_a); // ?
+    end
+    
     ram_limits_write_a_p1_r     <= ram_limits_write_a_r;
-    ram_limits_writedata_a_r    <= lvl_gen_data;
     ram_limits_writedata_a_p1_r <= ram_limits_writedata_a_r;
     ram_limits_byteenable_a_r   <= '1;
-
-    symbol_cnt_a_r              <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_limits_waitrequest_a); // ?
   end
 end
 
@@ -128,6 +145,7 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
+    iter_ready_r                <= '0;
     limiter_data_r              <= '0;
     limiter_valid_r             <= '0;
 
@@ -141,6 +159,7 @@ begin
   end
   else
   begin // TODO: check pipeline delays + waitrequest influence
+    iter_ready_r              <= ~pipeline_init_r;
     // limiter_data_p1_r           <= ram_limits_readdata_b;
     // limiter_data_r              <= limiter_data_p1_r;
     limiter_data_r            <= ram_limits_readdata_b;
@@ -148,7 +167,7 @@ begin
 
     // ram_limits_address_b_r    <= '{ symbol_cnt_b_r, 2'b00 }; // is address unit in bytes?
     ram_limits_address_b_r    <= symbol_cnt_b_r; // address unit is in words!
-    ram_limits_address_b_p1_r <= ram_limits_address_b_r; // address unit is in words!
+    ram_limits_address_b_p1_r <= ram_limits_address_b_r;
     ram_limits_read_b_r       <= 'd1;
     ram_limits_chipselect_b_r <= 'd1;
     ram_limits_byteenable_b_r <= '1;

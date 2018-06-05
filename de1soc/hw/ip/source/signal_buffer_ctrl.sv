@@ -21,6 +21,7 @@ module signal_buffer_ctrl
   input  wire        iter_input_enable,         //           .new_signal_2
   input  wire        iter_output_enable,        //           .new_signal_3
   output wire        iter_ready,                //           .new_signal_4
+  input  wire        iter_init,                 //           .new_signal_5
   /* FIR driver IF */
   output wire [15:0] fir_driver_data,           // fir_driver.data
   output wire        fir_driver_valid,          //           .valid
@@ -47,10 +48,9 @@ module signal_buffer_ctrl
 
 
 reg         limiter_ready_r;
-
+reg         iter_ready_r;
 reg  [15:0] fir_driver_data_r;
 reg         fir_driver_valid_r;
-
 reg  [12:0] ram_signal_address_a_r;
 reg  [12:0] ram_signal_address_a_p1_r;
 reg         ram_signal_chipselect_a_r;
@@ -59,7 +59,6 @@ reg         ram_signal_write_a_p1_r;
 reg  [31:0] ram_signal_writedata_a_r;
 reg  [31:0] ram_signal_writedata_a_p1_r;
 reg  [ 3:0] ram_signal_byteenable_a_r;
-
 reg  [12:0] ram_signal_address_b_r;
 reg  [12:0] ram_signal_address_b_p1_r;
 reg         ram_signal_chipselect_b_r;
@@ -68,13 +67,12 @@ reg  [ 3:0] ram_signal_byteenable_b_r;
 
 reg  [ 7:0] symbol_cnt_a_r;
 reg  [ 7:0] symbol_cnt_b_r;
+reg         pipeline_init_r;
 wire        full_buffer;
 wire        buffer_end;
 
-assign iter_ready               = ram_signal_waitrequest_b;
-
+assign iter_ready               = iter_ready_r & ~ram_signal_waitrequest_b;
 assign limiter_ready            = limiter_ready_r;
-
 assign fir_driver_data          = fir_driver_data_r;
 assign fir_driver_valid         = fir_driver_valid_r;
 
@@ -103,7 +101,7 @@ assign buffer_end   = (symbol_cnt_b_r == MAX_SAMPLES_IN_RAM - 'd1);
 /* Input controller */
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if(reset | iter_init)
   begin
     ram_signal_address_a_r      <= '0;
     ram_signal_address_a_p1_r   <= '0;
@@ -114,22 +112,38 @@ begin
     ram_signal_writedata_a_p1_r <= '0;
     ram_signal_byteenable_a_r   <= '0;
 
+    pipeline_init_r             <= '1;
     symbol_cnt_a_r              <= '0;
   end
   else
   begin
-    // TODO: especially input_mux
-    // ram_signal_address_a_r    <= '{ iter_iter_num, symbol_cnt_a_r, 1'b0 }; // is address unit in bytes? 
     ram_signal_address_a_r      <= { iter_iter_num[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words! 
-    ram_signal_address_a_p1_r   <= ram_signal_address_a_r; // address unit is in words! 
+    ram_signal_address_a_p1_r   <= ram_signal_address_a_r;
     ram_signal_chipselect_a_r   <= 'd1;
-    ram_signal_write_a_r        <= iter_input_enable & lvl_gen_valid; // TODO
+    
+    if(pipeline_init_r)
+    begin
+      ram_signal_write_a_r      <= 'd1;
+      ram_signal_writedata_a_r  <= 'd0;
+
+      symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(1'b1 & ~ram_signal_waitrequest_a);
+
+      if(full_buffer)
+      begin
+        pipeline_init_r         <= '0;
+      end
+    end
+    else
+    begin
+      ram_signal_write_a_r      <= iter_input_enable & lvl_gen_valid;
+      ram_signal_writedata_a_r  <= lvl_gen_data;
+      
+      symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_signal_waitrequest_a); // ?
+    end
+    
     ram_signal_write_a_p1_r     <= ram_signal_write_a_r;
-    ram_signal_writedata_a_r    <= lvl_gen_data; // TODO
     ram_signal_writedata_a_p1_r <= ram_signal_writedata_a_r;
     ram_signal_byteenable_a_r   <= '1;
-
-    symbol_cnt_a_r              <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_signal_waitrequest_a); // ? // TODO
   end
 end
 
@@ -139,7 +153,7 @@ begin
   if(reset)
   begin
     limiter_ready_r           <= '0;
-
+    iter_ready_r              <= '0;
     fir_driver_data_r         <= '0;
     fir_driver_valid_r        <= '0;
 
@@ -153,11 +167,10 @@ begin
   else
   begin // TODO: check pipeline delays + waitrequest influence
     limiter_ready_r           <= 'd1;
-
+    iter_ready_r              <= ~pipeline_init_r;
     fir_driver_data_r         <= ram_signal_readdata_b;
     fir_driver_valid_r        <= iter_output_enable;
 
-    // ram_signal_address_b_r    <= '{ iter_iter_num, symbol_cnt_b_r, 1'b0 }; // is address unit in bytes?
     ram_signal_address_b_r    <= { iter_iter_num[4:0], symbol_cnt_b_r[7:0] }; // address unit is in words!
     ram_signal_read_b_r       <= 'd1;
     ram_signal_chipselect_b_r <= 'd1;
