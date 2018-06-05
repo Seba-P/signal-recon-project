@@ -20,6 +20,7 @@ module signal_buffer_ctrl
   input  wire        iter_input_mux,            //           .new_signal_1
   input  wire        iter_input_enable,         //           .new_signal_2
   input  wire        iter_output_enable,        //           .new_signal_3
+  output wire        iter_ready,                //           .new_signal_4
   /* FIR driver IF */
   output wire [15:0] fir_driver_data,           // fir_driver.data
   output wire        fir_driver_valid,          //           .valid
@@ -70,19 +71,25 @@ reg  [ 7:0] symbol_cnt_b_r;
 wire        full_buffer;
 wire        buffer_end;
 
+assign iter_ready               = ram_signal_waitrequest_b;
+
 assign limiter_ready            = limiter_ready_r;
 
 assign fir_driver_data          = fir_driver_data_r;
 assign fir_driver_valid         = fir_driver_valid_r;
 
-assign ram_signal_address_a     = ram_signal_waitrequest_a ? ram_signal_address_a_r : ram_signal_address_a_p1_r;
+// assign ram_signal_address_a     = ram_signal_waitrequest_a ? ram_signal_address_a_r : ram_signal_address_a_p1_r;
+assign ram_signal_address_a     = ram_signal_address_a_r;
 assign ram_signal_chipselect_a  = ram_signal_chipselect_a_r;
 assign ram_signal_read_a        = '0;
-assign ram_signal_write_a       = ram_signal_waitrequest_a ? ram_signal_write_a_r : ram_signal_write_a_p1_r;
-assign ram_signal_writedata_a   = ram_signal_waitrequest_a ? ram_signal_writedata_a_r : ram_signal_writedata_a_p1_r;
+// assign ram_signal_write_a       = ram_signal_waitrequest_a ? ram_signal_write_a_r : ram_signal_write_a_p1_r;
+assign ram_signal_write_a       = ram_signal_write_a_r;
+// assign ram_signal_writedata_a   = ram_signal_waitrequest_a ? ram_signal_writedata_a_r : ram_signal_writedata_a_p1_r;
+assign ram_signal_writedata_a   = ram_signal_writedata_a_r;
 assign ram_signal_byteenable_a  = ram_signal_byteenable_a_r;
 
-assign ram_signal_address_b     = ram_signal_waitrequest_b ? ram_signal_address_b_r : ram_signal_address_b_p1_r;
+// assign ram_signal_address_b     = ram_signal_waitrequest_b ? ram_signal_address_b_r : ram_signal_address_b_p1_r;
+assign ram_signal_address_b     = ram_signal_address_b_r;
 assign ram_signal_chipselect_b  = ram_signal_chipselect_b_r;
 assign ram_signal_read_b        = ram_signal_read_b_r;
 assign ram_signal_write_b       = '0;
@@ -93,7 +100,7 @@ assign full_buffer  = (symbol_cnt_a_r == MAX_SAMPLES_IN_RAM - 'd1);
 assign buffer_end   = (symbol_cnt_b_r == MAX_SAMPLES_IN_RAM - 'd1);
 
 // TODO: 1cc buffer for lvl_gen_data to be written (let's make fir_driver read the content of the cell before it's overwritten)
-/* Input controler */
+/* Input controller */
 always_ff @(posedge clock)
 begin
   if(reset)
@@ -126,7 +133,7 @@ begin
   end
 end
 
-/* Output controler */
+/* Output controller */
 always_ff @(posedge clock)
 begin
   if(reset)
@@ -149,8 +156,6 @@ begin
 
     fir_driver_data_r         <= ram_signal_readdata_b;
     fir_driver_valid_r        <= iter_output_enable;
-    // fir_driver_valid_buff_r       <= iter_output_enable;
-    // fir_driver_valid_r            <= fir_driver_valid_buff_r;
 
     // ram_signal_address_b_r    <= '{ iter_iter_num, symbol_cnt_b_r, 1'b0 }; // is address unit in bytes?
     ram_signal_address_b_r    <= { iter_iter_num[4:0], symbol_cnt_b_r[7:0] }; // address unit is in words!

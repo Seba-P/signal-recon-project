@@ -16,6 +16,7 @@ module fir_driver
   /* Iteration controller IF */
   input  wire        iter_input_mux,    //    iter.new_signal
   input  wire        iter_input_enable, //        .new_signal_1
+  output wire        iter_ready,        //        .new_signal_2
   /* FIR filter IF */
   output wire [15:0] fir_data,          //     fir.data
   output wire        fir_valid,         //        .valid
@@ -29,6 +30,7 @@ generate
     reg  [15:0] fir_data_r;
     reg         fir_valid_r;
 
+    assign iter_ready = fir_ready;
     assign fir_data   = fir_data_r;
     assign fir_valid  = fir_valid_r & iter_input_enable;
     assign fir_error  = '0; // not used
@@ -49,6 +51,7 @@ generate
   end
   else
   begin
+    assign iter_ready = fir_ready;
     assign fir_data   = ~reset & (iter_input_mux ? lvl_gen_data : sigbuff_data);
     assign fir_valid  = ~reset & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
     assign fir_error  = '0; // not used
@@ -57,6 +60,7 @@ generate
     reg  [15:0] fir_data_r;
     reg         fir_valid_r;
 
+    assign iter_ready = fir_ready;
     assign fir_data   = fir_data_r;
     assign fir_valid  = fir_valid_r;
     always_comb

@@ -16,16 +16,21 @@ module iteration_ctrl
   output wire       sigbuff_input_mux,      //         .new_signal_1
   output wire       sigbuff_input_enable,   //         .new_signal_2
   output wire       sigbuff_output_enable,  //         .new_signal_3
+  input  wire       sigbuff_ready,          //         .new_signal_4
   /* Limits buffer controller IF */
   output wire       limbuff_input_enable,   //  limbuff.new_signal
   output wire       limbuff_output_enable,  //         .new_signal_1
+  input  wire       limbuff_ready,          //         .new_signal_2
   /* FIR driver IF */
   output wire       fir_input_mux,          //   fir_fe.new_signal
   output wire       fir_input_enable,       //         .new_signal_1
+  input  wire       fir_ready,              //         .new_signal_2
   /* Hard limiter IF */
   output wire       limiter_input_enable,   //  limiter.new_signal
+  input  wire       limiter_ready,          //         .new_signal_1
   /* Output controller IF */
-  output wire       out_ctrl_output_enable  // out_ctrl.new_signal
+  output wire       out_ctrl_output_enable, // out_ctrl.new_signal
+  input  wire       out_ctrl_ready          //         .new_signal_1
 );
 
 reg         lvl_gen_ready_r;

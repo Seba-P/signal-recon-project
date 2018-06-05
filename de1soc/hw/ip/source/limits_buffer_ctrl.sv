@@ -13,6 +13,7 @@ module limits_buffer_ctrl
   /* Iteration controller IF */
   input  wire        iter_input_enable,         //    iter.new_signal
   input  wire        iter_output_enable,        //        .new_signal_1
+  output wire        iter_ready,                //        .new_signal_2
   /* Hard limiter IF */
   output wire [31:0] limiter_data,              // limiter.data
   output wire        limiter_valid,             //        .valid
@@ -62,19 +63,25 @@ reg  [ 7:0] symbol_cnt_b_r;
 wire        full_buffer;
 wire        buffer_end;
 
+assign iter_ready               = ram_limits_waitrequest_b;
+
 assign limiter_data             = limiter_data_r;
 assign limiter_valid            = limiter_valid_r;
 // assign limiter_data             = ram_limits_waitrequest_b ? limiter_data_p1_r : limiter_data_r;
 // assign limiter_valid            = ram_limits_waitrequest_b ? limiter_valid_p1_r : limiter_valid_r;
 
-assign ram_limits_address_a     = ram_limits_waitrequest_a ? ram_limits_address_a_r : ram_limits_address_a_p1_r;
+// assign ram_limits_address_a     = ram_limits_waitrequest_a ? ram_limits_address_a_r : ram_limits_address_a_p1_r;
+assign ram_limits_address_a     = ram_limits_address_a_r;
 assign ram_limits_chipselect_a  = ram_limits_chipselect_a_r;
 assign ram_limits_read_a        = '0;
-assign ram_limits_write_a       = ram_limits_waitrequest_a ? ram_limits_write_a_r : ram_limits_write_a_p1_r;
-assign ram_limits_writedata_a   = ram_limits_waitrequest_a ? ram_limits_writedata_a_r : ram_limits_writedata_a_p1_r;
+// assign ram_limits_write_a       = ram_limits_waitrequest_a ? ram_limits_write_a_r : ram_limits_write_a_p1_r;
+assign ram_limits_write_a       = ram_limits_write_a_r;
+// assign ram_limits_writedata_a   = ram_limits_waitrequest_a ? ram_limits_writedata_a_r : ram_limits_writedata_a_p1_r;
+assign ram_limits_writedata_a   = ram_limits_writedata_a_r;
 assign ram_limits_byteenable_a  = ram_limits_byteenable_a_r;
 
-assign ram_limits_address_b     = ram_limits_waitrequest_b ? ram_limits_address_b_r : ram_limits_address_b_p1_r;
+// assign ram_limits_address_b     = ram_limits_waitrequest_b ? ram_limits_address_b_r : ram_limits_address_b_p1_r;
+assign ram_limits_address_b     = ram_limits_address_b_r;
 assign ram_limits_chipselect_b  = ram_limits_chipselect_b_r;
 assign ram_limits_read_b        = ram_limits_read_b_r;
 assign ram_limits_write_b       = '0;
@@ -84,7 +91,7 @@ assign ram_limits_byteenable_b  = ram_limits_byteenable_b_r;
 assign full_buffer  = (symbol_cnt_a_r == MAX_SAMPLES_IN_RAM - 'd1);
 assign buffer_end   = (symbol_cnt_b_r == MAX_SAMPLES_IN_RAM - 'd1);
 
-/* Input controler */
+/* Input controller */
 always_ff @(posedge clock)
 begin
   if(reset)
@@ -116,7 +123,7 @@ begin
   end
 end
 
-/* Output controler */
+/* Output controller */
 always_ff @(posedge clock)
 begin
   if(reset)

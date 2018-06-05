@@ -12,6 +12,7 @@ module hard_limiter
   input  wire        limbuff_valid,     //        .valid
   /* Iteration controller IF */
   input  wire        iter_input_enable, //    iter.new_signal
+  output wire        iter_ready,        //        .new_signal_1
   /* FIR filter IF */
   input  wire [15:0] fir_data,          //     fir.data
   input  wire        fir_valid,         //        .valid
@@ -53,6 +54,7 @@ generate
     reg         out_valid_r;
 
     // assign fir_ready  = fir_ready_r;
+    assign iter_ready   = out_ready;
     assign fir_ready    = out_ready;
     assign out_data     = out_data_r;
     assign out_valid    = out_valid_r;
@@ -84,6 +86,7 @@ generate
   end
   else
   begin
+    assign iter_ready = out_ready;
     assign fir_ready  = out_ready;
     assign out_data   = ~reset & (signal_case == BELOW_MIN ? limbuff_data[15:0] :
                                                              (signal_case == ABOVE_MAX ? limbuff_data[31:16] : fir_data));
@@ -93,6 +96,8 @@ generate
     reg  [15:0] out_data_r;
     reg         out_valid_r;
 
+    assign iter_ready   = out_ready;
+    assign fir_ready    = out_ready;
     assign out_data     = out_data_r;
     assign out_valid    = out_valid_r;
 

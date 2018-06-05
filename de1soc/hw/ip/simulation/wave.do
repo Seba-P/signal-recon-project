@@ -42,6 +42,7 @@ add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signa
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_input_mux
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_input_enable
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_output_enable
+add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_ready
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/fir_driver_data
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/fir_driver_valid
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ram_signal_address_a
@@ -71,6 +72,7 @@ add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limit
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/lvl_gen_valid
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/iter_input_enable
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/iter_output_enable
+add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/iter_ready
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/limiter_data
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/limiter_valid
 add wave -noupdate -group LIMITS_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/limits_buffer_ctrl/ram_limits_address_a
@@ -102,12 +104,17 @@ add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_input_mux
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_input_enable
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_output_enable
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_ready
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/limbuff_input_enable
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/limbuff_output_enable
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/limbuff_ready
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/fir_input_mux
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/fir_input_enable
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/fir_ready
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/limiter_input_enable
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/limiter_ready
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/out_ctrl_output_enable
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/out_ctrl_ready
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/iter_symbol_cnt_r
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/curr_iter_r
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/curr_iter_end
@@ -123,6 +130,7 @@ add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/si
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/sigbuff_valid
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/iter_input_mux
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/iter_input_enable
+add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/iter_ready
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/fir_data
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/fir_valid
 add wave -noupdate -group FIR_DRIVER sim:/fir_subsystem_top_tb/DUT/fir_driver/fir_error
@@ -133,6 +141,7 @@ add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limite
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/limbuff_data
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/limbuff_valid
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/iter_input_enable
+add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/iter_ready
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/fir_data
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/fir_valid
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/fir_error
@@ -147,6 +156,7 @@ add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/limiter_valid
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/limiter_ready
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/iter_output_enable
+add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/iter_ready
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/out_data
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/out_valid
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/out_ready
