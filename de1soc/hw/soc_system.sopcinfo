@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.06.04.15:17:09 -->
+ <!-- 2018.06.06.15:35:09 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1528118228</value>
+  <value>1528292108</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1092,27 +1092,27 @@ parameters are a RESULT of the module parameters. -->
    </port>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>mm2st_data_adapter_0</moduleName>
+    <moduleName>mm2st_data_adapter</moduleName>
     <slaveName>avalon_st_clk_sink</slaveName>
-    <name>mm2st_data_adapter_0.avalon_st_clk_sink</name>
+    <name>mm2st_data_adapter.avalon_st_clk_sink</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>st2mm_data_adapter_0</moduleName>
+    <moduleName>st2mm_data_adapter</moduleName>
     <slaveName>avalon_st_clk_sink</slaveName>
-    <name>st2mm_data_adapter_0.avalon_st_clk_sink</name>
+    <name>st2mm_data_adapter.avalon_st_clk_sink</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>mm2st_data_adapter_0</moduleName>
+    <moduleName>mm2st_data_adapter</moduleName>
     <slaveName>avalon_st_clk_source</slaveName>
-    <name>mm2st_data_adapter_0.avalon_st_clk_source</name>
+    <name>mm2st_data_adapter.avalon_st_clk_source</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>st2mm_data_adapter_0</moduleName>
+    <moduleName>st2mm_data_adapter</moduleName>
     <slaveName>avalon_st_clk_source</slaveName>
-    <name>st2mm_data_adapter_0.avalon_st_clk_source</name>
+    <name>st2mm_data_adapter.avalon_st_clk_source</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -83656,10 +83656,10 @@ parameters are a RESULT of the module parameters. -->
   </interface>
  </module>
  <module
-   name="mm2st_data_adapter_0"
+   name="mm2st_data_adapter"
    kind="mm2st_data_adapter"
    version="2.0"
-   path="mm2st_data_adapter_0">
+   path="mm2st_data_adapter">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
   <parameter name="deviceFamily">
@@ -93842,10 +93842,10 @@ parameters are a RESULT of the module parameters. -->
   </interface>
  </module>
  <module
-   name="st2mm_data_adapter_0"
+   name="st2mm_data_adapter"
    kind="st2mm_data_adapter"
    version="2.0"
-   path="st2mm_data_adapter_0">
+   path="st2mm_data_adapter">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
   <parameter name="deviceFamily">
@@ -94305,7 +94305,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1528118228</value>
+   <value>1528292108</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -94325,7 +94325,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1528118228</value>
+   <value>1528292108</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -94341,7 +94341,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1528118228</value>
+   <value>1528292108</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -105894,10 +105894,10 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>port_b</endConnectionPoint>
  </connection>
  <connection
-   name="st2mm_data_adapter_0.avalon_st_source/sgdma_st2mm.in"
+   name="st2mm_data_adapter.avalon_st_source/sgdma_st2mm.in"
    kind="avalon_streaming"
    version="17.1"
-   start="st2mm_data_adapter_0.avalon_st_source"
+   start="st2mm_data_adapter.avalon_st_source"
    end="sgdma_st2mm.in">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
@@ -105915,16 +105915,16 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>st2mm_data_adapter_0</startModule>
+  <startModule>st2mm_data_adapter</startModule>
   <startConnectionPoint>avalon_st_source</startConnectionPoint>
   <endModule>sgdma_st2mm</endModule>
   <endConnectionPoint>in</endConnectionPoint>
  </connection>
  <connection
-   name="mm2st_data_adapter_0.avalon_st_source/fir_fifo_in.in"
+   name="mm2st_data_adapter.avalon_st_source/fir_fifo_in.in"
    kind="avalon_streaming"
    version="17.1"
-   start="mm2st_data_adapter_0.avalon_st_source"
+   start="mm2st_data_adapter.avalon_st_source"
    end="fir_fifo_in.in">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
@@ -105942,7 +105942,7 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>mm2st_data_adapter_0</startModule>
+  <startModule>mm2st_data_adapter</startModule>
   <startConnectionPoint>avalon_st_source</startConnectionPoint>
   <endModule>fir_fifo_in</endModule>
   <endConnectionPoint>in</endConnectionPoint>
@@ -106056,11 +106056,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>limbuff</endConnectionPoint>
  </connection>
  <connection
-   name="fir_fifo_out.out/st2mm_data_adapter_0.avalon_st_sink"
+   name="fir_fifo_out.out/st2mm_data_adapter.avalon_st_sink"
    kind="avalon_streaming"
    version="17.1"
    start="fir_fifo_out.out"
-   end="st2mm_data_adapter_0.avalon_st_sink">
+   end="st2mm_data_adapter.avalon_st_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106079,15 +106079,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>fir_fifo_out</startModule>
   <startConnectionPoint>out</startConnectionPoint>
-  <endModule>st2mm_data_adapter_0</endModule>
+  <endModule>st2mm_data_adapter</endModule>
   <endConnectionPoint>avalon_st_sink</endConnectionPoint>
  </connection>
  <connection
-   name="sgdma_mm2st.out/mm2st_data_adapter_0.avalon_st_sink"
+   name="sgdma_mm2st.out/mm2st_data_adapter.avalon_st_sink"
    kind="avalon_streaming"
    version="17.1"
    start="sgdma_mm2st.out"
-   end="mm2st_data_adapter_0.avalon_st_sink">
+   end="mm2st_data_adapter.avalon_st_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106106,7 +106106,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>sgdma_mm2st</startModule>
   <startConnectionPoint>out</startConnectionPoint>
-  <endModule>mm2st_data_adapter_0</endModule>
+  <endModule>mm2st_data_adapter</endModule>
   <endConnectionPoint>avalon_st_sink</endConnectionPoint>
  </connection>
  <connection
@@ -106353,11 +106353,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>in</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/mm2st_data_adapter_0.avalon_st_clk_sink"
+   name="clk_0.clk/mm2st_data_adapter.avalon_st_clk_sink"
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="mm2st_data_adapter_0.avalon_st_clk_sink">
+   end="mm2st_data_adapter.avalon_st_clk_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106376,15 +106376,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>mm2st_data_adapter_0</endModule>
+  <endModule>mm2st_data_adapter</endModule>
   <endConnectionPoint>avalon_st_clk_sink</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/st2mm_data_adapter_0.avalon_st_clk_sink"
+   name="clk_0.clk/st2mm_data_adapter.avalon_st_clk_sink"
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="st2mm_data_adapter_0.avalon_st_clk_sink">
+   end="st2mm_data_adapter.avalon_st_clk_sink">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106403,15 +106403,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>st2mm_data_adapter_0</endModule>
+  <endModule>st2mm_data_adapter</endModule>
   <endConnectionPoint>avalon_st_clk_sink</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/mm2st_data_adapter_0.avalon_st_clk_source"
+   name="clk_0.clk/mm2st_data_adapter.avalon_st_clk_source"
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="mm2st_data_adapter_0.avalon_st_clk_source">
+   end="mm2st_data_adapter.avalon_st_clk_source">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106430,15 +106430,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>mm2st_data_adapter_0</endModule>
+  <endModule>mm2st_data_adapter</endModule>
   <endConnectionPoint>avalon_st_clk_source</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/st2mm_data_adapter_0.avalon_st_clk_source"
+   name="clk_0.clk/st2mm_data_adapter.avalon_st_clk_source"
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="st2mm_data_adapter_0.avalon_st_clk_source">
+   end="st2mm_data_adapter.avalon_st_clk_source">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -106457,7 +106457,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>st2mm_data_adapter_0</endModule>
+  <endModule>st2mm_data_adapter</endModule>
   <endConnectionPoint>avalon_st_clk_source</endConnectionPoint>
  </connection>
  <connection
@@ -107511,11 +107511,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>iter</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk_reset/st2mm_data_adapter_0.avalon_st_reset"
+   name="clk_0.clk_reset/st2mm_data_adapter.avalon_st_reset"
    kind="reset"
    version="17.1"
    start="clk_0.clk_reset"
-   end="st2mm_data_adapter_0.avalon_st_reset">
+   end="st2mm_data_adapter.avalon_st_reset">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -107534,15 +107534,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk_reset</startConnectionPoint>
-  <endModule>st2mm_data_adapter_0</endModule>
+  <endModule>st2mm_data_adapter</endModule>
   <endConnectionPoint>avalon_st_reset</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk_reset/mm2st_data_adapter_0.avalon_st_reset"
+   name="clk_0.clk_reset/mm2st_data_adapter.avalon_st_reset"
    kind="reset"
    version="17.1"
    start="clk_0.clk_reset"
-   end="mm2st_data_adapter_0.avalon_st_reset">
+   end="mm2st_data_adapter.avalon_st_reset">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -107561,7 +107561,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk_reset</startConnectionPoint>
-  <endModule>mm2st_data_adapter_0</endModule>
+  <endModule>mm2st_data_adapter</endModule>
   <endConnectionPoint>avalon_st_reset</endConnectionPoint>
  </connection>
  <connection

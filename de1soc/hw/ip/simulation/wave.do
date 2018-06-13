@@ -155,6 +155,7 @@ add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limite
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/out_data
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/out_valid
 add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/out_ready
+add wave -noupdate -group HARD_LIMITER sim:/fir_subsystem_top_tb/DUT/hard_limiter/signal_case
 
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/reset
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/clock

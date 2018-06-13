@@ -194,7 +194,7 @@
          type = "int";
       }
    }
-   element mm2st_data_adapter_0
+   element mm2st_data_adapter
    {
       datum _sortIndex
       {
@@ -468,7 +468,7 @@
          type = "String";
       }
    }
-   element st2mm_data_adapter_0
+   element st2mm_data_adapter
    {
       datum _sortIndex
       {
@@ -1272,7 +1272,7 @@
   <parameter name="USE_VALID" value="1" />
  </module>
  <module
-   name="mm2st_data_adapter_0"
+   name="mm2st_data_adapter"
    kind="mm2st_data_adapter"
    version="2.0"
    enabled="1" />
@@ -1371,7 +1371,7 @@
   <parameter name="MAX_SAMPLES_IN_RAM" value="255" />
  </module>
  <module
-   name="st2mm_data_adapter_0"
+   name="st2mm_data_adapter"
    kind="st2mm_data_adapter"
    version="2.0"
    enabled="1" />
@@ -1556,12 +1556,12 @@
  <connection
    kind="avalon_streaming"
    version="17.1"
-   start="st2mm_data_adapter_0.avalon_st_source"
+   start="st2mm_data_adapter.avalon_st_source"
    end="sgdma_st2mm.in" />
  <connection
    kind="avalon_streaming"
    version="17.1"
-   start="mm2st_data_adapter_0.avalon_st_source"
+   start="mm2st_data_adapter.avalon_st_source"
    end="fir_fifo_in.in" />
  <connection
    kind="avalon_streaming"
@@ -1587,12 +1587,12 @@
    kind="avalon_streaming"
    version="17.1"
    start="fir_fifo_out.out"
-   end="st2mm_data_adapter_0.avalon_st_sink" />
+   end="st2mm_data_adapter.avalon_st_sink" />
  <connection
    kind="avalon_streaming"
    version="17.1"
    start="sgdma_mm2st.out"
-   end="mm2st_data_adapter_0.avalon_st_sink" />
+   end="mm2st_data_adapter.avalon_st_sink" />
  <connection
    kind="avalon_streaming"
    version="17.1"
@@ -1642,22 +1642,22 @@
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="mm2st_data_adapter_0.avalon_st_clk_sink" />
+   end="mm2st_data_adapter.avalon_st_clk_sink" />
  <connection
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="st2mm_data_adapter_0.avalon_st_clk_sink" />
+   end="st2mm_data_adapter.avalon_st_clk_sink" />
  <connection
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="mm2st_data_adapter_0.avalon_st_clk_source" />
+   end="mm2st_data_adapter.avalon_st_clk_source" />
  <connection
    kind="clock"
    version="17.1"
    start="clk_0.clk"
-   end="st2mm_data_adapter_0.avalon_st_clk_source" />
+   end="st2mm_data_adapter.avalon_st_clk_source" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="sysid_qsys.clk" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="led_pio.clk" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="dipsw_pio.clk" />
@@ -1800,12 +1800,12 @@
    kind="reset"
    version="17.1"
    start="clk_0.clk_reset"
-   end="st2mm_data_adapter_0.avalon_st_reset" />
+   end="st2mm_data_adapter.avalon_st_reset" />
  <connection
    kind="reset"
    version="17.1"
    start="clk_0.clk_reset"
-   end="mm2st_data_adapter_0.avalon_st_reset" />
+   end="mm2st_data_adapter.avalon_st_reset" />
  <connection
    kind="reset"
    version="17.1"
