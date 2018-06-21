@@ -51,6 +51,7 @@ reg         limiter_ready_r;
 reg         iter_ready_r;
 reg  [15:0] fir_driver_data_r;
 reg         fir_driver_valid_r;
+reg         fir_driver_valid_p1_r;
 reg  [12:0] ram_signal_address_a_r;
 reg  [12:0] ram_signal_address_a_p1_r;
 reg         ram_signal_chipselect_a_r;
@@ -67,14 +68,16 @@ reg  [ 3:0] ram_signal_byteenable_b_r;
 
 reg  [ 7:0] symbol_cnt_a_r;
 reg  [ 7:0] symbol_cnt_b_r;
+reg  [ 4:0] iter_num_r;
 reg         pipeline_init_r;
 wire        full_buffer;
 wire        buffer_end;
+wire        iter_end;
 
 assign iter_ready               = iter_ready_r & ~ram_signal_waitrequest_b;
 assign limiter_ready            = limiter_ready_r;
 assign fir_driver_data          = fir_driver_data_r;
-assign fir_driver_valid         = fir_driver_valid_r;
+assign fir_driver_valid         = fir_driver_valid_p1_r;
 
 // assign ram_signal_address_a     = ram_signal_waitrequest_a ? ram_signal_address_a_r : ram_signal_address_a_p1_r;
 assign ram_signal_address_a     = ram_signal_address_a_r;
@@ -96,6 +99,7 @@ assign ram_signal_byteenable_b  = ram_signal_byteenable_b_r;
 
 assign full_buffer  = (symbol_cnt_a_r == MAX_SAMPLES_IN_RAM - 'd1);
 assign buffer_end   = (symbol_cnt_b_r == MAX_SAMPLES_IN_RAM - 'd1);
+assign iter_end     = (iter_num_r == ITER_NUM - 'd1);
 
 // TODO: 1cc buffer for lvl_gen_data to be written (let's make fir_driver read the content of the cell before it's overwritten)
 /* Input controller */
@@ -112,17 +116,15 @@ begin
     ram_signal_writedata_a_p1_r <= '0;
     ram_signal_byteenable_a_r   <= '0;
 
+    iter_num_r                  <= '0;
     pipeline_init_r             <= '1;
     symbol_cnt_a_r              <= '0;
   end
   else
   begin
-    ram_signal_address_a_r      <= { iter_iter_num[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words! 
-    ram_signal_address_a_p1_r   <= ram_signal_address_a_r;
-    ram_signal_chipselect_a_r   <= 'd1;
-    
     if(pipeline_init_r)
     begin
+      ram_signal_address_a_r    <= { iter_num_r[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words!
       ram_signal_write_a_r      <= 'd1;
       ram_signal_writedata_a_r  <= 'd0;
 
@@ -130,17 +132,21 @@ begin
 
       if(full_buffer)
       begin
-        pipeline_init_r         <= '0;
+        iter_num_r              <= iter_end ? 'd0 : iter_num_r + 'd1;
+        pipeline_init_r         <= (iter_num_r != ITER_NUM - 'd1);
       end
     end
     else
     begin
+      ram_signal_address_a_r    <= { iter_iter_num[4:0], symbol_cnt_a_r[7:0] }; // address unit is in words!
       ram_signal_write_a_r      <= iter_input_enable & lvl_gen_valid;
       ram_signal_writedata_a_r  <= lvl_gen_data;
       
       symbol_cnt_a_r            <= full_buffer ? 'd0 : symbol_cnt_a_r + 8'(iter_input_enable & lvl_gen_valid & ~ram_signal_waitrequest_a); // ?
     end
     
+    ram_signal_address_a_p1_r   <= ram_signal_address_a_r;
+    ram_signal_chipselect_a_r   <= 'd1;
     ram_signal_write_a_p1_r     <= ram_signal_write_a_r;
     ram_signal_writedata_a_p1_r <= ram_signal_writedata_a_r;
     ram_signal_byteenable_a_r   <= '1;
@@ -156,6 +162,7 @@ begin
     iter_ready_r              <= '0;
     fir_driver_data_r         <= '0;
     fir_driver_valid_r        <= '0;
+    fir_driver_valid_p1_r     <= '0;
 
     ram_signal_address_b_r    <= '0;
     ram_signal_chipselect_b_r <= '0;
@@ -169,14 +176,16 @@ begin
     limiter_ready_r           <= 'd1;
     iter_ready_r              <= ~pipeline_init_r;
     fir_driver_data_r         <= ram_signal_readdata_b;
-    fir_driver_valid_r        <= iter_output_enable;
+    fir_driver_valid_r        <= iter_output_enable & ~ram_signal_waitrequest_b;
+    fir_driver_valid_p1_r     <= fir_driver_valid_r;
 
     ram_signal_address_b_r    <= { iter_iter_num[4:0], symbol_cnt_b_r[7:0] }; // address unit is in words!
-    ram_signal_read_b_r       <= 'd1;
+    // ram_signal_read_b_r       <= 'd1;
+    ram_signal_read_b_r       <= iter_output_enable;
     ram_signal_chipselect_b_r <= 'd1;
     ram_signal_byteenable_b_r <= '1;
 
-    symbol_cnt_b_r            <= buffer_end ? 'd0 : symbol_cnt_b_r + 8'(iter_output_enable); // ?
+    symbol_cnt_b_r            <= buffer_end ? 'd0 : symbol_cnt_b_r + 8'(iter_output_enable & ~ram_signal_waitrequest_b); // ?
   end
 end
 

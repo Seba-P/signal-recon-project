@@ -2,8 +2,9 @@
 
 module clock_gen
 (
-  output logic clock,
-  output logic reset
+  input  logic sim_end,
+  output logic reset,
+  output logic clock
 );
 
 initial
@@ -14,15 +15,17 @@ begin
   #100 reset = 1'b0;
 end
 
-initial 
-  forever
+initial
+  do
     #5 clock = ~clock;
+  while(!sim_end);
 
 endmodule // clock_gen
 
 module fir_subsystem_top_tb;
 
 /* Common IF */
+logic        sim_end;
 logic        reset;
 logic        reset_n;
 logic        clock;
@@ -38,15 +41,16 @@ logic        st2mm_ready;
 localparam MAX_SAMPLES_IN_RAM = 255;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
-localparam ITER_NUM           = 1;
+localparam ITER_NUM           = 2;
 localparam USE_COMB_LOGIC     = 0;
 
 assign reset_n = ~reset;
 
 clock_gen clk_rst_gen
 (
-  .clock  (clock),
-  .reset  (reset)
+  .sim_end  (sim_end),
+  .reset    (reset),
+  .clock    (clock)
 );
 
 fir_subsystem_top
@@ -174,9 +178,10 @@ endtask : verify_output
 
 initial
 begin
-  mm2st_data   = '0;
-  mm2st_valid  = '0;
-  st2mm_ready  = '0;
+  sim_end     = '0;
+  mm2st_data  = '0;
+  mm2st_valid = '0;
+  st2mm_ready = '0;
 end
 
 initial
@@ -224,7 +229,7 @@ begin
   verify_output(sample);
   mm2st_valid = 'd0;
 
-  # 50 $stop;
+  # 50 sim_end = 'd1;
 end
 
 endmodule // fir_subsystem_top_tb
