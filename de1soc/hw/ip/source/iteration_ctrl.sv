@@ -35,10 +35,21 @@ module iteration_ctrl
   input  wire        out_ctrl_ready           //         .new_signal_1
 );
 
+typedef enum reg [1:0]
+{
+  INIT_BUFFS    = 2'd0,
+  NEW_DATA      = 2'd1,
+  PREPARE_FIR   = 2'd2,
+  PROCESS_ITER  = 2'd3
+} PIPELINE_STATE_T;
+
+PIPELINE_STATE_T state_r;
 reg         lvl_gen_ready_r;
 reg         sigbuff_input_mux_r;
 reg         sigbuff_input_enable_r;
 reg         sigbuff_output_enable_r;
+reg         sigbuff_output_enable_p1_r;
+reg         sigbuff_output_enable_p2_r;
 reg         sigbuff_init_r;
 reg         limbuff_input_enable_r;
 reg         limbuff_output_enable_r;
@@ -48,15 +59,22 @@ reg         limbuff_init_r;
 reg  [ 1:0] fir_input_mux_r;
 reg         fir_input_enable_r;
 reg         limiter_input_enable_r;
-reg         limiter_input_enable_buff_r;
+reg         limiter_input_enable_p1_r;
+reg         limiter_input_enable_p2_r;
+reg         limiter_input_enable_p3_r;
 reg         out_ctrl_output_enable_r;
-reg         out_ctrl_output_enable_buff_r;
+reg         out_ctrl_output_enable_p1_r;
+reg         out_ctrl_output_enable_p2_r;
+reg         out_ctrl_output_enable_p3_r;
+reg         out_ctrl_output_enable_p4_r;
 
 reg  [ 7:0] iter_symbol_cnt_r;
+reg         iter_symbol_inc_r;
 // reg  [ 7:0] recv_symbol_cnt_r;
 reg  [ 4:0] curr_iter_r;
 reg  [ 4:0] iter_num_r;
 reg         pipeline_prep_r; // prepare FIR pipeline for next iteration
+reg         buffs_prep_r; // prepare buffers after init
 wire        curr_iter_end;
 wire        first_iter;
 wire        last_iter;
@@ -67,15 +85,15 @@ assign lvl_gen_ready          = lvl_gen_ready_r & buffers_ready;
 assign sigbuff_iter_num       = curr_iter_r;
 assign sigbuff_input_mux      = sigbuff_input_mux_r;
 assign sigbuff_input_enable   = sigbuff_input_enable_r;
-assign sigbuff_output_enable  = sigbuff_output_enable_r;
+assign sigbuff_output_enable  = sigbuff_output_enable_p2_r;
 assign sigbuff_init           = sigbuff_init_r;
 assign limbuff_input_enable   = limbuff_input_enable_r;
 assign limbuff_output_enable  = limbuff_output_enable_p2_r;
 assign limbuff_init           = limbuff_init_r;
 assign fir_input_mux          = fir_input_mux_r;
 assign fir_input_enable       = fir_input_enable_r;
-assign limiter_input_enable   = limiter_input_enable_r;
-assign out_ctrl_output_enable = out_ctrl_output_enable_r;
+assign limiter_input_enable   = limiter_input_enable_p3_r;
+assign out_ctrl_output_enable = out_ctrl_output_enable_p4_r;
 
 /* Temporarily frozen iterations */
 assign iter_num_r       = ITER_NUM;
@@ -87,6 +105,7 @@ assign last_iter        = (curr_iter_r == iter_num_r - 'd1);
 assign buffers_ready    = sigbuff_ready & limbuff_ready;
 
 // assign fir_input_enable = 1'b1; // ???
+assign iter_symbol_inc_r  = 'd1; // TODO: consider pipeline stall
 
 /* Iteration control */
 always_ff @(posedge clock)
@@ -99,27 +118,79 @@ begin
     iter_symbol_cnt_r       <= '0;
     curr_iter_r             <= '0;
     pipeline_prep_r         <= '1; // ?
+    buffs_prep_r            <= '1; // ?
+    state_r                 <= INIT_BUFFS;
   end
   else
   begin
-    sigbuff_init_r          <= 'd0;
-    limbuff_init_r          <= 'd0;
-
-    if(curr_iter_end)
-    begin
-      if(~pipeline_prep_r)
+    unique case(state_r)
+      INIT_BUFFS:
       begin
-        curr_iter_r <= last_iter ? 'd0 : curr_iter_r + 'd1;
+        sigbuff_init_r  <= 'd0;
+        limbuff_init_r  <= 'd0;
+
+        if(buffers_ready)
+        begin
+          pipeline_prep_r <= 'd0;
+          buffs_prep_r    <= 'd0;
+          state_r         <= NEW_DATA;
+        end
       end
 
-      iter_symbol_cnt_r <= 'd0;
-      pipeline_prep_r   <= ~pipeline_prep_r;
-    end
-    else
-    begin
-      iter_symbol_cnt_r <= first_iter ? iter_symbol_cnt_r + (lvl_gen_valid | pipeline_prep_r) :
-                                        iter_symbol_cnt_r + 'd1;
-    end
+      NEW_DATA:
+      begin
+        curr_iter_r <= 'd0;
+
+        if(curr_iter_end)
+        begin
+          iter_symbol_cnt_r <= 'd0;
+          state_r           <= PROCESS_ITER;
+        end
+        else
+        begin
+          iter_symbol_cnt_r <= iter_symbol_cnt_r + lvl_gen_valid;
+        end
+      end
+
+      PREPARE_FIR:
+      begin
+        if(curr_iter_end)
+        begin
+          state_r           <= PROCESS_ITER;
+          pipeline_prep_r   <= 'd0;
+          iter_symbol_cnt_r <= 'd0;
+        end
+        else
+        begin
+          iter_symbol_cnt_r <= iter_symbol_cnt_r + iter_symbol_inc_r;
+        end
+      end
+
+      PROCESS_ITER:
+      begin
+        if(curr_iter_end)
+        begin
+          if(last_iter)
+          begin
+            curr_iter_r     <= 'd0;
+            state_r         <= NEW_DATA;
+            pipeline_prep_r <= 'd0;
+          end
+          else
+          begin
+            curr_iter_r     <= curr_iter_r + 'd1;
+            state_r         <= PREPARE_FIR;
+            pipeline_prep_r <= 'd1;
+          end
+
+          iter_symbol_cnt_r <= 'd0;
+        end
+        else
+        begin
+          iter_symbol_cnt_r <= iter_symbol_cnt_r + iter_symbol_inc_r;
+        end
+      end
+    endcase
   end
 end
 
@@ -132,7 +203,12 @@ begin
   end
   else
   begin
-    lvl_gen_ready_r <= first_iter & ~pipeline_prep_r && (iter_symbol_cnt_r < MAX_SAMPLES_IN_RAM - 'd2) ? 1'b1 : 1'b0;
+    case(state_r)
+      NEW_DATA:
+        lvl_gen_ready_r <= iter_symbol_cnt_r < MAX_SAMPLES_IN_RAM - 'd2;
+      default:
+        lvl_gen_ready_r <= 'd0;
+    endcase
   end
 end
 
@@ -141,19 +217,50 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
-    sigbuff_input_mux_r     <= '0;
-    sigbuff_input_enable_r  <= '0;
-    sigbuff_output_enable_r <= '0;
+    sigbuff_input_mux_r         <= '0;
+    sigbuff_input_enable_r      <= '0;
+    sigbuff_output_enable_r     <= '0;
+    sigbuff_output_enable_p1_r  <= '0;
+    sigbuff_output_enable_p2_r  <= '0;
   end
   else
   begin
-    if(curr_iter_end)
-    begin
-      sigbuff_input_mux_r     <= ~first_iter;
-    end
+    unique case(state_r)
+      INIT_BUFFS:
+      begin
+        sigbuff_input_mux_r     <= 'd0;
+        sigbuff_input_enable_r  <= 'd0;
+        sigbuff_output_enable_r <= 'd0;
+      end
 
-    sigbuff_input_enable_r  <= first_iter | ~last_iter; // ???
-    sigbuff_output_enable_r <= first_iter ? lvl_gen_valid | pipeline_prep_r : 'd1;
+      NEW_DATA:
+      begin
+        sigbuff_input_mux_r     <= 'd0;
+        sigbuff_input_enable_r  <= 'd1;
+        sigbuff_output_enable_r <= lvl_gen_valid; // ?
+      end
+
+      PREPARE_FIR:
+      begin
+        sigbuff_input_mux_r     <= 'd1;
+        sigbuff_input_enable_r  <= 'd0; // ?
+        sigbuff_output_enable_r <= iter_symbol_inc_r; // ?
+      end
+
+      PROCESS_ITER:
+      begin
+        sigbuff_input_mux_r     <= 'd1;
+        sigbuff_input_enable_r  <= last_iter ? 'd0 : iter_symbol_inc_r; // ?
+        sigbuff_output_enable_r <= iter_symbol_inc_r; // ?
+      end
+    endcase
+    // sigbuff_input_mux_r     <= (state_r == PREPARE_FIR) || (state_r == PROCESS_ITER);
+    // sigbuff_input_enable_r  <= (state_r == NEW_DATA) || ((state_r == PROCESS_ITER) && (iter_symbol_inc_r & ~last_iter));
+    // sigbuff_output_enable_r <= (state_r == NEW_DATA) ? lvl_gen_valid : 
+    //                            (state_r == PREPARE_FIR) || (state_r == PROCESS_ITER) ? iter_symbol_inc_r : 'd0;
+
+    sigbuff_output_enable_p1_r  <= sigbuff_output_enable_r;
+    sigbuff_output_enable_p2_r  <= sigbuff_output_enable_p1_r;
   end
 end
 
@@ -169,13 +276,35 @@ begin
   end
   else
   begin
-    if(curr_iter_end)
-    begin
-      limbuff_input_enable_r  <= first_iter & pipeline_prep_r;
-    end
+    unique case(state_r)
+      INIT_BUFFS:
+      begin
+        limbuff_input_enable_r  <= 'd0;
+        limbuff_output_enable_r <= 'd0;
+      end
 
-    // limbuff_output_enable_r   <= (~first_iter | lvl_gen_valid) & ~pipeline_prep_r;
-    limbuff_output_enable_r     <= (~first_iter | lvl_gen_valid) & ~pipeline_prep_r;
+      NEW_DATA:
+      begin
+        limbuff_input_enable_r  <= 'd1;
+        limbuff_output_enable_r <= lvl_gen_valid; // ?
+      end
+
+      PREPARE_FIR:
+      begin
+        limbuff_input_enable_r  <= 'd0;
+        limbuff_output_enable_r <= 'd0;
+      end
+
+      PROCESS_ITER:
+      begin
+        limbuff_input_enable_r  <= 'd0;
+        limbuff_output_enable_r <= iter_symbol_inc_r; // ?
+      end
+    endcase
+    // limbuff_input_enable_r  <= (state_r == NEW_DATA);
+    // limbuff_output_enable_r <= (state_r == NEW_DATA) ? lvl_gen_valid : 
+    //                            (state_r == PROCESS_ITER) ? iter_symbol_inc_r : 'd0;
+
     limbuff_output_enable_p1_r  <= limbuff_output_enable_r;
     limbuff_output_enable_p2_r  <= limbuff_output_enable_p1_r;
   end
@@ -191,12 +320,27 @@ begin
   end
   else
   begin
-    if(curr_iter_end)
-    begin
-      fir_input_mux_r   <= pipeline_prep_r;
-    end
-    
-    fir_input_enable_r  <= 'd1;
+    case(state_r)
+      INIT_BUFFS:
+      begin
+        fir_input_mux_r     <= 'd0;
+        fir_input_enable_r  <= 'd0;
+      end
+
+      NEW_DATA:
+      begin
+        fir_input_mux_r     <= 'd1;
+        fir_input_enable_r  <= 'd1;
+      end
+
+      default:
+      begin
+        fir_input_mux_r     <= 'd0;
+        fir_input_enable_r  <= 'd1;
+      end
+    endcase
+    // fir_input_mux_r     <= state_r == NEW_DATA;
+    // fir_input_enable_r  <= state_r != INIT_BUFFS;
   end
 end
 
@@ -205,19 +349,39 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
-    limiter_input_enable_buff_r   <= '0;
-    limiter_input_enable_r        <= '0;
-    out_ctrl_output_enable_buff_r <= '0;
-    out_ctrl_output_enable_r      <= '0;
+    limiter_input_enable_r      <= '0;
+    limiter_input_enable_p1_r   <= '0;
+    limiter_input_enable_p2_r   <= '0;
+    out_ctrl_output_enable_r    <= '0;
+    out_ctrl_output_enable_p1_r <= '0;
+    out_ctrl_output_enable_p2_r <= '0;
+    out_ctrl_output_enable_p3_r <= '0;
   end
   else
   begin
-    limiter_input_enable_r    <= ~pipeline_prep_r; // align with FIR output?
-    // limiter_input_enable_buff_r   <= ~pipeline_prep_r; // align with FIR output?
-    // limiter_input_enable_r        <= limiter_input_enable_buff_r;
-    out_ctrl_output_enable_r  <= last_iter & ~pipeline_prep_r;
-    // out_ctrl_output_enable_buff_r <= last_iter & ~pipeline_prep_r;
-    // out_ctrl_output_enable_r      <= out_ctrl_output_enable_buff_r;
+    case(state_r)
+      PROCESS_ITER:
+      begin
+        limiter_input_enable_r    <= 'd1;
+        out_ctrl_output_enable_r  <= last_iter;
+      end
+
+      default:
+      begin
+        limiter_input_enable_r    <= 'd0;
+        out_ctrl_output_enable_r  <= 'd0;
+      end
+    endcase
+    // limiter_input_enable_r    <= (state_r == PROCESS_ITER);
+    // out_ctrl_output_enable_r  <= (state_r == PROCESS_ITER) & last_iter;
+
+    limiter_input_enable_p1_r   <= limiter_input_enable_r;
+    limiter_input_enable_p2_r   <= limiter_input_enable_p1_r;
+    limiter_input_enable_p3_r   <= limiter_input_enable_p2_r;
+    out_ctrl_output_enable_p1_r <= out_ctrl_output_enable_r;
+    out_ctrl_output_enable_p2_r <= out_ctrl_output_enable_p1_r;
+    out_ctrl_output_enable_p3_r <= out_ctrl_output_enable_p2_r;
+    out_ctrl_output_enable_p4_r <= out_ctrl_output_enable_p3_r;
   end
 end
 
