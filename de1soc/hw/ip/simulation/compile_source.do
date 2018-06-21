@@ -1,3 +1,4 @@
+vlog -sv -work work ./../source/delay.sv
 vlog -sv -work work ./../source/sample_dispatcher.sv
 vlog -sv -work work ./../source/lvl_generator.sv
 vlog -sv -work work ./../source/sample2lvl_converter.sv

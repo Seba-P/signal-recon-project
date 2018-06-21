@@ -24,7 +24,7 @@ module fir_subsystem_top
 wire         limits_buffer_ctrl_port_a_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_a -> limits_buffer:port_a_chipselect
 wire  [31:0] limits_buffer_ctrl_port_a_readdata;                  // limits_buffer:port_a_readdata -> limits_buffer_ctrl:ram_limits_readdata_a
 wire         limits_buffer_ctrl_port_a_waitrequest;               // limits_buffer:port_a_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_a
-wire   [7:0] limits_buffer_ctrl_port_a_address;                   // limits_buffer_ctrl:ram_limits_address_a -> limits_buffer:port_a_address
+wire   [8:0] limits_buffer_ctrl_port_a_address;                   // limits_buffer_ctrl:ram_limits_address_a -> limits_buffer:port_a_address
 wire   [3:0] limits_buffer_ctrl_port_a_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_a -> limits_buffer:port_a_byteenable
 wire         limits_buffer_ctrl_port_a_read;                      // limits_buffer_ctrl:ram_limits_read_a -> limits_buffer:port_a_read
 wire         limits_buffer_ctrl_port_a_write;                     // limits_buffer_ctrl:ram_limits_write_a -> limits_buffer:port_a_write
@@ -40,7 +40,7 @@ wire  [15:0] signal_buffer_ctrl_port_a_writedata;                 // signal_buff
 wire         limits_buffer_ctrl_port_b_chipselect;                // limits_buffer_ctrl:ram_limits_chipselect_b -> limits_buffer:port_b_chipselect
 wire  [31:0] limits_buffer_ctrl_port_b_readdata;                  // limits_buffer:port_b_readdata -> limits_buffer_ctrl:ram_limits_readdata_b
 wire         limits_buffer_ctrl_port_b_waitrequest;               // limits_buffer:port_b_waitrequest -> limits_buffer_ctrl:ram_limits_waitrequest_b
-wire   [7:0] limits_buffer_ctrl_port_b_address;                   // limits_buffer_ctrl:ram_limits_address_b -> limits_buffer:port_b_address
+wire   [8:0] limits_buffer_ctrl_port_b_address;                   // limits_buffer_ctrl:ram_limits_address_b -> limits_buffer:port_b_address
 wire   [3:0] limits_buffer_ctrl_port_b_byteenable;                // limits_buffer_ctrl:ram_limits_byteenable_b -> limits_buffer:port_b_byteenable
 wire         limits_buffer_ctrl_port_b_read;                      // limits_buffer_ctrl:ram_limits_read_b -> limits_buffer:port_b_read
 wire         limits_buffer_ctrl_port_b_write;                     // limits_buffer_ctrl:ram_limits_write_b -> limits_buffer:port_b_write
@@ -352,7 +352,8 @@ limits_buffer limits_buffer (
 );
 
 limits_buffer_ctrl #(
-  .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM)
+  .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
+  .ITER_NUM           (ITER_NUM)
 ) limits_buffer_ctrl (
   .clock                    (clock),                                 //   clock.clk
   .reset                    (rst_controller_reset_out_reset),        //   reset.reset

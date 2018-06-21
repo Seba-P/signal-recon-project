@@ -5,7 +5,7 @@ module limits_buffer
   input  wire        reset,               //  reset.reset
   input  wire        clock,               //  clock.clk
   /* PORT A */
-  input  wire [ 7:0] port_a_address,      // port_a.address
+  input  wire [ 8:0] port_a_address,      // port_a.address
   input  wire        port_a_chipselect,   //       .chipselect
   input  wire        port_a_read,         //       .read
   output wire [31:0] port_a_readdata,     //       .readdata
@@ -14,7 +14,7 @@ module limits_buffer
   input  wire [ 3:0] port_a_byteenable,   //       .byteenable
   output wire        port_a_waitrequest,  //       .waitrequest
   /* PORT B */
-  input  wire [ 7:0] port_b_address,      // port_b.address
+  input  wire [ 8:0] port_b_address,      // port_b.address
   input  wire        port_b_chipselect,   //       .chipselect
   input  wire        port_b_read,         //       .read
   output wire [31:0] port_b_readdata,     //       .readdata

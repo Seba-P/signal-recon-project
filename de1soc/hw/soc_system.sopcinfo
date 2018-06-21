@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.06.06.15:35:09 -->
+ <!-- 2018.06.17.10:27:27 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1528292108</value>
+  <value>1529224045</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -81206,7 +81206,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="addressSpan">
     <type>java.math.BigInteger</type>
-    <value>1024</value>
+    <value>2048</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -81505,7 +81505,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>port_a_address</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>9</width>
     <role>address</role>
    </port>
    <port>
@@ -81589,7 +81589,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="addressSpan">
     <type>java.math.BigInteger</type>
-    <value>1024</value>
+    <value>2048</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -81888,7 +81888,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>port_b_address</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>9</width>
     <role>address</role>
    </port>
    <port>
@@ -82646,7 +82646,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>ram_limits_address_a</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>9</width>
     <role>address</role>
    </port>
    <port>
@@ -82697,7 +82697,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>port_a</slaveName>
     <name>limits_buffer.port_a</name>
     <baseAddress>0</baseAddress>
-    <span>1024</span>
+    <span>2048</span>
    </memoryBlock>
   </interface>
   <interface name="port_b" kind="avalon_master" version="17.1">
@@ -82965,7 +82965,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>ram_limits_address_b</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>9</width>
     <role>address</role>
    </port>
    <port>
@@ -83016,7 +83016,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>port_b</slaveName>
     <name>limits_buffer.port_b</name>
     <baseAddress>0</baseAddress>
-    <span>1024</span>
+    <span>2048</span>
    </memoryBlock>
   </interface>
  </module>
@@ -94305,7 +94305,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1528292108</value>
+   <value>1529224045</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -94325,7 +94325,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1528292108</value>
+   <value>1529224045</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -94341,7 +94341,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1528292108</value>
+   <value>1529224045</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
