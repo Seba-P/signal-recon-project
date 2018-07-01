@@ -6,6 +6,7 @@ vlog -sv -work work ./../source/iteration_ctrl.sv
 vlog -sv -work work ./../source/limits_buffer_ctrl.sv
 vlog -sv -work work ./../source/limits_buffer_alt.v
 vlog -sv -work work ./../source/limits_buffer.sv
+vlog -sv -work work ./../source/signal_buffer_int_alt.v
 vlog -sv -work work ./../source/signal_buffer_ctrl.sv
 vlog -sv -work work ./../source/signal_buffer_alt.v
 vlog -sv -work work ./../source/signal_buffer.sv
