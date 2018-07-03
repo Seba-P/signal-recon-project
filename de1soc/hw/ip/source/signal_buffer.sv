@@ -24,7 +24,7 @@ module signal_buffer
   output wire        port_b_waitrequest   //       .waitrequest
 );
 
-reg  [31:0] port_b_readdata_r;
+reg  [15:0] port_b_readdata_r;
 
 assign port_b_readdata      = port_b_readdata_r;
 assign port_a_waitrequest   = '0; // wait request feature not used

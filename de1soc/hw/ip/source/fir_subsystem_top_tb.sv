@@ -38,6 +38,7 @@ logic [15:0] st2mm_data;
 logic        st2mm_valid;
 logic        st2mm_ready;
 
+localparam FIR_TAPS_NUM       = 255;
 localparam MAX_SAMPLES_IN_RAM = 255;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
@@ -55,6 +56,7 @@ clock_gen clk_rst_gen
 
 fir_subsystem_top
 #(
+  .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .LVLS_NUM           (LVLS_NUM),
   .LVL_RESET_VALUE    (LVL_RESET_VALUE),
@@ -213,6 +215,7 @@ begin
   #  5 curr_lvl   = LVL_RESET_VALUE;
   curr_iter       = 0;
   total_duration  = 0;
+  st2mm_ready     = 'd1;
   # 20 reset      = 'd1;
   #100 reset      = 'd0;
 
@@ -220,11 +223,11 @@ begin
   repeat(MAX_SAMPLES_IN_RAM+5)
     @(posedge clock);
 
-  sample = '{ 1'b1, 15'd400 };
+  sample = '{ 1'b1, 15'd600 };
   send_sample(sample);
   verify_output(sample);
 
-  sample = '{ 1'b1, 15'd40 };
+  sample = '{ 1'b1, 15'd200 };
   send_sample(sample);
   verify_output(sample);
   mm2st_valid = 'd0;

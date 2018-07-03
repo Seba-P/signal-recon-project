@@ -1,6 +1,7 @@
 
 module fir_subsystem_top
 #(
+  parameter FIR_TAPS_NUM        = 255,
   parameter MAX_SAMPLES_IN_RAM  = 255,
   parameter LVLS_NUM            = 20,
   parameter LVL_RESET_VALUE     = 9,
@@ -63,6 +64,7 @@ wire         fir_driver_fir_ready;                                // fir_filter:
 wire   [1:0] fir_driver_fir_error;                                // fir_driver:fir_error -> fir_filter:ast_sink_error
 wire         signal_buffer_ctrl_fir_driver_valid;                 // signal_buffer_ctrl:fir_driver_valid -> fir_driver:sigbuff_valid
 wire  [15:0] signal_buffer_ctrl_fir_driver_data;                  // signal_buffer_ctrl:fir_driver_data -> fir_driver:sigbuff_data
+wire         signal_buffer_ctrl_fir_driver_ready;                 // fir_driver:sigbuff_ready -> signal_buffer_ctrl:fir_driver_ready
 wire         limits_buffer_ctrl_limiter_valid;                    // limits_buffer_ctrl:limiter_valid -> hard_limiter:limbuff_valid
 wire  [31:0] limits_buffer_ctrl_limiter_data;                     // limits_buffer_ctrl:limiter_data -> hard_limiter:limbuff_data
 wire         hard_limiter_out_valid;                              // hard_limiter:out_valid -> hard_limiter_out_splitter:in0_valid
@@ -84,25 +86,30 @@ wire         sample2lvl_converter_out_lvl_valid;                  // sample2lvl_
 wire  [15:0] sample2lvl_converter_out_lvl_data;                   // sample2lvl_converter:out_lvl_data -> lvl_generator_out_splitter:in0_data
 wire         iteration_ctrl_fir_driver_new_signal_1;              // iteration_ctrl:fir_input_enable -> fir_driver:iter_input_enable
 wire         fir_driver_iter_new_signal_2;                        // fir_driver:iter_ready -> iteration_ctrl:fir_ready
+wire         fir_driver_iter_new_signal_3;                        // fir_driver:iter_data_passed -> iteration_ctrl:fir_data_passed
 wire         iteration_ctrl_fir_driver_new_signal;                // iteration_ctrl:fir_input_mux -> fir_driver:iter_input_mux
-wire         iteration_ctrl_limbuff_new_signal_1;                 // iteration_ctrl:limbuff_output_enable -> limits_buffer_ctrl:iter_output_enable
-wire         limits_buffer_ctrl_iter_new_signal_2;                // limits_buffer_ctrl:iter_ready -> iteration_ctrl:limbuff_ready
-wire         iteration_ctrl_limbuff_new_signal_3;                 // iteration_ctrl:limbuff_init -> limits_buffer_ctrl:iter_init
-wire         iteration_ctrl_limbuff_new_signal;                   // iteration_ctrl:limbuff_input_enable -> limits_buffer_ctrl:iter_input_enable
-wire         iteration_ctrl_lvl_gen_new_signal_1;                 // iteration_ctrl:lvl_gen_ready -> sample2lvl_converter:iter_ready
-wire         sample2lvl_converter_iter_new_signal;                // sample2lvl_converter:iter_valid -> iteration_ctrl:lvl_gen_valid
-wire         signal_buffer_ctrl_iter_new_signal_4;                // signal_buffer_ctrl:iter_ready -> iteration_ctrl:sigbuff_ready
-wire         iteration_ctrl_sigbuff_new_signal_5;                 // iteration_ctrl:sigbuff_init -> signal_buffer_ctrl:iter_init
-wire         iteration_ctrl_sigbuff_new_signal_1;                 // iteration_ctrl:sigbuff_input_mux -> signal_buffer_ctrl:iter_input_mux
-wire         iteration_ctrl_sigbuff_new_signal_2;                 // iteration_ctrl:sigbuff_input_enable -> signal_buffer_ctrl:iter_input_enable
-wire         iteration_ctrl_sigbuff_new_signal_3;                 // iteration_ctrl:sigbuff_output_enable -> signal_buffer_ctrl:iter_output_enable
+wire         limits_buffer_ctrl_iter_new_signal_4;                // limits_buffer_ctrl:iter_ready -> iteration_ctrl:limbuff_ready
+wire         iteration_ctrl_limbuff_new_signal_1;                 // iteration_ctrl:limbuff_init -> limits_buffer_ctrl:iter_init
+wire         iteration_ctrl_limbuff_new_signal_2;                 // iteration_ctrl:limbuff_input_enable -> limits_buffer_ctrl:iter_input_enable
+wire         iteration_ctrl_limbuff_new_signal_3;                 // iteration_ctrl:limbuff_output_enable -> limits_buffer_ctrl:iter_output_enable
+wire  [ 7:0] iteration_ctrl_limbuff_new_signal;                   // iteration_ctrl:limbuff_symbol_num -> limits_buffer_ctrl:iter_symbol_num
+wire         sample2lvl_converter_iter_new_signal_1;              // sample2lvl_converter:iter_valid -> iteration_ctrl:lvl_gen_valid
+wire         iteration_ctrl_lvl_gen_new_signal_2;                 // iteration_ctrl:lvl_gen_ready -> sample2lvl_converter:iter_ready
+wire         iteration_ctrl_lvl_gen_new_signal;                   // iteration_ctrl:lvl_gen_init -> sample2lvl_converter:iter_init
+wire         iteration_ctrl_sigbuff_new_signal_4;                 // iteration_ctrl:sigbuff_input_enable -> signal_buffer_ctrl:iter_input_enable
+wire         iteration_ctrl_sigbuff_new_signal_5;                 // iteration_ctrl:sigbuff_output_enable -> signal_buffer_ctrl:iter_output_enable
+wire         signal_buffer_ctrl_iter_new_signal_6;                // signal_buffer_ctrl:iter_ready -> iteration_ctrl:sigbuff_ready
+wire   [7:0] iteration_ctrl_sigbuff_new_signal_1;                 // iteration_ctrl:sigbuff_symbol_num -> signal_buffer_ctrl:iter_symbol_num
+wire         iteration_ctrl_sigbuff_new_signal_2;                 // iteration_ctrl:sigbuff_init -> signal_buffer_ctrl:iter_init
+wire         iteration_ctrl_sigbuff_new_signal_3;                 // iteration_ctrl:sigbuff_input_mux -> signal_buffer_ctrl:iter_input_mux
 wire   [4:0] iteration_ctrl_sigbuff_new_signal;                   // iteration_ctrl:sigbuff_iter_num -> signal_buffer_ctrl:iter_iter_num
 wire         hard_limiter_iter_new_signal_1;                      // hard_limiter:iter_ready -> iteration_ctrl:limiter_ready
 wire         iteration_ctrl_limiter_new_signal;                   // iteration_ctrl:limiter_input_enable -> hard_limiter:iter_input_enable
 wire         output_ctrl_iter_new_signal_1;                       // output_ctrl:iter_ready -> iteration_ctrl:out_ctrl_ready
 wire         iteration_ctrl_out_ctrl_new_signal;                  // iteration_ctrl:out_ctrl_output_enable -> output_ctrl:iter_output_enable
-wire         rst_controller_reset_out_reset;                      // rst_controller:reset_out -> [button_pio:reset_n, dipsw_pio:reset_n, fir_driver:reset, fir_fifo_in:reset, fir_fifo_out:reset, fir_filter:reset_n, hard_limiter:reset, hard_limiter_out_splitter:reset, iteration_ctrl:reset, led_pio:reset_n, limits_buffer:reset, limits_buffer_ctrl:reset, lvl_generator_out_splitter:reset, mm2st_data_adapter_0:avalon_st_reset, mm_interconnect_0:sgdma_mm2st_reset_reset_bridge_in_reset_reset, mm_interconnect_1:sysid_qsys_reset_reset_bridge_in_reset_reset, onchip_RAM:reset, output_ctrl:reset, rst_translator:in_reset, sample2lvl_converter:reset, sgdma_mm2st:system_reset_n, sgdma_st2mm:system_reset_n, signal_buffer:reset, signal_buffer_ctrl:reset, st2mm_data_adapter_0:avalon_st_reset, sysid_qsys:reset_n]
+wire         rst_controller_reset_out_reset;                      // rst_controller:reset_out -> [button_pio:reset_n, dipsw_pio:reset_n, fir_driver:reset, fir_fifo_in:reset, fir_fifo_out:reset, fir_filter:reset_n, hard_limiter:reset, hard_limiter_out_splitter:reset, iteration_ctrl:reset, led_pio:reset_n, limits_buffer:reset, limits_buffer_ctrl:reset, lvl_generator_out_splitter:reset, mm2st_data_adapter:avalon_st_reset, mm_interconnect_0:sgdma_mm2st_reset_reset_bridge_in_reset_reset, mm_interconnect_1:sysid_qsys_reset_reset_bridge_in_reset_reset, onchip_RAM:reset, output_ctrl:reset, rst_translator:in_reset, sample2lvl_converter:reset, sgdma_mm2st:system_reset_n, sgdma_st2mm:system_reset_n, signal_buffer:reset, signal_buffer_ctrl:reset, st2mm_data_adapter:avalon_st_reset, sysid_qsys:reset_n]
 wire         rst_controller_reset_out_reset_req;                  // rst_controller:reset_req -> [onchip_RAM:reset_req, rst_translator:reset_req_in]
+wire         rst_controller_001_reset_out_reset;                  // rst_controller_001:reset_out -> [mm_interconnect_0:hps_0_f2h_axi_slave_agent_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset]
 
 fir_driver #(
   .USE_COMB_LOGIC (USE_COMB_LOGIC)
@@ -113,13 +120,15 @@ fir_driver #(
   .lvl_gen_valid     (lvl_generator_out_splitter_out1_valid),  //        .valid
   .sigbuff_data      (signal_buffer_ctrl_fir_driver_data),     // sigbuff.data
   .sigbuff_valid     (signal_buffer_ctrl_fir_driver_valid),    //        .valid
+  .sigbuff_ready     (signal_buffer_ctrl_fir_driver_ready),    //        .ready
   .fir_data          (fir_driver_fir_data),                    //     fir.data
   .fir_valid         (fir_driver_fir_valid),                   //        .valid
   .fir_ready         (fir_driver_fir_ready),                   //        .ready
   .fir_error         (fir_driver_fir_error),                   //        .error
   .iter_input_mux    (iteration_ctrl_fir_driver_new_signal),   //    iter.new_signal
   .iter_input_enable (iteration_ctrl_fir_driver_new_signal_1), //        .new_signal_1
-  .iter_ready        (fir_driver_iter_new_signal_2)            //        .new_signal_2
+  .iter_ready        (fir_driver_iter_new_signal_2),           //        .new_signal_2
+  .iter_data_passed  (fir_driver_iter_new_signal_3)            //        .new_signal_3
 );
 
 soc_system_fir_filter fir_filter (
@@ -304,26 +313,31 @@ altera_avalon_st_splitter #(
 );
 
 iteration_ctrl #(
+  .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .ITER_NUM           (ITER_NUM)
 ) iteration_ctrl (
   .clock                  (clock),                                  //      clock.clk
   .reset                  (rst_controller_reset_out_reset),         //      reset.reset
   .sigbuff_iter_num       (iteration_ctrl_sigbuff_new_signal),      //    sigbuff.new_signal
-  .sigbuff_input_mux      (iteration_ctrl_sigbuff_new_signal_1),    //           .new_signal_1
-  .sigbuff_input_enable   (iteration_ctrl_sigbuff_new_signal_2),    //           .new_signal_2
-  .sigbuff_output_enable  (iteration_ctrl_sigbuff_new_signal_3),    //           .new_signal_3
-  .sigbuff_ready          (signal_buffer_ctrl_iter_new_signal_4),   //           .new_signal_4
-  .sigbuff_init           (iteration_ctrl_sigbuff_new_signal_5),    //           .new_signal_5
-  .limbuff_input_enable   (iteration_ctrl_limbuff_new_signal),      //    limbuff.new_signal
-  .limbuff_output_enable  (iteration_ctrl_limbuff_new_signal_1),    //           .new_signal_1
-  .limbuff_ready          (limits_buffer_ctrl_iter_new_signal_2),   //           .new_signal_2
-  .limbuff_init           (iteration_ctrl_limbuff_new_signal_3),    //           .new_signal_3
-  .lvl_gen_valid          (sample2lvl_converter_iter_new_signal),   //    lvl_gen.new_signal
-  .lvl_gen_ready          (iteration_ctrl_lvl_gen_new_signal_1),    //           .new_signal_1
+  .sigbuff_symbol_num     (iteration_ctrl_sigbuff_new_signal_1),    //           .new_signal_1
+  .sigbuff_init           (iteration_ctrl_sigbuff_new_signal_2),    //           .new_signal_2
+  .sigbuff_input_mux      (iteration_ctrl_sigbuff_new_signal_3),    //           .new_signal_3
+  .sigbuff_input_enable   (iteration_ctrl_sigbuff_new_signal_4),    //           .new_signal_4
+  .sigbuff_output_enable  (iteration_ctrl_sigbuff_new_signal_5),    //           .new_signal_5
+  .sigbuff_ready          (signal_buffer_ctrl_iter_new_signal_6),   //           .new_signal_6
+  .limbuff_symbol_num     (iteration_ctrl_limbuff_new_signal),      //    limbuff.new_signal
+  .limbuff_init           (iteration_ctrl_limbuff_new_signal_1),    //           .new_signal_1
+  .limbuff_input_enable   (iteration_ctrl_limbuff_new_signal_2),    //           .new_signal_2
+  .limbuff_output_enable  (iteration_ctrl_limbuff_new_signal_3),    //           .new_signal_3
+  .limbuff_ready          (limits_buffer_ctrl_iter_new_signal_4),   //           .new_signal_4
+  .lvl_gen_init           (iteration_ctrl_lvl_gen_new_signal),      //    lvl_gen.new_signal
+  .lvl_gen_valid          (sample2lvl_converter_iter_new_signal_1), //           .new_signal_1
+  .lvl_gen_ready          (iteration_ctrl_lvl_gen_new_signal_2),    //           .new_signal_2
   .fir_input_mux          (iteration_ctrl_fir_driver_new_signal),   // fir_driver.new_signal
   .fir_input_enable       (iteration_ctrl_fir_driver_new_signal_1), //           .new_signal_1
   .fir_ready              (fir_driver_iter_new_signal_2),           //           .new_signal_2
+  .fir_data_passed        (fir_driver_iter_new_signal_3),           //           .new_signal_3
   .limiter_input_enable   (iteration_ctrl_limiter_new_signal),      //    limiter.new_signal
   .limiter_ready          (hard_limiter_iter_new_signal_1),         //           .new_signal_1
   .out_ctrl_output_enable (iteration_ctrl_out_ctrl_new_signal),     //   out_ctrl.new_signal
@@ -352,6 +366,7 @@ limits_buffer limits_buffer (
 );
 
 limits_buffer_ctrl #(
+  .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .ITER_NUM           (ITER_NUM)
 ) limits_buffer_ctrl (
@@ -359,10 +374,11 @@ limits_buffer_ctrl #(
   .reset                    (rst_controller_reset_out_reset),        //   reset.reset
   .lvl_gen_valid            (sample2lvl_converter_out_limits_valid), // lvl_gen.valid
   .lvl_gen_data             (sample2lvl_converter_out_limits_data),  //        .data
-  .iter_input_enable        (iteration_ctrl_limbuff_new_signal),     //    iter.new_signal
-  .iter_output_enable       (iteration_ctrl_limbuff_new_signal_1),   //        .new_signal_1
-  .iter_ready               (limits_buffer_ctrl_iter_new_signal_2),  //        .new_signal_2
-  .iter_init                (iteration_ctrl_limbuff_new_signal_3),   //        .new_signal_3
+  .iter_symbol_num          (iteration_ctrl_limbuff_new_signal),     //    iter.new_signal
+  .iter_init                (iteration_ctrl_limbuff_new_signal_1),   //        .new_signal_1
+  .iter_input_enable        (iteration_ctrl_limbuff_new_signal_2),   //        .new_signal_2
+  .iter_output_enable       (iteration_ctrl_limbuff_new_signal_3),   //        .new_signal_3
+  .iter_ready               (limits_buffer_ctrl_iter_new_signal_4),  //        .new_signal_4
   .limiter_data             (limits_buffer_ctrl_limiter_data),       // limiter.data
   .limiter_valid            (limits_buffer_ctrl_limiter_valid),      //        .valid
   .ram_limits_address_a     (limits_buffer_ctrl_port_a_address),     //  port_a.address
@@ -561,8 +577,9 @@ sample2lvl_converter #(
   .out_lvl_valid    (sample2lvl_converter_out_lvl_valid),    //           .valid
   .out_limits_data  (sample2lvl_converter_out_limits_data),  // out_limits.data
   .out_limits_valid (sample2lvl_converter_out_limits_valid), //           .valid
-  .iter_valid       (sample2lvl_converter_iter_new_signal),  //       iter.new_signal
-  .iter_ready       (iteration_ctrl_lvl_gen_new_signal_1)    //           .new_signal_1
+  .iter_init        (iteration_ctrl_lvl_gen_new_signal),      //       iter.new_signal
+  .iter_valid       (sample2lvl_converter_iter_new_signal_1), //           .new_signal_1
+  .iter_ready       (iteration_ctrl_lvl_gen_new_signal_2)     //           .new_signal_2
 );
 
 signal_buffer signal_buffer (
@@ -598,11 +615,12 @@ signal_buffer_ctrl #(
   .limiter_valid            (hard_limiter_out_splitter_out0_valid),  //           .valid
   .limiter_ready            (hard_limiter_out_splitter_out0_ready),  //           .ready
   .iter_iter_num            (iteration_ctrl_sigbuff_new_signal),     //       iter.new_signal
-  .iter_input_mux           (iteration_ctrl_sigbuff_new_signal_1),   //           .new_signal_1
-  .iter_input_enable        (iteration_ctrl_sigbuff_new_signal_2),   //           .new_signal_2
-  .iter_output_enable       (iteration_ctrl_sigbuff_new_signal_3),   //           .new_signal_3
-  .iter_ready               (signal_buffer_ctrl_iter_new_signal_4),  //           .new_signal_4
-  .iter_init                (iteration_ctrl_sigbuff_new_signal_5),   //           .new_signal_5
+  .iter_symbol_num          (iteration_ctrl_sigbuff_new_signal_1),   //           .new_signal_1
+  .iter_init                (iteration_ctrl_sigbuff_new_signal_2),   //           .new_signal_2
+  .iter_input_mux           (iteration_ctrl_sigbuff_new_signal_3),   //           .new_signal_3
+  .iter_input_enable        (iteration_ctrl_sigbuff_new_signal_4),   //           .new_signal_4
+  .iter_output_enable       (iteration_ctrl_sigbuff_new_signal_5),   //           .new_signal_5
+  .iter_ready               (signal_buffer_ctrl_iter_new_signal_6),  //           .new_signal_6
   .ram_signal_address_a     (signal_buffer_ctrl_port_a_address),     //     port_a.address
   .ram_signal_byteenable_a  (signal_buffer_ctrl_port_a_byteenable),  //           .byteenable
   .ram_signal_chipselect_a  (signal_buffer_ctrl_port_a_chipselect),  //           .chipselect
@@ -620,7 +638,8 @@ signal_buffer_ctrl #(
   .ram_signal_waitrequest_b (signal_buffer_ctrl_port_b_waitrequest), //           .waitrequest
   .ram_signal_read_b        (signal_buffer_ctrl_port_b_read),        //           .read
   .fir_driver_data          (signal_buffer_ctrl_fir_driver_data),    // fir_driver.data
-  .fir_driver_valid         (signal_buffer_ctrl_fir_driver_valid)    //           .valid
+  .fir_driver_valid         (signal_buffer_ctrl_fir_driver_valid),   //           .valid
+  .fir_driver_ready         (signal_buffer_ctrl_fir_driver_ready)    //           .ready
 );
 
 altera_reset_controller #(

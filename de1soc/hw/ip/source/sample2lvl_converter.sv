@@ -13,8 +13,9 @@ module sample2lvl_converter
   input  wire        in_valid,          //           .valid
   output wire        in_ready,          //           .ready
   /* Iteration controller IF */
-  output wire        iter_valid,        //       iter.new_signal
-  input  wire        iter_ready,        //           .new_signal1
+  input  wire        iter_init,         //       iter.new_signal
+  output wire        iter_valid,        //           .new_signal_1
+  input  wire        iter_ready,        //           .new_signal_2
   /* Output lvl IF */
   output wire [15:0] out_lvl_data,      //    out_lvl.data
   output wire        out_lvl_valid,     //           .valid
@@ -35,7 +36,7 @@ assign out_limits_valid = out_valid;
 sample_dispatcher sample_dispatcher_inst
 (
   /* Common IF */
-  .reset              (reset),
+  .reset              (reset | iter_init),
   .clock              (clock),
   /* SGDMA IF */
   .in_data            (in_data),
@@ -57,7 +58,7 @@ lvl_generator
 lvl_generator_inst
 (
   /* Common IF */
-  .reset            (reset),
+  .reset            (reset | iter_init),
   .clock            (clock),
   /* Sample dispatcher IF */
   .disp_cross_dir   (lvl_gen_cross_dir),

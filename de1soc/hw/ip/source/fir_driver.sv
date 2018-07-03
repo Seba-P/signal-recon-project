@@ -13,10 +13,12 @@ module fir_driver
   /* Signal buffer controller IF */
   input  wire [15:0] sigbuff_data,      // sigbuff.data
   input  wire        sigbuff_valid,     //        .valid
+  output wire        sigbuff_ready,     //        .ready
   /* Iteration controller IF */
   input  wire        iter_input_mux,    //    iter.new_signal
   input  wire        iter_input_enable, //        .new_signal_1
   output wire        iter_ready,        //        .new_signal_2
+  output wire        iter_data_passed,  //        .new_signal_3
   /* FIR filter IF */
   output wire [15:0] fir_data,          //     fir.data
   output wire        fir_valid,         //        .valid
@@ -27,42 +29,52 @@ module fir_driver
 generate
   if(USE_COMB_LOGIC == 0)
   begin
+    // reg         iter_data_passed_r;
     reg  [15:0] fir_data_r;
     reg         fir_valid_r;
 
-    assign iter_ready = fir_ready;
-    assign fir_data   = fir_data_r;
-    assign fir_valid  = fir_valid_r & iter_input_enable;
-    assign fir_error  = '0; // not used
+    assign sigbuff_ready    = fir_ready;
+    assign iter_ready       = fir_ready;
+    assign iter_data_passed = fir_ready & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
+    assign fir_data         = fir_data_r;
+    assign fir_valid        = fir_valid_r & iter_input_enable;
+    assign fir_error        = '0; // not used
 
     always_ff @(posedge clock)
     begin
       if(reset)
       begin
-        fir_data_r  <= '0;
-        fir_valid_r <= '0;
+        // iter_data_passed_r  <= '0;
+        fir_data_r          <= '0;
+        fir_valid_r         <= '0;
       end
       else
       begin
-        fir_data_r  <= iter_input_mux ? lvl_gen_data : sigbuff_data;
-        fir_valid_r <= iter_input_mux ? lvl_gen_valid : sigbuff_valid;
+        // iter_data_passed_r  <= fir_ready & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
+        fir_data_r          <= iter_input_mux ? lvl_gen_data : sigbuff_data;
+        fir_valid_r         <= iter_input_mux ? lvl_gen_valid : sigbuff_valid;
       end
     end
   end
   else
   begin
-    assign iter_ready = fir_ready;
-    assign fir_data   = ~reset & (iter_input_mux ? lvl_gen_data : sigbuff_data);
-    assign fir_valid  = ~reset & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
-    assign fir_error  = '0; // not used
+    assign sigbuff_ready    = fir_ready;
+    assign iter_ready       = fir_ready;
+    assign iter_data_passed = fir_ready & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
+    assign fir_data         = iter_input_mux ? lvl_gen_data : sigbuff_data;
+    assign fir_valid        = ~reset & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
+    assign fir_error        = '0; // not used
 
     /*
     reg  [15:0] fir_data_r;
     reg         fir_valid_r;
 
-    assign iter_ready = fir_ready;
-    assign fir_data   = fir_data_r;
-    assign fir_valid  = fir_valid_r;
+    assign sigbuff_ready    = fir_ready;
+    assign iter_ready       = fir_ready;
+    assign iter_data_passed = fir_ready & (iter_input_mux ? lvl_gen_valid : sigbuff_valid) & iter_input_enable;
+    assign fir_data         = fir_data_r;
+    assign fir_valid        = fir_valid_r;
+    
     always_comb
     begin
       if(reset)
