@@ -54,9 +54,12 @@ reg         lvl_gen_ready_r;
 reg         lvl_gen_ready_p1_r;
 reg         lvl_gen_ready_p2_r;
 reg  [ 7:0] sigbuff_symbol_num_r;
+reg  [ 7:0] sigbuff_symbol_num_p1_r;
+reg  [ 7:0] sigbuff_symbol_num_p2_r;
 reg         sigbuff_init_r;
 reg         sigbuff_input_mux_r;
 reg         sigbuff_input_enable_r;
+reg         sigbuff_input_enable_p1_r;
 reg         sigbuff_output_enable_r;
 reg         sigbuff_output_enable_p1_r;
 reg         sigbuff_output_enable_p2_r;
@@ -90,6 +93,7 @@ reg  [ 4:0] curr_iter_r;
 reg  [ 4:0] iter_num_r;
 reg         pipeline_prep_r; // prepare FIR pipeline for next iteration
 reg         buffs_prep_r; // prepare buffers after init
+reg         curr_iter_end_r;
 wire        curr_iter_end;
 wire        first_iter;
 wire        last_iter;
@@ -99,12 +103,14 @@ wire        fir_taps_half;
 assign lvl_gen_init           = lvl_gen_init_r;
 assign lvl_gen_ready          = lvl_gen_ready_r & buffers_ready;
 assign sigbuff_iter_num       = curr_iter_r;
-// assign sigbuff_symbol_num     = sigbuff_symbol_num_r;
-assign sigbuff_symbol_num     = iter_symbol_cnt_r;
+assign sigbuff_symbol_num     = sigbuff_symbol_num_p1_r;
+// assign sigbuff_symbol_num     = iter_symbol_cnt_r;
 assign sigbuff_init           = sigbuff_init_r;
 assign sigbuff_input_mux      = sigbuff_input_mux_r;
-assign sigbuff_input_enable   = sigbuff_input_enable_r;
-assign sigbuff_output_enable  = (state_r == NEW_DATA) ? sigbuff_output_enable_r : sigbuff_output_enable_p2_r;
+// assign sigbuff_input_enable   = sigbuff_input_enable_r;
+assign sigbuff_input_enable   = sigbuff_input_enable_p1_r;
+// assign sigbuff_output_enable  = (state_r == NEW_DATA) ? sigbuff_output_enable_p1_r : sigbuff_output_enable_p2_r;
+assign sigbuff_output_enable  = sigbuff_output_enable_p2_r;
 assign limbuff_symbol_num     = limbuff_symbol_num_p1_r;
 assign limbuff_init           = limbuff_init_r;
 assign limbuff_input_enable   = limbuff_input_enable_p1_r;
@@ -141,6 +147,7 @@ begin
   end
 end
 
+// TODO: curr_iter_end is fragile and the state machine might not work when stall occurs
 /* Iteration control */
 always_ff @(posedge clock)
 begin
@@ -148,6 +155,7 @@ begin
   begin
     iter_symbol_cnt_r       <= '0;
     curr_iter_r             <= '0;
+    curr_iter_end_r         <= '0;
     pipeline_prep_r         <= '1; // ?
     buffs_prep_r            <= '1; // ?
     state_r                 <= INIT_BUFFS;
@@ -198,20 +206,21 @@ begin
       begin
         if(curr_iter_end)
         begin
-          if(last_iter)
-          begin
-            curr_iter_r     <= 'd0;
-            state_r         <= NEW_DATA;
-            pipeline_prep_r <= 'd0;
-          end
-          else
-          begin
-            curr_iter_r     <= curr_iter_r + 'd1;
-            state_r         <= PREPARE_FIR;
-            pipeline_prep_r <= 'd1;
-          end
+          // if(...) -> do some nested if to block curr_iter overflow when stall occurs
+            if(last_iter)
+            begin
+              curr_iter_r     <= 'd0;
+              state_r         <= NEW_DATA;
+              pipeline_prep_r <= 'd0;
+            end
+            else
+            begin  // pipeline stall might do serious shit around here
+              curr_iter_r     <= curr_iter_r + 'd1;
+              state_r         <= PREPARE_FIR;
+              pipeline_prep_r <= 'd1;
+            end
 
-          iter_symbol_cnt_r <= 'd0;
+            iter_symbol_cnt_r <= 'd0;
         end
         else
         begin
@@ -219,6 +228,8 @@ begin
         end
       end
     endcase
+
+    curr_iter_end_r <= curr_iter_end;
   end
 end
 
@@ -252,10 +263,13 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
-    // sigbuff_symbol_num_r        <= '0;
+    sigbuff_symbol_num_r        <= '0;
+    sigbuff_symbol_num_p1_r     <= '0;
+    sigbuff_symbol_num_p2_r     <= '0;
     sigbuff_init_r              <= '1;
     sigbuff_input_mux_r         <= '0;
     sigbuff_input_enable_r      <= '0;
+    sigbuff_input_enable_p1_r   <= '0;
     sigbuff_output_enable_r     <= '0;
     sigbuff_output_enable_p1_r  <= '0;
     sigbuff_output_enable_p2_r  <= '0;
@@ -265,7 +279,7 @@ begin
     unique case(state_r)
       INIT_BUFFS:
       begin
-        // sigbuff_symbol_num_r    <= 'd0;
+        sigbuff_symbol_num_r    <= 'd0;
         sigbuff_input_mux_r     <= 'd0;
         sigbuff_input_enable_r  <= 'd0;
         sigbuff_output_enable_r <= 'd0;
@@ -273,13 +287,15 @@ begin
 
       NEW_DATA:
       begin
+        sigbuff_symbol_num_r    <= iter_symbol_cnt_r;
         sigbuff_input_mux_r     <= 'd0;
-        sigbuff_input_enable_r  <= 'd1;
+        sigbuff_input_enable_r  <= lvl_gen_valid;
         sigbuff_output_enable_r <= lvl_gen_valid; // ?
       end
 
       PREPARE_FIR:
       begin
+        sigbuff_symbol_num_r    <= iter_symbol_cnt_r;
         sigbuff_input_mux_r     <= 'd1;
         sigbuff_input_enable_r  <= 'd0; // ?
         sigbuff_output_enable_r <= iter_symbol_inc_r; // ?
@@ -287,6 +303,7 @@ begin
 
       PROCESS_ITER:
       begin
+        sigbuff_symbol_num_r    <= iter_symbol_cnt_r;
         sigbuff_input_mux_r     <= 'd1;
         sigbuff_input_enable_r  <= iter_symbol_inc_r; // ?
         sigbuff_output_enable_r <= iter_symbol_inc_r; // ?
@@ -298,8 +315,11 @@ begin
     //                            (state_r == PREPARE_FIR) || (state_r == PROCESS_ITER) ? iter_symbol_inc_r : 'd0;
 
     sigbuff_init_r              <= 'd0;
+    sigbuff_input_enable_p1_r   <= sigbuff_input_enable_r;
     sigbuff_output_enable_p1_r  <= sigbuff_output_enable_r;
     sigbuff_output_enable_p2_r  <= sigbuff_output_enable_p1_r;
+    sigbuff_symbol_num_p1_r     <= sigbuff_symbol_num_r;
+    sigbuff_symbol_num_p2_r     <= sigbuff_symbol_num_p1_r;
   end
 end
 

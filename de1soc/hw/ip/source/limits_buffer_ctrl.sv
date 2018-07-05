@@ -86,7 +86,7 @@ wire        fir_taps_half;
 
 assign iter_ready               = iter_ready_r & ~ram_limits_waitrequest_b;
 assign limiter_data             = limiter_data_r;
-assign limiter_valid            = limiter_valid_p1_r;
+assign limiter_valid            = limiter_valid_p2_r;
 // assign limiter_data             = ram_limits_waitrequest_b ? limiter_data_p1_r : limiter_data_r;
 // assign limiter_valid            = ram_limits_waitrequest_b ? limiter_valid_p1_r : limiter_valid_r;
 
@@ -228,6 +228,7 @@ begin
     limiter_data_r              <= '0;
     limiter_valid_r             <= '0;
     limiter_valid_p1_r          <= '0;
+    limiter_valid_p2_r          <= '0;
 
     ram_limits_address_b_r      <= '0;
     ram_limits_address_b_p1_r   <= '0;

@@ -604,6 +604,7 @@ signal_buffer signal_buffer (
 );
 
 signal_buffer_ctrl #(
+  .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
   .ITER_NUM           (ITER_NUM)
 ) signal_buffer_ctrl (
