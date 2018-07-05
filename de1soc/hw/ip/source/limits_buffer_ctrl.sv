@@ -66,13 +66,16 @@ reg         ram_limits_chipselect_b_r;
 reg         ram_limits_read_b_r;
 reg  [ 3:0] ram_limits_byteenable_b_r;
 
-reg  [31:0] reset_values_r;
 reg  [ 7:0] fir_taps_num_r;
+reg  [ 7:0] max_samples_in_ram_r;
+reg  [ 4:0] iter_num_r;
+
+reg  [31:0] reset_values_r;
 reg  [ 7:0] fir_taps_head_r;
 reg  [ 7:0] fir_taps_tail_r;
 reg  [ 7:0] symbol_cnt_r;
 reg  [ 7:0] symbol_cnt_p1_r;
-reg  [ 5:0] iter_num_r; // 1 extra bit
+reg  [ 5:0] curr_iter_r; // 1 extra bit
 reg         ping_pong_a_r;
 reg         ping_pong_a_p1_r;
 reg         ping_pong_b_r;
@@ -108,11 +111,14 @@ assign ram_limits_write_b       = '0;
 assign ram_limits_writedata_b   = '0;
 assign ram_limits_byteenable_b  = ram_limits_byteenable_b_r;
 
-assign fir_taps_num_r = FIR_TAPS_NUM;
-assign buffer_end     = (symbol_cnt_r == MAX_SAMPLES_IN_RAM - 'd1);
+assign buffer_end     = (symbol_cnt_r == max_samples_in_ram_r - 'd1);
 // assign fir_taps_half  = (symbol_cnt_r >= fir_taps_head_r - 'd1); // ?
 assign fir_taps_half  = (iter_symbol_num >= fir_taps_head_r); // ?
-assign iter_end       = (iter_num_r == ITER_NUM - 'd1);
+assign iter_end       = (curr_iter_r == iter_num_r - 'd1);
+
+assign fir_taps_num_r       = FIR_TAPS_NUM;
+assign max_samples_in_ram_r = MAX_SAMPLES_IN_RAM;
+assign iter_num_r           = ITER_NUM;
 
 /* Iteration & symbol counter controller */
 always_ff @(posedge clock)
@@ -125,7 +131,7 @@ begin
     lvl_gen_valid_p1_r  <= '0;
     symbol_cnt_r        <= '0;
     symbol_cnt_p1_r     <= '0;
-    iter_num_r          <= '0;
+    curr_iter_r         <= '0;
     ping_pong_a_r       <= '0;
     ping_pong_a_p1_r    <= '0;
     ping_pong_b_r       <= '0;
@@ -141,15 +147,15 @@ begin
     begin
       symbol_cnt_r <= buffer_end ? 'd0 : symbol_cnt_r + 8'(!ram_limits_waitrequest_a);
 
-      if(symbol_cnt_r == 'd0 && !iter_num_r[0])
+      if(symbol_cnt_r == 'd0 && !curr_iter_r[0])
       begin
         reset_values_r <= lvl_gen_data;
       end
 
       if(buffer_end)
       begin
-        iter_num_r      <= !iter_num_r[0];
-        pipeline_init_r <= !iter_num_r[0];
+        curr_iter_r     <= !curr_iter_r[0];
+        pipeline_init_r <= !curr_iter_r[0];
         ping_pong_a_r   <= ~ping_pong_a_r;
       end
     end

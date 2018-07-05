@@ -85,12 +85,14 @@ reg         out_ctrl_output_enable_p3_r;
 reg         out_ctrl_output_enable_p4_r;
 
 reg  [ 7:0] fir_taps_num_r;
+reg  [ 7:0] max_samples_in_ram_r;
+reg  [ 4:0] iter_num_r;
+
 reg  [ 7:0] fir_taps_head_r;
 reg  [ 7:0] fir_taps_tail_r;
 reg  [ 7:0] iter_symbol_cnt_r;
 reg         iter_symbol_inc_r;
 reg  [ 4:0] curr_iter_r;
-reg  [ 4:0] iter_num_r;
 reg         pipeline_prep_r; // prepare FIR pipeline for next iteration
 reg         buffs_prep_r; // prepare buffers after init
 reg         curr_iter_end_r;
@@ -120,18 +122,18 @@ assign fir_input_enable       = fir_input_enable_r;
 assign limiter_input_enable   = limiter_input_enable_p3_r;
 assign out_ctrl_output_enable = out_ctrl_output_enable_p4_r;
 
-/* Temporarily frozen iterations */
-assign iter_num_r       = ITER_NUM;
-assign fir_taps_num_r   = FIR_TAPS_NUM;
-
 assign fir_taps_half    = (iter_symbol_cnt_r >= fir_taps_head_r - 'd1); // ?
-assign curr_iter_end    = (iter_symbol_cnt_r == MAX_SAMPLES_IN_RAM - 'd1);
+assign curr_iter_end    = (iter_symbol_cnt_r == max_samples_in_ram_r - 'd1);
 assign first_iter       = (curr_iter_r == 'd0);
 assign last_iter        = (curr_iter_r == iter_num_r - 'd1);
 assign buffers_ready    = sigbuff_ready & limbuff_ready;
 
 // assign fir_input_enable = 1'b1; // ???
 assign iter_symbol_inc_r  = 'd1; // TODO: consider pipeline stall
+
+assign fir_taps_num_r       = FIR_TAPS_NUM;
+assign max_samples_in_ram_r = MAX_SAMPLES_IN_RAM;
+assign iter_num_r           = ITER_NUM;
 
 always_ff @(posedge clock)
 begin
@@ -247,7 +249,7 @@ begin
   begin
     case(state_r)
       NEW_DATA:
-        lvl_gen_ready_r <= iter_symbol_cnt_r < MAX_SAMPLES_IN_RAM - 'd3;
+        lvl_gen_ready_r <= iter_symbol_cnt_r < max_samples_in_ram_r - 'd3;
       default:
         lvl_gen_ready_r <= 'd0;
     endcase

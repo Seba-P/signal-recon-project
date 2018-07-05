@@ -23,6 +23,9 @@ reg [31:0] buff_limits_r;
 reg        buff_valid_r;
 reg        buff_valid_buff_r;
 
+reg  [ 4:0] lvls_num_r;
+reg  [ 4:0] lvl_reset_value_r;
+
 reg  [ 4:0] curr_lvl_r;
 wire [15:0] lvls_step;
 wire [15:0] lvl_value;
@@ -30,14 +33,11 @@ reg  [15:0] lvl_lower_limit_r;
 reg  [15:0] lvl_upper_limit_r;
 wire [ 4:0] upper_lvl_idx;
 wire [ 4:0] lower_lvl_idx;
-reg  [ 4:0] lvls_num_r;
 reg  [0:31][15:0] lvls_values_r;
 wire        not_max_lvl;
 wire        not_min_lvl;
 
 /* Temporarily frozen levels */
-assign lvls_num_r = LVLS_NUM;
-
 assign lvls_values_r = 
 '{
   16'h8666, 16'h9333, 16'h9FFF, 16'hACCC,
@@ -51,6 +51,10 @@ assign lvls_values_r =
   16'hFFFF, 16'hFFFF, 16'hFFFF, 16'hFFFF 
 };
 
+assign buff_value     = buff_value_r;
+assign buff_limits    = buff_limits_r;
+assign buff_valid     = buff_valid_r;
+
 assign not_max_lvl    = (curr_lvl_r != lvls_num_r-'d1);
 assign not_min_lvl    = (curr_lvl_r != 'd0);
 assign upper_lvl_idx  = curr_lvl_r + not_max_lvl;
@@ -59,9 +63,8 @@ assign lvls_step      = disp_cross_dir ?  lvls_values_r[upper_lvl_idx] - lvls_va
                                           lvls_values_r[curr_lvl_r] - lvls_values_r[lower_lvl_idx];
 assign lvl_value      = lvls_values_r[curr_lvl_r] + (lvls_step>>>1'b1)/*{ lvls_step[15], lvls_step[15:1] }*/;
 
-assign buff_value     = buff_value_r;
-assign buff_limits    = buff_limits_r;
-assign buff_valid     = buff_valid_r;
+assign lvls_num_r         = LVLS_NUM;
+assign lvl_reset_value_r  = LVL_RESET_VALUE;
 
 always_ff @(posedge clock)
 begin
@@ -72,9 +75,9 @@ begin
     buff_valid_r      <= '0;
     buff_valid_buff_r <= '0;
 
-    curr_lvl_r        <= LVL_RESET_VALUE;
-    lvl_lower_limit_r <= lvls_values_r[LVL_RESET_VALUE];
-    lvl_upper_limit_r <= lvls_values_r[LVL_RESET_VALUE+1];
+    curr_lvl_r        <= lvl_reset_value_r;
+    lvl_lower_limit_r <= lvls_values_r[lvl_reset_value_r];
+    lvl_upper_limit_r <= lvls_values_r[lvl_reset_value_r+1];
   end
   else
   begin
