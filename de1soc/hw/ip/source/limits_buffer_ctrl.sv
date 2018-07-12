@@ -14,10 +14,11 @@ module limits_buffer_ctrl
   input  wire        lvl_gen_valid,             //        .valid
   /* Iteration controller IF */
   input  wire [ 7:0] iter_symbol_num,           //    iter.new_signal
-  input  wire        iter_init,                 //        .new_signal_1
-  input  wire        iter_input_enable,         //        .new_signal_2
-  input  wire        iter_output_enable,        //        .new_signal_3
-  output wire        iter_ready,                //        .new_signal_4
+  input  wire [ 1:0] iter_section_id,           //        .new_signal_1
+  input  wire        iter_init,                 //        .new_signal_2
+  input  wire        iter_input_enable,         //        .new_signal_3
+  input  wire        iter_output_enable,        //        .new_signal_4
+  output wire        iter_ready,                //        .new_signal_5
   /* Hard limiter IF */
   output wire [31:0] limiter_data,              // limiter.data
   output wire        limiter_valid,             //        .valid
@@ -42,12 +43,21 @@ module limits_buffer_ctrl
   input  wire        ram_limits_waitrequest_b   //        .waitrequest
 );
 
+typedef enum reg [1:0]
+{
+  FIRST_SECTION   = 2'd0,
+  SECOND_SECTION  = 2'd1,
+  MIDDLE_SECTION  = 2'd2,
+  LAST_SECTION    = 2'd3
+} SECTION_ID_T;
+
+
+SECTION_ID_T section_id;
 reg  [31:0] lvl_gen_data_r;
 reg  [31:0] lvl_gen_data_p1_r;
 reg         lvl_gen_valid_r;
 reg         lvl_gen_valid_p1_r;
 reg  [31:0] limiter_data_r;
-// reg  [31:0] limiter_data_p1_r;
 reg         limiter_valid_r;
 reg         limiter_valid_p1_r;
 reg         limiter_valid_p2_r;
@@ -87,23 +97,18 @@ wire        buffer_end;
 wire        iter_end;
 wire        fir_taps_half;
 
+assign section_id               = SECTION_ID_T'(iter_section_id);
 assign iter_ready               = iter_ready_r & ~ram_limits_waitrequest_b;
 assign limiter_data             = limiter_data_r;
 assign limiter_valid            = limiter_valid_p2_r;
-// assign limiter_data             = ram_limits_waitrequest_b ? limiter_data_p1_r : limiter_data_r;
-// assign limiter_valid            = ram_limits_waitrequest_b ? limiter_valid_p1_r : limiter_valid_r;
 
-// assign ram_limits_address_a     = ram_limits_waitrequest_a ? ram_limits_address_a_r : ram_limits_address_a_p1_r;
 assign ram_limits_address_a     = ram_limits_address_a_r;
 assign ram_limits_chipselect_a  = ram_limits_chipselect_a_r;
 assign ram_limits_read_a        = '0;
-// assign ram_limits_write_a       = ram_limits_waitrequest_a ? ram_limits_write_a_r : ram_limits_write_a_p1_r;
 assign ram_limits_write_a       = ram_limits_write_a_r;
-// assign ram_limits_writedata_a   = ram_limits_waitrequest_a ? ram_limits_writedata_a_r : ram_limits_writedata_a_p1_r;
 assign ram_limits_writedata_a   = ram_limits_writedata_a_r;
 assign ram_limits_byteenable_a  = ram_limits_byteenable_a_r;
 
-// assign ram_limits_address_b     = ram_limits_waitrequest_b ? ram_limits_address_b_r : ram_limits_address_b_p1_r;
 assign ram_limits_address_b     = ram_limits_address_b_r;
 assign ram_limits_chipselect_b  = ram_limits_chipselect_b_r;
 assign ram_limits_read_b        = ram_limits_read_b_r;
@@ -112,7 +117,6 @@ assign ram_limits_writedata_b   = '0;
 assign ram_limits_byteenable_b  = ram_limits_byteenable_b_r;
 
 assign buffer_end     = (symbol_cnt_r == max_samples_in_ram_r - 'd1);
-// assign fir_taps_half  = (symbol_cnt_r >= fir_taps_head_r - 'd1); // ?
 assign fir_taps_half  = (iter_symbol_num >= fir_taps_head_r); // ?
 assign iter_end       = (curr_iter_r == iter_num_r - 'd1);
 
@@ -245,20 +249,17 @@ begin
   else
   begin // TODO: check pipeline delays + waitrequest influence
     iter_ready_r              <= ~(pipeline_init_r | pipeline_init_p1_r | pipeline_init_p2_r);
-    // limiter_data_p1_r           <= ram_limits_readdata_b;
-    // limiter_data_r              <= limiter_data_p1_r;
-    limiter_data_r            <= ram_limits_readdata_b;
+    limiter_data_r            <= (section_id == FIRST_SECTION) & !fir_taps_half ? reset_values_r : ram_limits_readdata_b;
     limiter_valid_r           <= iter_output_enable & ~ram_limits_waitrequest_b; // make sure the valid pulse is long enough (iteration ctrl)
     limiter_valid_p1_r        <= limiter_valid_r;
     limiter_valid_p2_r        <= limiter_valid_p1_r;
 
     if(fir_taps_half)
-      ram_limits_address_b_r    <= { ping_pong_b_r, iter_symbol_num - fir_taps_head_r };
+      ram_limits_address_b_r    <= { ping_pong_b_r & (section_id != FIRST_SECTION), iter_symbol_num - fir_taps_head_r };
     else
-      ram_limits_address_b_r    <= { ~ping_pong_b_r, iter_symbol_num + fir_taps_tail_r };
+      ram_limits_address_b_r    <= { ~ping_pong_b_r & (section_id != FIRST_SECTION), iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r };
 
     ram_limits_address_b_p1_r <= ram_limits_address_b_r;
-    // ram_limits_read_b_r       <= iter_output_enable;
     ram_limits_read_b_r       <= 'd1;
     ram_limits_chipselect_b_r <= 'd1;
     ram_limits_byteenable_b_r <= '1;
