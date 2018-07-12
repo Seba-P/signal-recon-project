@@ -60,42 +60,37 @@ typedef enum reg [1:0]
 
 PIPELINE_STATE_T  state_r;
 SECTION_ID_T      section_id_r;
-SECTION_ID_T      section_id_p1_r;
-SECTION_ID_T      section_id_p2_r;
+SECTION_ID_T      section_id_del_r[5];
 reg         lvl_gen_init_r;
+reg         lvl_gen_init_del_r[5];
 reg         lvl_gen_ready_r;
-reg         lvl_gen_ready_p1_r;
-reg         lvl_gen_ready_p2_r;
+reg         lvl_gen_ready_del_r[5];
 reg  [ 7:0] sigbuff_symbol_num_r;
-reg  [ 7:0] sigbuff_symbol_num_p1_r;
-reg  [ 7:0] sigbuff_symbol_num_p2_r;
+reg  [ 7:0] sigbuff_symbol_num_del_r[5];
 reg         sigbuff_init_r;
+reg         sigbuff_init_del_r[5];
 reg         sigbuff_input_mux_r;
+reg         sigbuff_input_mux_del_r[5];
 reg         sigbuff_input_enable_r;
-reg         sigbuff_input_enable_p1_r;
+reg         sigbuff_input_enable_del_r[5];
 reg         sigbuff_output_enable_r;
-reg         sigbuff_output_enable_p1_r;
-reg         sigbuff_output_enable_p2_r;
+reg         sigbuff_output_enable_del_r[5];
 reg  [ 7:0] limbuff_symbol_num_r;
-reg  [ 7:0] limbuff_symbol_num_p1_r;
-reg  [ 7:0] limbuff_symbol_num_p2_r;
+reg  [ 7:0] limbuff_symbol_num_del_r[5];
 reg         limbuff_init_r;
+reg         limbuff_init_del_r[5];
 reg         limbuff_input_enable_r;
-reg         limbuff_input_enable_p1_r;
+reg         limbuff_input_enable_del_r[5];
 reg         limbuff_output_enable_r;
-reg         limbuff_output_enable_p1_r;
-reg         limbuff_output_enable_p2_r;
+reg         limbuff_output_enable_del_r[5];
 reg  [ 1:0] fir_input_mux_r;
+reg  [ 1:0] fir_input_mux_del_r[5];
 reg         fir_input_enable_r;
+reg         fir_input_enable_del_r[5];
 reg         limiter_input_enable_r;
-reg         limiter_input_enable_p1_r;
-reg         limiter_input_enable_p2_r;
-reg         limiter_input_enable_p3_r;
+reg         limiter_input_enable_del_r[5];
 reg         out_ctrl_output_enable_r;
-reg         out_ctrl_output_enable_p1_r;
-reg         out_ctrl_output_enable_p2_r;
-reg         out_ctrl_output_enable_p3_r;
-reg         out_ctrl_output_enable_p4_r;
+reg         out_ctrl_output_enable_del_r[5];
 
 reg  [ 7:0] fir_taps_num_r;
 reg  [ 7:0] max_samples_in_ram_r;
@@ -104,10 +99,11 @@ reg  [ 4:0] iter_num_r;
 reg  [ 7:0] fir_taps_head_r;
 reg  [ 7:0] fir_taps_tail_r;
 reg  [ 7:0] iter_symbol_cnt_r;
+reg  [ 7:0] iter_symbol_cnt_del_r[5];
 reg         iter_symbol_inc_r;
+reg         iter_symbol_inc_del_r[5];
 reg  [ 4:0] curr_iter_r;
-reg  [ 4:0] curr_iter_p1_r;
-reg  [ 4:0] curr_iter_p2_r;
+reg  [ 4:0] curr_iter_del_r[5];
 reg         pipeline_prep_r; // prepare FIR pipeline for next iteration
 reg         buffs_prep_r; // prepare buffers after init
 reg         two_sections_stored_r;
@@ -123,26 +119,26 @@ assign lvl_gen_ready          = lvl_gen_ready_r & buffers_ready;
 assign sigbuff_iter_num       = curr_iter_r;
 // assign sigbuff_iter_num       = curr_iter_p1_r;
 // assign sigbuff_symbol_num     = sigbuff_symbol_num_r;
-assign sigbuff_symbol_num     = sigbuff_symbol_num_p1_r;
+assign sigbuff_symbol_num     = sigbuff_symbol_num_del_r[0];
 // assign sigbuff_section_id     = section_id_r;
-assign sigbuff_section_id     = section_id_p1_r;
+assign sigbuff_section_id     = section_id_del_r[0];
 assign sigbuff_init           = sigbuff_init_r;
 assign sigbuff_input_mux      = sigbuff_input_mux_r;
 // assign sigbuff_input_enable   = sigbuff_input_enable_r;
-assign sigbuff_input_enable   = sigbuff_input_enable_p1_r;
+assign sigbuff_input_enable   = sigbuff_input_enable_del_r[0];
 // assign sigbuff_output_enable  = (state_r == NEW_DATA) ? sigbuff_output_enable_p1_r : sigbuff_output_enable_p2_r;
-assign sigbuff_output_enable  = sigbuff_output_enable_p2_r;
+assign sigbuff_output_enable  = sigbuff_output_enable_del_r[1];
 // assign limbuff_symbol_num     = limbuff_symbol_num_r;
-assign limbuff_symbol_num     = limbuff_symbol_num_p1_r;
+assign limbuff_symbol_num     = limbuff_symbol_num_del_r[0];
 // assign limbuff_section_id     = section_id_r;
-assign limbuff_section_id     = section_id_p1_r;
+assign limbuff_section_id     = section_id_del_r[0];
 assign limbuff_init           = limbuff_init_r;
-assign limbuff_input_enable   = limbuff_input_enable_p1_r;
-assign limbuff_output_enable  = limbuff_output_enable_p2_r;
+assign limbuff_input_enable   = limbuff_input_enable_del_r[0];
+assign limbuff_output_enable  = limbuff_output_enable_del_r[1];
 assign fir_input_mux          = fir_input_mux_r;
 assign fir_input_enable       = fir_input_enable_r;
-assign limiter_input_enable   = limiter_input_enable_p3_r;
-assign out_ctrl_output_enable = out_ctrl_output_enable_p4_r;
+assign limiter_input_enable   = limiter_input_enable_del_r[2];
+assign out_ctrl_output_enable = out_ctrl_output_enable_del_r[3];
 
 assign fir_taps_half    = (iter_symbol_cnt_r >= fir_taps_head_r - 'd1); // ?
 assign curr_iter_end    = (iter_symbol_cnt_r == max_samples_in_ram_r - 'd1);
@@ -181,15 +177,11 @@ begin
     // first_section_r         <= '1;
     iter_symbol_cnt_r       <= '0;
     curr_iter_r             <= '0;
-    curr_iter_p1_r          <= '0;
-    curr_iter_p2_r          <= '0;
     curr_iter_end_r         <= '0;
     pipeline_prep_r         <= '1; // ?
     buffs_prep_r            <= '1; // ?
     state_r                 <= INIT_BUFFS;
     section_id_r            <= FIRST_SECTION;
-    section_id_p1_r         <= FIRST_SECTION;
-    section_id_p2_r         <= FIRST_SECTION;
   end
   else
   begin
@@ -233,7 +225,7 @@ begin
         end
         else
         begin
-          iter_symbol_cnt_r <= iter_symbol_cnt_r + (lvl_gen_valid /*& lvl_gen_ready_r*/ & lvl_gen_ready_p1_r & lvl_gen_ready_p2_r); // TODO: not first section
+          iter_symbol_cnt_r <= iter_symbol_cnt_r + (lvl_gen_valid /*& lvl_gen_ready_r*/ & lvl_gen_ready_del_r[0] & lvl_gen_ready_del_r[1]); // TODO: not first section
         end
       end
 
@@ -282,11 +274,7 @@ begin
       end
     endcase
 
-    curr_iter_p1_r  <= curr_iter_r;
-    curr_iter_p2_r  <= curr_iter_p1_r;
     curr_iter_end_r <= curr_iter_end;
-    section_id_p1_r <= section_id_r;
-    section_id_p2_r <= section_id_p1_r;
   end
 end
 
@@ -297,8 +285,6 @@ begin
   begin
     lvl_gen_init_r      <= '1;
     lvl_gen_ready_r     <= '0;
-    lvl_gen_ready_p1_r  <= '0;
-    lvl_gen_ready_p2_r  <= '0;
   end
   else
   begin
@@ -310,8 +296,6 @@ begin
     endcase
 
     lvl_gen_init_r      <= '0;
-    lvl_gen_ready_p1_r  <= lvl_gen_ready_r;
-    lvl_gen_ready_p2_r  <= lvl_gen_ready_p1_r;
   end
 end
 
@@ -321,15 +305,10 @@ begin
   if(reset)
   begin
     sigbuff_symbol_num_r        <= '0;
-    sigbuff_symbol_num_p1_r     <= '0;
-    sigbuff_symbol_num_p2_r     <= '0;
     sigbuff_init_r              <= '1;
     sigbuff_input_mux_r         <= '0;
     sigbuff_input_enable_r      <= '0;
-    sigbuff_input_enable_p1_r   <= '0;
     sigbuff_output_enable_r     <= '0;
-    sigbuff_output_enable_p1_r  <= '0;
-    sigbuff_output_enable_p2_r  <= '0;
   end
   else
   begin
@@ -368,11 +347,6 @@ begin
     endcase
 
     sigbuff_init_r              <= 'd0;
-    sigbuff_input_enable_p1_r   <= sigbuff_input_enable_r;
-    sigbuff_output_enable_p1_r  <= sigbuff_output_enable_r;
-    sigbuff_output_enable_p2_r  <= sigbuff_output_enable_p1_r;
-    sigbuff_symbol_num_p1_r     <= sigbuff_symbol_num_r;
-    sigbuff_symbol_num_p2_r     <= sigbuff_symbol_num_p1_r;
   end
 end
 
@@ -384,10 +358,7 @@ begin
     limbuff_symbol_num_r        <= '0;
     limbuff_init_r              <= '1;
     limbuff_input_enable_r      <= '0;
-    limbuff_input_enable_p1_r   <= '0;
     limbuff_output_enable_r     <= '0;
-    limbuff_output_enable_p1_r  <= '0;
-    limbuff_output_enable_p2_r  <= '0;
   end
   else
   begin
@@ -422,11 +393,6 @@ begin
     endcase
 
     limbuff_init_r              <= 'd0;
-    limbuff_input_enable_p1_r   <= limbuff_input_enable_r;
-    limbuff_output_enable_p1_r  <= limbuff_output_enable_r;
-    limbuff_output_enable_p2_r  <= limbuff_output_enable_p1_r;
-    limbuff_symbol_num_p1_r     <= limbuff_symbol_num_r;
-    limbuff_symbol_num_p2_r     <= limbuff_symbol_num_p1_r;
   end
 end
 
@@ -468,12 +434,7 @@ begin
   if(reset)
   begin
     limiter_input_enable_r      <= '0;
-    limiter_input_enable_p1_r   <= '0;
-    limiter_input_enable_p2_r   <= '0;
     out_ctrl_output_enable_r    <= '0;
-    out_ctrl_output_enable_p1_r <= '0;
-    out_ctrl_output_enable_p2_r <= '0;
-    out_ctrl_output_enable_p3_r <= '0;
   end
   else
   begin
@@ -502,14 +463,77 @@ begin
         out_ctrl_output_enable_r  <= last_iter & !fir_taps_half;
       end
     endcase
+  end
+end
 
-    limiter_input_enable_p1_r   <= limiter_input_enable_r;
-    limiter_input_enable_p2_r   <= limiter_input_enable_p1_r;
-    limiter_input_enable_p3_r   <= limiter_input_enable_p2_r;
-    out_ctrl_output_enable_p1_r <= out_ctrl_output_enable_r;
-    out_ctrl_output_enable_p2_r <= out_ctrl_output_enable_p1_r;
-    out_ctrl_output_enable_p3_r <= out_ctrl_output_enable_p2_r;
-    out_ctrl_output_enable_p4_r <= out_ctrl_output_enable_p3_r;
+always_ff @(posedge clock)
+begin
+  if(reset)
+  begin
+    // section_id_del_r              <= '0;
+    // lvl_gen_init_del_r            <= '0;
+    // lvl_gen_ready_del_r           <= '0;
+    // sigbuff_symbol_num_del_r      <= '0;
+    // sigbuff_init_del_r            <= '0;
+    // sigbuff_input_mux_del_r       <= '0;
+    // sigbuff_input_enable_del_r    <= '0;
+    // sigbuff_output_enable_del_r   <= '0;
+    // limbuff_symbol_num_del_r      <= '0;
+    // limbuff_init_del_r            <= '0;
+    // limbuff_input_enable_del_r    <= '0;
+    // limbuff_output_enable_del_r   <= '0;
+    // fir_input_mux_del_r           <= '0;
+    // fir_input_enable_del_r        <= '0;
+    // limiter_input_enable_del_r    <= '0;
+    // out_ctrl_output_enable_del_r  <= '0;
+    // iter_symbol_cnt_del_r         <= '0;
+    // iter_symbol_inc_del_r         <= '0;
+    // curr_iter_del_r               <= '0;
+  end
+  else
+  begin
+    section_id_del_r[0]             <= section_id_r;
+    lvl_gen_init_del_r[0]           <= lvl_gen_init_r;
+    lvl_gen_ready_del_r[0]          <= lvl_gen_ready_r;
+    sigbuff_symbol_num_del_r[0]     <= sigbuff_symbol_num_r;
+    sigbuff_init_del_r[0]           <= sigbuff_init_r;
+    sigbuff_input_mux_del_r[0]      <= sigbuff_input_mux_r;
+    sigbuff_input_enable_del_r[0]   <= sigbuff_input_enable_r;
+    sigbuff_output_enable_del_r[0]  <= sigbuff_output_enable_r;
+    limbuff_symbol_num_del_r[0]     <= limbuff_symbol_num_r;
+    limbuff_init_del_r[0]           <= limbuff_init_r;
+    limbuff_input_enable_del_r[0]   <= limbuff_input_enable_r;
+    limbuff_output_enable_del_r[0]  <= limbuff_output_enable_r;
+    fir_input_mux_del_r[0]          <= fir_input_mux_r;
+    fir_input_enable_del_r[0]       <= fir_input_enable_r;
+    limiter_input_enable_del_r[0]   <= limiter_input_enable_r;
+    out_ctrl_output_enable_del_r[0] <= out_ctrl_output_enable_r;
+    iter_symbol_cnt_del_r[0]        <= iter_symbol_cnt_r;
+    iter_symbol_inc_del_r[0]        <= iter_symbol_inc_r;
+    curr_iter_del_r[0]              <= curr_iter_r;
+
+    for(int i = 1; i < 4; i++)
+    begin
+      section_id_del_r[i]             <= section_id_del_r[i-1];
+      lvl_gen_init_del_r[i]           <= lvl_gen_init_del_r[i-1];
+      lvl_gen_ready_del_r[i]          <= lvl_gen_ready_del_r[i-1];
+      sigbuff_symbol_num_del_r[i]     <= sigbuff_symbol_num_del_r[i-1];
+      sigbuff_init_del_r[i]           <= sigbuff_init_del_r[i-1];
+      sigbuff_input_mux_del_r[i]      <= sigbuff_input_mux_del_r[i-1];
+      sigbuff_input_enable_del_r[i]   <= sigbuff_input_enable_del_r[i-1];
+      sigbuff_output_enable_del_r[i]  <= sigbuff_output_enable_del_r[i-1];
+      limbuff_symbol_num_del_r[i]     <= limbuff_symbol_num_del_r[i-1];
+      limbuff_init_del_r[i]           <= limbuff_init_del_r[i-1];
+      limbuff_input_enable_del_r[i]   <= limbuff_input_enable_del_r[i-1];
+      limbuff_output_enable_del_r[i]  <= limbuff_output_enable_del_r[i-1];
+      fir_input_mux_del_r[i]          <= fir_input_mux_del_r[i-1];
+      fir_input_enable_del_r[i]       <= fir_input_enable_del_r[i-1];
+      limiter_input_enable_del_r[i]   <= limiter_input_enable_del_r[i-1];
+      out_ctrl_output_enable_del_r[i] <= out_ctrl_output_enable_del_r[i-1];
+      iter_symbol_cnt_del_r[i]        <= iter_symbol_cnt_del_r[i-1];
+      iter_symbol_inc_del_r[i]        <= iter_symbol_inc_del_r[i-1];
+      curr_iter_del_r[i]              <= curr_iter_del_r[i-1];
+    end
   end
 end
 
