@@ -291,7 +291,7 @@ begin
     ping_pong_b_del_r[0]            <= ping_pong_b_r;
     pipeline_init_del_r[0]          <= pipeline_init_r;
 
-    for(int i = 1; i < 4; i++)
+    for(int i = 1; i < 5; i++)
     begin
       section_id_del_r[i]             <= section_id_del_r[i-1];
       lvl_gen_data_del_r[i]           <= lvl_gen_data_del_r[i-1];

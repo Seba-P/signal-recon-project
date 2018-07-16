@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.07.09.22:50:23 -->
+ <!-- 2018.07.14.15:09:34 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1531169421</value>
+  <value>1531573772</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -79991,52 +79991,58 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>sigbuff_iter_state</name>
+    <direction>Output</direction>
+    <width>2</width>
+    <role>new_signal</role>
+   </port>
+   <port>
     <name>sigbuff_iter_num</name>
     <direction>Output</direction>
     <width>5</width>
-    <role>new_signal</role>
+    <role>new_signal_1</role>
    </port>
    <port>
     <name>sigbuff_symbol_num</name>
     <direction>Output</direction>
     <width>8</width>
-    <role>new_signal_1</role>
+    <role>new_signal_2</role>
    </port>
    <port>
     <name>sigbuff_section_id</name>
     <direction>Output</direction>
     <width>2</width>
-    <role>new_signal_2</role>
+    <role>new_signal_3</role>
    </port>
    <port>
     <name>sigbuff_init</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>new_signal_3</role>
+    <role>new_signal_4</role>
    </port>
    <port>
     <name>sigbuff_input_mux</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>new_signal_4</role>
+    <role>new_signal_5</role>
    </port>
    <port>
     <name>sigbuff_input_enable</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>new_signal_5</role>
+    <role>new_signal_6</role>
    </port>
    <port>
     <name>sigbuff_output_enable</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>new_signal_6</role>
+    <role>new_signal_7</role>
    </port>
    <port>
     <name>sigbuff_ready</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>new_signal_7</role>
+    <role>new_signal_8</role>
    </port>
   </interface>
   <interface name="limbuff" kind="conduit_end" version="17.1">
@@ -93136,49 +93142,55 @@ parameters are a RESULT of the module parameters. -->
     <name>iter_iter_num</name>
     <direction>Input</direction>
     <width>5</width>
-    <role>new_signal</role>
+    <role>new_signal_1</role>
    </port>
    <port>
     <name>iter_symbol_num</name>
     <direction>Input</direction>
     <width>8</width>
-    <role>new_signal_1</role>
+    <role>new_signal_2</role>
    </port>
    <port>
     <name>iter_section_id</name>
     <direction>Input</direction>
     <width>2</width>
-    <role>new_signal_2</role>
+    <role>new_signal_3</role>
    </port>
    <port>
     <name>iter_init</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>new_signal_3</role>
+    <role>new_signal_4</role>
    </port>
    <port>
     <name>iter_input_mux</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>new_signal_4</role>
+    <role>new_signal_5</role>
    </port>
    <port>
     <name>iter_input_enable</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>new_signal_5</role>
+    <role>new_signal_6</role>
    </port>
    <port>
     <name>iter_output_enable</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>new_signal_6</role>
+    <role>new_signal_7</role>
    </port>
    <port>
     <name>iter_ready</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>new_signal_7</role>
+    <role>new_signal_8</role>
+   </port>
+   <port>
+    <name>iter_iter_state</name>
+    <direction>Input</direction>
+    <width>2</width>
+    <role>new_signal</role>
    </port>
   </interface>
   <interface name="port_a" kind="avalon_master" version="17.1">
@@ -94421,7 +94433,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1531169421</value>
+   <value>1531573772</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -94441,7 +94453,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1531169421</value>
+   <value>1531573772</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -94457,7 +94469,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1531169421</value>
+   <value>1531573772</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

@@ -97,14 +97,15 @@ wire   [7:0] iteration_ctrl_limbuff_new_signal;                   // iteration_c
 wire         sample2lvl_converter_iter_new_signal_1;              // sample2lvl_converter:iter_valid -> iteration_ctrl:lvl_gen_valid
 wire         iteration_ctrl_lvl_gen_new_signal_2;                 // iteration_ctrl:lvl_gen_ready -> sample2lvl_converter:iter_ready
 wire         iteration_ctrl_lvl_gen_new_signal;                   // iteration_ctrl:lvl_gen_init -> sample2lvl_converter:iter_init
-wire         iteration_ctrl_sigbuff_new_signal_4;                 // iteration_ctrl:sigbuff_input_mux -> signal_buffer_ctrl:iter_input_mux
-wire         iteration_ctrl_sigbuff_new_signal_5;                 // iteration_ctrl:sigbuff_input_enable -> signal_buffer_ctrl:iter_input_enable
-wire         iteration_ctrl_sigbuff_new_signal_6;                 // iteration_ctrl:sigbuff_output_enable -> signal_buffer_ctrl:iter_output_enable
-wire         signal_buffer_ctrl_iter_new_signal_7;                // signal_buffer_ctrl:iter_ready -> iteration_ctrl:sigbuff_ready
-wire   [7:0] iteration_ctrl_sigbuff_new_signal_1;                 // iteration_ctrl:sigbuff_symbol_num -> signal_buffer_ctrl:iter_symbol_num
-wire   [1:0] iteration_ctrl_sigbuff_new_signal_2;                 // iteration_ctrl:sigbuff_section_id -> signal_buffer_ctrl:iter_section_id
-wire         iteration_ctrl_sigbuff_new_signal_3;                 // iteration_ctrl:sigbuff_init -> signal_buffer_ctrl:iter_init
-wire   [4:0] iteration_ctrl_sigbuff_new_signal;                   // iteration_ctrl:sigbuff_iter_num -> signal_buffer_ctrl:iter_iter_num
+wire         iteration_ctrl_sigbuff_new_signal_4;                 // iteration_ctrl:sigbuff_init -> signal_buffer_ctrl:iter_init
+wire         iteration_ctrl_sigbuff_new_signal_5;                 // iteration_ctrl:sigbuff_input_mux -> signal_buffer_ctrl:iter_input_mux
+wire         iteration_ctrl_sigbuff_new_signal_6;                 // iteration_ctrl:sigbuff_input_enable -> signal_buffer_ctrl:iter_input_enable
+wire         iteration_ctrl_sigbuff_new_signal_7;                 // iteration_ctrl:sigbuff_output_enable -> signal_buffer_ctrl:iter_output_enable
+wire   [4:0] iteration_ctrl_sigbuff_new_signal_1;                 // iteration_ctrl:sigbuff_iter_num -> signal_buffer_ctrl:iter_iter_num
+wire   [7:0] iteration_ctrl_sigbuff_new_signal_2;                 // iteration_ctrl:sigbuff_symbol_num -> signal_buffer_ctrl:iter_symbol_num
+wire   [1:0] iteration_ctrl_sigbuff_new_signal_3;                 // iteration_ctrl:sigbuff_section_id -> signal_buffer_ctrl:iter_section_id
+wire   [1:0] iteration_ctrl_sigbuff_new_signal;                   // iteration_ctrl:sigbuff_iter_state -> signal_buffer_ctrl:iter_iter_state
+wire         signal_buffer_ctrl_iter_new_signal_8;                // signal_buffer_ctrl:iter_ready -> iteration_ctrl:sigbuff_ready
 wire         hard_limiter_iter_new_signal_1;                      // hard_limiter:iter_ready -> iteration_ctrl:limiter_ready
 wire         iteration_ctrl_limiter_new_signal;                   // iteration_ctrl:limiter_input_enable -> hard_limiter:iter_input_enable
 wire         output_ctrl_iter_new_signal_1;                       // output_ctrl:iter_ready -> iteration_ctrl:out_ctrl_ready
@@ -320,14 +321,15 @@ iteration_ctrl #(
 ) iteration_ctrl (
   .clock                  (clock),                                  //      clock.clk
   .reset                  (rst_controller_reset_out_reset),         //      reset.reset
-  .sigbuff_iter_num       (iteration_ctrl_sigbuff_new_signal),      //    sigbuff.new_signal
-  .sigbuff_symbol_num     (iteration_ctrl_sigbuff_new_signal_1),    //           .new_signal_1
-  .sigbuff_section_id     (iteration_ctrl_sigbuff_new_signal_2),    //           .new_signal_2
-  .sigbuff_init           (iteration_ctrl_sigbuff_new_signal_3),    //           .new_signal_3
-  .sigbuff_input_mux      (iteration_ctrl_sigbuff_new_signal_4),    //           .new_signal_4
-  .sigbuff_input_enable   (iteration_ctrl_sigbuff_new_signal_5),    //           .new_signal_5
-  .sigbuff_output_enable  (iteration_ctrl_sigbuff_new_signal_6),    //           .new_signal_6
-  .sigbuff_ready          (signal_buffer_ctrl_iter_new_signal_7),   //           .new_signal_7
+  .sigbuff_iter_state     (iteration_ctrl_sigbuff_new_signal),      //    sigbuff.new_signal
+  .sigbuff_iter_num       (iteration_ctrl_sigbuff_new_signal_1),    //           .new_signal_1
+  .sigbuff_symbol_num     (iteration_ctrl_sigbuff_new_signal_2),    //           .new_signal_2
+  .sigbuff_section_id     (iteration_ctrl_sigbuff_new_signal_3),    //           .new_signal_3
+  .sigbuff_init           (iteration_ctrl_sigbuff_new_signal_4),    //           .new_signal_4
+  .sigbuff_input_mux      (iteration_ctrl_sigbuff_new_signal_5),    //           .new_signal_5
+  .sigbuff_input_enable   (iteration_ctrl_sigbuff_new_signal_6),    //           .new_signal_6
+  .sigbuff_output_enable  (iteration_ctrl_sigbuff_new_signal_7),    //           .new_signal_7
+  .sigbuff_ready          (signal_buffer_ctrl_iter_new_signal_8),   //           .new_signal_8
   .limbuff_symbol_num     (iteration_ctrl_limbuff_new_signal),      //    limbuff.new_signal
   .limbuff_section_id     (iteration_ctrl_limbuff_new_signal_1),    //           .new_signal_1
   .limbuff_init           (iteration_ctrl_limbuff_new_signal_2),    //           .new_signal_2
@@ -619,14 +621,15 @@ signal_buffer_ctrl #(
   .limiter_data             (hard_limiter_out_splitter_out0_data),   //    limiter.data
   .limiter_valid            (hard_limiter_out_splitter_out0_valid),  //           .valid
   .limiter_ready            (hard_limiter_out_splitter_out0_ready),  //           .ready
-  .iter_iter_num            (iteration_ctrl_sigbuff_new_signal),     //       iter.new_signal
-  .iter_symbol_num          (iteration_ctrl_sigbuff_new_signal_1),   //           .new_signal_1
-  .iter_section_id          (iteration_ctrl_sigbuff_new_signal_2),   //           .new_signal_2
-  .iter_init                (iteration_ctrl_sigbuff_new_signal_3),   //           .new_signal_3
-  .iter_input_mux           (iteration_ctrl_sigbuff_new_signal_4),   //           .new_signal_4
-  .iter_input_enable        (iteration_ctrl_sigbuff_new_signal_5),   //           .new_signal_5
-  .iter_output_enable       (iteration_ctrl_sigbuff_new_signal_6),   //           .new_signal_6
-  .iter_ready               (signal_buffer_ctrl_iter_new_signal_7),  //           .new_signal_7
+  .iter_iter_num            (iteration_ctrl_sigbuff_new_signal_1),   //       iter.new_signal_1
+  .iter_symbol_num          (iteration_ctrl_sigbuff_new_signal_2),   //           .new_signal_2
+  .iter_section_id          (iteration_ctrl_sigbuff_new_signal_3),   //           .new_signal_3
+  .iter_init                (iteration_ctrl_sigbuff_new_signal_4),   //           .new_signal_4
+  .iter_input_mux           (iteration_ctrl_sigbuff_new_signal_5),   //           .new_signal_5
+  .iter_input_enable        (iteration_ctrl_sigbuff_new_signal_6),   //           .new_signal_6
+  .iter_output_enable       (iteration_ctrl_sigbuff_new_signal_7),   //           .new_signal_7
+  .iter_ready               (signal_buffer_ctrl_iter_new_signal_8),  //           .new_signal_8
+  .iter_iter_state          (iteration_ctrl_sigbuff_new_signal),     //           .new_signal
   .ram_signal_address_a     (signal_buffer_ctrl_port_a_address),     //     port_a.address
   .ram_signal_byteenable_a  (signal_buffer_ctrl_port_a_byteenable),  //           .byteenable
   .ram_signal_chipselect_a  (signal_buffer_ctrl_port_a_chipselect),  //           .chipselect

@@ -17,14 +17,15 @@ module signal_buffer_ctrl
   input  wire        limiter_valid,             //           .valid
   output wire        limiter_ready,             //           .ready
   /* Iteration controller IF */
-  input  wire [ 4:0] iter_iter_num,             //       iter.new_signal
-  input  wire [ 7:0] iter_symbol_num,           //           .new_signal_1
-  input  wire [ 1:0] iter_section_id,           //           .new_signal_2
-  input  wire        iter_init,                 //           .new_signal_3
-  input  wire        iter_input_mux,            //           .new_signal_4
-  input  wire        iter_input_enable,         //           .new_signal_5
-  input  wire        iter_output_enable,        //           .new_signal_6
-  output wire        iter_ready,                //           .new_signal_7
+  input  wire [ 1:0] iter_iter_state,           //       iter.new_signal
+  input  wire [ 4:0] iter_iter_num,             //           .new_signal_1
+  input  wire [ 7:0] iter_symbol_num,           //           .new_signal_2
+  input  wire [ 1:0] iter_section_id,           //           .new_signal_3
+  input  wire        iter_init,                 //           .new_signal_4
+  input  wire        iter_input_mux,            //           .new_signal_5
+  input  wire        iter_input_enable,         //           .new_signal_6
+  input  wire        iter_output_enable,        //           .new_signal_7
+  output wire        iter_ready,                //           .new_signal_8
   /* FIR driver IF */
   output wire [15:0] fir_driver_data,           // fir_driver.data
   output wire        fir_driver_valid,          //           .valid
@@ -52,14 +53,24 @@ module signal_buffer_ctrl
 
 typedef enum reg [1:0]
 {
+  INIT_BUFFS    = 2'd0,
+  NEW_DATA      = 2'd1,
+  PREPARE_FIR   = 2'd2,
+  PROCESS_ITER  = 2'd3
+} PIPELINE_STATE_T;
+
+typedef enum reg [1:0]
+{
   FIRST_SECTION   = 2'd0,
   SECOND_SECTION  = 2'd1,
   MIDDLE_SECTION  = 2'd2,
   LAST_SECTION    = 2'd3
 } SECTION_ID_T;
 
-SECTION_ID_T section_id;
-SECTION_ID_T section_id_del_r[5];
+PIPELINE_STATE_T  iter_state;
+PIPELINE_STATE_T  iter_state_del_r[5];
+SECTION_ID_T      section_id;
+SECTION_ID_T      section_id_del_r[5];
 reg  [15:0] lvl_gen_data_r;
 reg  [15:0] lvl_gen_data_del_r[5];
 reg         lvl_gen_valid_r;
@@ -84,6 +95,7 @@ reg         iter_ready_r;
 reg         iter_ready_del_r[5];
 reg  [15:0] fir_driver_data_r;
 reg  [15:0] fir_driver_data_del_r[5];
+reg  [15:0] fir_driver_data_mask_r;
 reg         fir_driver_valid_r;
 reg         fir_driver_valid_del_r[5];
 reg         fir_driver_ready_r;
@@ -108,10 +120,10 @@ reg         intbuff_wren_r;
 reg         intbuff_wren_del_r[5];
 reg  [15:0] intbuff_data_r;
 reg  [15:0] intbuff_data_del_r[5];
-reg  [ 7:0] intbuff_wraddress_r;
-reg  [ 7:0] intbuff_wraddress_del_r[5];
-reg  [ 7:0] intbuff_rdaddress_r;
-reg  [ 7:0] intbuff_rdaddress_del_r[5];
+reg  [ 8:0] intbuff_wraddress_r;
+reg  [ 8:0] intbuff_wraddress_del_r[5];
+reg  [ 8:0] intbuff_rdaddress_r;
+reg  [ 8:0] intbuff_rdaddress_del_r[5];
 reg  [15:0] intbuff_q_r;
 reg  [15:0] intbuff_q_del_r[5];
 wire [15:0] intbuff_q;
@@ -130,16 +142,21 @@ reg  [ 4:0] curr_iter_r;
 reg  [ 4:0] curr_iter_del_r[5];
 reg         pipeline_init_r;
 reg         pipeline_init_del_r[5];
+reg         ping_pong_a_r;
+reg         ping_pong_b_r;
+reg         ping_pong_int_r;
 reg         buffer_end_r;
+reg         intbuff_end_r;
 wire        buffer_end;
 wire        intbuff_end;
 wire        iter_end;
 wire        fir_taps_half;
 
+assign iter_state               = PIPELINE_STATE_T'(iter_iter_state);
 assign section_id               = SECTION_ID_T'(iter_section_id);
 assign iter_ready               = iter_ready_r & ~ram_signal_waitrequest_b;
 assign limiter_ready            = limiter_ready_r;
-assign fir_driver_data          = fir_driver_data_r;
+assign fir_driver_data          = fir_driver_data_r & fir_driver_data_mask_r;
 assign fir_driver_valid         = fir_driver_valid_del_r[1];
 
 assign ram_signal_address_a     = iter_input_mux ? ram_signal_address_a_del_r[0] : ram_signal_address_a_r;
@@ -215,14 +232,14 @@ begin
     end
     else
     begin
-      if(iter_input_mux)
+      if(iter_state == NEW_DATA)
       begin
-        symbol_cnt_r  <= 'd0;
+        symbol_cnt_r  <= symbol_cnt_r + (!buffer_end & fir_driver_ready);
         curr_iter_r   <= 'd0;
       end
       else
       begin
-        symbol_cnt_r  <= symbol_cnt_r + (!buffer_end & fir_driver_ready);
+        symbol_cnt_r  <= 'd0;
         curr_iter_r   <= 'd0;
       end
     end
@@ -244,6 +261,8 @@ begin
     intbuff_q_r         <= '0;
 
     symbol_cnt_int_r    <= '0;
+    ping_pong_int_r     <= '0;
+    intbuff_end_r       <= '0;
   end
   else
   begin
@@ -258,36 +277,35 @@ begin
     end
     else
     begin
-      if(iter_input_enable/* | iter_input_enable_r*/)
+      // if(iter_input_enable/* | iter_input_enable_r*/)
+      if(iter_state == NEW_DATA)
       begin
-        intbuff_wren_r      <= limiter_valid | limiter_valid_r;
+        intbuff_wren_r      <= 'd0;
+        intbuff_rdaddress_r <= { ping_pong_int_r, 'd0 }; // get ready for immediate read
 
-        // if(fir_taps_half)
-          // intbuff_wraddress_r <= iter_symbol_num - fir_taps_head_r;
-        // else
-          // intbuff_wraddress_r <= iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r;
-        intbuff_wraddress_r <= iter_symbol_num;
-
-        intbuff_rdaddress_r <= iter_symbol_num + 'd1;
-        // if(fir_taps_half)
-          // intbuff_rdaddress_r <= iter_symbol_num - fir_taps_head_r;
-        // else
-          // intbuff_rdaddress_r <= iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r;
-
-        symbol_cnt_int_r    <= intbuff_end ? 'd0 : symbol_cnt_int_r + 8'(limiter_valid | limiter_valid_r);
+        symbol_cnt_int_r    <= 'd0;
       end
       else
       begin
-        intbuff_wren_r      <= 'd0;
-        intbuff_rdaddress_r <= 'd0; // get ready for immediate read
+        // intbuff_wren_r      <= (limiter_valid | limiter_valid_r) & iter_input_enable;
+        intbuff_wren_r      <= iter_input_enable;
+        intbuff_wraddress_r <= { ping_pong_int_r, iter_symbol_num };
+        // if(fir_taps_half)
+        //   intbuff_wraddress_r <= { ping_pong_int_r, iter_symbol_num - fir_taps_head_r };
+        // else
+        //   intbuff_wraddress_r <= { !ping_pong_int_r, iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r };
 
-        symbol_cnt_int_r    <= 'd0;
+        intbuff_rdaddress_r <= { ping_pong_int_r, (iter_symbol_num == max_samples_in_ram_r - 'd1) ? 'd0 : iter_symbol_num + 'd1 };
+
+        symbol_cnt_int_r    <= (intbuff_end == 'd0 & intbuff_end_r == 'd1) ? 'd0 : symbol_cnt_int_r + 8'(iter_input_enable);
+        ping_pong_int_r     <= ping_pong_int_r ^ (intbuff_end == 'd0 & intbuff_end_r == 'd1);
       end
       
       intbuff_data_r  <= limiter_data;
     end
 
     intbuff_q_r   <= intbuff_q;
+    intbuff_end_r <= intbuff_end;
   end
 end
 
@@ -301,6 +319,8 @@ begin
     ram_signal_write_a_r        <= '0;
     ram_signal_writedata_a_r    <= '0;
     ram_signal_byteenable_a_r   <= '0;
+
+    ping_pong_a_r               <= '0;
   end
   else
   begin
@@ -312,32 +332,39 @@ begin
     end
     else
     begin
-      
-      if(iter_input_mux)
+      if(iter_state == NEW_DATA)
+      begin
+        ram_signal_address_a_r    <= { ping_pong_a_r, iter_symbol_num_r };
+        ram_signal_write_a_r      <= iter_input_enable & lvl_gen_valid_del_r[0];
+        ram_signal_writedata_a_r  <= lvl_gen_data_del_r[0];
+      end
+      else/* if(iter_state == PREPARE_FIR)*/
       begin
         if(fir_taps_half)
         begin
           ram_signal_address_a_r  <= { iter_iter_num + 'd2, iter_symbol_num - fir_taps_head_r };
-          ram_signal_write_a_r    <= iter_input_enable & (iter_iter_num != iter_num_r - 'd1)/*& limiter_valid*/;
+          ram_signal_write_a_r    <= /*iter_input_enable &*/(iter_state == PREPARE_FIR) & (iter_iter_num != iter_num_r - 'd1);
         end
         else
         begin
           ram_signal_address_a_r  <= { iter_iter_num + 'd1, iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r };
-          ram_signal_write_a_r    <= iter_input_enable & (iter_iter_num != 'd0)/*& limiter_valid*/;
+          ram_signal_write_a_r    <= /*iter_input_enable &*/(iter_state == PREPARE_FIR) & (iter_iter_num != 'd0);
         end
+        // ram_signal_address_a_r  <= { iter_iter_num + 'd1, iter_symbol_num };
+        // ram_signal_write_a_r    <= /*iter_input_enable &*/(iter_state == PREPARE_FIR) & (iter_iter_num != 'd0) & (iter_iter_num != iter_num_r - 'd1);
 
         ram_signal_writedata_a_r  <= intbuff_q;
-      end
-      else
-      begin
-        ram_signal_address_a_r    <= { section_id != FIRST_SECTION, iter_symbol_num };
-        ram_signal_write_a_r      <= iter_input_enable & lvl_gen_valid_del_r[0];
-        ram_signal_writedata_a_r  <= lvl_gen_data_del_r[0];
       end
     end
     
     ram_signal_chipselect_a_r   <= 'd1;
     ram_signal_byteenable_a_r   <= '1;
+
+    if(iter_state_del_r[0] == NEW_DATA && iter_symbol_num_r == max_samples_in_ram_r - 'd1 && iter_symbol_num == 'd0)
+    begin
+      ping_pong_a_r <= !ping_pong_a_r;
+      ping_pong_b_r <= ping_pong_a_r;
+    end
   end
 end
 
@@ -349,6 +376,7 @@ begin
     limiter_ready_r           <= '0;
     iter_ready_r              <= '0;
     fir_driver_data_r         <= '0;
+    fir_driver_data_mask_r    <= '0;
     fir_driver_valid_r        <= '0;
 
     ram_signal_address_b_r    <= '0;
@@ -369,25 +397,35 @@ begin
     else
     begin
       iter_ready_r              <= 'd1;
-      fir_driver_data_r         <= section_id == LAST_SECTION ? 'd0 : ram_signal_readdata_b;
-      
-      if(iter_input_mux)
+      fir_driver_data_r         <= (section_id == LAST_SECTION) ? 'd0 : ram_signal_readdata_b;
+      fir_driver_data_mask_r    <= { 16{ ~(section_id == FIRST_SECTION /*&& iter_iter_num == 'd0*/ && iter_state == PREPARE_FIR) } };
+
+      if(iter_state == NEW_DATA)
+      begin
+        fir_driver_valid_r        <= !buffer_end;
+
+        // if(section_id != MIDDLE_SECTION) // TODO: last_section
+        //   ram_signal_address_b_r    <= { 'd0, symbol_cnt_r };
+        // else
+        //   ram_signal_address_b_r    <= { 'd1, symbol_cnt_r };
+        ram_signal_address_b_r    <= { !ping_pong_a_r, symbol_cnt_r };
+      end
+      else
       begin
         fir_driver_valid_r        <= iter_output_enable & ~ram_signal_waitrequest_b;
 
-        if(fir_taps_half/* & (section_id == FIRST_SECTION)*/)
-          ram_signal_address_b_r    <= { iter_iter_num + 'd1, iter_symbol_num - fir_taps_head_r};
+        if(iter_iter_num == 'd0)
+        begin
+          ram_signal_address_b_r    <= { /*!ping_pong_a_r*/ ping_pong_a_r ^ (iter_state == PROCESS_ITER), iter_symbol_num }; // ping_pong_a_r should have switched by now
+        end
         else
-          ram_signal_address_b_r    <= { iter_iter_num + 'd1, iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r };
-      end
-      else
-      begin // new data flush
-        fir_driver_valid_r        <= !buffer_end;
-
-        if(section_id != MIDDLE_SECTION)
-          ram_signal_address_b_r    <= { 'd0, symbol_cnt_r };
-        else
-          ram_signal_address_b_r    <= { 'd1, symbol_cnt_r };
+        begin
+          ram_signal_address_b_r    <= { iter_iter_num + 'd1, iter_symbol_num };
+          // if(fir_taps_half)
+            // ram_signal_address_b_r    <= { iter_iter_num + 'd2, iter_symbol_num - fir_taps_head_r};
+          // else
+            // ram_signal_address_b_r    <= { iter_iter_num + 'd1, iter_symbol_num + max_samples_in_ram_r - fir_taps_head_r };
+        end
       end
     end
 
@@ -402,6 +440,7 @@ always_ff @(posedge clock)
 begin
   if(reset)
   begin
+    // iter_state_del_r              <= '0;
     // section_id_del_r              <= '0;
     // lvl_gen_data_del_r            <= '0;
     // lvl_gen_valid_del_r           <= '0;
@@ -433,6 +472,7 @@ begin
   end
   else
   begin
+    iter_state_del_r[0]             <= iter_state;
     section_id_del_r[0]             <= section_id;
     lvl_gen_data_del_r[0]           <= lvl_gen_data_r;
     lvl_gen_valid_del_r[0]          <= lvl_gen_valid_r;
@@ -462,8 +502,9 @@ begin
     curr_iter_del_r[0]              <= curr_iter_r;
     pipeline_init_del_r[0]          <= pipeline_init_r;
 
-    for(int i = 1; i < 4; i++)
+    for(int i = 1; i < 5; i++)
     begin
+      iter_state_del_r[i]             <= iter_state_del_r[i-1];
       section_id_del_r[i]             <= section_id_del_r[i-1];
       lvl_gen_data_del_r[i]           <= lvl_gen_data_del_r[i-1];
       lvl_gen_valid_del_r[i]          <= lvl_gen_valid_del_r[i-1];

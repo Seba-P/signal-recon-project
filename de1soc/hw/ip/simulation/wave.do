@@ -38,9 +38,10 @@ add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signa
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/limiter_data
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/limiter_valid
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/limiter_ready
+add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_state
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_iter_num
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_symbol_num
-add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_section_id
+add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/section_id
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_init
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_input_mux
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_input_enable
@@ -60,6 +61,7 @@ add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signa
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/iter_num_r
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/pipeline_init_r
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/symbol_cnt_r
+add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ping_pong_a_r
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/buffer_end
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ram_signal_address_b
 #add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ram_signal_chipselect_b
@@ -70,6 +72,7 @@ add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signa
 #add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ram_signal_byteenable_b
 # add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ram_signal_waitrequest_b
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/symbol_cnt_int_r
+add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/ping_pong_int_r
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/intbuff_end
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/intbuff_wren_r
 add wave -noupdate -group SIGNAL_BUFFER_CTRL sim:/fir_subsystem_top_tb/DUT/signal_buffer_ctrl/intbuff_data_r
@@ -120,6 +123,7 @@ add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/lvl_gen_init
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/lvl_gen_valid
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/lvl_gen_ready
+add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_iter_state
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_iter_num
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_symbol_num
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/sigbuff_section_id
