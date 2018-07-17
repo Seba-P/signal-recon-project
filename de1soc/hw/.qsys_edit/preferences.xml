@@ -3,7 +3,7 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="351" />
+   <connections preferredWidth="271" />
    <irq preferredWidth="34" />
    <security visible="1" />
   </columns>
@@ -15,5 +15,5 @@
    block_symbol_file="1"
    synthesis="VERILOG"
    greybox="0"
-   simulation="NONE" />
+   simulation="VERILOG" />
 </preferences>

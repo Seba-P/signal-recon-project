@@ -1,23 +1,25 @@
 
 module output_ctrl
 #(
-  parameter USE_COMB_LOGIC = 0
+  parameter ITER_NUM        = 1,
+  parameter USE_COMB_LOGIC  = 0
 )
 (
   /* Common IF */
-  input  wire        reset,               //   reset.reset
-  input  wire        clock,               //   clock.clk
-  /* Hard limiter IF */
-  input  wire [15:0] limiter_data,        // limiter.data
-  input  wire        limiter_valid,       //        .valid
-  output wire        limiter_ready,       //        .ready
+  input  wire                       reset,          // reset.reset
+  input  wire                       clock,          // clock.clk
   /* Iteration controller IF */
-  input  wire        iter_output_enable,  //    iter.new_signal
-  output wire        iter_ready,          //        .new_signal_1
-  /* Output IF */
-  output wire [15:0] out_data,            //     out.data
-  output wire        out_valid,           //        .valid
-  input  wire        out_ready            //        .ready
+  input  wire                       iter_enable,    //  iter.new_signal
+  input  wire [$bits(ITER_NUM)-1:0] iter_iter_num,  //      .new_signal_1
+  output wire                       iter_ready,     //      .new_signal_2
+  /* FIR subcells IF */
+  input  wire  [ITER_NUM-1:0][15:0] in_data,        //    in.data
+  input  wire  [ITER_NUM-1:0]       in_valid,       //      .valid
+  output wire  [ITER_NUM-1:0]       in_ready,       //      .ready
+  /* SGDMA IF */
+  output wire                [15:0] out_data,       //   out.data
+  output wire                       out_valid,      //      .valid
+  input  wire                       out_ready       //      .ready
 );
 
 generate
@@ -26,10 +28,10 @@ generate
     reg  [15:0] out_data_r;
     reg         out_valid_r; // is next pipeline stage needed?
 
-    assign limiter_ready  = ~reset & out_ready; // ?
-    assign iter_ready     = out_ready;
-    assign out_data       = out_data_r;
-    assign out_valid      = out_valid_r;
+    assign iter_ready = out_ready;
+    assign in_ready   = { ITER_NUM{ out_ready & iter_enable } }; // ?
+    assign out_data   = out_data_r;
+    assign out_valid  = out_valid_r;
 
     always_ff @(posedge clock)
     begin
@@ -40,41 +42,38 @@ generate
       end
       else
       begin
-        out_data_r  <= limiter_data;
-        out_valid_r <= limiter_valid & iter_output_enable;
+        out_data_r  <= in_data[iter_iter_num];
+        out_valid_r <= in_valid[iter_iter_num] & iter_enable;
       end
     end
   end
   else
   begin
-    assign limiter_ready  = ~reset & out_ready; // ?
-    assign iter_ready     = out_ready;
-    assign out_data       = ~reset & limiter_data;
-    assign out_valid      = ~reset & limiter_valid & iter_output_enable;
+    assign iter_ready = out_ready;
+    assign in_ready   = ~reset & { ITER_NUM{ out_ready & iter_enable } }; // ?
+    assign out_data   = ~reset & in_data[iter_iter_num];
+    assign out_valid  = ~reset & in_valid[iter_iter_num] & iter_enable;
 
     /*
-    reg         limiter_ready_r;
     reg  [15:0] out_data_r;
     reg         out_valid_r;
 
-    assign limiter_ready  = limiter_ready_r;
-    assign iter_ready     = out_ready;
-    assign out_data       = out_data_r;
-    assign out_valid      = out_valid_r;
+    assign iter_ready = out_ready;
+    assign in_ready   = { ITER_NUM{ out_ready & iter_enable } }; // ?
+    assign out_data   = out_data_r;
+    assign out_valid  = out_valid_r;
 
     always_comb
     begin
       if(reset)
       begin
-        limiter_ready_r  = '0; // ?
-        out_data_r       = '0;
-        out_valid_r      = '0;
+        out_data_r   = '0;
+        out_valid_r  = '0;
       end
       else
       begin
-        limiter_ready_r  = out_ready; // ?
-        out_data_r       = limiter_data;
-        out_valid_r      = limiter_valid & iter_output_enable;
+        out_data_r   = in_data[iter_iter_num];
+        out_valid_r  = in_valid[iter_iter_num] & iter_enable;
       end
     end
     */

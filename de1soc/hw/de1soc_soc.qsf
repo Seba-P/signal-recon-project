@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE 5CSEMA5F31C6
 set_global_assignment -name TOP_LEVEL_ENTITY top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:06:54  JULY 15, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "16.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "17.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -486,7 +486,15 @@ set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to inst_soc_system|h
 #============================================================
 
 
+set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
+set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name PROJECT_IP_REGENERATION_POLICY ALWAYS_REGENERATE_IP
+set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
+set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name SIP_FILE soc_system/simulation/soc_system.sip
 set_global_assignment -name QIP_FILE soc_system/synthesis/soc_system.qip
+set_global_assignment -name SIP_FILE ip/source/fir_filter_ip/fir_filter.sip
+set_global_assignment -name QIP_FILE ip/source/fir_filter_ip/fir_filter.qip
 set_global_assignment -name VHDL_FILE src/top.vhd
 set_global_assignment -name VHDL_FILE src/heartbeat.vhd
 set_global_assignment -name QIP_FILE src/pll/pll_sys.qip
@@ -494,9 +502,4 @@ set_global_assignment -name SIP_FILE src/pll/pll_sys.sip
 set_global_assignment -name SOURCE_FILE de1soc_soc.srf
 set_global_assignment -name SDC_FILE de1soc_soc.sdc
 set_global_assignment -name CDF_FILE de1soc_soc.cdf
-set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
-set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
-set_global_assignment -name PROJECT_IP_REGENERATION_POLICY ALWAYS_REGENERATE_IP
-set_global_assignment -name VERILOG_INPUT_VERSION SYSTEMVERILOG_2005
-set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

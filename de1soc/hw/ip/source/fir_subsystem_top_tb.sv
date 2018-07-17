@@ -38,8 +38,8 @@ logic [15:0] st2mm_data;
 logic        st2mm_valid;
 logic        st2mm_ready;
 
-localparam FIR_TAPS_NUM       = 255;
-localparam MAX_SAMPLES_IN_RAM = 255;
+localparam FIR_TAPS_NUM       = 63;
+localparam MAX_SAMPLES_IN_RAM = 63;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
 localparam ITER_NUM           = 2;
@@ -66,7 +66,7 @@ fir_subsystem_top
 DUT
 (
   /* Common IF */
-  .reset_n      (reset_n),
+  .reset        (reset),
   .clock        (clock),
   /* MM2ST IF */
   .mm2st_data   (mm2st_data),
@@ -90,8 +90,7 @@ bit   [ 4:0] curr_lvl;
 bit   [15:0] lvls_step;
 bit   [15:0] expected_value;
 bit   [31:0] expected_limits;
-int          curr_iter, iter_sample;
-int          duration, total_duration;
+int          duration;
 wire         not_max_lvl, not_min_lvl;
 wire         upper_lvl_idx, lower_lvl_idx;
 
@@ -137,44 +136,16 @@ task verify_output(LVL_CROSS_SAMPLE_T sample);
   for(duration = 0; duration < sample.timestamp; duration++)
   begin
     @(posedge clock);
-    /*if(!st2mm_valid)
-      @(posedge st2mm_valid);
 
-    recv_fir_data[total_duration++%MAX_SAMPLES_IN_RAM] = st2mm_data;
-    if(st2mm_data != expected_value)
-      $display("Invalid output data (0x%x/0x%x) @ sample #%0d/%0d!", st2mm_data, expected_value, duration, total_duration-1);*/
-    
-    if((++total_duration % MAX_SAMPLES_IN_RAM) == 0) // TODO: ITER_NUM > 1
-    begin
-      while(curr_iter < ITER_NUM)
-      begin
-        for(iter_sample = 0; iter_sample < MAX_SAMPLES_IN_RAM; iter_sample++)
-        begin
-          @(posedge clock);
-          /*if(!st2mm_valid)
-            @(posedge st2mm_valid);
-          if(st2mm_data != recv_fir_data[iter_sample])
-            $display("Invalid output data (0x%x/0x%x) @ sample #%0d(RAM))!", st2mm_data, expected_value, iter_sample);*/
-        end
-        curr_iter++;
-      end
-      curr_iter = 0;
-    end
+    // if(mm2st_ready)
+    //   $display("ERROR @%g(#%d): mm2st_ready asserted!", $time, duration + DELAY);
+
+    // if(~st2mm_valid)
+    //   $display("ERROR @%g(#%d): st2mm_valid deasserted!", $time, duration + DELAY);
+
+    // if(st2mm_data != expected_value)
+    //   $display("ERROR @%g(#%d): invalid output value (0x%0h/0x%0h)!", $time, duration + DELAY, st2mm_data, expected_value);
   end
-
-  /*for(duration = 0; duration < sample.timestamp; duration++)
-  begin
-    @(posedge clock);
-
-    if(mm2st_ready)
-      $display("ERROR @%g(#%d): mm2st_ready asserted!", $time, duration + DELAY);
-
-    if(~st2mm_valid)
-      $display("ERROR @%g(#%d): st2mm_valid deasserted!", $time, duration + DELAY);
-
-    if(st2mm_data != expected_value)
-      $display("ERROR @%g(#%d): invalid output value (0x%0h/0x%0h)!", $time, duration + DELAY, st2mm_data, expected_value);
-  end*/
 
 endtask : verify_output
 
@@ -189,7 +160,6 @@ end
 initial
 begin
   #150 curr_lvl = LVL_RESET_VALUE;
-  curr_iter     = 0;
   st2mm_ready   = 'd1;
 
   /* Pipeline init after reset */
@@ -213,8 +183,6 @@ begin
 
   /* Verify iterative processing */
   #  5 curr_lvl   = LVL_RESET_VALUE;
-  curr_iter       = 0;
-  total_duration  = 0;
   st2mm_ready     = 'd1;
   # 20 reset      = 'd1;
   #100 reset      = 'd0;

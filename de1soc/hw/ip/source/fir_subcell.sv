@@ -21,7 +21,7 @@ module fir_subcell
   output wire        iter_ready,          //           .new_signal_5
   /* Sample2lvl converter IF */
   input  wire [31:0] in_limits_data,      //  in_limits.data
-  input  wire        in_limits_valid      //           .valid
+  input  wire        in_limits_valid,     //           .valid
   /* Input stage IF */
   input  wire [15:0] in_signal_data,      //  in_signal.data
   input  wire        in_signal_valid,     //           .valid
@@ -46,6 +46,10 @@ reg  [15:0] out_signal_data_r;
 reg         out_signal_valid_r;
 reg         out_signal_ready_r;
 
+wire        fir_in_valid;
+wire [15:0] fir_in_data;
+wire        fir_in_ready;
+wire  [1:0] fir_in_error;
 wire        fir_out_valid;
 wire [15:0] fir_out_data;
 wire        fir_out_ready;
@@ -58,12 +62,52 @@ wire        fifo_empty;
 wire        fifo_full;
 wire [ 7:0] fifo_fill_count;
 
-assign fir_in_data  = in_signal_data;
-assign fir_in_valid = in_signal_valid & iter_input_enable;
-assign fir_in_error = 'd0; // not used
-assign fir_in_ready = in_signal_ready;
+assign fir_in_data      = in_signal_data;
+assign fir_in_valid     = in_signal_valid & iter_input_enable;
+assign fir_in_error     = 'd0; // not used
+assign in_signal_ready  = fir_in_ready;
 
-soc_system_fir_filter fir_filter
+assign fifo_in_data = in_limits_data;
+assign fifo_rdreq   = iter_valid_signal & in_signal_valid;
+assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/;
+
+always_ff @(posedge clock)
+begin
+  if(reset | iter_init)
+  begin
+    iter_new_limits_r     <= 'd0;
+    iter_valid_signal_r   <= 'd0;
+    iter_input_enable_r   <= 'd0;
+    iter_output_enable_r  <= 'd0;
+    iter_ready_r          <= 'd0;
+    in_limits_data_r      <= 'd0;
+    in_limits_valid_r     <= 'd0;
+    in_signal_data_r      <= 'd0;
+    in_signal_valid_r     <= 'd0;
+    in_signal_ready_r     <= 'd0;
+    out_signal_data_r     <= 'd0;
+    out_signal_valid_r    <= 'd0;
+    out_signal_ready_r    <= 'd0;
+  end
+  else
+  begin
+    iter_new_limits_r     <= iter_new_limits;
+    iter_valid_signal_r   <= iter_valid_signal;
+    iter_input_enable_r   <= iter_input_enable;
+    iter_output_enable_r  <= iter_output_enable;
+    // iter_ready_r          <= iter_ready;
+    in_limits_data_r      <= in_limits_data;
+    in_limits_valid_r     <= in_limits_valid;
+    in_signal_data_r      <= in_signal_data;
+    in_signal_valid_r     <= in_signal_valid;
+    // in_signal_ready_r     <= in_signal_ready;
+    // out_signal_data_r     <= out_signal_data;
+    // out_signal_valid_r    <= out_signal_valid;
+    out_signal_ready_r    <= out_signal_ready;
+  end
+end
+
+fir_filter fir_filter
 (
   .reset_n          (~(reset | iter_init)),
   .clk              (clock),
@@ -77,7 +121,8 @@ soc_system_fir_filter fir_filter
   .ast_source_ready (fir_out_ready)
 );
 
-limits_fifo limits_buffer
+// TODO: defparam
+limits_fifo limits_fifo
 (
   .clock  (clock),
   .sclr   (reset | iter_init),
@@ -97,18 +142,19 @@ hard_limiter
 hard_limiter
 (
   .reset              (reset | iter_init),
-  .clock              (),
-  .limbuff_data       (),
-  .limbuff_valid      (),
-  .iter_output_enable (),
-  .iter_ready         (),
-  .fir_data           (),
-  .fir_valid          (),
-  .fir_error          (),
-  .fir_ready          (),
-  .out_data           (),
-  .out_valid          (),
-  .out_ready          ()
+  .clock              (clock),
+  .limbuff_data       (fifo_out_data),
+  .limbuff_valid      (1'd1), // not used
+  .iter_valid_signal  (iter_valid_signal_r), // delay?
+  .iter_output_enable (iter_output_enable_r), // delay?
+  .iter_ready         (iter_ready),
+  .fir_data           (fir_out_data),
+  .fir_valid          (fir_out_valid),
+  .fir_error          (fir_out_error),
+  .fir_ready          (fir_out_ready),
+  .out_data           (out_signal_data),
+  .out_valid          (out_signal_valid),
+  .out_ready          (out_signal_ready)
 );
 
 endmodule
