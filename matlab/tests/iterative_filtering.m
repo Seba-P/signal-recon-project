@@ -10,7 +10,7 @@ close all
 
 DOWNRATE = 20;
 K        = 254;
-N_ITER   = 2;
+N_ITER   = 10;
 
 xs = pick_samples(x, DOWNRATE);
 ts = pick_samples(t, DOWNRATE);
@@ -29,7 +29,8 @@ fir_R       = length(fir_resp);
 fir_delay   = ceil(fir_R / 2);
 fir_tail    = floor(fir_R / 2);
 
-[ filt_sig, filt_lvls, ver_lvls ] = process_signal(signal, lvls, sig_lvls, fir_resp, N_ITER, 'normal');
+[ filt_sig, filt_lvls, ver_lvls ] = process_signal(signal, lvls, sig_lvls, fir_resp, N_ITER, 'piecewise-preserved');
+%[ filt_sig, filt_lvls, ver_lvls ] = process_signal(signal, lvls, sig_lvls, fir_resp, N_ITER, 'normal');
 tn          = 0:dts:dts*(length(signal)-1);
 
 %%%%%%%%%%%%%%%%
@@ -62,7 +63,8 @@ SIGNAL      = fft(signal);
 FILT_LVLS   = fft(filt_lvls(end, 1:end));
 VER_LVLS    = fft(ver_lvls(end, 1:end));
 FIR_RESP    = fft(fir_resp);
-N = floor(length(signal) / length(fir_resp));
+%N = floor(length(signal) / length(fir_resp));
+N = length(signal) / length(fir_resp);
 
 plot(0:length(SIGNAL)-1, mag2db(abs(SIGNAL)./max(abs(SIGNAL))), '-g');
 plot(0:length(SIGNAL)-1, mag2db(abs(FILT_LVLS)./max(abs(FILT_LVLS))), '-c');
