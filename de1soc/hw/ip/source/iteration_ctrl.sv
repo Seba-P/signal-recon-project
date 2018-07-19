@@ -26,6 +26,10 @@ module iteration_ctrl
   input  wire                       outctrl_ready           //           .new_signal_2
 );
 
+localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
+localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
+localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
+
 reg                        sample2lvl_init_r;
 reg                        sample2lvl_valid_r;
 reg                        sample2lvl_ready_r;
@@ -50,6 +54,7 @@ reg                           [ITER_NUM-0:0] iter_start_r;
 reg  [ITER_NUM-0:0][$bits(FIR_TAPS_NUM)-1:0] iter_symbol_cnt_r;
 reg                           [ITER_NUM-0:0] iter_symbol_inc_r;
 reg                           [ITER_NUM-0:0] iter_valid_signal_r;
+reg                           [ITER_NUM-0:0] iter_valid_signal_del_r;
 wire                          [ITER_NUM-0:0] valid_signal;
 wire                                         pipeline_stall;
 
@@ -57,7 +62,9 @@ assign sample2lvl_init        = sample2lvl_init_r;
 assign sample2lvl_ready       = sample2lvl_ready_r;
 assign subcells_init          = subcells_init_r;
 assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2lvl_valid } };
-assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
+// assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
+assign subcells_valid_signal  = iter_valid_signal_del_r[ITER_NUM:1];
+
 assign subcells_input_enable  = subcells_input_enable_r;
 assign subcells_output_enable = subcells_output_enable_r;
 assign outctrl_enable         = outctrl_enable_r;
@@ -104,15 +111,15 @@ end
 
 genvar ITER;
 generate
-// begin : _SUBCELLS
   assign iter_start_r[0]        = 'd1;
   assign iter_symbol_cnt_r[0]   = fir_taps_head_r;
   // assign iter_symbol_inc_r[0]   = 'd1;
   assign iter_valid_signal_r[0] = 'd1;
+  assign valid_signal[0]        = 'd1;
 
   for(ITER = 0; ITER < ITER_NUM; ITER++)
   begin : _FOR_ITER
-    assign valid_signal[ITER+1] = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
+    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
 
     /* Iteration control */
     always_ff @(posedge clock)
@@ -126,7 +133,8 @@ generate
       end
       else
       begin
-        iter_start_r[ITER+1] <= iter_valid_signal_r[ITER];
+        // iter_start_r[ITER+1] <= iter_valid_signal_r[ITER];
+        iter_start_r[ITER+1] <= valid_signal[ITER];
 
         if(iter_start_r[ITER+1])
         begin
@@ -134,12 +142,6 @@ generate
           // iter_symbol_inc_r[ITER+1]   <= !pipeline_stall & sample2lvl_valid;
           iter_valid_signal_r[ITER+1] <= valid_signal[ITER+1];
         end
-        // else
-        // begin
-        //   iter_symbol_cnt_r[ITER+1]   <= '0;
-        //   iter_symbol_inc_r[ITER+1]   <= '0;
-        //   iter_valid_signal_r[ITER+1] <= '0;
-        // end
       end
     end
 
@@ -159,8 +161,23 @@ generate
         subcells_output_enable_r[ITER]  <= 'd1;
       end
     end
+
+    delay
+    #(
+      .DELAY     (5*(ITER+1)+2*(ITER)),
+      .WIDTH     (1),
+      .RESET     (1),
+      .RESET_VAL ('0),
+      .RAMSTYLE  ("logic")
+    )
+    delay4_valid_signal
+    (
+      .clock    (clock),
+      .reset    (reset),
+      .in_data  (iter_valid_signal_r[ITER+1]),
+      .out_data (iter_valid_signal_del_r[ITER+1])
+    );
   end
-// end // _SUBCELLS
 endgenerate
 
 /* Output controller IF */
@@ -177,23 +194,5 @@ begin
     outctrl_iter_num_r  <= iter_num_r - 'd1;
   end
 end
-
-// template delayline
-// always_ff @(posedge clock)
-// begin
-//   if(reset)
-//   begin
-//     // state_del_r                   <= '0;
-//   end
-//   else
-//   begin
-//     state_del_r[0]                  <= state_r;
-
-//     for(int i = 1; i < 5; i++)
-//     begin
-//       state_del_r[i]                  <= state_del_r[i-1];
-//     end
-//   end
-// end
 
 endmodule

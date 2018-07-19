@@ -42,7 +42,7 @@ localparam FIR_TAPS_NUM       = 63;
 localparam MAX_SAMPLES_IN_RAM = 63;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
-localparam ITER_NUM           = 2;
+localparam ITER_NUM           = 3;
 localparam USE_COMB_LOGIC     = 0;
 
 assign reset_n = ~reset;
@@ -169,14 +169,17 @@ begin
   /* Verify lvls generation */
   repeat(LVLS_NUM/2+2)
   begin
-    sample = '{ 1'b0, 15'd5 };
+    sample = '{ 1'b0, 15'd10 };
     send_sample(sample);
     verify_output(sample);
+    @(posedge clock);
+    @(posedge clock);
+    @(posedge clock);
   end
 
   repeat(LVLS_NUM+1)
   begin
-    sample = '{ 1'b1, 15'd5 };
+    sample = '{ 1'b1, 15'd10 };
     send_sample(sample);
     verify_output(sample);
   end

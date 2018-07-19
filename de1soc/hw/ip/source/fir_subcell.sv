@@ -32,6 +32,10 @@ module fir_subcell
   input  wire        out_signal_ready     //           .ready
 );
 
+localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
+localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
+localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
+
 reg         iter_new_limits_r;
 reg         iter_valid_signal_r;
 reg         iter_input_enable_r;
@@ -145,7 +149,8 @@ hard_limiter
   .clock              (clock),
   .limbuff_data       (fifo_out_data),
   .limbuff_valid      (1'd1), // not used
-  .iter_valid_signal  (iter_valid_signal_r), // delay?
+  // .limbuff_valid      (iter_valid_signal_r & in_signal_valid_r), // not used
+  .iter_valid_signal  (iter_valid_signal_r/* & in_signal_valid_r*/), // delay?
   .iter_output_enable (iter_output_enable_r), // delay?
   .iter_ready         (iter_ready),
   .fir_data           (fir_out_data),
