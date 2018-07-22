@@ -1,7 +1,7 @@
 
-function output = load_binary_output(output_bin)
+function output = load_binary_output(file)
 
-    fd = fopen(output_bin);
+    fd = fopen(file);
     
     output = fread(fd, 'int16', 0, 'b');
     output = cast(1 / 32768 * output', 'single');

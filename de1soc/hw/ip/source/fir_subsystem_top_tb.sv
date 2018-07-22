@@ -42,7 +42,7 @@ localparam FIR_TAPS_NUM       = 63;
 localparam MAX_SAMPLES_IN_RAM = 63;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
-localparam ITER_NUM           = 3;
+localparam ITER_NUM           = 1;
 localparam USE_COMB_LOGIC     = 0;
 
 assign reset_n = ~reset;
@@ -93,6 +93,7 @@ bit   [31:0] expected_limits;
 int          duration;
 wire         not_max_lvl, not_min_lvl;
 wire         upper_lvl_idx, lower_lvl_idx;
+int          fd_in, fd_out;
 
 bit [0:31][15:0] lvls_values = 
 {
@@ -112,6 +113,8 @@ assign not_min_lvl     = (curr_lvl != '0);
 assign upper_lvl_idx   = curr_lvl + not_max_lvl;
 assign lower_lvl_idx   = curr_lvl - not_min_lvl;
 
+localparam USE_TESTVECTOR = 1;
+
 task send_sample(LVL_CROSS_SAMPLE_T sample);
   curr_lvl        <= sample.lvl_cross_dir ? curr_lvl + (curr_lvl != LVLS_NUM-1) : curr_lvl - (curr_lvl != 0);
   lvls_step       <= sample.lvl_cross_dir ? lvls_values[curr_lvl+(curr_lvl != LVLS_NUM-1)] - lvls_values[curr_lvl] :
@@ -126,15 +129,24 @@ task send_sample(LVL_CROSS_SAMPLE_T sample);
 
   if(!mm2st_ready)
     @(posedge mm2st_ready);
-  mm2st_valid = 'd0;
+  mm2st_valid <= 'd0;
+  @(posedge clock);
 
 endtask : send_sample
 
 task verify_output(LVL_CROSS_SAMPLE_T sample);
   localparam DELAY = 5;
+  // static start_of_output;
 
   for(duration = 0; duration < sample.timestamp; duration++)
   begin
+    // if(USE_TESTVECTOR)
+    // begin
+    //   wait(st2mm_valid == 'd1);
+    //   $fwrite(fd_out, "0x%h\n", st2mm_data);
+    //   // $fwrite(fd_out, "%u", st2mm_data);
+    // end
+
     @(posedge clock);
 
     // if(mm2st_ready)
@@ -157,6 +169,16 @@ begin
   st2mm_ready = '0;
 end
 
+always @(posedge clock)
+begin
+  if(USE_TESTVECTOR)
+  begin
+    if(st2mm_valid)
+      $fwrite(fd_out, "0x%h\n", st2mm_data);
+      // $fwrite(fd_out, "%u", st2mm_data);
+  end
+end
+
 initial
 begin
   #150 curr_lvl = LVL_RESET_VALUE;
@@ -166,42 +188,75 @@ begin
   repeat(MAX_SAMPLES_IN_RAM+5)
     @(posedge clock);
 
-  /* Verify lvls generation */
-  repeat(LVLS_NUM/2+2)
+  if(USE_TESTVECTOR)
   begin
-    sample = '{ 1'b0, 15'd10 };
+    fd_in   = $fopen("./samples.txt", "r");
+    fd_out  = $fopen("./tb_output.txt", "w");
+    // fd_out  = $fopen("./tb_output.txt", "wb");
+
+    if(!fd_in || !fd_out)
+    begin
+      $display("ERROR: Unable to open I/O file!");
+    end
+    else
+    begin
+      /* Process samples */
+      while(!$feof(fd_in))
+      begin
+        $fscanf(fd_in, "%h", sample);
+        send_sample(sample);
+        verify_output(sample);
+      end
+
+      /* Wait for delayed output */
+      repeat(ITER_NUM*(FIR_TAPS_NUM-1))
+      begin
+        // wait(st2mm_valid == 'd1);
+        @(posedge clock);
+        @(posedge clock);
+        @(posedge clock);
+      end
+    end
+
+    $fclose(fd_in);
+    $fclose(fd_out);
+  end
+  else
+  begin
+    /* Verify lvls generation */
+    repeat(LVLS_NUM/2+2)
+    begin
+      sample = '{ 1'b0, 15'd10 };
+      send_sample(sample);
+      verify_output(sample);
+    end
+
+    repeat(LVLS_NUM+1)
+    begin
+      sample = '{ 1'b1, 15'd10 };
+      send_sample(sample);
+      verify_output(sample);
+    end
+
+    /* Verify iterative processing */
+    #  5 curr_lvl   = LVL_RESET_VALUE;
+    st2mm_ready     = 'd1;
+    # 20 reset      = 'd1;
+    #100 reset      = 'd0;
+
+    /* Pipeline init after reset */
+    repeat(MAX_SAMPLES_IN_RAM+5)
+      @(posedge clock);
+
+    sample = '{ 1'b1, 15'd600 };
     send_sample(sample);
     verify_output(sample);
-    @(posedge clock);
-    @(posedge clock);
-    @(posedge clock);
-  end
 
-  repeat(LVLS_NUM+1)
-  begin
-    sample = '{ 1'b1, 15'd10 };
+    sample = '{ 1'b1, 15'd200 };
     send_sample(sample);
     verify_output(sample);
+    mm2st_valid = 'd0;
   end
-
-  /* Verify iterative processing */
-  #  5 curr_lvl   = LVL_RESET_VALUE;
-  st2mm_ready     = 'd1;
-  # 20 reset      = 'd1;
-  #100 reset      = 'd0;
-
-  /* Pipeline init after reset */
-  repeat(MAX_SAMPLES_IN_RAM+5)
-    @(posedge clock);
-
-  sample = '{ 1'b1, 15'd600 };
-  send_sample(sample);
-  verify_output(sample);
-
-  sample = '{ 1'b1, 15'd200 };
-  send_sample(sample);
-  verify_output(sample);
-  mm2st_valid = 'd0;
 
   # 50 sim_end = 'd1;
 end

@@ -5,7 +5,9 @@ function fir_resp = gen_fir_resp(K = 95, Fp_div_Fs_2 = 0.08, ...
     addpath('../toolbox')
 
     Rp  = 0.00057565;   % Corresponds to 0.01 dB peak-to-peak ripple
-    Rst = 0.001;        % Corresponds to 60 dB stopband attenuation
+    %Rp  = 0.057565;   % Corresponds to 0.01 dB peak-to-peak ripple
+    %sRst = 0.001;        % Corresponds to 60 dB stopband attenuation
+    Rst = 0.01;        % Corresponds to 40 dB stopband attenuation
 
     fir_resp = firceqrip(K, Fp_div_Fs_2, [Rp Rst],'passedge');
     [h1, w1]    = freqz(fir_resp);

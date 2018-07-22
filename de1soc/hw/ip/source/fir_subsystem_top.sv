@@ -52,7 +52,7 @@ sample2lvl_converter
   .LVL_RESET_VALUE (LVL_RESET_VALUE)
 )
 sample2lvl_converter
-( // TODO:
+(
   .reset            (reset),                            //      reset.reset
   .clock            (clock),                            //      clock.clk
   .in_data          (mm2st_data),                       //         in.data
@@ -74,7 +74,7 @@ iteration_ctrl
   .ITER_NUM           (ITER_NUM)
 )
 iteration_ctrl
-( // TODO:
+(
   .reset                  (reset),                        //      reset.reset
   .clock                  (clock),                        //      clock.clk
   .sample2lvl_init        (sample2lvl_iter_init),         // sample2lvl.new_signal
@@ -147,7 +147,7 @@ output_ctrl
   .USE_COMB_LOGIC (USE_COMB_LOGIC)
 )
 output_ctrl
-( // TODO:
+(
   .reset          (reset),                  // reset.reset
   .clock          (clock),                  // clock.clk
   .iter_enable    (iter_outctrl_enable),    //  iter.new_signal
