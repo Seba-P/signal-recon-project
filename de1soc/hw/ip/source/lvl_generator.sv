@@ -96,8 +96,8 @@ begin
       next_lvl_r          <= disp_cross_dir ? upper_lvl_idx : lower_lvl_idx;
       next_lower_limit_r  <= disp_cross_dir ? lvls_values_r[upper_lvl_idx] :
                                               (not_min_lvl ? lvls_values_r[lower_lvl_idx] : 16'h8000);
-      next_upper_limit_r  <= disp_cross_dir ? (curr_lvl_r < lvls_num_r-'d2 ? lvls_values_r[upper_lvl_idx+1] : 16'h7FFF) :
-                                              lvls_values_r[curr_lvl_r];
+      next_upper_limit_r  <= disp_cross_dir ? (next_lvl_r < lvls_num_r-'d2 ? lvls_values_r[upper_lvl_idx+1] : 16'h7FFF) :
+                                              lvls_values_r[next_lvl_r];
     end
 
     buff_value_r      <= lvl_value;

@@ -6,6 +6,7 @@ module fir_subcell
   parameter LVLS_NUM            = 20,
   parameter LVL_RESET_VALUE     = 9,
   parameter ITER_NUM            = 1,
+  parameter FIRST_SUBCELL       = 1,
   parameter USE_COMB_LOGIC      = 0
 )
 (
@@ -36,19 +37,8 @@ localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
 localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
 localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
-reg         iter_new_limits_r;
-reg         iter_valid_signal_r;
-reg         iter_input_enable_r;
-reg         iter_output_enable_r;
-reg         iter_ready_r;
-reg  [31:0] in_limits_data_r;
-reg         in_limits_valid_r;
-reg  [15:0] in_signal_data_r;
-reg         in_signal_valid_r;
-reg         in_signal_ready_r;
-reg  [15:0] out_signal_data_r;
-reg         out_signal_valid_r;
-reg         out_signal_ready_r;
+reg         valid_signal_fifo_r;
+reg         valid_signal_limiter_r;
 
 wire        fir_in_valid;
 wire [15:0] fir_in_data;
@@ -72,44 +62,40 @@ assign fir_in_error     = 'd0; // not used
 assign in_signal_ready  = fir_in_ready;
 
 assign fifo_in_data = in_limits_data;
-assign fifo_rdreq   = iter_valid_signal & in_signal_valid;
+assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid;
 assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/;
 
-always_ff @(posedge clock)
-begin
-  if(reset | iter_init)
-  begin
-    iter_new_limits_r     <= 'd0;
-    iter_valid_signal_r   <= 'd0;
-    iter_input_enable_r   <= 'd0;
-    iter_output_enable_r  <= 'd0;
-    iter_ready_r          <= 'd0;
-    in_limits_data_r      <= 'd0;
-    in_limits_valid_r     <= 'd0;
-    in_signal_data_r      <= 'd0;
-    in_signal_valid_r     <= 'd0;
-    in_signal_ready_r     <= 'd0;
-    out_signal_data_r     <= 'd0;
-    out_signal_valid_r    <= 'd0;
-    out_signal_ready_r    <= 'd0;
-  end
-  else
-  begin
-    iter_new_limits_r     <= iter_new_limits;
-    iter_valid_signal_r   <= iter_valid_signal;
-    iter_input_enable_r   <= iter_input_enable;
-    iter_output_enable_r  <= iter_output_enable;
-    // iter_ready_r          <= iter_ready;
-    in_limits_data_r      <= in_limits_data;
-    in_limits_valid_r     <= in_limits_valid;
-    in_signal_data_r      <= in_signal_data;
-    in_signal_valid_r     <= in_signal_valid;
-    // in_signal_ready_r     <= in_signal_ready;
-    // out_signal_data_r     <= out_signal_data;
-    // out_signal_valid_r    <= out_signal_valid;
-    out_signal_ready_r    <= out_signal_ready;
-  end
-end
+delay
+#(
+  .DELAY     (4+(3*!FIRST_SUBCELL)),
+  .WIDTH     (1),
+  .RESET     (1),
+  .RESET_VAL ('0),
+  .RAMSTYLE  ("logic")
+)
+delay_valid_signal_fifo
+(
+  .clock    (clock),
+  .reset    (reset),
+  .in_data  (iter_valid_signal),
+  .out_data (valid_signal_fifo_r)
+);
+
+delay
+#(
+  .DELAY     (2),
+  .WIDTH     (1),
+  .RESET     (1),
+  .RESET_VAL ('0),
+  .RAMSTYLE  ("logic")
+)
+delay_valid_signal_limiter
+(
+  .clock    (clock),
+  .reset    (reset),
+  .in_data  (valid_signal_fifo_r),
+  .out_data (valid_signal_limiter_r)
+);
 
 fir_filter fir_filter
 (
@@ -149,9 +135,8 @@ hard_limiter
   .clock              (clock),
   .limbuff_data       (fifo_out_data),
   .limbuff_valid      (1'd1), // not used
-  // .limbuff_valid      (iter_valid_signal_r & in_signal_valid_r), // not used
-  .iter_valid_signal  (iter_valid_signal_r/* & in_signal_valid_r*/), // delay?
-  .iter_output_enable (iter_output_enable_r), // delay?
+  .iter_valid_signal  (valid_signal_limiter_r),
+  .iter_output_enable (iter_output_enable), // delay?
   .iter_ready         (iter_ready),
   .fir_data           (fir_out_data),
   .fir_valid          (fir_out_valid),

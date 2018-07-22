@@ -117,6 +117,7 @@ generate
       .LVLS_NUM           (LVLS_NUM),
       .LVL_RESET_VALUE    (LVL_RESET_VALUE),
       .ITER_NUM           (ITER_NUM),
+      .FIRST_SUBCELL      (ITER == 0),
       .USE_COMB_LOGIC     (USE_COMB_LOGIC)
     )
     fir_subcell

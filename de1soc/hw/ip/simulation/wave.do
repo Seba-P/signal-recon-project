@@ -26,10 +26,14 @@ add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sam
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/out_lvl_valid
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/out_limits_data
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/out_limits_valid
-# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/sample_dispatcher_inst/next_sample
-# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/sample_dispatcher_inst/lvl_duration_cnt_r
-# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator_inst/curr_lvl_r
-# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator_inst/next_lvl_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/sample_dispatcher/next_sample
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/sample_dispatcher/lvl_duration_cnt_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/curr_lvl_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/next_lvl_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/curr_upper_limit_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/next_upper_limit_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/curr_lower_limit_r
+# add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/fir_subsystem_top_tb/DUT/sample2lvl_converter/lvl_generator/next_lower_limit_r
 
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/reset
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/clock
@@ -46,36 +50,20 @@ add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/outctrl_iter_num
 add wave -noupdate -group ITERATION_CTRL sim:/fir_subsystem_top_tb/DUT/iteration_ctrl/outctrl_ready
 
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/reset}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/clock}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_init}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_new_limits}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_valid_signal}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_input_enable}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_output_enable}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/iter_ready}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/in_limits_data}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/in_limits_valid}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/in_signal_data}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/in_signal_valid}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/in_signal_ready}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/out_signal_data}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/out_signal_valid}
-# add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/out_signal_ready}
 add wave -noupdate -group FIR_SUBCELL_0 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/*}
 add wave -noupdate -group FIR_SUBCELL_0_FIR {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/fir_filter/*}
 add wave -noupdate -group FIR_SUBCELL_0_FIFO {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/limits_fifo/*}
 add wave -noupdate -group FIR_SUBCELL_0_HL {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[0]/fir_subcell/hard_limiter/*}
 
-#add wave -noupdate -group FIR_SUBCELL_1 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/*}
-#add wave -noupdate -group FIR_SUBCELL_1_FIR {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/fir_filter/*}
-#add wave -noupdate -group FIR_SUBCELL_1_FIFO {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/limits_fifo/*}
-#add wave -noupdate -group FIR_SUBCELL_1_HL {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/hard_limiter/*}
+# add wave -noupdate -group FIR_SUBCELL_1 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/*}
+# add wave -noupdate -group FIR_SUBCELL_1_FIR {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/fir_filter/*}
+# add wave -noupdate -group FIR_SUBCELL_1_FIFO {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/limits_fifo/*}
+# add wave -noupdate -group FIR_SUBCELL_1_HL {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[1]/fir_subcell/hard_limiter/*}
 
-#add wave -noupdate -group FIR_SUBCELL_2 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/*}
-#add wave -noupdate -group FIR_SUBCELL_2_FIR {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/fir_filter/*}
-#add wave -noupdate -group FIR_SUBCELL_2_FIFO {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/limits_fifo/*}
-#add wave -noupdate -group FIR_SUBCELL_2_HL {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/hard_limiter/*}
+# add wave -noupdate -group FIR_SUBCELL_2 {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/*}
+# add wave -noupdate -group FIR_SUBCELL_2_FIR {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/fir_filter/*}
+# add wave -noupdate -group FIR_SUBCELL_2_FIFO {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/limits_fifo/*}
+# add wave -noupdate -group FIR_SUBCELL_2_HL {sim:/fir_subsystem_top_tb/DUT/_FOR_ITER[2]/fir_subcell/hard_limiter/*}
 
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/reset
 add wave -noupdate -group OUTPUT_CTRL sim:/fir_subsystem_top_tb/DUT/output_ctrl/clock

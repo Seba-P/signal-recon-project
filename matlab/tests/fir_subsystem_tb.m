@@ -10,7 +10,7 @@ close all
 
 DOWNRATE = 40;
 K        = 62;
-N_ITER   = 1;
+N_ITER   = 2;
 
 xs = pick_samples(x, DOWNRATE);
 ts = pick_samples(t, DOWNRATE);
@@ -37,7 +37,7 @@ tn          = 0:dts:dts*(length(signal)-1);
 % tb_output 	= load_results('../tb_output.txt', 'binary');
 tb_output 	= load_results('../tb_output.txt', 'text');
 % tb_delay 	= N_ITER*(fir_delay-1)+1;
-tb_delay 	= N_ITER*(fir_delay);
+tb_delay 	= N_ITER*(fir_delay-1)+1;
 
 %%%%%%%%%%%%%%%%
 % TEST RESULTS %

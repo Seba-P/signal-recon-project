@@ -33,7 +33,7 @@ assign iter_valid       = out_valid;
 assign out_lvl_valid    = out_valid;
 assign out_limits_valid = out_valid;
 
-sample_dispatcher sample_dispatcher_inst
+sample_dispatcher sample_dispatcher
 (
   /* Common IF */
   .reset              (reset | iter_init),
@@ -55,7 +55,7 @@ lvl_generator
   .LVLS_NUM         (LVLS_NUM),
   .LVL_RESET_VALUE  (LVL_RESET_VALUE)
 )
-lvl_generator_inst
+lvl_generator
 (
   /* Common IF */
   .reset            (reset | iter_init),

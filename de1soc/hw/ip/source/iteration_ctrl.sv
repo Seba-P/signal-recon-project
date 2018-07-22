@@ -62,9 +62,7 @@ assign sample2lvl_init        = sample2lvl_init_r;
 assign sample2lvl_ready       = sample2lvl_ready_r;
 assign subcells_init          = subcells_init_r;
 assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2lvl_valid } };
-// assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
-assign subcells_valid_signal  = iter_valid_signal_del_r[ITER_NUM:1];
-
+assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
 assign subcells_input_enable  = subcells_input_enable_r;
 assign subcells_output_enable = subcells_output_enable_r;
 assign outctrl_enable         = outctrl_enable_r;
@@ -113,7 +111,6 @@ genvar ITER;
 generate
   assign iter_start_r[0]        = 'd1;
   assign iter_symbol_cnt_r[0]   = fir_taps_head_r;
-  // assign iter_symbol_inc_r[0]   = 'd1;
   assign iter_valid_signal_r[0] = 'd1;
   assign valid_signal[0]        = 'd1;
 
@@ -128,18 +125,15 @@ generate
       begin
         iter_start_r[ITER+1]        <= '0;
         iter_symbol_cnt_r[ITER+1]   <= '0;
-        // iter_symbol_inc_r[ITER+1]   <= '0;
         iter_valid_signal_r[ITER+1] <= '0;
       end
       else
       begin
-        // iter_start_r[ITER+1] <= iter_valid_signal_r[ITER];
         iter_start_r[ITER+1] <= valid_signal[ITER];
 
         if(iter_start_r[ITER+1])
         begin
           iter_symbol_cnt_r[ITER+1]   <= iter_symbol_cnt_r[ITER+1] + (!pipeline_stall & sample2lvl_valid & !valid_signal[ITER+1]);
-          // iter_symbol_inc_r[ITER+1]   <= !pipeline_stall & sample2lvl_valid;
           iter_valid_signal_r[ITER+1] <= valid_signal[ITER+1];
         end
       end
@@ -161,22 +155,6 @@ generate
         subcells_output_enable_r[ITER]  <= 'd1;
       end
     end
-
-    delay
-    #(
-      .DELAY     (5*(ITER+1)+2*(ITER)),
-      .WIDTH     (1),
-      .RESET     (1),
-      .RESET_VAL ('0),
-      .RAMSTYLE  ("logic")
-    )
-    delay4_valid_signal
-    (
-      .clock    (clock),
-      .reset    (reset),
-      .in_data  (iter_valid_signal_r[ITER+1]),
-      .out_data (iter_valid_signal_del_r[ITER+1])
-    );
   end
 endgenerate
 
