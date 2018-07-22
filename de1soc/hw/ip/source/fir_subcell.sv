@@ -6,7 +6,7 @@ module fir_subcell
   parameter LVLS_NUM            = 20,
   parameter LVL_RESET_VALUE     = 9,
   parameter ITER_NUM            = 1,
-  parameter FIRST_SUBCELL       = 1,
+  parameter SUBCELL_NUM         = 0,
   parameter USE_COMB_LOGIC      = 0
 )
 (
@@ -65,21 +65,39 @@ assign fifo_in_data = in_limits_data;
 assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid;
 assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/;
 
-delay
-#(
-  .DELAY     (4+(3*!FIRST_SUBCELL)),
-  .WIDTH     (1),
-  .RESET     (1),
-  .RESET_VAL ('0),
-  .RAMSTYLE  ("logic")
-)
-delay_valid_signal_fifo
-(
-  .clock    (clock),
-  .reset    (reset),
-  .in_data  (iter_valid_signal),
-  .out_data (valid_signal_fifo_r)
-);
+`define DELAY_GEN(DEL) \
+  delay \
+  #( \
+    .DELAY      (DEL), \
+    .WIDTH      (1), \
+    .RESET      (1), \
+    .RESET_VAL  ('0), \
+    .RAMSTYLE   ("logic") \
+  ) \
+  delay_valid_signal_fifo \
+  ( \
+    .clock    (clock), \
+    .reset    (reset), \
+    .in_data  (iter_valid_signal), \
+    .out_data (valid_signal_fifo_r) \
+  );
+
+generate
+  if(SUBCELL_NUM == 0)
+    `DELAY_GEN(4)
+  else if(SUBCELL_NUM == 1)
+    // `DELAY_GEN(7)
+    `DELAY_GEN(11)
+  else if(SUBCELL_NUM == 2)
+    `DELAY_GEN(18)
+  else if(SUBCELL_NUM == 3)
+    // `DELAY_GEN(25)
+    `DELAY_GEN(23)
+  else if(SUBCELL_NUM == 4)
+    `DELAY_GEN(32)
+  else if(SUBCELL_NUM == 5)
+    `DELAY_GEN(39)
+endgenerate
 
 delay
 #(

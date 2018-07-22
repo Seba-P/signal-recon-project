@@ -4,22 +4,21 @@ addpath('../')
 addpath('../toolbox/')
 addpath('../bursty-lib/')
 
-run_reconstruction
-clearvars -except x t lvl
 close all
 
 DOWNRATE = 40;
 K        = 62;
-N_ITER   = 2;
+N_ITER   = 6;
 
-xs = pick_samples(x, DOWNRATE);
-ts = pick_samples(t, DOWNRATE);
+lvl = -0.95:0.10:0.95;
+ts  = 0:0.001:0.5;
+xs  = -0.05 + 0.05*sin(2*pi*20*ts);
 
 signal   = xs;
-sig_lvls = lvl(:,1)';
+sig_lvls = lvl;
 dts      = ts(2)-ts(1);
 
-[samples, lvl0, lvls] = gen_samples_and_levels(xs, ts, (lvl(:,1))', 0);
+[samples, lvl0, lvls] = gen_samples_and_levels(xs, ts, lvl, 0);
 save_samples('../samples.txt', samples, 'text');
 save_samples('../samples.bin', samples, 'binary');
 
