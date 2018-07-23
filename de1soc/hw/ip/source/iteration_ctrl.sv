@@ -116,7 +116,8 @@ generate
 
   for(ITER = 0; ITER < ITER_NUM; ITER++)
   begin : _FOR_ITER
-    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
+    // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
+    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd2;
 
     /* Iteration control */
     always_ff @(posedge clock)

@@ -42,7 +42,7 @@ localparam FIR_TAPS_NUM       = 63;
 localparam MAX_SAMPLES_IN_RAM = 63;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
-localparam ITER_NUM           = 2;
+localparam ITER_NUM           = 6;
 localparam USE_COMB_LOGIC     = 0;
 
 assign reset_n = ~reset;

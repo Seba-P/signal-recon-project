@@ -37,17 +37,26 @@ localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
 localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
 localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
+reg                        init_stage_0_r;
+reg                        init_stage_1_r;
+reg                        init_stage_2_r;
+reg                        init_stage_3_r;
+reg                        init_stage_4_r;
+reg                        init_stage_done_r;
+
 reg         valid_signal_fifo_r;
 reg         valid_signal_limiter_r;
+reg  [15:0] fir_data_limiter_r;
+reg         fir_valid_limiter_r;
 
-wire        fir_in_valid;
 wire [15:0] fir_in_data;
-wire        fir_in_ready;
+wire        fir_in_valid;
 wire  [1:0] fir_in_error;
-wire        fir_out_valid;
+wire        fir_in_ready;
 wire [15:0] fir_out_data;
-wire        fir_out_ready;
+wire        fir_out_valid;
 wire  [1:0] fir_out_error;
+wire        fir_out_ready;
 wire        fifo_rdreq;
 wire [31:0] fifo_in_data;
 wire        fifo_wrreq;
@@ -55,6 +64,7 @@ wire [31:0] fifo_out_data;
 wire        fifo_empty;
 wire        fifo_full;
 wire [ 7:0] fifo_fill_count;
+wire        limiter_ready;
 
 assign fir_in_data      = in_signal_data;
 assign fir_in_valid     = in_signal_valid & iter_input_enable;
@@ -62,8 +72,33 @@ assign fir_in_error     = 'd0; // not used
 assign in_signal_ready  = fir_in_ready;
 
 assign fifo_in_data = in_limits_data;
-assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid;
-assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/;
+// assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid;
+assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid | init_stage_4_r;
+assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/ | init_stage_2_r;
+
+assign iter_ready   = limiter_ready & init_stage_done_r;
+
+always_ff @(posedge clock)
+begin
+  if(reset)
+  begin
+    init_stage_0_r    <= 'd1;
+    init_stage_1_r    <= 'd0;
+    init_stage_2_r    <= 'd0;
+    init_stage_3_r    <= 'd0;
+    init_stage_4_r    <= 'd0;
+    init_stage_done_r <= 'd0;
+  end
+  else
+  begin
+    init_stage_0_r    <= 'd0;
+    init_stage_1_r    <= init_stage_0_r;
+    init_stage_2_r    <= init_stage_1_r;
+    init_stage_3_r    <= init_stage_2_r;
+    init_stage_4_r    <= init_stage_3_r;
+    init_stage_done_r <= init_stage_done_r | init_stage_4_r;
+  end
+end
 
 `define DELAY_GEN(DEL) \
   delay \
@@ -84,35 +119,49 @@ assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/;
 
 generate
   if(SUBCELL_NUM == 0)
-    `DELAY_GEN(4)
+    // `DELAY_GEN(5) // bursty experimental
+    `DELAY_GEN(6)
   else if(SUBCELL_NUM == 1)
     // `DELAY_GEN(7)
-    `DELAY_GEN(11)
+    // `DELAY_GEN(13) // bursty experimental
+    `DELAY_GEN(17) // 15
   else if(SUBCELL_NUM == 2)
-    `DELAY_GEN(18)
+    // `DELAY_GEN(18)
+    // `DELAY_GEN(24) // bursty experimental
+    `DELAY_GEN(28) // 24
   else if(SUBCELL_NUM == 3)
     // `DELAY_GEN(25)
-    `DELAY_GEN(23)
+    // `DELAY_GEN(23)
+    // `DELAY_GEN(31) // bursty experimental
+    `DELAY_GEN(35) // 33
   else if(SUBCELL_NUM == 4)
-    `DELAY_GEN(32)
+    // `DELAY_GEN(32)
+    // `DELAY_GEN(39) // bursty experimental
+    `DELAY_GEN(44) // 42
   else if(SUBCELL_NUM == 5)
-    `DELAY_GEN(39)
+    // `DELAY_GEN(39)
+    // `DELAY_GEN(47) // bursty experimental
+    `DELAY_GEN(53) // 51
 endgenerate
 
 delay
 #(
-  .DELAY     (2),
-  .WIDTH     (1),
+  // .DELAY     (2),
+  .DELAY     (1),
+  .WIDTH     ($bits({ valid_signal_fifo_r, fir_out_data, fir_out_valid })),
   .RESET     (1),
   .RESET_VAL ('0),
   .RAMSTYLE  ("logic")
 )
-delay_valid_signal_limiter
+// delay_valid_signal_limiter
+delay_limiter_input
 (
   .clock    (clock),
   .reset    (reset),
-  .in_data  (valid_signal_fifo_r),
-  .out_data (valid_signal_limiter_r)
+  // .in_data  (valid_signal_fifo_r),
+  .in_data  ({ valid_signal_fifo_r, fir_out_data, fir_out_valid }),
+  // .out_data (valid_signal_limiter_r)
+  .out_data ({ valid_signal_limiter_r, fir_data_limiter_r, fir_valid_limiter_r })
 );
 
 fir_filter fir_filter
@@ -155,10 +204,12 @@ hard_limiter
   .limbuff_valid      (1'd1), // not used
   .iter_valid_signal  (valid_signal_limiter_r),
   .iter_output_enable (iter_output_enable), // delay?
-  .iter_ready         (iter_ready),
-  .fir_data           (fir_out_data),
-  .fir_valid          (fir_out_valid),
-  .fir_error          (fir_out_error),
+  .iter_ready         (limiter_ready),
+  // .fir_data           (fir_out_data),
+  .fir_data           (fir_data_limiter_r),
+  // .fir_valid          (fir_out_valid),
+  .fir_valid          (fir_valid_limiter_r),
+  .fir_error          (), // not used
   .fir_ready          (fir_out_ready),
   .out_data           (out_signal_data),
   .out_valid          (out_signal_valid),
