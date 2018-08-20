@@ -48,6 +48,7 @@ reg         valid_signal_fifo_r;
 reg         valid_signal_limiter_r;
 reg  [15:0] fir_data_limiter_r;
 reg         fir_valid_limiter_r;
+reg         fir_out_valid_r;
 
 wire [15:0] fir_in_data;
 wire        fir_in_valid;
@@ -72,11 +73,15 @@ assign fir_in_error     = 'd0; // not used
 assign in_signal_ready  = fir_in_ready;
 
 assign fifo_in_data = in_limits_data;
-// assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid;
-assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid | init_stage_4_r;
+assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid /*fir_out_valid_r*/ | init_stage_4_r;
 assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/ | init_stage_2_r;
 
 assign iter_ready   = limiter_ready & init_stage_done_r;
+
+always_ff @(posedge clock)
+begin
+  fir_out_valid_r <= fir_out_valid;
+end
 
 always_ff @(posedge clock)
 begin
@@ -128,20 +133,20 @@ generate
   else if(SUBCELL_NUM == 2)
     // `DELAY_GEN(18)
     // `DELAY_GEN(24) // bursty experimental
-    `DELAY_GEN(28) // 24
+    `DELAY_GEN(24) // 24
   else if(SUBCELL_NUM == 3)
     // `DELAY_GEN(25)
     // `DELAY_GEN(23)
     // `DELAY_GEN(31) // bursty experimental
-    `DELAY_GEN(35) // 33
+    `DELAY_GEN(33) // 33
   else if(SUBCELL_NUM == 4)
     // `DELAY_GEN(32)
     // `DELAY_GEN(39) // bursty experimental
-    `DELAY_GEN(44) // 42
+    `DELAY_GEN(42) // 42
   else if(SUBCELL_NUM == 5)
     // `DELAY_GEN(39)
     // `DELAY_GEN(47) // bursty experimental
-    `DELAY_GEN(53) // 51
+    `DELAY_GEN(51) // 51
 endgenerate
 
 delay

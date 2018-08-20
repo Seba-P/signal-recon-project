@@ -117,7 +117,8 @@ generate
   for(ITER = 0; ITER < ITER_NUM; ITER++)
   begin : _FOR_ITER
     // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
-    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd2;
+    // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - (ITER == 0 ? 'd2 : /*'d3*/'d2);
+    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - (ITER == 0 ? 'd2 : /*'d3*/'d1);
 
     /* Iteration control */
     always_ff @(posedge clock)
@@ -132,7 +133,7 @@ generate
       begin
         iter_start_r[ITER+1] <= valid_signal[ITER];
 
-        if(iter_start_r[ITER+1])
+        if(/*iter_start_r[ITER+1]*/valid_signal[ITER])
         begin
           iter_symbol_cnt_r[ITER+1]   <= iter_symbol_cnt_r[ITER+1] + (!pipeline_stall & sample2lvl_valid & !valid_signal[ITER+1]);
           iter_valid_signal_r[ITER+1] <= valid_signal[ITER+1];

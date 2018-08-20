@@ -26,6 +26,7 @@ module fir_subsystem_top_tb;
 
 /* Common IF */
 logic        sim_end;
+logic        sgdma_start;
 logic        reset;
 logic        reset_n;
 logic        clock;
@@ -42,7 +43,7 @@ localparam FIR_TAPS_NUM       = 63;
 localparam MAX_SAMPLES_IN_RAM = 63;
 localparam LVLS_NUM           = 20;
 localparam LVL_RESET_VALUE    = 9;
-localparam ITER_NUM           = 6;
+localparam ITER_NUM           = 1;
 localparam USE_COMB_LOGIC     = 0;
 
 assign reset_n = ~reset;
@@ -124,29 +125,17 @@ task send_sample(LVL_CROSS_SAMPLE_T sample);
             { curr_lvl < LVLS_NUM-2 ? lvls_values[upper_lvl_idx+1] : 16'h7FFF, lvls_values[upper_lvl_idx] } :
             { lvls_values[curr_lvl], not_min_lvl ? lvls_values[lower_lvl_idx] : 16'h8000 };
 
-  mm2st_valid  = 'd1;
-  mm2st_data   = sample;
-
   if(!mm2st_ready)
     @(posedge mm2st_ready);
-  mm2st_valid <= 'd0;
   @(posedge clock);
 
 endtask : send_sample
 
 task verify_output(LVL_CROSS_SAMPLE_T sample);
   localparam DELAY = 5;
-  // static start_of_output;
 
   for(duration = 0; duration < sample.timestamp; duration++)
   begin
-    // if(USE_TESTVECTOR)
-    // begin
-    //   wait(st2mm_valid == 'd1);
-    //   $fwrite(fd_out, "0x%h\n", st2mm_data);
-    //   // $fwrite(fd_out, "%u", st2mm_data);
-    // end
-
     @(posedge clock);
 
     // if(mm2st_ready)
@@ -167,6 +156,7 @@ begin
   mm2st_data  = '0;
   mm2st_valid = '0;
   st2mm_ready = '0;
+  sgdma_start = '0;
 end
 
 always @(posedge clock)
@@ -175,7 +165,21 @@ begin
   begin
     if(st2mm_valid)
       $fwrite(fd_out, "0x%h\n", st2mm_data);
-      // $fwrite(fd_out, "%u", st2mm_data);
+
+    // wait(sgdma_start == 'd1);
+
+    if($feof(fd_in))
+      mm2st_valid = 'd0;
+    else
+      mm2st_valid = sgdma_start;
+    // else
+      // mm2st_valid = 'd1;
+
+    if(mm2st_ready)
+    begin
+      $fscanf(fd_in, "%h", sample);
+      mm2st_data = sample;
+    end
   end
 end
 
@@ -192,7 +196,6 @@ begin
   begin
     fd_in   = $fopen("./samples.txt", "r");
     fd_out  = $fopen("./tb_output.txt", "w");
-    // fd_out  = $fopen("./tb_output.txt", "wb");
 
     if(!fd_in || !fd_out)
     begin
@@ -200,18 +203,25 @@ begin
     end
     else
     begin
+      sgdma_start = 'd1;
+      $fscanf(fd_in, "%h", sample);
+      mm2st_data  = sample;
+      mm2st_valid = 'd1;
+
       /* Process samples */
-      while(!$feof(fd_in))
+      while(1)
       begin
-        $fscanf(fd_in, "%h", sample);
-        send_sample(sample);
-        verify_output(sample);
+        if($feof(fd_in))
+          break;
+        @(posedge clock);
+        
+        // send_sample(sample);
+        // verify_output(sample);
       end
 
       /* Wait for delayed output */
       repeat(ITER_NUM*(FIR_TAPS_NUM-1))
       begin
-        // wait(st2mm_valid == 'd1);
         @(posedge clock);
         @(posedge clock);
         @(posedge clock);

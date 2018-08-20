@@ -59,14 +59,6 @@
          type = "String";
       }
    }
-   element fir_filter
-   {
-      datum _sortIndex
-      {
-         value = "12";
-         type = "int";
-      }
-   }
    element fir_subsystem
    {
       datum _sortIndex
@@ -377,57 +369,9 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="10" />
  </module>
- <module
-   name="fir_filter"
-   kind="altera_fir_compiler_ii"
-   version="17.1"
-   enabled="0">
-  <parameter name="L_bandsFilter" value="1" />
-  <parameter name="MODE_STRING" value="None Set" />
-  <parameter name="backPressure" value="true" />
-  <parameter name="bankCount" value="1" />
-  <parameter name="bankDisplay" value="0" />
-  <parameter name="baseAddress" value="838860800" />
-  <parameter name="channelModes" value="0,1" />
-  <parameter name="clockRate" value="100" />
-  <parameter name="clockSlack" value="0" />
-  <parameter name="coeffBitWidth" value="16" />
-  <parameter name="coeffComplex" value="false" />
-  <parameter name="coeffFracBitWidth" value="15" />
-  <parameter name="coeffReload" value="false" />
-  <parameter name="coeffScaling" value="none" />
-  <parameter name="coeffSetRealValue">3.98205591E-4,3.37920608E-4,-8.43481803E-5,1.73481478E-4,-8.93057315E-5,6.04226196E-7,-1.73794863E-4,-1.52167908E-4,-2.49415053E-4,-2.22835943E-4,-2.35266714E-4,-1.63170979E-4,-9.69723692E-5,1.8840287E-5,1.26752625E-4,2.44503711E-4,3.32121228E-4,3.9130276E-4,3.97718486E-4,3.53579878E-4,2.52809738E-4,1.0796543E-4,-6.89730462E-5,-2.54384523E-4,-4.25209683E-4,-5.55009768E-4,-6.22567001E-4,-6.116188E-4,-5.1632874E-4,-3.41159469E-4,-1.02640825E-4,1.728017E-4,4.50861743E-4,6.93902685E-4,8.65479419E-4,9.35748664E-4,8.85973402E-4,7.12221913E-4,4.27098728E-4,5.95190164E-5,-3.47907602E-4,-7.43504062E-4,-0.00107284754,-0.0012859412,-0.00134440027,-0.00122760911,-9.36966019E-4,-4.97454294E-4,4.38623701E-5,6.2246888E-4,0.00116375069,0.0015922846,0.00184194748,0.00186553715,0.00164256275,0.00118401666,5.3325945E-4,-2.37385388E-4,-0.00103418052,-0.0017529507,-0.0022922564,-0.00256715282,-0.00252173036,-0.00213867025,-0.0014443263,-5.0833992E-4,5.62541645E-4,0.00163602274,0.00257002526,0.00323085654,0.0035115305,0.00334782153,0.00272976832,0.00170679455,3.85334639E-4,-0.00108123135,-0.00250952887,-0.00370826103,-0.00450284672,-0.00475956344,-0.004405996,-0.00344486383,-0.00195897033,-1.06025563E-4,0.0018966723,0.00379639603,0.00533545729,0.00628446894,0.00647429398,0.00582246949,0.00435032225,0.00218793132,-4.34547486E-4,-0.00320904617,-0.00578336998,-0.00780314348,-0.0089571981,-0.00902093283,-0.00789206374,-0.00561374489,-0.00238126285,0.00146973386,0.00549339464,0.00917990874,0.0120134355,0.0135356468,0.0134077512,0.0114635941,0.00774701397,0.00252804356,-0.00370534682,-0.0102806642,-0.0163973649,-0.021201581,-0.0238720223,-0.0237083919,-0.0202129724,-0.0131563708,-0.00261974121,0.01099197,0.0269683288,0.0443425877,0.0619677875,0.0786129286,0.0930701068,0.104262195,0.111340413,0.113762039,0.111340413,0.104262195,0.0930701068,0.0786129286,0.0619677875,0.0443425877,0.0269683288,0.01099197,-0.00261974121,-0.0131563708,-0.0202129724,-0.0237083919,-0.0238720223,-0.021201581,-0.0163973649,-0.0102806642,-0.00370534682,0.00252804356,0.00774701397,0.0114635941,0.0134077512,0.0135356468,0.0120134355,0.00917990874,0.00549339464,0.00146973386,-0.00238126285,-0.00561374489,-0.00789206374,-0.00902093283,-0.0089571981,-0.00780314348,-0.00578336998,-0.00320904617,-4.34547486E-4,0.00218793132,0.00435032225,0.00582246949,0.00647429398,0.00628446894,0.00533545729,0.00379639603,0.0018966723,-1.06025563E-4,-0.00195897033,-0.00344486383,-0.004405996,-0.00475956344,-0.00450284672,-0.00370826103,-0.00250952887,-0.00108123135,3.85334639E-4,0.00170679455,0.00272976832,0.00334782153,0.0035115305,0.00323085654,0.00257002526,0.00163602274,5.62541645E-4,-5.0833992E-4,-0.0014443263,-0.00213867025,-0.00252173036,-0.00256715282,-0.0022922564,-0.0017529507,-0.00103418052,-2.37385388E-4,5.3325945E-4,0.00118401666,0.00164256275,0.00186553715,0.00184194748,0.0015922846,0.00116375069,6.2246888E-4,4.38623701E-5,-4.97454294E-4,-9.36966019E-4,-0.00122760911,-0.00134440027,-0.0012859412,-0.00107284754,-7.43504062E-4,-3.47907602E-4,5.95190164E-5,4.27098728E-4,7.12221913E-4,8.85973402E-4,9.35748664E-4,8.65479419E-4,6.93902685E-4,4.50861743E-4,1.728017E-4,-1.02640825E-4,-3.41159469E-4,-5.1632874E-4,-6.116188E-4,-6.22567001E-4,-5.55009768E-4,-4.25209683E-4,-2.54384523E-4,-6.89730462E-5,1.0796543E-4,2.52809738E-4,3.53579878E-4,3.97718486E-4,3.9130276E-4,3.32121228E-4,2.44503711E-4,1.26752625E-4,1.8840287E-5,-9.69723692E-5,-1.63170979E-4,-2.35266714E-4,-2.22835943E-4,-2.49415053E-4,-1.52167908E-4,-1.73794863E-4,6.04226196E-7,-8.93057315E-5,1.73481478E-4,-8.43481803E-5,3.37920608E-4,3.98205591E-4</parameter>
-  <parameter name="coeffSetRealValueImag">0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0530093, -0.04498, 0.0, 0.0749693, 0.159034, 0.224907, 0.249809, 0.224907, 0.159034, 0.0749693, 0.0, -0.04498, -0.0530093, -0.0321283, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0</parameter>
-  <parameter name="coeffType" value="frac" />
-  <parameter name="decimFactor" value="1" />
-  <parameter name="delayRAMBlockThreshold" value="20" />
-  <parameter name="deviceFamily" value="Cyclone V" />
-  <parameter name="dualMemDistRAMThreshold" value="1280" />
-  <parameter name="filterType" value="single" />
-  <parameter name="hardMultiplierThreshold" value="-1" />
-  <parameter name="inputBitWidth" value="16" />
-  <parameter name="inputChannelNum" value="1" />
-  <parameter name="inputFracBitWidth" value="15" />
-  <parameter name="inputRate" value="100" />
-  <parameter name="inputType" value="frac" />
-  <parameter name="interpFactor" value="1" />
-  <parameter name="karatsuba" value="false" />
-  <parameter name="mRAMThreshold" value="1000000" />
-  <parameter name="num_modes" value="1" />
-  <parameter name="outLSBRound" value="trunc" />
-  <parameter name="outLsbBitRem" value="15" />
-  <parameter name="outMSBRound" value="sat" />
-  <parameter name="outMsbBitRem" value="9" />
-  <parameter name="outType" value="frac" />
-  <parameter name="readWriteMode" value="write" />
-  <parameter name="reconfigurable" value="false" />
-  <parameter name="reconfigurable_list" value="0" />
-  <parameter name="speedGrade" value="medium" />
-  <parameter name="symmetryMode" value="sym" />
- </module>
  <module name="fir_subsystem" kind="fir_subsystem" version="1.0" enabled="1">
   <parameter name="FIR_TAPS_NUM" value="63" />
-  <parameter name="ITER_NUM" value="4" />
+  <parameter name="ITER_NUM" value="1" />
   <parameter name="LVLS_NUM" value="20" />
   <parameter name="LVL_RESET_VALUE" value="9" />
   <parameter name="MAX_SAMPLES_IN_RAM" value="63" />
@@ -1231,7 +1175,6 @@
  <connection kind="clock" version="17.1" start="clk_0.clk" end="button_pio.clk" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="sgdma_mm2st.clk" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="sgdma_st2mm.clk" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="fir_filter.clk" />
  <connection kind="clock" version="17.1" start="clk_0.clk" end="onchip_RAM.clk1" />
  <connection
    kind="clock"
@@ -1303,11 +1246,6 @@
    version="17.1"
    start="clk_0.clk_reset"
    end="onchip_RAM.reset1" />
- <connection
-   kind="reset"
-   version="17.1"
-   start="clk_0.clk_reset"
-   end="fir_filter.rst" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
