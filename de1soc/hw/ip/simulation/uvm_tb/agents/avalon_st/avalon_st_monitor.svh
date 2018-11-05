@@ -41,7 +41,7 @@ endfunction : build_phase
 
 task avalon_st_monitor::run_phase(uvm_phase phase);
 	avalon_st_seq_item #(INST_SPEC) item;
-  // avalon_st_seq_item #(INST_SPEC) cloned_item;
+  avalon_st_seq_item #(INST_SPEC) cloned_item;
 
   item = avalon_st_seq_item#(INST_SPEC)::type_id::create("item");
 
@@ -55,9 +55,10 @@ task avalon_st_monitor::run_phase(uvm_phase phase);
     m_transfers_num += item.data.size();
   
     // Clone and publish the cloned item to the subscribers
-    // $cast(cloned_item, item.clone());
-    // notify_transaction(cloned_item);
-    notify_transaction(item);
+    if (!$cast(cloned_item, item.clone()))
+      `uvm_fatal("clone", "Clone of sequence item failed.")
+    
+    notify_transaction(cloned_item);
   end
 endtask : run_phase
 

@@ -21,24 +21,4 @@ task lvls_sweep_test::main_phase(uvm_phase phase);
   super.main_phase(phase);
 endtask : main_phase
 
-// task lvls_sweep_test::main_phase(uvm_phase phase);
-//   mm2st_lvls_sweep_seq mm2st_seq;
-//   st2mm_lvls_sweep_seq st2mm_seq;
-
-//   `uvm_info("TEST", "***** START OF MAIN_PHASE *****", UVM_LOW)
-//   phase.phase_done.set_drain_time(this, 100);  // Delay objection drop 100ns
-//   phase.raise_objection(this, "");
-
-//   mm2st_seq = mm2st_lvls_sweep_seq::type_id::create("mm2st_seq");
-//   st2mm_seq = st2mm_lvls_sweep_seq::type_id::create("st2mm_seq");
-//   // mm2st_seq.start(m_env.m_agent_config["mm2st"].sequencer); // TODO: sequencer handle instead of hardcoded
-//   fork
-//     mm2st_seq.start(m_env.m_mm2st_agent.m_sequencer);
-//     st2mm_seq.start(m_env.m_st2mm_agent.m_sequencer);
-//   join
-
-//   phase.drop_objection(this, "");
-//   `uvm_info("TEST", "***** END OF MAIN_PHASE *****", UVM_LOW)
-// endtask : main_phase
-
 `endif // _LVLS_SWEEP_TEST_SVH_

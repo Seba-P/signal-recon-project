@@ -25,8 +25,10 @@ endfunction
 
 function void base_test::build_phase(uvm_phase phase);
   `uvm_info("TEST", "***** START OF BUILD_PHASE *****", UVM_LOW)
-  m_env_cfg       = fir_subsystem_env_config::type_id::create("m_env_cfg");
-  m_env           = fir_subsystem_env::type_id::create("m_env", this);
+  m_env_cfg = fir_subsystem_env_config::type_id::create("m_env_cfg");
+  m_env     = fir_subsystem_env::type_id::create("m_env", this);
+
+  m_env_cfg.enable_scoreboard = 1;
 
   configure_avalon_st_vip();
 
@@ -52,6 +54,7 @@ task base_test::main_phase(uvm_phase phase);
 
   mm2st_seq = base_mm2st_seq::type_id::create("mm2st_seq");
   st2mm_seq = base_st2mm_seq::type_id::create("st2mm_seq");
+
   // mm2st_seq.start(m_env.m_agent_config["mm2st"].sequencer); // TODO: sequencer handle instead of hardcoded
   fork
     mm2st_seq.start(m_env.m_mm2st_agent.m_sequencer);
