@@ -2,11 +2,9 @@
 `ifndef _BASE_MM2ST_SEQ_SVH_
 `define _BASE_MM2ST_SEQ_SVH_
 
-// typedef uvm_sequencer #(mm2st_seq_item) mm2st_sequencer;
 typedef avalon_st_sequencer #(avalon_st_inst_specs[MM2ST]) mm2st_sequencer;
 
-// class base_mm2st_seq extends uvm_sequence #(mm2st_seq_item);
-class base_mm2st_seq extends uvm_sequence #(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]));
+class base_mm2st_seq extends uvm_sequence #(mm2st_seq_item);
 	`uvm_object_utils(base_mm2st_seq)
 
   rand lvl_cross_sample_t sample;
@@ -21,8 +19,7 @@ function base_mm2st_seq::new(string name = "base_mm2st_seq");
 endfunction : new
 
 task base_mm2st_seq::body();
-  // mm2st_seq_item seq = mm2st_seq_item::type_id::create("seq");
-  avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) seq = avalon_st_seq_item#(avalon_st_inst_specs[MM2ST])::type_id::create("seq");
+  mm2st_seq_item seq = mm2st_seq_item::type_id::create("seq");
 
   /* Dummy delay */
   #15;

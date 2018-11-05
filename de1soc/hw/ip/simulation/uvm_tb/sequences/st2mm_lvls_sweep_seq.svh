@@ -2,7 +2,6 @@
 `ifndef _ST2MM_LVLS_SWEEP_SEQ_SVH_
 `define _ST2MM_LVLS_SWEEP_SEQ_SVH_
 
-// class st2mm_lvls_sweep_seq extends uvm_sequence #(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]));
 class st2mm_lvls_sweep_seq extends base_st2mm_seq;
 	`uvm_object_utils(st2mm_lvls_sweep_seq)
 
@@ -16,8 +15,7 @@ function st2mm_lvls_sweep_seq::new(string name = "st2mm_lvls_sweep_seq");
 endfunction : new
 
 task st2mm_lvls_sweep_seq::body();
-  // st2mm_seq_item seq = st2mm_seq_item::type_id::create("seq");
-  avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) seq = avalon_st_seq_item#(avalon_st_inst_specs[ST2MM])::type_id::create("seq");
+  st2mm_seq_item seq = st2mm_seq_item::type_id::create("seq");
 
   `uvm_info("ST2MM_LVLS_SWEEP_SEQ", "*** ST2MM_LVLS_SWEEP_SEQ STARTS ***", UVM_LOW)
   start_item(seq);

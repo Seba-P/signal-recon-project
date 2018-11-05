@@ -7,20 +7,12 @@ class lvls_sweep_test extends base_test;
 
   // Standard UVM Methods:
   extern function new(string name = "lvls_sweep_test", uvm_component parent = null);
-  // extern virtual function void build_phase(uvm_phase phase);
   extern virtual task main_phase(uvm_phase phase);
 endclass : lvls_sweep_test
 
 function lvls_sweep_test::new(string name = "lvls_sweep_test", uvm_component parent = null);
   super.new(name, parent);
 endfunction
-
-// function void lvls_sweep_test::build_phase(uvm_phase phase);
-//   base_mm2st_seq::type_id::set_type_override(mm2st_lvls_sweep_seq::get_type());
-//   base_st2mm_seq::type_id::set_type_override(st2mm_lvls_sweep_seq::get_type());
-
-//   super.build_phase(phase);
-// endfunction : build_phase
 
 task lvls_sweep_test::main_phase(uvm_phase phase);
   base_mm2st_seq::type_id::set_type_override(mm2st_lvls_sweep_seq::get_type());
