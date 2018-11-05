@@ -7,6 +7,9 @@
 /de1soc/hw/incremental_db/
 /de1soc/hw/ip/simulation/libraries/
 /de1soc/hw/ip/simulation/work/
+/de1soc/hw/ip/simulation/uvm_tb/_work/
+/de1soc/hw/ip/simulation/uvm_tb/transcript
+/de1soc/hw/ip/simulation/uvm_tb/vsim_stacktrace.vstf
 /de1soc/hw/ip/simulation/wlft*
 /de1soc/hw/ip/work/
 /de1soc/hw/output_files/
