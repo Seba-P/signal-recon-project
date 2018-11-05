@@ -51,8 +51,6 @@ function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
   upper_limit = lvls_values[LVL_RESET_VALUE+1];
   lower_limit = lvls_values[LVL_RESET_VALUE];
 
-  // `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    curr_lvl    = %0d;\n    next_lvl    = %0d;\n    upper_limit = 0x%04h;\n    lower_limit = 0x%04h;",
-  //                                     curr_lvl, next_lvl, upper_limit, lower_limit), UVM_HIGH)
   `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current/next level = %0d/%0d;\n    Upper/lower limit  = %04h/%04h",
                                       curr_lvl, next_lvl, upper_limit, lower_limit), UVM_HIGH)
 endfunction : build_phase
@@ -60,13 +58,11 @@ endfunction : build_phase
 // function void fir_subsystem_scoreboard::write_mm2st(mm2st_seq_item item);
 function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
   avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) cloned_item;
-  lvl_cross_sample_t        sample;
-  bit [$bits(LVLS_NUM-1)-1:0] upper_lvl_idx;
-  bit [$bits(LVLS_NUM-1)-1:0] lower_lvl_idx;
+  lvl_cross_sample_t          sample;
   bit overflow;
+  bit overflow_d1;
   bit underflow;
-  bit not_max_lvl;
-  bit not_min_lvl;
+  bit underflow_d1;
   int i;
 
   `uvm_info("SCOREBOARD", $sformatf("Received mm2st_seq_item: %s", item.convert2string()), UVM_HIGH)
@@ -81,33 +77,47 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
   overflow  = 0;
   underflow = 0;
 
+  /* Store initial lvls */
+  repeat ($ceil(FIR_TAPS_NUM/2.0) * ITER_NUM)
+  begin
+    database.expected_upper_limit.push_back(upper_limit);
+    database.expected_lower_limit.push_back(lower_limit);
+    // database.expected_value.push_back(...); TODO:
+  
+    `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
+                                        $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM, upper_limit, lower_limit,
+                                        $sformatf("%0d/%0d", next_lvl+1, next_lvl)),
+                                      UVM_HIGH)
+  end
+
   while (cloned_item.data.size())
   begin
     sample = lvl_cross_sample_t'(cloned_item.data.pop_front());
 
     `uvm_info("SCOREBOARD", $sformatf("Received mm2st sample: %s::%0d", sample.lvl_cross_dir.name(), sample.timestamp), UVM_LOW)
 
-    overflow      = (next_lvl == LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
-    underflow     = (next_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN) || (underflow && sample.lvl_cross_dir == LVL_UP);
-    not_max_lvl   = (next_lvl != LVLS_NUM-1);
-    not_min_lvl   = (next_lvl != '0);
-    upper_lvl_idx = next_lvl + not_max_lvl;
-    lower_lvl_idx = next_lvl - not_min_lvl;
+    overflow_d1   = overflow;
+    overflow      = (next_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
+    underflow_d1  = underflow;
+    underflow     = (next_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
+    curr_lvl      = next_lvl;
 
-    // curr_lvl  <= sample.lvl_cross_dir ? curr_lvl + (curr_lvl != LVLS_NUM-1) : curr_lvl - (curr_lvl != 0);
-    // expected_limits <= sample.lvl_cross_dir ?
-            // { curr_lvl < LVLS_NUM-2 ? lvls_values[upper_lvl_idx+1] : 16'h7FFF, lvls_values[upper_lvl_idx] } :
-            // { lvls_values[curr_lvl], not_min_lvl ? lvls_values[lower_lvl_idx] : 16'h8000 };
+    if (sample.lvl_cross_dir == LVL_UP)
+    begin
+      if (!overflow_d1)
+        next_lvl += !underflow_d1;
 
-    // curr_lvl    = next_lvl;
-    // next_lvl    = sample.lvl_cross_dir == LVL_UP ? curr_lvl + not_max_lvl : curr_lvl - not_min_lvl;
-    // upper_limit = sample.lvl_cross_dir == LVL_UP ? (curr_lvl < LVLS_NUM-2 ? lvls_values[upper_lvl_idx+1] : 16'h7FFF) : lvls_values[curr_lvl];
-    // // upper_limit = sample.lvl_cross_dir == LVL_UP ? (curr_lvl < LVLS_NUM-2 ? lvls_values[upper_lvl_idx+not_min_lvl] : 16'h7FFF) : lvls_values[curr_lvl];
-    // lower_limit = sample.lvl_cross_dir == LVL_UP ? lvls_values[upper_lvl_idx&{$bits(LVLS_NUM-1){not_min_lvl}}] : (not_min_lvl ? lvls_values[lower_lvl_idx] : 16'h8000);
-    curr_lvl    = next_lvl;
-    next_lvl    = sample.lvl_cross_dir == LVL_UP ? curr_lvl + not_max_lvl : curr_lvl - not_min_lvl;
-    upper_limit = sample.lvl_cross_dir == LVL_UP ? (overflow ? 16'h7FFF : lvls_values[upper_lvl_idx+1]) : lvls_values[curr_lvl];
-    lower_limit = sample.lvl_cross_dir == LVL_UP ? lvls_values[upper_lvl_idx&{$bits(LVLS_NUM-1){not_min_lvl}}] : (not_min_lvl ? lvls_values[lower_lvl_idx] : 16'h8000);
+      upper_limit = overflow ? 16'h7FFF : lvls_values[next_lvl+1];
+      lower_limit = lvls_values[next_lvl];
+    end
+    else
+    begin
+      if (!underflow)
+        next_lvl -= 1;
+
+      upper_limit = lvls_values[next_lvl+!underflow];
+      lower_limit = underflow ? 16'h8000 : lvls_values[next_lvl];
+    end
 
     for (i = 0; i < sample.timestamp; i++)
     begin
@@ -117,12 +127,11 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
 
       `uvm_info("SCOREBOARD", $sformatf("Pushing expected limits to database (radix hex): %04h/%04h (lvls %s)",
                                           upper_limit, lower_limit,
-                                          curr_lvl >= LVLS_NUM-1 && sample.lvl_cross_dir == LVL_UP ?
+                                          overflow ?
                                             $sformatf(">max/%0d", LVLS_NUM-1) :
-                                              curr_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN ?
-                                                $sformatf("%0d/<min", 0) : 
-                                                $sformatf("%0d/%0d", next_lvl+not_min_lvl, next_lvl & {$bits(LVLS_NUM-1){not_min_lvl}})),
-                                          UVM_HIGH)
+                                              underflow ?
+                                                $sformatf("%0d/<min", 0) : $sformatf("%0d/%0d", next_lvl+1, next_lvl)),
+                                        UVM_HIGH)
     end
   end
 endfunction : write_mm2st
