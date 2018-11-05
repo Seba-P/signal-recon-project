@@ -2,12 +2,6 @@
 `ifndef _FIR_SUBSYSTEM_SCOREBOARD_SVH_
 `define _FIR_SUBSYSTEM_SCOREBOARD_SVH_
 
-// typedef struct
-// {
-//   logic [ST2MM.INS] expected_data[$];
-//   logic [ST2MM.INS] received_data[$];
-// } scoreboard_database;
-
 `uvm_analysis_imp_decl(_mm2st)
 `uvm_analysis_imp_decl(_st2mm)
 
@@ -21,48 +15,67 @@ class fir_subsystem_scoreboard extends uvm_scoreboard;
 
   scoreboard_database #(avalon_st_inst_specs[ST2MM])  database;
   bit [$bits(LVLS_NUM-1)-1:0]                         curr_lvl;
-  bit [$bits(LVLS_NUM-1)-1:0]                         next_lvl;
-  bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]     upper_limit;
-  bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]     lower_limit;
+
+  semaphore mm2st_data_count_sem;
+  semaphore mm2st_queue_lock_sem;
+  semaphore st2mm_data_count_sem;
+  semaphore st2mm_queue_lock_sem;
+
+  int expected_count;
+  int received_count;
 
   // Standard UVM Methods:
-  extern function new(string name = "fir_subsystem_scoreboard", uvm_component parent = null);
-  extern function void build_phase(uvm_phase phase);
+  extern function       new(string name = "fir_subsystem_scoreboard", uvm_component parent = null);
+  extern function void  build_phase(uvm_phase phase);
+  extern task           main_phase(uvm_phase phase);
 
   // Custom methods:
-  // extern function void write_mm2st(mm2st_seq_item item);
-  extern function void write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
-  // extern function void write_st2mm(st2mm_seq_item item);
-  extern function void write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
-  // extern task verify_lvls(); // TODO:
+  // extern function void  write_mm2st(mm2st_seq_item item);
+  extern function void  write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
+  // extern function void  write_st2mm(st2mm_seq_item item);
+  extern function void  write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
+  extern task           supervisor();
+  extern task           verify_limits();
 endclass : fir_subsystem_scoreboard
 
 function fir_subsystem_scoreboard::new(string name = "fir_subsystem_scoreboard", uvm_component parent = null);
   super.new(name, parent);
+
+  mm2st_data_count_sem = new(0);
+  mm2st_queue_lock_sem = new(1);
+  st2mm_data_count_sem = new(0);
+  st2mm_queue_lock_sem = new(1);
 endfunction : new
 
 function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
   m_mm2st_ap  = new("m_mm2st_ap", this);
   m_st2mm_ap  = new("m_st2mm_ap", this);
 
-  database    = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
-  curr_lvl    = LVL_RESET_VALUE;
-  next_lvl    = LVL_RESET_VALUE;
-  upper_limit = lvls_values[LVL_RESET_VALUE+1];
-  lower_limit = lvls_values[LVL_RESET_VALUE];
+  database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
+  curr_lvl  = LVL_RESET_VALUE;
 
-  `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current/next level = %0d/%0d;\n    Upper/lower limit  = %04h/%04h",
-                                      curr_lvl, next_lvl, upper_limit, lower_limit), UVM_HIGH)
+  expected_count = 0;
+  received_count = 0;
+
+  `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current level      = %0d;\n    Upper/lower limit  = %04h/%04h",
+                                      curr_lvl, lvls_values[LVL_RESET_VALUE+1], lvls_values[LVL_RESET_VALUE]), UVM_HIGH)
 endfunction : build_phase
+
+task fir_subsystem_scoreboard::main_phase(uvm_phase phase);
+  fork
+    supervisor();
+    verify_limits();
+  join
+endtask : main_phase
 
 // function void fir_subsystem_scoreboard::write_mm2st(mm2st_seq_item item);
 function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
   avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) cloned_item;
-  lvl_cross_sample_t          sample;
-  bit overflow;
-  bit overflow_d1;
-  bit underflow;
-  bit underflow_d1;
+  bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   upper_limit;
+  bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   lower_limit;
+  lvl_cross_sample_t sample;
+  bit overflow, overflow_d1;
+  bit underflow, underflow_d1;
   int i;
 
   `uvm_info("SCOREBOARD", $sformatf("Received mm2st_seq_item: %s", item.convert2string()), UVM_HIGH)
@@ -74,22 +87,6 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
       `uvm_error("write_mm2st", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!",
                                             cloned_item.burst_len, cloned_item.data.size()))
 
-  overflow  = 0;
-  underflow = 0;
-
-  /* Store initial lvls */
-  repeat ($ceil(FIR_TAPS_NUM/2.0) * ITER_NUM)
-  begin
-    database.expected_upper_limit.push_back(upper_limit);
-    database.expected_lower_limit.push_back(lower_limit);
-    // database.expected_value.push_back(...); TODO:
-  
-    `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
-                                        $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM, upper_limit, lower_limit,
-                                        $sformatf("%0d/%0d", next_lvl+1, next_lvl)),
-                                      UVM_HIGH)
-  end
-
   while (cloned_item.data.size())
   begin
     sample = lvl_cross_sample_t'(cloned_item.data.pop_front());
@@ -97,32 +94,30 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
     `uvm_info("SCOREBOARD", $sformatf("Received mm2st sample: %s::%0d", sample.lvl_cross_dir.name(), sample.timestamp), UVM_LOW)
 
     overflow_d1   = overflow;
-    overflow      = (next_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
+    overflow      = (curr_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
     underflow_d1  = underflow;
-    underflow     = (next_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
-    curr_lvl      = next_lvl;
+    underflow     = (curr_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
 
     if (sample.lvl_cross_dir == LVL_UP)
     begin
       if (!overflow_d1)
-        next_lvl += !underflow_d1;
+        curr_lvl += !underflow_d1;
 
-      upper_limit = overflow ? 16'h7FFF : lvls_values[next_lvl+1];
-      lower_limit = lvls_values[next_lvl];
+      upper_limit = overflow ? 16'h7FFF : lvls_values[curr_lvl+1];
+      lower_limit = lvls_values[curr_lvl];
     end
     else
     begin
       if (!underflow)
-        next_lvl -= 1;
+        curr_lvl -= 1;
 
-      upper_limit = lvls_values[next_lvl+!underflow];
-      lower_limit = underflow ? 16'h8000 : lvls_values[next_lvl];
+      upper_limit = lvls_values[curr_lvl+!underflow];
+      lower_limit = underflow ? 16'h8000 : lvls_values[curr_lvl];
     end
 
     for (i = 0; i < sample.timestamp; i++)
     begin
-      database.expected_upper_limit.push_back(upper_limit);
-      database.expected_lower_limit.push_back(lower_limit);
+      database.expected_limits.push_back({ upper_limit, lower_limit });
       // database.expected_value.push_back(...); TODO:
 
       `uvm_info("SCOREBOARD", $sformatf("Pushing expected limits to database (radix hex): %04h/%04h (lvls %s)",
@@ -130,9 +125,11 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
                                           overflow ?
                                             $sformatf(">max/%0d", LVLS_NUM-1) :
                                               underflow ?
-                                                $sformatf("%0d/<min", 0) : $sformatf("%0d/%0d", next_lvl+1, next_lvl)),
+                                                $sformatf("%0d/<min", 0) : $sformatf("%0d/%0d", curr_lvl+1, curr_lvl)),
                                         UVM_HIGH)
     end
+
+    expected_count += sample.timestamp;
   end
 endfunction : write_mm2st
 
@@ -140,6 +137,7 @@ endfunction : write_mm2st
 function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
   avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) cloned_item;
   logic [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] received_value;
+  int burst_len;
 
   `uvm_info("SCOREBOARD", $sformatf("Received st2mm_seq_item: %s", item.convert2string()), UVM_HIGH)
 
@@ -150,6 +148,8 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
       `uvm_error("write_st2mm", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!",
                                             cloned_item.burst_len, cloned_item.data.size()))
 
+  burst_len = cloned_item.data.size();
+
   while (cloned_item.data.size())
   begin
     received_value = cloned_item.data.pop_front();
@@ -157,6 +157,108 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
 
     `uvm_info("SCOREBOARD", $sformatf("Pushing received value to database (radix hex): %04h", received_value), UVM_HIGH)
   end
+
+  received_count += burst_len;
 endfunction : write_st2mm
+
+task fir_subsystem_scoreboard::supervisor();
+  int received_count_old;
+  int expected_count_old;
+  int received_count_diff;
+  int expected_count_diff;
+
+  received_count_old = 0;
+  expected_count_old = 0;
+
+  forever
+  begin
+    #1; // TODO: replace with @(posedge dut.clock);
+
+    if (received_count != received_count_old)
+    begin
+      received_count_diff = received_count - received_count_old + (received_count < received_count_old) * 2**32;
+      received_count_old  = received_count;
+
+      st2mm_data_count_sem.put(received_count_diff);
+    end
+
+    if (expected_count != expected_count_old)
+    begin
+      expected_count_diff = expected_count - expected_count_old + (expected_count < expected_count_old) * 2**32;
+      expected_count_old  = expected_count;
+
+      mm2st_data_count_sem.put(expected_count_diff);
+    end
+  end
+endtask : supervisor
+
+task fir_subsystem_scoreboard::verify_limits();
+  bit   [2*avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] expected_limits;
+  logic [  avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] upper_limit;
+  logic [  avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] lower_limit;
+  logic [  avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] received_value;
+  int initial_limits_count;
+
+  /* Store initial lvls */
+  upper_limit = lvls_values[LVL_RESET_VALUE+1];
+  lower_limit = lvls_values[LVL_RESET_VALUE];
+
+  initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM;
+
+  mm2st_queue_lock_sem.get(1);
+  repeat (initial_limits_count)
+  begin
+    database.expected_limits.push_back({ upper_limit, lower_limit });
+    // database.expected_value.push_back(...); TODO:
+  
+    `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
+                                        initial_limits_count, upper_limit, lower_limit,
+                                        $sformatf("%0d/%0d", LVL_RESET_VALUE+1, LVL_RESET_VALUE)),
+                                      UVM_HIGH)
+  end
+  mm2st_queue_lock_sem.put(1);
+  mm2st_data_count_sem.put(initial_limits_count);
+
+  forever
+  begin
+    #1; // TODO: replace with @(posedge dut.clock);
+
+    /* Wait for expected limits */
+    mm2st_data_count_sem.get(1);
+
+    mm2st_queue_lock_sem.get(1);
+    expected_limits = database.expected_limits.pop_front();
+    mm2st_queue_lock_sem.put(1);
+
+    upper_limit = expected_limits[2*avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:avalon_st_inst_specs[ST2MM].BUS_WIDTH];
+    lower_limit = expected_limits[avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0];
+
+    /* Wait for received data */
+    st2mm_data_count_sem.get(1);
+
+    st2mm_queue_lock_sem.get(1);
+    received_value = database.received_value.pop_front();
+    st2mm_queue_lock_sem.put(1);
+
+    /* Compare results */
+    if ($signed(received_value) > $signed(upper_limit))
+    begin
+      `uvm_error("SCOREBOARD", $sformatf("Received value (%04h) is above upper limit (%04h)!", received_value, upper_limit))
+      database.errors_num++;
+    end
+    else if ($signed(received_value) < $signed(lower_limit))
+    begin
+      `uvm_error("SCOREBOARD", $sformatf("Received value (%04h) is below lower limit (%04h)!", received_value, lower_limit))
+      database.errors_num++;
+    end
+    else
+    begin
+      `uvm_info("SCOREBOARD", $sformatf("Received value (%04h) is inbound (%04h/%04h)", received_value, upper_limit, lower_limit), UVM_HIGH)
+    end
+
+    database.total_num++;
+  end
+endtask : verify_limits
+
 
 `endif // _FIR_SUBSYSTEM_SCOREBOARD_SVH_

@@ -5,10 +5,9 @@
 class scoreboard_database #(avalon_st_inst_spec_t INST_SPEC) extends uvm_object;
   `uvm_object_param_utils(scoreboard_database #(INST_SPEC))
 
-  logic [INST_SPEC.BUS_WIDTH-1:0] expected_upper_limit[$];
-  logic [INST_SPEC.BUS_WIDTH-1:0] expected_lower_limit[$];
-  logic [INST_SPEC.BUS_WIDTH-1:0] expected_value[$];
-  logic [INST_SPEC.BUS_WIDTH-1:0] received_value[$];
+  logic [2*INST_SPEC.BUS_WIDTH-1:0] expected_limits[$];
+  logic [  INST_SPEC.BUS_WIDTH-1:0] expected_value[$];
+  logic [  INST_SPEC.BUS_WIDTH-1:0] received_value[$];
 
   int total_num;
   int errors_num;
