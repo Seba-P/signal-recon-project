@@ -30,29 +30,9 @@ task base_mm2st_seq::body();
   `uvm_info("BASE_MM2ST_SEQ", "*** BASE_MM2ST_SEQ STARTS ***", UVM_LOW)
   start_item(seq);
 
-  seq.data      = {};
-  seq.burst_len = 0;
-
-  repeat (LVLS_NUM / 2 + 1)
-  begin
-    sample    = '{ LVL_DOWN, 'd10 };
-    seq.data.push_back(avalon_st_inst_specs[MM2ST].BUS_WIDTH'(sample));
-    seq.burst_len++;
-  end
-
-  repeat (LVLS_NUM + 1)
-  begin
-    sample    = '{ LVL_UP, 'd10 };
-    seq.data.push_back(avalon_st_inst_specs[MM2ST].BUS_WIDTH'(sample));
-    seq.burst_len++;
-  end
-
-  repeat (LVLS_NUM / 2 + 1)
-  begin
-    sample    = '{ LVL_DOWN, 'd10 };
-    seq.data.push_back(avalon_st_inst_specs[MM2ST].BUS_WIDTH'(sample));
-    seq.burst_len++;
-  end
+  sample = '{ LVL_UP, 'd100 };
+  seq.data.push_back(avalon_st_inst_specs[MM2ST].BUS_WIDTH'(sample));
+  seq.burst_len++;
 
   finish_item(seq);
   `uvm_info("BASE_MM2ST_SEQ", "*** BASE_MM2ST_SEQ ENDS ***", UVM_LOW)

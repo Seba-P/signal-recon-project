@@ -26,7 +26,7 @@ task base_st2mm_seq::body();
   start_item(seq);
 
   seq.data 			= {};
-  seq.burst_len = 10 * (2 * (LVLS_NUM / 2 + 1) + LVLS_NUM + 1);
+  seq.burst_len = 100;
 
   finish_item(seq);
   `uvm_info("BASE_ST2MM_SEQ", "*** BASE_ST2MM_SEQ ENDS ***", UVM_LOW)
