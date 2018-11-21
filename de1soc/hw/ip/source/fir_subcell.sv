@@ -145,21 +145,17 @@ endgenerate
 
 delay
 #(
-  // .DELAY     (2),
   .DELAY     (1),
   .WIDTH     ($bits({ valid_signal_fifo_r, fir_out_data, fir_out_valid })),
   .RESET     (1),
   .RESET_VAL ('0),
   .RAMSTYLE  ("logic")
 )
-// delay_valid_signal_limiter
 delay_limiter_input
 (
   .clock    (clock),
   .reset    (reset),
-  // .in_data  (valid_signal_fifo_r),
   .in_data  ({ valid_signal_fifo_r, fir_out_data, fir_out_valid }),
-  // .out_data (valid_signal_limiter_r)
   .out_data ({ valid_signal_limiter_r, fir_data_limiter_r, fir_valid_limiter_r })
 );
 
@@ -204,9 +200,7 @@ hard_limiter
   .iter_valid_signal  (valid_signal_limiter_r),
   .iter_output_enable (iter_output_enable), // delay?
   .iter_ready         (limiter_ready),
-  // .fir_data           (fir_out_data),
   .fir_data           (fir_data_limiter_r),
-  // .fir_valid          (fir_out_valid),
   .fir_valid          (fir_valid_limiter_r),
   .fir_error          (), // not used
   .fir_ready          (fir_out_ready),

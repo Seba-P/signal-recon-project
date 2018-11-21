@@ -22,7 +22,7 @@ task base_mm2st_seq::body();
   mm2st_seq_item seq = mm2st_seq_item::type_id::create("seq");
 
   /* Dummy delay */
-  #15;
+  #40;
 
   `uvm_info("BASE_MM2ST_SEQ", "*** BASE_MM2ST_SEQ STARTS ***", UVM_LOW)
   start_item(seq);

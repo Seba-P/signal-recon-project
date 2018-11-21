@@ -61,7 +61,6 @@ assign lvls_values_r =
 
 assign buff_value     = buff_value_r;
 assign buff_limits    = buff_limits_r;
-// assign buff_valid     = buff_valid_d3_r;
 assign buff_valid     = buff_valid_d2_r;
 
 assign lvls_num_r         = LVLS_NUM;
@@ -91,7 +90,6 @@ begin
         if (!overflow_r)
           next_lvl_r <= next_lvl_r + !underflow_r;
 
-        // overflow_r  <= (curr_lvl_r >= LVLS_NUM - 'd2);
         overflow_r  <= (next_lvl_r >= LVLS_NUM - 'd2);
         underflow_r <= 'd0;
       end
@@ -101,7 +99,6 @@ begin
           next_lvl_r <= next_lvl_r - 'd1;
 
         overflow_r  <= 'd0;
-        // underflow_r <= (curr_lvl_r == 'd0);
         underflow_r <= (next_lvl_r == 'd0);
       end
 
@@ -110,7 +107,6 @@ begin
     end
 
     lvls_step_r <= upper_limit_r - lower_limit_r;
-    // lvl_value_r <= lower_limit_r + (lvls_step_r >>> 1'b1);
   end
 end
 
@@ -127,7 +123,6 @@ begin
   end
   else
   begin
-    // buff_value_r    <= lvl_value_r;
     buff_value_r    <= lower_limit_r + (lvls_step_r >>> 1'b1);
     buff_limits_r   <= { upper_limit_r, lower_limit_r };
     buff_valid_r    <= disp_valid;

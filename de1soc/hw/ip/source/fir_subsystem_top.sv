@@ -10,29 +10,40 @@ module fir_subsystem_top
 )
 (
   /* Common IF */
-  input  wire        reset,       // reset.reset
-  input  wire        clock,       // clock.clk
+  input  wire        reset,           // reset.reset
+  input  wire        clock,           // clock.clk
+  /* CSR IF */
+  input  wire [ 7:0] csr_address,     //   csr.address
+  input  wire        csr_chipselect,  //      .chipselect
+  input  wire        csr_read,        //      .read
+  output wire [31:0] csr_readdata,    //      .readdata
+  input  wire        csr_write,       //      .write
+  input  wire [31:0] csr_writedata,   //      .writedata
   /* MM2ST IF */
-  input  wire [15:0] mm2st_data,  // mm2st.data
-  input  wire        mm2st_valid, //      .valid
-  output wire        mm2st_ready, //      .ready
+  input  wire [15:0] mm2st_data,      // mm2st.data
+  input  wire        mm2st_valid,     //      .valid
+  output wire        mm2st_ready,     //      .ready
   /* ST2MM IF */
-  output wire [15:0] st2mm_data,  // st2mm.data
-  output wire        st2mm_valid, //      .valid
-  input  wire        st2mm_ready  //      .ready
+  output wire [15:0] st2mm_data,      // st2mm.data
+  output wire        st2mm_valid,     //      .valid
+  input  wire        st2mm_ready      //      .ready
 );
 
-wire         sample2lvl_subcells_lvl_valid;
-reg          sample2lvl_subcells_lvl_valid_d1;
-wire  [15:0] sample2lvl_subcells_lvl_data;
-reg   [15:0] sample2lvl_subcells_lvl_data_d1;
-wire         sample2lvl_subcells_limits_valid;
-reg          sample2lvl_subcells_limits_valid_d1;
-wire  [31:0] sample2lvl_subcells_limits_data;
-reg   [31:0] sample2lvl_subcells_limits_data_d1;
-wire         sample2lvl_iter_init;
-wire         sample2lvl_iter_valid;
-wire         sample2lvl_iter_ready;          
+wire                [ 4:0] reg_lvls_num;
+wire                [ 4:0] reg_lvl_reset_value;
+wire          [0:31][15:0] reg_lvls_values;
+wire                [ 3:0] reg_iter_num;
+wire                       sample2lvl_subcells_lvl_valid;
+reg                        sample2lvl_subcells_lvl_valid_d1;
+wire                [15:0] sample2lvl_subcells_lvl_data;
+reg                 [15:0] sample2lvl_subcells_lvl_data_d1;
+wire                       sample2lvl_subcells_limits_valid;
+reg                        sample2lvl_subcells_limits_valid_d1;
+wire                [31:0] sample2lvl_subcells_limits_data;
+reg                 [31:0] sample2lvl_subcells_limits_data_d1;
+wire                       sample2lvl_iter_init;
+wire                       sample2lvl_iter_valid;
+wire                       sample2lvl_iter_ready;
 wire  [ITER_NUM-1:0]       iter_subcells_init;
 wire  [ITER_NUM-1:0]       iter_subcells_new_limits;
 wire  [ITER_NUM-1:0]       iter_subcells_valid_signal;
@@ -49,6 +60,28 @@ wire  [ITER_NUM-0:0]       subcells_outsignal_ready;
 wire                       iter_outctrl_enable;
 wire [$bits(ITER_NUM)-1:0] iter_outctrl_iter_num;
 wire                       iter_outctrl_ready;
+
+register_file
+#(
+  .LVLS_NUM         (LVLS_NUM),
+  .LVL_RESET_VALUE  (LVL_RESET_VALUE),
+  .ITER_NUM         (ITER_NUM)
+)
+register_file
+(
+  .reset                (reset),                // reset.reset
+  .clock                (clock),                // clock.clk
+  .csr_address          (csr_address),          //   csr.address
+  .csr_chipselect       (csr_chipselect),       //      .chipselect
+  .csr_read             (csr_read),             //      .read
+  .csr_readdata         (csr_readdata),         //      .readdata
+  .csr_write            (csr_write),            //      .write
+  .csr_writedata        (csr_writedata),        //      .writedata
+  .reg_lvls_num         (reg_lvls_num),         //   reg.lvls_num
+  .reg_lvl_reset_value  (reg_lvl_reset_value),  //      .lvl_reset_value
+  .reg_lvls_values      (reg_lvls_values),      //      .lvls_values
+  .reg_iter_num         (reg_iter_num)          //      .iter_num
+);
 
 sample2lvl_converter
 #(

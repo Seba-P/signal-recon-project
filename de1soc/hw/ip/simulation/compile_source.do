@@ -5,6 +5,7 @@ vlog -sv -work work ./../source/sample2lvl_converter.sv
 vlog -sv -work work ./../source/iteration_ctrl.sv
 vlog -sv -work work ./../source/output_ctrl.sv
 vlog -sv -work work ./../source/limits_fifo.v
+vlog -sv -work work ./../source/inout_fifo.v
 vlog -sv -work work ./../source/hard_limiter.sv
 vlog -sv -work work ./../source/fir_subcell.sv
 

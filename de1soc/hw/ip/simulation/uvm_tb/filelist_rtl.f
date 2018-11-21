@@ -7,4 +7,5 @@
 ../../source/limits_fifo.v
 ../../source/hard_limiter.sv
 ../../source/fir_subcell.sv
+../../source/register_file.sv
 ../../source/fir_subsystem_top.sv

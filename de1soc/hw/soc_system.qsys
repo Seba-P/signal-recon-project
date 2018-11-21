@@ -67,6 +67,19 @@
          type = "int";
       }
    }
+   element fir_subsystem.csr
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "196608";
+         type = "String";
+      }
+   }
    element hps_0
    {
       datum _sortIndex
@@ -159,6 +172,14 @@
       datum baseAddress
       {
          value = "131136";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
          type = "String";
       }
    }
@@ -369,7 +390,7 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="10" />
  </module>
- <module name="fir_subsystem" kind="fir_subsystem" version="1.0" enabled="1">
+ <module name="fir_subsystem" kind="fir_subsystem" version="2.0" enabled="1">
   <parameter name="FIR_TAPS_NUM" value="63" />
   <parameter name="ITER_NUM" value="1" />
   <parameter name="LVLS_NUM" value="20" />
@@ -1073,6 +1094,15 @@
    end="sgdma_mm2st.csr">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00020000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.1"
+   start="hps_0.h2f_lw_axi_master"
+   end="fir_subsystem.csr">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00030000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection

@@ -18,7 +18,7 @@ task mm2st_lvls_sweep_seq::body();
   mm2st_seq_item seq = mm2st_seq_item::type_id::create("seq");
 
   /* Dummy delay */
-  #15;
+  #40;
 
   `uvm_info("MM2ST_LVLS_SWEEP_SEQ", "*** MM2ST_LVLS_SWEEP_SEQ STARTS ***", UVM_LOW)
   start_item(seq);

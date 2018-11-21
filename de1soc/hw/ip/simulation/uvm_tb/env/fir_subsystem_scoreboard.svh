@@ -15,6 +15,7 @@ class fir_subsystem_scoreboard extends uvm_scoreboard;
 
   scoreboard_database #(avalon_st_inst_specs[ST2MM])  database;
   bit [$bits(LVLS_NUM-1)-1:0]                         curr_lvl;
+  bit [$bits(LVLS_NUM-1)-1:0]                         next_lvl;
 
   semaphore mm2st_data_count_sem;
   semaphore mm2st_queue_lock_sem;
@@ -53,6 +54,7 @@ function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
 
   database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
   curr_lvl  = LVL_RESET_VALUE;
+  next_lvl  = LVL_RESET_VALUE;
 
   expected_count = 0;
   received_count = 0;
@@ -74,8 +76,8 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
   bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   upper_limit;
   bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   lower_limit;
   lvl_cross_sample_t sample;
-  bit overflow, overflow_d1;
-  bit underflow, underflow_d1;
+  bit overflow_curr, overflow_next;
+  bit underflow_curr, underflow_next;
   int i;
 
   `uvm_info("SCOREBOARD", $sformatf("Received mm2st_seq_item: %s", item.convert2string()), UVM_HIGH)
@@ -93,27 +95,26 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
 
     `uvm_info("SCOREBOARD", $sformatf("Received mm2st sample: %s::%0d", sample.lvl_cross_dir.name(), sample.timestamp), UVM_LOW)
 
-    overflow_d1   = overflow;
-    overflow      = (curr_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
-    underflow_d1  = underflow;
-    underflow     = (curr_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
+    curr_lvl        = next_lvl;
+    overflow_curr   = overflow_next;
+    underflow_curr  = underflow_next;
+
+    overflow_next   = (curr_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
+    underflow_next  = (curr_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
 
     if (sample.lvl_cross_dir == LVL_UP)
     begin
-      if (!overflow_d1)
-        curr_lvl += !underflow_d1;
-
-      upper_limit = overflow ? 16'h7FFF : lvls_values[curr_lvl+1];
-      lower_limit = lvls_values[curr_lvl];
+      if (!overflow_curr)
+        next_lvl += !underflow_curr;
     end
     else
     begin
-      if (!underflow)
-        curr_lvl -= 1;
-
-      upper_limit = lvls_values[curr_lvl+!underflow];
-      lower_limit = underflow ? 16'h8000 : lvls_values[curr_lvl];
+      if (!underflow_next)
+        next_lvl -= 1;
     end
+
+    upper_limit = overflow_curr ? 16'h7FFF : lvls_values[curr_lvl+!underflow_curr];
+    lower_limit = underflow_curr ? 16'h8000 : lvls_values[curr_lvl];
 
     for (i = 0; i < sample.timestamp; i++)
     begin
@@ -122,9 +123,9 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
 
       `uvm_info("SCOREBOARD", $sformatf("Pushing expected limits to database (radix hex): %04h/%04h (lvls %s)",
                                           upper_limit, lower_limit,
-                                          overflow ?
+                                          overflow_curr ?
                                             $sformatf(">max/%0d", LVLS_NUM-1) :
-                                              underflow ?
+                                              underflow_curr ?
                                                 $sformatf("%0d/<min", 0) : $sformatf("%0d/%0d", curr_lvl+1, curr_lvl)),
                                         UVM_HIGH)
     end
@@ -203,7 +204,8 @@ task fir_subsystem_scoreboard::verify_limits();
   upper_limit = lvls_values[LVL_RESET_VALUE+1];
   lower_limit = lvls_values[LVL_RESET_VALUE];
 
-  initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM;
+  // initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM;
+  initial_limits_count = $floor(FIR_TAPS_NUM/2.0) * ITER_NUM;
 
   mm2st_queue_lock_sem.get(1);
   repeat (initial_limits_count)

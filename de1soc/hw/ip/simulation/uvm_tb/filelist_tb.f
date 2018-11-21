@@ -5,8 +5,8 @@
 ./agents/avalon_st/avalon_st_if.sv
 ./tb_params_pkg.sv
 # ./vips/avalon_st_vip_pkg.sv -> not supported
-./env/fir_subsystem_env_pkg.sv
 ./sequences/test_seqs_pkg.sv
+./env/fir_subsystem_env_pkg.sv
 ./tests/tests_pkg.sv
 ./dut_wrapper.sv
 ./dut_top.sv
