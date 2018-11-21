@@ -1,4 +1,5 @@
 ../uvm_1.1d/src/uvm_pkg.sv
+../../source/register_file_defs_pkg.sv
 ./common_share_pkg.sv
 ./agents/avalon_st/avalon_st_footprint_if.sv
 ./agents/avalon_st/avalon_st_agent_pkg.sv

@@ -7,6 +7,7 @@ class base_test extends uvm_test;
 
   fir_subsystem_env         m_env;
   fir_subsystem_env_config  m_env_cfg;
+  csr_reg_block_config      m_csr_init_config;
 
   // Standard UVM Methods:
   extern function new(string name = "base_test", uvm_component parent = null);
@@ -34,6 +35,9 @@ function void base_test::build_phase(uvm_phase phase);
 
   configure_avalon_mm_vip();
   configure_avalon_st_vip();
+
+  m_csr_init_config = csr_init_config;
+  override_csr_init_config();
 
   uvm_config_db#(fir_subsystem_env_config)::set(this, "m_env", "m_config", m_env_cfg);
   `uvm_info("TEST", "***** END OF BUILD_PHASE *****", UVM_LOW)

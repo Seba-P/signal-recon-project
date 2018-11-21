@@ -20,8 +20,7 @@ task csr_init_config_seq::body();
   `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ STARTS ***", UVM_LOW)
   start_item(seq);
 
-  seq.data 			= {};
-  seq.burst_len = 10 * (2 * (LVLS_NUM / 2 + 1) + LVLS_NUM + 1);
+  
 
   finish_item(seq);
   `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ ENDS ***", UVM_LOW)
