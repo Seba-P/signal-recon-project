@@ -13,6 +13,7 @@ class base_test extends uvm_test;
   extern function new(string name = "base_test", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
+  extern virtual task configure_phase(uvm_phase phase);
   extern virtual task main_phase(uvm_phase phase);
 
   // Custom methods:
@@ -53,9 +54,23 @@ function void base_test::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
 endfunction : end_of_elaboration_phase
 
-task base_test::main_phase(uvm_phase phase);
-  // base_csr_seq    csr_seq;
+task base_test::configure_phase(uvm_phase phase);
   csr_init_config_seq csr_seq;
+
+  `uvm_info("TEST", "***** START OF CONFIGURE_PHASE *****", UVM_LOW)
+  phase.phase_done.set_drain_time(this, 10);
+  phase.raise_objection(this, "");
+
+  csr_seq = csr_init_config_seq::type_id::create("csr_seq");
+
+  csr_seq.csr_config = m_csr_init_config;
+  csr_seq.start(m_env.m_csr_agent.m_sequencer);
+
+  phase.drop_objection(this, "");
+  `uvm_info("TEST", "***** END OF CONFIGURE_PHASE *****", UVM_LOW)
+endtask : configure_phase
+
+task base_test::main_phase(uvm_phase phase);
   base_mm2st_seq      mm2st_seq;
   base_st2mm_seq      st2mm_seq;
 
@@ -63,13 +78,9 @@ task base_test::main_phase(uvm_phase phase);
   phase.phase_done.set_drain_time(this, 100);
   phase.raise_objection(this, "");
 
-  // csr_seq   = base_csr_seq::type_id::create("csr_seq");
-  csr_seq   = csr_init_config_seq::type_id::create("csr_seq");
   mm2st_seq = base_mm2st_seq::type_id::create("mm2st_seq");
   st2mm_seq = base_st2mm_seq::type_id::create("st2mm_seq");
 
-  csr_seq.csr_config = m_csr_init_config;
-  csr_seq.start(m_env.m_csr_agent.m_sequencer);
   // mm2st_seq.start(m_env.m_agent_config["mm2st"].sequencer); // TODO: sequencer handle instead of hardcoded
   fork
     mm2st_seq.start(m_env.m_mm2st_agent.m_sequencer);
