@@ -40,10 +40,10 @@ module dut_top();
   assign m_dut_if.csr_writedata         = '0;
 
   assign m_dut_if.mm2st_data            = mm2st_if.footprint_if.data;
-  assign m_dut_if.mm2st_valid           = mm2st_if.footprint_if.valid[0];
+  assign m_dut_if.mm2st_valid           = mm2st_if.footprint_if.valid;
   assign mm2st_if.footprint_if.ready    = m_dut_if.mm2st_ready;
   assign st2mm_if.footprint_if.data     = m_dut_if.st2mm_data;
-  assign st2mm_if.footprint_if.valid    = { 1'b0, m_dut_if.st2mm_valid };
+  assign st2mm_if.footprint_if.valid    = m_dut_if.st2mm_valid;
   assign m_dut_if.st2mm_ready           = st2mm_if.footprint_if.ready;
 
   dut_wrapper

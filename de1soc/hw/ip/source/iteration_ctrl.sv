@@ -42,6 +42,7 @@ reg         [ITER_NUM-1:0] subcells_input_enable_r;
 reg         [ITER_NUM-1:0] subcells_output_enable_r;
 reg         [ITER_NUM-1:0] subcells_ready_r;
 reg                        outctrl_enable_r;
+reg                        outctrl_enable_d1_r;
 reg  [$bits(ITER_NUM)-1:0] outctrl_iter_num_r;
 reg                        outctrl_ready_r;
 
@@ -68,7 +69,8 @@ assign subcells_new_limits    = subcells_new_limits_r;
 assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
 assign subcells_input_enable  = subcells_input_enable_r;
 assign subcells_output_enable = subcells_output_enable_r;
-assign outctrl_enable         = outctrl_enable_r;
+// assign outctrl_enable         = outctrl_enable_r;
+assign outctrl_enable         = outctrl_enable_d1_r;
 assign outctrl_iter_num       = outctrl_iter_num_r;
 
 assign pipeline_stall       = !(&subcells_ready & outctrl_ready);
@@ -172,11 +174,13 @@ begin
   if(reset)
   begin
     outctrl_enable_r    <= '0;
+    outctrl_enable_d1_r <= '0;
     outctrl_iter_num_r  <= '0;
   end
   else
   begin
     outctrl_enable_r    <= 'd1;//!pipeline_stall; // ?
+    outctrl_enable_d1_r <= outctrl_enable_r;
     outctrl_iter_num_r  <= iter_num_r - 'd1;
   end
 end

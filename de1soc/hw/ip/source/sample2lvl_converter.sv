@@ -62,16 +62,20 @@ lvl_generator
 lvl_generator
 (
   /* Common IF */
-  .reset            (reset | iter_init),
-  .clock            (clock),
+  .reset                (reset | iter_init),
+  .clock                (clock),
+  /* Register file IF */
+  .reg_lvls_num         (reg_lvls_num),
+  .reg_lvl_reset_value  (reg_lvl_reset_value),
+  .reg_lvls_values      (reg_lvls_values),
   /* Sample dispatcher IF */
-  .disp_cross_dir   (lvl_gen_cross_dir),
-  .disp_new_sample  (lvl_gen_new_sample),
-  .disp_valid       (lvl_gen_valid),
+  .disp_cross_dir       (lvl_gen_cross_dir),
+  .disp_new_sample      (lvl_gen_new_sample),
+  .disp_valid           (lvl_gen_valid),
   /* Buffer controlers IF */
-  .buff_value       (out_lvl_data),
-  .buff_limits      (out_limits_data),
-  .buff_valid       (out_valid)
+  .buff_value           (out_lvl_data),
+  .buff_limits          (out_limits_data),
+  .buff_valid           (out_valid)
 );
 
 endmodule
