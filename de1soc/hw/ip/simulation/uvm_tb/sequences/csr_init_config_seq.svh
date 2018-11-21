@@ -15,14 +15,230 @@ function csr_init_config_seq::new(string name = "csr_init_config_seq");
 endfunction : new
 
 task csr_init_config_seq::body();
-  csr_seq_item seq = csr_seq_item::type_id::create("seq");
+  csr_reg_block_t csr_reg_block = csr_config.m_csr_reg_block;
+  csr_seq_item    seq = csr_seq_item::type_id::create("seq");
 
   `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ STARTS ***", UVM_LOW)
   start_item(seq);
 
-  
+  seq.operation = READ_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_STATUS_START);
+  seq.byteen.push_back('1);
 
   finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  csr_reg_block.control = '{ /*_reserved*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'0 };
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_CONTROL_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_reg_block.control));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_PARAMS_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.params));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_00_01_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_00_01));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_02_03_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_02_03));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_04_05_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_04_05));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_06_07_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_06_07));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_08_09_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_08_09));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_10_11_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_10_11));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_12_13_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_12_13));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_14_15_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_14_15));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_16_17_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_16_17));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_18_19_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_18_19));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_20_21_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_20_21));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_22_23_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_22_23));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_24_25_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_24_25));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_26_27_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_26_27));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_28_29_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_28_29));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_LVL_VAL_30_31_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_config.m_csr_reg_block.lvl_val_30_31));
+
+  finish_item(seq);
+
+  #2;
+
+  start_item(seq);
+
+  csr_reg_block.control = '{ /*_reserved*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'1 };
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_CONTROL_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_reg_block.control));
+
+  finish_item(seq);
+
+  #2;
   `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ ENDS ***", UVM_LOW)
 endtask : body
 

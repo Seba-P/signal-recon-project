@@ -20,11 +20,11 @@ class avalon_st_monitor #(avalon_st_inst_spec_t INST_SPEC) extends uvm_component
 
   // Custom methods:
   extern function void notify_transaction(avalon_st_seq_item #(INST_SPEC) item);
-endclass: avalon_st_monitor
+endclass : avalon_st_monitor
 
 function avalon_st_monitor::new(string name = "avalon_st_monitor", uvm_component parent = null);
   super.new(name, parent);
-endfunction
+endfunction : new
 
 function void avalon_st_monitor::build_phase(uvm_phase phase);
   super.build_phase(phase);

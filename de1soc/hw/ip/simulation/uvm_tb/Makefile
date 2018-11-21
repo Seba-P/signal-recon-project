@@ -31,8 +31,6 @@ endif
 
 DO_CMD = "do ./wave.do; run -a;"
 
-include ./MakefileLibs.mk
-
 all default: libs rtl uvm tb sim
 
 # uvm:
@@ -75,5 +73,7 @@ sim:
 clean:
 	@rm -rf _work transcript *~ vsim.wlf *.log *.tgz *.db *.bin
 # @find ../../../ -name "*~" -delete
+
+include ./MakefileLibs.mk
 
 .PHONY: clean sim

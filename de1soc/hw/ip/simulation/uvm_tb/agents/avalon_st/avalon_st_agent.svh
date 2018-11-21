@@ -20,7 +20,7 @@ endclass : avalon_st_agent
 
 function avalon_st_agent::new(string name = "avalon_st_agent", uvm_component parent = null);
   super.new(name, parent);
-endfunction
+endfunction : new
 
 function void avalon_st_agent::build_phase(uvm_phase phase);
   super.build_phase(phase);
@@ -39,7 +39,7 @@ function void avalon_st_agent::build_phase(uvm_phase phase);
     m_sequencer = avalon_st_sequencer#(INST_SPEC)::type_id::create("m_sequencer", this);
     // m_config.sequencer    = m_sequencer; // TODO:
   end
-endfunction: build_phase
+endfunction : build_phase
 
 function void avalon_st_agent::connect_phase(uvm_phase phase);
   m_ap = m_monitor.m_ap;
@@ -49,6 +49,6 @@ function void avalon_st_agent::connect_phase(uvm_phase phase);
   begin
     m_driver.seq_item_port.connect(m_sequencer.seq_item_export);
   end
-endfunction: connect_phase
+endfunction : connect_phase
 
 `endif // _AVALON_ST_AGENT_SVH_

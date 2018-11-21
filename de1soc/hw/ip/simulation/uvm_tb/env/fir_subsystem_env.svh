@@ -16,11 +16,11 @@ class fir_subsystem_env extends uvm_env;
   extern function new(string name = "fir_subsystem_env", uvm_component parent = null);
   extern function void build_phase(uvm_phase phase);
   extern function void connect_phase(uvm_phase phase);
-endclass: fir_subsystem_env
+endclass : fir_subsystem_env
 
 function fir_subsystem_env::new(string name = "fir_subsystem_env", uvm_component parent = null);
   super.new(name, parent);
-endfunction
+endfunction : new
 
 function void fir_subsystem_env::build_phase(uvm_phase phase);
   if (!uvm_config_db#(fir_subsystem_env_config)::get(this, "", "m_config", m_config))
@@ -36,7 +36,7 @@ function void fir_subsystem_env::build_phase(uvm_phase phase);
   uvm_config_db#(avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]))::set(this, "m_csr_agent*", "m_config", m_config.csr_agent_config);
   uvm_config_db#(avalon_st_agent_config #(avalon_st_inst_specs[MM2ST]))::set(this, "m_mm2st_agent*", "m_config", m_config.mm2st_agent_config);
   uvm_config_db#(avalon_st_agent_config #(avalon_st_inst_specs[ST2MM]))::set(this, "m_st2mm_agent*", "m_config", m_config.st2mm_agent_config);
-endfunction: build_phase
+endfunction : build_phase
 
 function void fir_subsystem_env::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
@@ -46,6 +46,6 @@ function void fir_subsystem_env::connect_phase(uvm_phase phase);
     m_mm2st_agent.m_ap.connect(m_scoreboard.m_mm2st_ap);
     m_st2mm_agent.m_ap.connect(m_scoreboard.m_st2mm_ap);
   end
-endfunction: connect_phase
+endfunction : connect_phase
 
 `endif // _FIR_SUBSYSTEM_ENV_SVH_

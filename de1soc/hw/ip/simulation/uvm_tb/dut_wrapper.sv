@@ -15,7 +15,7 @@ interface dut_if(input reset, clock);
   wire [15:0] st2mm_data;
   wire        st2mm_valid;
   wire        st2mm_ready;
-endinterface
+endinterface : dut_if
 
 module dut_wrapper
 #(
@@ -59,4 +59,4 @@ DUT
   .st2mm_ready    (m_dut_if.st2mm_ready)
 );
 
-endmodule
+endmodule : dut_wrapper

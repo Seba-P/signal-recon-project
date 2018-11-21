@@ -13,10 +13,10 @@ class fir_subsystem_env_config extends uvm_object;
 
   // Standard UVM Methods:
   extern function new(string name = "fir_subsystem_env_config");
-endclass: fir_subsystem_env_config
+endclass : fir_subsystem_env_config
 
 function fir_subsystem_env_config::new(string name = "fir_subsystem_env_config");
   super.new(name);
-endfunction
+endfunction : new
 
 `endif // _FIR_SUBSYSTEM_ENV_CONFIG_SVH_

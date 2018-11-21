@@ -9,6 +9,8 @@ package test_seqs_pkg;
   import tb_params_pkg::*;
   import avalon_mm_agent_pkg::*;
   import avalon_st_agent_pkg::*;
+  import register_model_pkg::*;
+  import fir_subsystem_env_pkg::*;
 
 	`include "csr_seq_item.svh"
 	`include "mm2st_seq_item.svh"

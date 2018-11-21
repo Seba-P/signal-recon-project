@@ -96,4 +96,5 @@ module dut_top();
 
     run_test();
   end
-endmodule
+
+endmodule : dut_top

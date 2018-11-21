@@ -12,7 +12,7 @@ endclass : lvls_sweep_test
 
 function lvls_sweep_test::new(string name = "lvls_sweep_test", uvm_component parent = null);
   super.new(name, parent);
-endfunction
+endfunction : new
 
 task lvls_sweep_test::main_phase(uvm_phase phase);
   base_mm2st_seq::type_id::set_type_override(mm2st_lvls_sweep_seq::get_type());
