@@ -30,6 +30,7 @@ task base_csr_seq::body();
   seq.operation = READ_OP;
   seq.addr.push_back(CSR_REG_BLOCK_STATUS_START);
   seq.byteen.push_back('1);
+  seq.burst_len = 1;
 
   finish_item(seq);
 

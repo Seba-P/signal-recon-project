@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.14.11:00:19 -->
+ <!-- 2018.11.19.15:51:33 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1542189618</value>
+  <value>1542639092</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -2050,14 +2050,6 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="USE_COMB_LOGIC">
-   <type>int</type>
-   <value>0</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -2574,7 +2566,7 @@ parameters are a RESULT of the module parameters. -->
     <type>int</type>
     <value>0</value>
     <derived>false</derived>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <visible>true</visible>
     <valid>true</valid>
    </parameter>
@@ -2678,7 +2670,7 @@ parameters are a RESULT of the module parameters. -->
     <type>int</type>
     <value>1</value>
     <derived>false</derived>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <visible>true</visible>
     <valid>true</valid>
    </parameter>
@@ -2702,7 +2694,7 @@ parameters are a RESULT of the module parameters. -->
     <type>int</type>
     <value>0</value>
     <derived>false</derived>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <visible>true</visible>
     <valid>true</valid>
    </parameter>
@@ -2710,7 +2702,7 @@ parameters are a RESULT of the module parameters. -->
     <type>com.altera.sopcmodel.avalon.TimingUnits</type>
     <value>Cycles</value>
     <derived>false</derived>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <visible>true</visible>
     <valid>true</valid>
    </parameter>
@@ -2750,7 +2742,7 @@ parameters are a RESULT of the module parameters. -->
     <type>int</type>
     <value>0</value>
     <derived>false</derived>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <visible>true</visible>
     <valid>true</valid>
    </parameter>
@@ -2807,6 +2799,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>32</width>
     <role>writedata</role>
+   </port>
+   <port>
+    <name>csr_waitrequest</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>waitrequest</role>
    </port>
   </interface>
  </module>
@@ -84228,7 +84226,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1542189618</value>
+   <value>1542639092</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -84248,7 +84246,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1542189618</value>
+   <value>1542639092</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -84264,7 +84262,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1542189618</value>
+   <value>1542639092</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

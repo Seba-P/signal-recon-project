@@ -18,6 +18,9 @@ class avalon_st_seq_item #(avalon_st_inst_spec_t INST_SPEC) extends uvm_sequence
   extern function void do_copy(uvm_object rhs);
   extern function bit do_compare(uvm_object rhs, uvm_comparer comparer);
   extern function string convert2string();
+
+  // Custom methods:
+  extern function void clear();
 endclass : avalon_st_seq_item
 
 function avalon_st_seq_item::new(string name = "avalon_st_seq_item");
@@ -66,5 +69,10 @@ function string avalon_st_seq_item::convert2string();
 
   return s;
 endfunction : convert2string
+
+function void avalon_st_seq_item::clear();
+  data      = {};
+  burst_len = 0;
+endfunction : clear
 
 `endif // _AVALON_ST_SEQ_ITEM_SVH_

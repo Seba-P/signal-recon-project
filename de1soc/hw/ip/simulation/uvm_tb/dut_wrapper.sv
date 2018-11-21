@@ -7,6 +7,7 @@ interface dut_if(input reset, clock);
   wire [31:0] csr_readdata;
   wire        csr_write;
   wire [31:0] csr_writedata;
+  wire        csr_waitrequest;
   /* MM2ST IF */
   wire [15:0] mm2st_data;
   wire        mm2st_valid;
@@ -40,23 +41,24 @@ fir_subsystem_top
 DUT
 (
   /* Common IF */
-  .reset          (m_dut_if.reset),
-  .clock          (m_dut_if.clock),
+  .reset            (m_dut_if.reset),
+  .clock            (m_dut_if.clock),
   /* CSR IF */
-  .csr_address    (m_dut_if.csr_address),
-  .csr_chipselect (m_dut_if.csr_chipselect),
-  .csr_read       (m_dut_if.csr_read),
-  .csr_readdata   (m_dut_if.csr_readdata),
-  .csr_write      (m_dut_if.csr_write),
-  .csr_writedata  (m_dut_if.csr_writedata),
+  .csr_address      (m_dut_if.csr_address),
+  .csr_chipselect   (m_dut_if.csr_chipselect),
+  .csr_read         (m_dut_if.csr_read),
+  .csr_readdata     (m_dut_if.csr_readdata),
+  .csr_write        (m_dut_if.csr_write),
+  .csr_writedata    (m_dut_if.csr_writedata),
+  .csr_waitrequest  (m_dut_if.csr_waitrequest),
   /* MM2ST IF */
-  .mm2st_data     (m_dut_if.mm2st_data),
-  .mm2st_valid    (m_dut_if.mm2st_valid),
-  .mm2st_ready    (m_dut_if.mm2st_ready),
+  .mm2st_data       (m_dut_if.mm2st_data),
+  .mm2st_valid      (m_dut_if.mm2st_valid),
+  .mm2st_ready      (m_dut_if.mm2st_ready),
   /* ST2MM IF */
-  .st2mm_data     (m_dut_if.st2mm_data),
-  .st2mm_valid    (m_dut_if.st2mm_valid),
-  .st2mm_ready    (m_dut_if.st2mm_ready)
+  .st2mm_data       (m_dut_if.st2mm_data),
+  .st2mm_valid      (m_dut_if.st2mm_valid),
+  .st2mm_ready      (m_dut_if.st2mm_ready)
 );
 
 endmodule : dut_wrapper

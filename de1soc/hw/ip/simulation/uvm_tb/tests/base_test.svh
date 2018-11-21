@@ -49,20 +49,22 @@ function void base_test::end_of_elaboration_phase(uvm_phase phase);
   uvm_factory factory;
 
   factory = uvm_factory::get();
-  factory.print(1);          // Reports components registered in factory
+  factory.print(1);
   uvm_top.print_topology();
 endfunction : end_of_elaboration_phase
 
 task base_test::main_phase(uvm_phase phase);
-  base_csr_seq    csr_seq;
-  base_mm2st_seq  mm2st_seq;
-  base_st2mm_seq  st2mm_seq;
+  // base_csr_seq    csr_seq;
+  csr_init_config_seq csr_seq;
+  base_mm2st_seq      mm2st_seq;
+  base_st2mm_seq      st2mm_seq;
 
   `uvm_info("TEST", "***** START OF MAIN_PHASE *****", UVM_LOW)
-  phase.phase_done.set_drain_time(this, 100);  // Delay objection drop 100ns
+  phase.phase_done.set_drain_time(this, 100);
   phase.raise_objection(this, "");
 
-  csr_seq   = base_csr_seq::type_id::create("csr_seq");
+  // csr_seq   = base_csr_seq::type_id::create("csr_seq");
+  csr_seq   = csr_init_config_seq::type_id::create("csr_seq");
   mm2st_seq = base_mm2st_seq::type_id::create("mm2st_seq");
   st2mm_seq = base_st2mm_seq::type_id::create("st2mm_seq");
 

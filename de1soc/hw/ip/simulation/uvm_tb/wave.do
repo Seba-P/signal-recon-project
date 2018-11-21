@@ -14,6 +14,7 @@ add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_rea
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_readdata
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_write
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_writedata
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_waitrequest
 add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/data
 add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/valid
 add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/ready

@@ -18,6 +18,7 @@ module fir_subsystem_top
   output wire [31:0] csr_readdata,    //      .readdata
   input  wire        csr_write,       //      .write
   input  wire [31:0] csr_writedata,   //      .writedata
+  output wire        csr_waitrequest, //      .waitrequest
   /* MM2ST IF */
   input  wire [15:0] mm2st_data,      // mm2st.data
   input  wire        mm2st_valid,     //      .valid
@@ -76,6 +77,7 @@ register_file
   .csr_readdata         (csr_readdata),         //      .readdata
   .csr_write            (csr_write),            //      .write
   .csr_writedata        (csr_writedata),        //      .writedata
+  .csr_waitrequest      (csr_waitrequest),      //      .waitrequest
   .reg_lvls_num         (reg_lvls_num),         //   reg.lvls_num
   .reg_lvl_reset_value  (reg_lvl_reset_value),  //      .lvl_reset_value
   .reg_lvls_values      (reg_lvls_values),      //      .lvls_values
