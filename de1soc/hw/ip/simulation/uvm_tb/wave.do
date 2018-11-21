@@ -37,6 +37,7 @@ add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_l
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvl_reset_value
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvls_values
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_iter_num
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_reg_block
 
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reset
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/clock

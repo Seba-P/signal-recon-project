@@ -5,14 +5,16 @@ module dut_top();
   `include "uvm_macros.svh"
   
   import common_share_pkg::*;
+  import register_file_defs_pkg::*;
   import tb_params_pkg::*;
+  import avalon_mm_agent_pkg::*;
   import avalon_st_agent_pkg::*;
-  // import avalon_st_vip_pkg::*;
   import fir_subsystem_env_pkg::*;
   import tests_pkg::*;
 
   logic reset;
   logic clock;
+  logic icn_enable;
 
   avalon_mm_if #(avalon_mm_inst_specs[CSR]) csr_if
   (
@@ -38,13 +40,14 @@ module dut_top();
     .clock  (clock)
   );
 
+  assign icn_enable = (csr_if.footprint_if.address >= CSR_REG_BLOCK_START) && (csr_if.footprint_if.address <= CSR_REG_BLOCK_END);
 
   assign m_dut_if.csr_address             = csr_if.footprint_if.address;
   assign m_dut_if.csr_byteenable          = csr_if.footprint_if.byteenable;
-  assign m_dut_if.csr_read                = csr_if.footprint_if.read;
+  assign m_dut_if.csr_read                = csr_if.footprint_if.read & icn_enable;
   assign csr_if.footprint_if.readdata     = m_dut_if.csr_readdata;
   assign csr_if.footprint_if.response     = m_dut_if.csr_response;
-  assign m_dut_if.csr_write               = csr_if.footprint_if.write;
+  assign m_dut_if.csr_write               = csr_if.footprint_if.write & icn_enable;
   assign m_dut_if.csr_writedata           = csr_if.footprint_if.writedata;
   assign csr_if.footprint_if.waitrequest  = m_dut_if.csr_waitrequest;
 
