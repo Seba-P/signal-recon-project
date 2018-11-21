@@ -37,7 +37,7 @@ task avalon_st_driver::run_phase(uvm_phase phase);
   begin
     seq_item_port.get_next_item(seq);
 
-    if(INST_SPEC.VIF_MODPORT == MODPORT_SOURCE)
+    if (INST_SPEC.VIF_MODPORT == MODPORT_SOURCE)
       m_vif.push_data(seq);
     else
       m_vif.pull_data(seq);

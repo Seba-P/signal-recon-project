@@ -1,35 +1,35 @@
 
-`ifndef _AVALON_ST_MONITOR_SVH_
-`define _AVALON_ST_MONITOR_SVH_
+`ifndef _AVALON_MM_MONITOR_SVH_
+`define _AVALON_MM_MONITOR_SVH_
 
-class avalon_st_monitor #(avalon_st_inst_spec_t INST_SPEC) extends uvm_component;
-  `uvm_component_param_utils(avalon_st_monitor #(INST_SPEC));
+class avalon_mm_monitor #(avalon_mm_inst_spec_t INST_SPEC) extends uvm_component;
+  `uvm_component_param_utils(avalon_mm_monitor #(INST_SPEC));
 
-  avalon_st_agent_config #(INST_SPEC) m_config;
+  avalon_mm_agent_config #(INST_SPEC) m_config;
   int                                 m_transactions_num;
   int                                 m_transfers_num;
 
-  uvm_analysis_port #(avalon_st_seq_item #(INST_SPEC)) m_ap;
-  virtual avalon_st_if #(INST_SPEC)                    m_vif;
+  uvm_analysis_port #(avalon_mm_seq_item #(INST_SPEC)) m_ap;
+  virtual avalon_mm_if #(INST_SPEC)                    m_vif;
 
   // Standard UVM methods:
-  extern function new(string name = "avalon_st_monitor", uvm_component parent = null);
+  extern function new(string name = "avalon_mm_monitor", uvm_component parent = null);
   extern function void build_phase(uvm_phase phase);
   extern task run_phase(uvm_phase phase);
   extern function void report_phase(uvm_phase phase);
 
   // Custom methods:
-  extern function void notify_transaction(avalon_st_seq_item #(INST_SPEC) item);
-endclass: avalon_st_monitor
+  extern function void notify_transaction(avalon_mm_seq_item #(INST_SPEC) item);
+endclass: avalon_mm_monitor
 
-function avalon_st_monitor::new(string name = "avalon_st_monitor", uvm_component parent = null);
+function avalon_mm_monitor::new(string name = "avalon_mm_monitor", uvm_component parent = null);
   super.new(name, parent);
 endfunction
 
-function void avalon_st_monitor::build_phase(uvm_phase phase);
+function void avalon_mm_monitor::build_phase(uvm_phase phase);
   super.build_phase(phase);
 
-  if (!uvm_config_db#(avalon_st_agent_config #(INST_SPEC))::get(this, "", "m_config", m_config))
+  if (!uvm_config_db#(avalon_mm_agent_config #(INST_SPEC))::get(this, "", "m_config", m_config))
     `uvm_fatal("CONFIG", $sformatf("Cannot get() 'm_config' from uvm_config_db. Have you set() it?"))
 
   m_transactions_num  = 0;
@@ -39,11 +39,11 @@ function void avalon_st_monitor::build_phase(uvm_phase phase);
   m_vif = m_config.vif;
 endfunction : build_phase
 
-task avalon_st_monitor::run_phase(uvm_phase phase);
-  avalon_st_seq_item #(INST_SPEC) item;
-  avalon_st_seq_item #(INST_SPEC) cloned_item;
+task avalon_mm_monitor::run_phase(uvm_phase phase);
+  avalon_mm_seq_item #(INST_SPEC) item;
+  avalon_mm_seq_item #(INST_SPEC) cloned_item;
 
-  item = avalon_st_seq_item#(INST_SPEC)::type_id::create("item");
+  item = avalon_mm_seq_item#(INST_SPEC)::type_id::create("item");
 
   forever
   begin
@@ -62,13 +62,13 @@ task avalon_st_monitor::run_phase(uvm_phase phase);
   end
 endtask : run_phase
 
-function void avalon_st_monitor::report_phase(uvm_phase phase);
+function void avalon_mm_monitor::report_phase(uvm_phase phase);
   `uvm_info("REPORT", $sformatf("Total transactions/transfers detected: %0d/%0d", m_transactions_num, m_transfers_num), UVM_LOW)
 endfunction : report_phase
 
-function void avalon_st_monitor::notify_transaction(avalon_st_seq_item #(INST_SPEC) item);
+function void avalon_mm_monitor::notify_transaction(avalon_mm_seq_item #(INST_SPEC) item);
   `uvm_info("MONITOR", $sformatf("Detected transaction: %s", item.convert2string()), m_config.verbosity)
   m_ap.write(item);
 endfunction : notify_transaction
 
-`endif // _AVALON_ST_MONITOR_SVH_
+`endif // _AVALON_MM_MONITOR_SVH_

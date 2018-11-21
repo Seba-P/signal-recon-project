@@ -13,10 +13,12 @@ interface avalon_st_if
   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
+  // logic                    [ 1:0] channel; -> not supported
   logic [INST_SPEC.BUS_WIDTH-1:0] data;
-  logic                    [ 1:0] valid;
-  logic                           ready;
   logic                    [ 1:0] error;
+  logic                           ready;
+  logic                           valid;
+  // logic                    [ 1:0] empty;   -> not supported
   logic                           start_of_packet;
   logic                           end_of_packet;
 
@@ -30,18 +32,18 @@ generate
   if(INST_SPEC.VIF_MODPORT == MODPORT_SOURCE)
   begin
     assign footprint_if.data[INST_SPEC.BUS_WIDTH-1:0] = data;
-    assign footprint_if.valid                         = valid;
+    assign footprint_if.error[1:0]                    = error;
     assign ready                                      = footprint_if.ready;
-    assign error                                      = footprint_if.error;
+    assign footprint_if.valid                         = valid;
     assign footprint_if.start_of_packet               = start_of_packet;
     assign footprint_if.end_of_packet                 = end_of_packet;
   end
   else
   begin
     assign data               = footprint_if.data[INST_SPEC.BUS_WIDTH-1:0];
-    assign valid              = footprint_if.valid;
+    assign error              = footprint_if.error[1:0];
     assign footprint_if.ready = ready;
-    assign footprint_if.error = error;
+    assign valid              = footprint_if.valid;
     assign start_of_packet    = footprint_if.start_of_packet;
     assign end_of_packet      = footprint_if.end_of_packet;
   end
@@ -51,8 +53,18 @@ endgenerate
   * DRIVER METHODS *
   *****************/
   function void clear_bus();
-    data  <= '0;
-    valid <= '0;
+    if (INST_SPEC.VIF_MODPORT == MODPORT_SOURCE)
+    begin
+      data            <= '0;
+      error           <= '0;
+      valid           <= '0;
+      start_of_packet <= '0;
+      end_of_packet   <= '0;
+    end
+    else
+    begin
+      ready           <= '0;
+    end
   endfunction : clear_bus
 
   task wait_for_reset();
@@ -61,7 +73,6 @@ endgenerate
     // @(negedge reset);
   endtask : wait_for_reset
 
-  // task push_data(avalon_st_seq_item #(BUS_WIDTH) seq);
   task push_data(uvm_object rhs);
     avalon_st_seq_item #(INST_SPEC) seq;
     bit [INST_SPEC.BUS_WIDTH-1:0]   data_queue[$];
@@ -92,7 +103,6 @@ endgenerate
     valid <= 'd0;
   endtask : push_data
 
-  // task pull_data(avalon_st_seq_item #(BUS_WIDTH) seq);
   task pull_data(uvm_object rhs);
     avalon_st_seq_item #(INST_SPEC) seq;
 
@@ -121,7 +131,6 @@ endgenerate
   /******************
   * MONITOR METHODS *
   ******************/
-  // task get_transaction(avalon_st_seq_item #(BUS_WIDTH) item);
   task get_transaction(uvm_object rhs);
     avalon_st_seq_item #(INST_SPEC) item;
 
@@ -142,24 +151,6 @@ endgenerate
       @(posedge clock);
       @(negedge clock);
     end
-    // fork
-    //   GET_TRANSFER:
-    //   begin
-    //     forever
-    //     begin
-    //       @(posedge clock);
-          
-    //       if (ready === 'd1)
-    //       begin
-    //         item.data.push_back(data);
-    //         item.burst_len++;
-    //       end
-    //     end
-    //   end
-    // join_none
-
-    // @(negedge valid);
-    // disable fork;
   endtask : get_transaction
 
 endinterface : avalon_st_if

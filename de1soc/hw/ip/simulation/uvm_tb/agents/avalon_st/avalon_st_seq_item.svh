@@ -52,7 +52,7 @@ function string avalon_st_seq_item::convert2string();
 
   data_queue = { data };
 
-  $sformat(s, "%s%0d transfers: (radix hex) [ ", super.convert2string(), data_queue.size());
+  $sformat(s, "%0d transfers: (radix hex) [ ", data_queue.size());
   while (data_queue.size())
   begin
     trans_data = data_queue.pop_front();

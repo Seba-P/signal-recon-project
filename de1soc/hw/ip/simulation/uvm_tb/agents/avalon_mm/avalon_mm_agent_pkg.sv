@@ -10,9 +10,16 @@ package avalon_mm_agent_pkg;
     MODPORT_MASTER  = 1
   } modport_e;
 
+  typedef enum bit
+  {
+    READ_OP   = 0,
+    WRITE_OP  = 1
+  } operation_e;
+
   typedef struct
   {
-  	int       bus_width;
+  	int       addr_width;
+  	int       data_width;
 		modport_e vif_modport;
 		string		agent_name;
 		uvm_active_passive_enum is_active;
@@ -22,7 +29,8 @@ package avalon_mm_agent_pkg;
 
   typedef struct
   {
-  	int       BUS_WIDTH;
+  	int       ADDR_WIDTH;
+  	int       DATA_WIDTH;
 		modport_e VIF_MODPORT;
   } avalon_mm_inst_spec_t;
 
