@@ -10,16 +10,16 @@ package tb_params_pkg;
 
   typedef enum bit [1:0]
   {
+    CSR,
+    AVALON_MM_AGENTS_NUM
+  } avalon_mm_agent_e;
+
+  typedef enum bit [1:0]
+  {
     MM2ST,
     ST2MM,
     AVALON_ST_AGENTS_NUM
   } avalon_st_agent_e;
-
-  typedef enum bit [1:0]
-  {
-    CSR,
-    AVALON_MM_AGENTS_NUM
-  } avalon_mm_agent_e;
 
   parameter avalon_mm_inst_spec_t avalon_mm_inst_specs[AVALON_MM_AGENTS_NUM] =
   '{
