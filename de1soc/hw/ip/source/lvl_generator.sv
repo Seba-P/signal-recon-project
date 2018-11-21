@@ -18,27 +18,32 @@ module lvl_generator
   output wire        buff_valid
 );
 
+localparam LVL_UP   = 1'b1;
+localparam LVL_DOWN = 1'b0;
+
 reg [15:0] buff_value_r;
 reg [31:0] buff_limits_r;
 reg        buff_valid_r;
-reg        buff_valid_buff_r;
+reg        buff_valid_d1_r;
+reg        buff_valid_d2_r;
+reg        buff_valid_d3_r;
 
 reg  [ 4:0] lvls_num_r;
 reg  [ 4:0] lvl_reset_value_r;
 
 reg  [ 4:0] curr_lvl_r;
 reg  [ 4:0] next_lvl_r;
-wire [15:0] lvls_step;
-wire [15:0] lvl_value;
+// wire [15:0] lvls_step;
+reg  [15:0] lvls_step_r;
+// wire [15:0] lvl_value;
+reg  [15:0] lvl_value_r;
 reg  [15:0] curr_lower_limit_r;
-reg  [15:0] next_lower_limit_r;
+reg  [15:0] lower_limit_r;
 reg  [15:0] curr_upper_limit_r;
-reg  [15:0] next_upper_limit_r;
-wire [ 4:0] upper_lvl_idx;
-wire [ 4:0] lower_lvl_idx;
+reg  [15:0] upper_limit_r;
 reg  [0:31][15:0] lvls_values_r;
-wire        not_max_lvl;
-wire        not_min_lvl;
+reg         overflow_r;
+reg         underflow_r;
 
 /* Temporarily frozen levels */
 assign lvls_values_r = 
@@ -56,54 +61,79 @@ assign lvls_values_r =
 
 assign buff_value     = buff_value_r;
 assign buff_limits    = buff_limits_r;
-assign buff_valid     = buff_valid_r;
-
-assign not_max_lvl    = (next_lvl_r != lvls_num_r-'d1);
-assign not_min_lvl    = (next_lvl_r != 'd0);
-assign upper_lvl_idx  = next_lvl_r + not_max_lvl;
-assign lower_lvl_idx  = next_lvl_r - not_min_lvl;
-assign lvls_step      = disp_cross_dir ?  lvls_values_r[upper_lvl_idx] - lvls_values_r[next_lvl_r] :
-                                          lvls_values_r[next_lvl_r] - lvls_values_r[lower_lvl_idx];
-assign lvl_value      = lvls_values_r[curr_lvl_r] + (lvls_step>>>1'b1);
+// assign buff_valid     = buff_valid_d3_r;
+assign buff_valid     = buff_valid_d2_r;
 
 assign lvls_num_r         = LVLS_NUM;
 assign lvl_reset_value_r  = LVL_RESET_VALUE;
 
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if (reset)
   begin
-    buff_value_r        <= '0;
-    buff_limits_r       <= '0;
-    buff_valid_r        <= '0;
-    buff_valid_buff_r   <= '0;
-
-    curr_lvl_r          <= lvl_reset_value_r;
-    next_lvl_r          <= lvl_reset_value_r;
-    curr_lower_limit_r  <= lvls_values_r[lvl_reset_value_r];
-    next_lower_limit_r  <= lvls_values_r[lvl_reset_value_r];
-    curr_upper_limit_r  <= lvls_values_r[lvl_reset_value_r+1];
-    next_upper_limit_r  <= lvls_values_r[lvl_reset_value_r+1];
+    curr_lvl_r    <= lvl_reset_value_r;
+    next_lvl_r    <= lvl_reset_value_r;
+    lower_limit_r <= lvls_values_r[lvl_reset_value_r];
+    upper_limit_r <= lvls_values_r[lvl_reset_value_r+1];
+    overflow_r    <= '0;
+    underflow_r   <= '0;
+    lvls_step_r   <= '0;
+    lvl_value_r   <= '0;
   end
   else
   begin
-    if(disp_valid & disp_new_sample)
+    if (disp_valid & disp_new_sample)
     begin
-      curr_lvl_r          <= next_lvl_r;
-      curr_lower_limit_r  <= next_lower_limit_r;
-      curr_upper_limit_r  <= next_upper_limit_r;
+      curr_lvl_r <= next_lvl_r;
 
-      next_lvl_r          <= disp_cross_dir ? upper_lvl_idx : lower_lvl_idx;
-      next_lower_limit_r  <= disp_cross_dir ? lvls_values_r[upper_lvl_idx] :
-                                              (not_min_lvl ? lvls_values_r[lower_lvl_idx] : 16'h8000);
-      next_upper_limit_r  <= disp_cross_dir ? (next_lvl_r < lvls_num_r-'d2 ? lvls_values_r[upper_lvl_idx+1] : 16'h7FFF) :
-                                              lvls_values_r[next_lvl_r];
+      if (disp_cross_dir == LVL_UP)
+      begin
+        if (!overflow_r)
+          next_lvl_r <= next_lvl_r + !underflow_r;
+
+        // overflow_r  <= (curr_lvl_r >= LVLS_NUM - 'd2);
+        overflow_r  <= (next_lvl_r >= LVLS_NUM - 'd2);
+        underflow_r <= 'd0;
+      end
+      else
+      begin
+        if (next_lvl_r != 'd0)
+          next_lvl_r <= next_lvl_r - 'd1;
+
+        overflow_r  <= 'd0;
+        // underflow_r <= (curr_lvl_r == 'd0);
+        underflow_r <= (next_lvl_r == 'd0);
+      end
+
+      lower_limit_r  <= underflow_r ? 'h8000 : lvls_values_r[next_lvl_r];
+      upper_limit_r  <= overflow_r ? 'h7FFF : lvls_values_r[next_lvl_r+!underflow_r];
     end
 
-    buff_value_r      <= lvl_value;
-    buff_limits_r     <= { curr_upper_limit_r, curr_lower_limit_r };
-    buff_valid_buff_r <= disp_valid;
-    buff_valid_r      <= buff_valid_buff_r;
+    lvls_step_r <= upper_limit_r - lower_limit_r;
+    // lvl_value_r <= lower_limit_r + (lvls_step_r >>> 1'b1);
+  end
+end
+
+always_ff @(posedge clock)
+begin
+  if (reset)
+  begin
+    buff_value_r    <= '0;
+    buff_limits_r   <= '0;
+    buff_valid_r    <= '0;
+    buff_valid_d1_r <= '0;
+    buff_valid_d2_r <= '0;
+    buff_valid_d3_r <= '0;
+  end
+  else
+  begin
+    // buff_value_r    <= lvl_value_r;
+    buff_value_r    <= lower_limit_r + (lvls_step_r >>> 1'b1);
+    buff_limits_r   <= { upper_limit_r, lower_limit_r };
+    buff_valid_r    <= disp_valid;
+    buff_valid_d1_r <= buff_valid_r;
+    buff_valid_d2_r <= buff_valid_d1_r;
+    buff_valid_d3_r <= buff_valid_d2_r;
   end
 end
 

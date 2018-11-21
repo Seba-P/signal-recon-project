@@ -61,7 +61,8 @@ wire                                         pipeline_stall;
 assign sample2lvl_init        = sample2lvl_init_r;
 assign sample2lvl_ready       = sample2lvl_ready_r;
 assign subcells_init          = subcells_init_r;
-assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2lvl_valid } };
+// assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2lvl_valid } };
+assign subcells_new_limits    = subcells_new_limits_r;
 assign subcells_valid_signal  = iter_valid_signal_r[ITER_NUM:1];
 assign subcells_input_enable  = subcells_input_enable_r;
 assign subcells_output_enable = subcells_output_enable_r;
@@ -102,8 +103,8 @@ begin
   end
   else
   begin
-    sample2lvl_ready_r  <= !pipeline_stall;
     sample2lvl_init_r   <= '0;
+    sample2lvl_ready_r  <= !pipeline_stall;
   end
 end
 
@@ -116,9 +117,9 @@ generate
 
   for(ITER = 0; ITER < ITER_NUM; ITER++)
   begin : _FOR_ITER
-    // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
+    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - 'd1;
     // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - (ITER == 0 ? 'd2 : /*'d3*/'d2);
-    assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - (ITER == 0 ? 'd2 : /*'d3*/'d1);
+    // assign valid_signal[ITER+1]       = iter_symbol_cnt_r[ITER+1] >= fir_taps_head_r - (ITER == 0 ? 'd2 : /*'d3*/'d1);
 
     /* Iteration control */
     always_ff @(posedge clock)
@@ -149,12 +150,14 @@ generate
         subcells_init_r[ITER]           <= '1;
         subcells_input_enable_r[ITER]   <= '0;
         subcells_output_enable_r[ITER]  <= '0;
+        subcells_new_limits_r[ITER]     <= '0;
       end
       else
       begin
         subcells_init_r[ITER]           <= 'd0;
         subcells_input_enable_r[ITER]   <= 'd1;
         subcells_output_enable_r[ITER]  <= 'd1;
+        subcells_new_limits_r[ITER]     <= !pipeline_stall & sample2lvl_valid;
       end
     end
   end

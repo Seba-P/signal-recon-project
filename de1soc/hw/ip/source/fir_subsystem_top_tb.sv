@@ -114,7 +114,7 @@ assign not_min_lvl     = (curr_lvl != '0);
 assign upper_lvl_idx   = curr_lvl + not_max_lvl;
 assign lower_lvl_idx   = curr_lvl - not_min_lvl;
 
-localparam USE_TESTVECTOR = 1;
+localparam USE_TESTVECTOR = 0;
 
 task send_sample(LVL_CROSS_SAMPLE_T sample);
   curr_lvl        <= sample.lvl_cross_dir ? curr_lvl + (curr_lvl != LVLS_NUM-1) : curr_lvl - (curr_lvl != 0);

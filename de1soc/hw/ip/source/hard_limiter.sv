@@ -110,7 +110,10 @@ generate
         endcase
 
         out_valid_r   <= fir_valid_r /*& iter_valid_signal_r*/& iter_output_enable/* & signal_case_r != INVALID*/;
-        signal_case_r <= '{ above_max, below_min };
+        
+        if (fir_valid)
+          signal_case_r <= '{ above_max, below_min };
+        // signal_case_r <= '{ above_max, below_min };
       end
     end
   end

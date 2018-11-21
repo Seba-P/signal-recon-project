@@ -23,9 +23,13 @@ module fir_subsystem_top
 );
 
 wire         sample2lvl_subcells_lvl_valid;
+reg          sample2lvl_subcells_lvl_valid_d1;
 wire  [15:0] sample2lvl_subcells_lvl_data;
+reg   [15:0] sample2lvl_subcells_lvl_data_d1;
 wire         sample2lvl_subcells_limits_valid;
+reg          sample2lvl_subcells_limits_valid_d1;
 wire  [31:0] sample2lvl_subcells_limits_data;
+reg   [31:0] sample2lvl_subcells_limits_data_d1;
 wire         sample2lvl_iter_init;
 wire         sample2lvl_iter_valid;
 wire         sample2lvl_iter_ready;          
@@ -91,6 +95,27 @@ iteration_ctrl
   .outctrl_ready          (iter_outctrl_ready)            //           .new_signal_2
 );
 
+delay
+#(
+  .DELAY     (1),
+  .WIDTH     ($bits({ sample2lvl_subcells_lvl_valid, sample2lvl_subcells_lvl_data,
+                      sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data })),
+  .RESET     (1),
+  .RESET_VAL ('0),
+  .RAMSTYLE  ("logic")
+)
+delay_sample2lvl
+(
+  .clock    (clock),
+  .reset    (reset),
+  // .in_data  (valid_signal_fifo_r),
+  .in_data  ({  sample2lvl_subcells_lvl_valid, sample2lvl_subcells_lvl_data,
+                sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data }),
+  // .out_data (valid_signal_limiter_r)
+  .out_data ({  sample2lvl_subcells_lvl_valid_d1, sample2lvl_subcells_lvl_data_d1,
+                sample2lvl_subcells_limits_valid_d1, sample2lvl_subcells_limits_data_d1 })
+);
+
 genvar ITER;
 generate
   assign subcells_subcells_ready[ITER_NUM] = '1;
@@ -99,8 +124,10 @@ generate
   begin : _FOR_ITER
     if(ITER == 0)
     begin
-      assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data;
-      assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid;
+      // assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data;
+      assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data_d1;
+      // assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid;
+      assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid_d1;
       assign subcells_outsignal_ready[ITER] = subcells_outctrl_ready[ITER] & subcells_subcells_ready[ITER+1];
     end
     else
@@ -130,8 +157,10 @@ generate
       .iter_input_enable  (iter_subcells_input_enable[ITER]),   //           .new_signal_3
       .iter_output_enable (iter_subcells_output_enable[ITER]),  //           .new_signal_4
       .iter_ready         (iter_subcells_ready[ITER]),          //           .new_signal_5
-      .in_limits_data     (sample2lvl_subcells_limits_data),    //  in_limits.data
-      .in_limits_valid    (sample2lvl_subcells_limits_valid),   //           .valid
+      // .in_limits_data     (sample2lvl_subcells_limits_data),    //  in_limits.data
+      .in_limits_data     (sample2lvl_subcells_limits_data_d1),    //  in_limits.data
+      // .in_limits_valid    (sample2lvl_subcells_limits_valid),   //           .valid
+      .in_limits_valid    (sample2lvl_subcells_limits_valid_d1),   //           .valid
       .in_signal_data     (subcells_subcells_data[ITER]),       //  in_signal.data
       .in_signal_valid    (subcells_subcells_valid[ITER]),      //           .valid
       .in_signal_ready    (subcells_subcells_ready[ITER]),      //           .ready
