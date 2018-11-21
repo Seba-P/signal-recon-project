@@ -38,21 +38,12 @@ module dut_top();
     .clock  (clock)
   );
 
-  // /* Disable for now */
-  // assign m_dut_if.csr_address           = '0;
-  // assign m_dut_if.csr_chipselect        = '0;
-  // assign m_dut_if.csr_read              = '0;
-  // assign m_dut_if.csr_write             = '0;
-  // assign m_dut_if.csr_writedata         = '0;
-
-  assign csr_if.footprint_if.response     = '0;
-  assign csr_if.footprint_if.waitrequest  = '0;
-  assign m_dut_if.csr_chipselect          = '1;
 
   assign m_dut_if.csr_address             = csr_if.footprint_if.address;
-  // assign m_dut_if.csr_chipselect          = csr_if.footprint_if.chipselect;
+  assign m_dut_if.csr_byteenable          = csr_if.footprint_if.byteenable;
   assign m_dut_if.csr_read                = csr_if.footprint_if.read;
   assign csr_if.footprint_if.readdata     = m_dut_if.csr_readdata;
+  assign csr_if.footprint_if.response     = m_dut_if.csr_response;
   assign m_dut_if.csr_write               = csr_if.footprint_if.write;
   assign m_dut_if.csr_writedata           = csr_if.footprint_if.writedata;
   assign csr_if.footprint_if.waitrequest  = m_dut_if.csr_waitrequest;
@@ -60,6 +51,7 @@ module dut_top();
   assign m_dut_if.mm2st_data              = mm2st_if.footprint_if.data;
   assign m_dut_if.mm2st_valid             = mm2st_if.footprint_if.valid;
   assign mm2st_if.footprint_if.ready      = m_dut_if.mm2st_ready;
+
   assign st2mm_if.footprint_if.data       = m_dut_if.st2mm_data;
   assign st2mm_if.footprint_if.valid      = m_dut_if.st2mm_valid;
   assign m_dut_if.st2mm_ready             = st2mm_if.footprint_if.ready;

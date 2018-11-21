@@ -89,7 +89,9 @@ typedef struct packed
 {
   reg [31:24] _reserved;
   reg [19:16] iter_num;
+  reg [15:13] _reserved2;
   reg [12: 8] init_lvl;
+  reg [ 7: 5] _reserved3;
   reg [ 4: 0] lvls_num;
 } params_reg_t;
 

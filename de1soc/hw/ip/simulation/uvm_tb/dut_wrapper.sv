@@ -2,9 +2,10 @@
 interface dut_if(input reset, clock);
   /* CSR IF */
   wire [ 7:0] csr_address;
-  wire        csr_chipselect;
+  wire [ 3:0] csr_byteenable;
   wire        csr_read;
   wire [31:0] csr_readdata;
+  wire [ 1:0] csr_response;
   wire        csr_write;
   wire [31:0] csr_writedata;
   wire        csr_waitrequest;
@@ -45,9 +46,10 @@ DUT
   .clock            (m_dut_if.clock),
   /* CSR IF */
   .csr_address      (m_dut_if.csr_address),
-  .csr_chipselect   (m_dut_if.csr_chipselect),
+  .csr_byteenable   (m_dut_if.csr_byteenable),
   .csr_read         (m_dut_if.csr_read),
   .csr_readdata     (m_dut_if.csr_readdata),
+  .csr_response     (m_dut_if.csr_response),
   .csr_write        (m_dut_if.csr_write),
   .csr_writedata    (m_dut_if.csr_writedata),
   .csr_waitrequest  (m_dut_if.csr_waitrequest),

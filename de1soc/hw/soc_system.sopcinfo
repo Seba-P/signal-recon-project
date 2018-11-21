@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.19.15:51:33 -->
+ <!-- 2018.11.20.11:32:00 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1542639092</value>
+  <value>1542709919</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -2771,10 +2771,10 @@ parameters are a RESULT of the module parameters. -->
     <role>address</role>
    </port>
    <port>
-    <name>csr_chipselect</name>
+    <name>csr_byteenable</name>
     <direction>Input</direction>
-    <width>1</width>
-    <role>chipselect</role>
+    <width>4</width>
+    <role>byteenable</role>
    </port>
    <port>
     <name>csr_read</name>
@@ -2805,6 +2805,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>waitrequest</role>
+   </port>
+   <port>
+    <name>csr_response</name>
+    <direction>Output</direction>
+    <width>2</width>
+    <role>response</role>
    </port>
   </interface>
  </module>
@@ -84226,7 +84232,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1542639092</value>
+   <value>1542709919</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -84246,7 +84252,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1542639092</value>
+   <value>1542709919</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -84262,7 +84268,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1542639092</value>
+   <value>1542709919</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

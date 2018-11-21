@@ -13,20 +13,20 @@ interface avalon_mm_if
   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
-  logic [INST_SPEC.ADDR_WIDTH-1:0] address;
-  logic                     [ 3:0] byteenable;
-  // logic                            debugaccess;         -> not supported
-  logic                            read;
-  logic [INST_SPEC.DATA_WIDTH-1:0] readdata;
-  logic                     [ 1:0] response;
-  logic                            write;
-  logic [INST_SPEC.DATA_WIDTH-1:0] writedata;
-  // logic                            lock;                -> not supported
-  logic                            waitrequest;
-  // logic                            readdatavalid;       -> not supported
-  // logic                            writeresponsevalid;  -> not supported
-  // logic                    [ 10:0] burstcount;          -> not supported
-  // logic                            beginbursttransfer;  -> not supported
+  logic     [INST_SPEC.ADDR_WIDTH-1:0] address;
+  logic [(INST_SPEC.DATA_WIDTH/8)-1:0] byteenable;
+  // logic                              debugaccess;         -> not supported
+  logic                                read;
+  logic     [INST_SPEC.DATA_WIDTH-1:0] readdata;
+  logic                         [ 1:0] response;
+  logic                                write;
+  logic     [INST_SPEC.DATA_WIDTH-1:0] writedata;
+  // logic                                lock;                -> not supported
+  logic                                waitrequest;
+  // logic                                readdatavalid;       -> not supported
+  // logic                                writeresponsevalid;  -> not supported
+  // logic                        [ 10:0] burstcount;          -> not supported
+  // logic                                beginbursttransfer;  -> not supported
 
 
   avalon_mm_footprint_if footprint_if
@@ -153,12 +153,13 @@ endgenerate
 
       if (waitrequest === 'd1)
         @(negedge waitrequest);
-
-      `uvm_info("read_data", $sformatf("readdata = 0x%0h", readdata), UVM_DEBUG)
+      
+      `uvm_info("read_data", $sformatf("readdata = 0x%0h, response = 0x%0h", readdata, response), UVM_DEBUG)
       seq.data.push_back(readdata);
       seq.resp.push_back(response);
     end
 
+    // @(negedge clock);
     @(posedge clock);
     read <= 'd0;
   endtask : read_data
@@ -197,7 +198,7 @@ endgenerate
         begin
           @(negedge clock);
 
-          if (waitrequest === 'd1)
+          if (waitrequest !== 'd1 && read === 'd1)
           begin
             item.addr.push_back(address);
             item.byteen.push_back(byteenable);
@@ -214,7 +215,7 @@ endgenerate
         begin
           @(negedge clock);
 
-          if (waitrequest === 'd1)
+          if (waitrequest !== 'd1 && write === 'd1)
           begin
             item.addr.push_back(address);
             item.byteen.push_back(byteenable);

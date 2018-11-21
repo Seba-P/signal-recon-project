@@ -11,9 +11,10 @@ module register_file
   input  wire              clock,               // clock.clk
   /* CSR IF */
   input  wire       [ 7:0] csr_address,         //   csr.address
-  input  wire              csr_chipselect,      //      .chipselect
+  input  wire       [ 3:0] csr_byteenable,      //      .byteenable
   input  wire              csr_read,            //      .read
   output wire       [31:0] csr_readdata,        //      .readdata
+  output wire       [ 1:0] csr_response,        //      .response
   input  wire              csr_write,           //      .write
   input  wire       [31:0] csr_writedata,       //      .writedata
   output wire              csr_waitrequest,     //      .waitrequest
@@ -26,6 +27,7 @@ module register_file
 
 reg               csr_read_r;
 reg        [15:0] csr_readdata_r;
+reg        [ 1:0] csr_response_r;
 reg               csr_waitrequest_r;
 reg        [ 4:0] reg_lvls_num_r;
 reg        [ 4:0] reg_lvl_reset_value_r;
@@ -33,12 +35,13 @@ reg        [ 4:0] reg_lvl_reset_value_r;
 reg  [0:31][15:0] reg_lvls_values_r;
 reg        [ 3:0] reg_iter_num_r;
 
-assign csr_readdata           = csr_readdata_r;
-// assign csr_waitrequest        = csr_waitrequest_r;
-assign csr_waitrequest        = csr_read & ~csr_read_r;
-assign reg_lvls_num           = reg_lvls_num_r;
-assign reg_lvl_reset_value    = reg_lvl_reset_value_r;
-assign reg_lvls_values        = reg_lvls_values_r;
+assign csr_readdata         = csr_readdata_r;
+// assign csr_waitrequest      = csr_waitrequest_r;
+assign csr_response         = csr_response_r;
+assign csr_waitrequest      = csr_read & ~csr_read_r;
+assign reg_lvls_num         = reg_lvls_num_r;
+assign reg_lvl_reset_value  = reg_lvl_reset_value_r;
+assign reg_lvls_values      = reg_lvls_values_r;
 
 // genvar LVL;
 // generate
@@ -48,7 +51,7 @@ assign reg_lvls_values        = reg_lvls_values_r;
 //   end
 // endgenerate
 
-assign reg_iter_num           = reg_iter_num_r;
+assign reg_iter_num         = reg_iter_num_r;
 
 always_ff @(posedge clock)
 begin
@@ -56,6 +59,7 @@ begin
 end
 
 assign csr_readdata_r         = 'd0;
+assign csr_response_r         = 'd0;
 assign csr_waitrequest_r      = 'd0;
 assign reg_lvls_num_r         = LVLS_NUM;
 assign reg_lvl_reset_value_r  = LVL_RESET_VALUE;

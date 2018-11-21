@@ -13,9 +13,10 @@ module fir_subsystem_top
   input  wire        clock,           // clock.clk
   /* CSR IF */
   input  wire [ 7:0] csr_address,     //   csr.address
-  input  wire        csr_chipselect,  //      .chipselect
+  input  wire [ 3:0] csr_byteenable,  //      .byteenable
   input  wire        csr_read,        //      .read
   output wire [31:0] csr_readdata,    //      .readdata
+  output wire [ 1:0] csr_response,    //      .response
   input  wire        csr_write,       //      .write
   input  wire [31:0] csr_writedata,   //      .writedata
   output wire        csr_waitrequest, //      .waitrequest
@@ -72,9 +73,10 @@ register_file
   .reset                (reset),                // reset.reset
   .clock                (clock),                // clock.clk
   .csr_address          (csr_address),          //   csr.address
-  .csr_chipselect       (csr_chipselect),       //      .chipselect
+  .csr_byteenable       (csr_byteenable),       //      .byteenable
   .csr_read             (csr_read),             //      .read
   .csr_readdata         (csr_readdata),         //      .readdata
+  .csr_response         (csr_response),         //      .response
   .csr_write            (csr_write),            //      .write
   .csr_writedata        (csr_writedata),        //      .writedata
   .csr_waitrequest      (csr_waitrequest),      //      .waitrequest

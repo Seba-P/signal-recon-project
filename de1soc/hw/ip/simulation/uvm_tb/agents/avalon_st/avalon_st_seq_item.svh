@@ -44,7 +44,8 @@ function bit avalon_st_seq_item::do_compare(uvm_object rhs, uvm_comparer compare
   if (!$cast(seq_item, rhs))
     `uvm_fatal("do_compare", "Cast of rhs object failed.")
 
-  return (super.do_compare(rhs, comparer) && data == seq_item.data);
+  return (super.do_compare(rhs, comparer) &&
+          data == seq_item.data && burst_len == seq_item.burst_len);
 endfunction : do_compare
 
 function string avalon_st_seq_item::convert2string();

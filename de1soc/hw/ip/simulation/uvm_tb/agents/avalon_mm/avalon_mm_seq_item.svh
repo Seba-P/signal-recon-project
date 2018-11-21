@@ -38,7 +38,11 @@ function void avalon_mm_seq_item::do_copy(uvm_object rhs);
     `uvm_fatal("do_copy", "Cast of rhs object failed.")
 
   super.do_copy(rhs);
-  data      = seq_item.data;
+  operation = seq_item.operation;
+  addr      = { seq_item.addr };
+  byteen    = { seq_item.byteen };
+  data      = { seq_item.data };
+  resp      = { seq_item.resp };
   burst_len = seq_item.burst_len;
 endfunction : do_copy
 
@@ -48,7 +52,9 @@ function bit avalon_mm_seq_item::do_compare(uvm_object rhs, uvm_comparer compare
   if (!$cast(seq_item, rhs))
     `uvm_fatal("do_compare", "Cast of rhs object failed.")
 
-  return (super.do_compare(rhs, comparer) && data == seq_item.data);
+  return (super.do_compare(rhs, comparer) &&
+          operation == seq_item.operation && addr == seq_item.addr && byteen == seq_item.byteen &&
+          data == seq_item.data && resp == seq_item.resp && burst_len == seq_item.burst_len);
 endfunction : do_compare
 
 function string avalon_mm_seq_item::convert2string();

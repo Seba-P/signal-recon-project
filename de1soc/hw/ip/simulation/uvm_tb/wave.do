@@ -9,9 +9,10 @@ add wave -noupdate -expand -group TB sim:/dut_top/clock
 # add wave -noupdate -expand -group TB sim:/dut_top/curr_lvl
 # add wave -noupdate -expand -group TB sim:/dut_top/duration
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_address
-add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_chipselect
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_byteenable
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_read
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_readdata
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_response
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_write
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_writedata
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_waitrequest
@@ -25,11 +26,13 @@ add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/ready
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reset
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/clock
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_address
-add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_chipselect
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_byteenable
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_read
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_readdata
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_response
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_write
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_writedata
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_waitrequest
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvls_num
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvl_reset_value
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvls_values
