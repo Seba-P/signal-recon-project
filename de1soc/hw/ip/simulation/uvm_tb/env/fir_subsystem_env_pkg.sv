@@ -6,6 +6,7 @@ package fir_subsystem_env_pkg;
 
   import common_share_pkg::*;
   import tb_params_pkg::*;
+  import avalon_mm_agent_pkg::*;
   import avalon_st_agent_pkg::*;
   import test_seqs_pkg::*;
 

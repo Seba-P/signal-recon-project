@@ -37,6 +37,7 @@ task avalon_mm_driver::run_phase(uvm_phase phase);
   begin
     seq_item_port.get_next_item(seq);
 
+    // TODO: add support for slave
     if (seq.operation == WRITE_OP)
       m_vif.write_data(seq);
     else

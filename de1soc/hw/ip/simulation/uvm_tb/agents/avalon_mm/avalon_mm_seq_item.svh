@@ -5,10 +5,12 @@
 class avalon_mm_seq_item #(avalon_mm_inst_spec_t INST_SPEC) extends uvm_sequence_item;
   `uvm_object_param_utils(avalon_mm_seq_item #(INST_SPEC))
 
-  rand operation_e                    operation;
-  rand bit [INST_SPEC.ADDR_WIDTH-1:0] addr;
-  rand bit [INST_SPEC.DATA_WIDTH-1:0] data[$];
-  rand int                            burst_len;
+  rand operation_e                          operation;
+  rand bit       [INST_SPEC.ADDR_WIDTH-1:0] addr[$];
+  rand bit   [(INST_SPEC.DATA_WIDTH/8)-1:0] byteen[$];
+  rand logic     [INST_SPEC.DATA_WIDTH-1:0] data[$];
+  logic                              [ 1:0] resp[$];
+  rand int                                  burst_len;
 
   constraint burst_length
   {
@@ -49,13 +51,16 @@ endfunction : do_compare
 function string avalon_mm_seq_item::convert2string();
   bit [INST_SPEC.DATA_WIDTH-1:0]  data_queue[$];
   bit [INST_SPEC.DATA_WIDTH-1:0]  trans_data;
+  bit [INST_SPEC.ADDR_WIDTH-1:0]  trans_addr;
   string s;
   int i;
 
   data_queue = { data };
+  trans_addr = addr.pop_front(); // TODO: support multi addr transactions
+  addr.push_front(trans_addr);
 
   $sformat(s, "%s operation with %0d transfers @ addr 0x%08h: (radix hex) [ ",
-              operation == READ_OP ? "read" : "write", data_queue.size(), addr);
+              operation == READ_OP ? "read" : "write", data_queue.size(), trans_addr);
   while (data_queue.size())
   begin
     trans_data = data_queue.pop_front();

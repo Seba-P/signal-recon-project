@@ -3,6 +3,9 @@
 ./agents/avalon_st/avalon_st_footprint_if.sv
 ./agents/avalon_st/avalon_st_agent_pkg.sv
 ./agents/avalon_st/avalon_st_if.sv
+./agents/avalon_mm/avalon_mm_footprint_if.sv
+./agents/avalon_mm/avalon_mm_agent_pkg.sv
+./agents/avalon_mm/avalon_mm_if.sv
 ./tb_params_pkg.sv
 # ./vips/avalon_st_vip_pkg.sv -> not supported
 ./sequences/test_seqs_pkg.sv

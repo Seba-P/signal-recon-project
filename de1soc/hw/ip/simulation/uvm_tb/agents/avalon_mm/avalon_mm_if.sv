@@ -15,18 +15,18 @@ interface avalon_mm_if
 
   logic [INST_SPEC.ADDR_WIDTH-1:0] address;
   logic                     [ 3:0] byteenable;
-  // logic                           debugaccess;         -> not supported
+  // logic                            debugaccess;         -> not supported
   logic                            read;
   logic [INST_SPEC.DATA_WIDTH-1:0] readdata;
   logic                     [ 1:0] response;
   logic                            write;
   logic [INST_SPEC.DATA_WIDTH-1:0] writedata;
-  // logic                           lock;                -> not supported
-  // logic                           waitrequest;         -> not supported
-  // logic                           readdatavalid;       -> not supported
-  // logic                           writeresponsevalid;  -> not supported
-  // logic                   [ 10:0] burstcount;          -> not supported
-  // logic                           beginbursttransfer;  -> not supported
+  // logic                            lock;                -> not supported
+  logic                            waitrequest;
+  // logic                            readdatavalid;       -> not supported
+  // logic                            writeresponsevalid;  -> not supported
+  // logic                    [ 10:0] burstcount;          -> not supported
+  // logic                            beginbursttransfer;  -> not supported
 
 
   avalon_mm_footprint_if footprint_if
@@ -45,16 +45,18 @@ generate
     assign response                 = footprint_if.response;
     assign footprint_if.write       = write;
     assign footprint_if.writedata   = writedata;
+    assign waitrequest              = footprint_if.waitrequest;
   end
   else
   begin
-    assign address                = footprint_if.address;
-    assign byteenable             = footprint_if.byteenable;
-    assign read                   = footprint_if.read;
-    assign footprint_if.readdata  = readdata;
-    assign footprint_if.response  = response;
-    assign write                  = footprint_if.write;
-    assign writedata              = footprint_if.writedata;
+    assign address                  = footprint_if.address;
+    assign byteenable               = footprint_if.byteenable;
+    assign read                     = footprint_if.read;
+    assign footprint_if.readdata    = readdata;
+    assign footprint_if.response    = response;
+    assign write                    = footprint_if.write;
+    assign writedata                = footprint_if.writedata;
+    assign footprint_if.waitrequest = waitrequest;
   end
 endgenerate
 
@@ -74,6 +76,7 @@ endgenerate
     begin
       readdata    <= '0;
       response    <= '0;
+      waitrequest <= '0;
     end
   endfunction : clear_bus
 
@@ -83,9 +86,12 @@ endgenerate
     // @(negedge reset);
   endtask : wait_for_reset
 
+  /* Master's handle */
   task write_data(uvm_object rhs);
     avalon_mm_seq_item #(INST_SPEC) seq;
-    bit [INST_SPEC.DATA_WIDTH-1:0]  data_queue[$];
+    bit     [INST_SPEC.ADDR_WIDTH-1:0] addr_queue[$];
+    bit [(INST_SPEC.DATA_WIDTH/8)-1:0] byteen_queue[$];
+    logic   [INST_SPEC.DATA_WIDTH-1:0] data_queue[$];
 
     if (!$cast(seq, rhs))
       `uvm_fatal("write_data", "Cast of rhs object failed.")
@@ -93,49 +99,68 @@ endgenerate
     if (seq.burst_len != seq.data.size())
       `uvm_error("write_data", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!", seq.burst_len, seq.data.size()))
 
-    data_queue = { seq.data };
+    addr_queue    = { seq.addr };
+    byteen_queue  = { seq.byteen };
+    data_queue    = { seq.data };
 
     while (data_queue.size())
     begin
       @(posedge clock);
+
+      address     <= addr_queue.pop_front();
+      write       <= 'd1;
+      writedata   <= data_queue.pop_front();
+      byteenable  <= byteen_queue.pop_front();
+
+      // @(posedge clock);
       @(negedge clock);
 
-      data  <= data_queue.pop_front();
-      valid <= 'd1;
+      if (waitrequest === 'd1)
+        @(negedge waitrequest);
 
-      if (ready !== 'd1)
-        @(posedge ready);
-
-      `uvm_info("write_data", $sformatf("data = 0x%0h", data), UVM_DEBUG)
+      `uvm_info("write_data", $sformatf("writedata = 0x%0h", writedata), UVM_DEBUG)
+      seq.resp.push_back(response); // write burst might get only 1 response
     end
 
     @(posedge clock);
-    valid <= 'd0;
+    write <= 'd0;
+
+    // TODO: response validation
   endtask : write_data
 
+  /* Master's handle */
   task read_data(uvm_object rhs);
     avalon_mm_seq_item #(INST_SPEC) seq;
+    bit     [INST_SPEC.ADDR_WIDTH-1:0] addr_queue[$];
+    bit [(INST_SPEC.DATA_WIDTH/8)-1:0] byteen_queue[$];
 
     if (!$cast(seq, rhs))
       `uvm_fatal("read_data", "Cast of rhs object failed.")
 
-    @(posedge clock);
-    ready <= 'd1;
+    addr_queue    = { seq.addr };
+    byteen_queue  = { seq.byteen };
 
     while (seq.data.size() < seq.burst_len)
     begin
       @(posedge clock);
+
+      address     <= addr_queue.pop_front();
+      read        <= 'd1;
+      byteenable  <= byteen_queue.pop_front();
+
+      // @(posedge clock);
       @(negedge clock);
 
-      if (valid !== 'd1)
-        @(posedge valid);
+      if (waitrequest === 'd1)
+        @(negedge waitrequest);
 
-      `uvm_info("read_data", $sformatf("data = 0x%0h", data), UVM_DEBUG)
-      seq.data.push_back(data);
+      `uvm_info("read_data", $sformatf("readdata = 0x%0h", readdata), UVM_DEBUG)
+      seq.data.push_back(readdata);
+      seq.resp.push_back(response);
     end
 
     @(posedge clock);
-    ready <= 'd0;
+    read <= 'd0;
   endtask : read_data
 
   /******************
@@ -153,7 +178,7 @@ endgenerate
         if (read !== 'd1)
           @(posedge read);
 
-        seq.operation = READ_OP;
+        item.operation = READ_OP;
       end
 
       WRITE_REQ:
@@ -161,36 +186,45 @@ endgenerate
         if (write !== 'd1)
           @(posedge write);
 
-        seq.operation = WRITE_OP;
+        item.operation = WRITE_OP;
       end
     join_any
 
-    case (seq.operation)
+    case (item.operation)
       READ_OP:
       begin
-        // TODO: handle read op
         while (read === 'd1)
         begin
+          @(negedge clock);
+
+          if (waitrequest === 'd1)
+          begin
+            item.addr.push_back(address);
+            item.byteen.push_back(byteenable);
+            item.data.push_back(readdata);
+            item.resp.push_back(response);
+            item.burst_len++;
+          end
         end
       end
 
       WRITE_OP:
       begin
-        // TODO: handle write op
+        while (write === 'd1)
+        begin
+          @(negedge clock);
+
+          if (waitrequest === 'd1)
+          begin
+            item.addr.push_back(address);
+            item.byteen.push_back(byteenable);
+            item.data.push_back(writedata);
+            item.resp.push_back(response); // write burst might get only 1 response
+            item.burst_len++;
+          end
+        end
       end
     endcase
-
-    while (valid === 'd1)
-    begin
-      if (ready === 'd1)
-      begin
-        item.data.push_back(data);
-        item.burst_len++;
-      end
-
-      @(posedge clock);
-      @(negedge clock);
-    end
   endtask : get_transaction
 
 endinterface : avalon_mm_if

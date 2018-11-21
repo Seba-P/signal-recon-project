@@ -15,6 +15,8 @@ class base_test extends uvm_test;
   extern virtual task main_phase(uvm_phase phase);
 
   // Custom methods:
+  extern function void configure_avalon_mm_vip();
+  extern function void override_avalon_mm_vip_config();
   extern function void configure_avalon_st_vip();
   extern function void override_avalon_st_vip_config();
 endclass : base_test
@@ -30,6 +32,7 @@ function void base_test::build_phase(uvm_phase phase);
 
   m_env_cfg.enable_scoreboard = 1;
 
+  configure_avalon_mm_vip();
   configure_avalon_st_vip();
 
   uvm_config_db#(fir_subsystem_env_config)::set(this, "m_env", "m_config", m_env_cfg);
@@ -65,11 +68,54 @@ task base_test::main_phase(uvm_phase phase);
   `uvm_info("TEST", "***** END OF MAIN_PHASE *****", UVM_LOW)
 endtask : main_phase
 
+function void base_test::configure_avalon_mm_vip();
+  avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]) csr_agent_config;
+  avalon_mm_agent_params_t agent_params;
+  int i;
+
+  `uvm_info("TEST", "Configuring Avalon MM VIP...", UVM_LOW)
+
+  // -------------------------------------------------------------------------------------------------------------- //
+  csr_agent_config  = avalon_mm_agent_config#(avalon_mm_inst_specs[CSR])::type_id::create("csr_agent_config");
+  agent_params      = avalon_mm_agent_params[CSR];
+
+  if (!uvm_config_db#(virtual avalon_mm_if #(avalon_mm_inst_specs[CSR]))::get(this, "", $sformatf("%s", agent_params.vif_name),
+                                                                                                          csr_agent_config.vif))
+    `uvm_fatal("CONFIG", $sformatf("Cannot get() '%s' from uvm_config_db. Have you set() it?", agent_params.vif_name))
+
+  if (agent_params.addr_width == 0)
+    `uvm_fatal("CONFIG", $sformatf("Avalon MM agent [%s] has ADDR_WIDTH == '0'! Verify configuration in 'tb_params_pkg.sv'.",
+                agent_params.agent_name));
+
+  if (agent_params.data_width == 0)
+    `uvm_fatal("CONFIG", $sformatf("Avalon MM agent [%s] has DATA_WIDTH == '0'! Verify configuration in 'tb_params_pkg.sv'.",
+                agent_params.agent_name));
+
+  csr_agent_config.addr_width   = agent_params.addr_width;
+  csr_agent_config.data_width   = agent_params.data_width;
+  csr_agent_config.vif_modport  = agent_params.vif_modport;
+  csr_agent_config.agent_name   = agent_params.agent_name;
+  csr_agent_config.is_active    = agent_params.is_active;
+  csr_agent_config.verbosity    = agent_params.verbosity;
+  // -------------------------------------------------------------------------------------------------------------- //
+  m_env_cfg.csr_agent_config    = csr_agent_config;
+
+  override_avalon_mm_vip_config();
+
+  `uvm_info("TEST", $sformatf("\nAvalon MM agent [%s]:\n%s", 
+                              m_env_cfg.csr_agent_config.agent_name, m_env_cfg.csr_agent_config.convert2string()), UVM_LOW)
+
+  `uvm_info("TEST", "... DONE!", UVM_LOW)
+endfunction : configure_avalon_mm_vip
+
+function void base_test::override_avalon_mm_vip_config();
+  // override some default settings here
+endfunction : override_avalon_mm_vip_config
+
 function void base_test::configure_avalon_st_vip();
   avalon_st_agent_config #(avalon_st_inst_specs[MM2ST]) mm2st_agent_config;
   avalon_st_agent_config #(avalon_st_inst_specs[ST2MM]) st2mm_agent_config;
-  avalon_st_agent_params_t  agent_params;
-  // string agent_name;
+  avalon_st_agent_params_t agent_params;
   int i;
 
   `uvm_info("TEST", "Configuring Avalon ST VIP...", UVM_LOW)
@@ -117,9 +163,9 @@ function void base_test::configure_avalon_st_vip();
   override_avalon_st_vip_config();
 
   `uvm_info("TEST", $sformatf("\nAvalon ST agent [%s]:\n%s", 
-                              m_env_cfg.st2mm_agent_config.agent_name, m_env_cfg.st2mm_agent_config.convert2string()), UVM_LOW)
-  `uvm_info("TEST", $sformatf("\nAvalon ST agent [%s]:\n%s", 
                               m_env_cfg.mm2st_agent_config.agent_name, m_env_cfg.mm2st_agent_config.convert2string()), UVM_LOW)
+  `uvm_info("TEST", $sformatf("\nAvalon ST agent [%s]:\n%s", 
+                              m_env_cfg.st2mm_agent_config.agent_name, m_env_cfg.st2mm_agent_config.convert2string()), UVM_LOW)
 
   `uvm_info("TEST", "... DONE!", UVM_LOW)
 endfunction : configure_avalon_st_vip

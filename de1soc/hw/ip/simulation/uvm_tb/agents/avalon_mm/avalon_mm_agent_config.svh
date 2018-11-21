@@ -26,7 +26,7 @@ endfunction : new
 
 function string avalon_mm_agent_config::convert2string();
   return $sformatf("%s\naddr_width  = %0d;\ndata_width  = %0d;\nvif_modport = %s;\nagent_name  = \"%s\";\nis_active   = %s;\nverbosity   = %0d;",
-                  super.convert2string(), addr_width, vif_modport.name(), agent_name, is_active, verbosity);
+                  super.convert2string(), addr_width, data_width, vif_modport.name(), agent_name, is_active, verbosity);
 endfunction : convert2string
 
 `endif // _AVALON_MM_AGENT_CONFIG_SVH_

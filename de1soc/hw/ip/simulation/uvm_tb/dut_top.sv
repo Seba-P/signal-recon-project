@@ -14,6 +14,12 @@ module dut_top();
   logic reset;
   logic clock;
 
+  avalon_mm_if #(avalon_mm_inst_specs[CSR]) csr_if
+  (
+    .reset  (reset),
+    .clock  (clock)
+  );
+
   avalon_st_if #(avalon_st_inst_specs[MM2ST]) mm2st_if
   (
     .reset  (reset),
@@ -32,12 +38,23 @@ module dut_top();
     .clock  (clock)
   );
 
-  /* Disable for now */
-  assign m_dut_if.csr_address           = '0;
-  assign m_dut_if.csr_chipselect        = '0;
-  assign m_dut_if.csr_read              = '0;
-  assign m_dut_if.csr_write             = '0;
-  assign m_dut_if.csr_writedata         = '0;
+  // /* Disable for now */
+  // assign m_dut_if.csr_address           = '0;
+  // assign m_dut_if.csr_chipselect        = '0;
+  // assign m_dut_if.csr_read              = '0;
+  // assign m_dut_if.csr_write             = '0;
+  // assign m_dut_if.csr_writedata         = '0;
+
+  assign csr_if.footprint_if.response     = '0;
+  assign csr_if.footprint_if.waitrequest  = '0;
+  assign m_dut_if.csr_chipselect          = '1;
+
+  assign m_dut_if.csr_address           = csr_if.footprint_if.address;
+  // assign m_dut_if.csr_chipselect        = csr_if.footprint_if.chipselect;
+  assign m_dut_if.csr_read              = csr_if.footprint_if.read;
+  assign csr_if.footprint_if.readdata   = m_dut_if.csr_readdata;
+  assign m_dut_if.csr_write             = csr_if.footprint_if.write;
+  assign m_dut_if.csr_writedata         = csr_if.footprint_if.writedata;
 
   assign m_dut_if.mm2st_data            = mm2st_if.footprint_if.data;
   assign m_dut_if.mm2st_valid           = mm2st_if.footprint_if.valid;
@@ -73,6 +90,7 @@ module dut_top();
 
   initial
   begin
+    uvm_config_db#(virtual avalon_mm_if #(avalon_mm_inst_specs[CSR]))::set(null, "uvm_test_top", "csr_if", csr_if);
     uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[MM2ST]))::set(null, "uvm_test_top", "mm2st_if", mm2st_if);
     uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[ST2MM]))::set(null, "uvm_test_top", "st2mm_if", st2mm_if);
 
