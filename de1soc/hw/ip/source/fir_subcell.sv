@@ -1,13 +1,8 @@
 
 module fir_subcell
 #(
-  parameter FIR_TAPS_NUM        = 63,
-  parameter MAX_SAMPLES_IN_RAM  = 63,
-  parameter LVLS_NUM            = 20,
-  parameter LVL_RESET_VALUE     = 9,
-  parameter ITER_NUM            = 1,
-  parameter SUBCELL_NUM         = 0,
-  parameter USE_COMB_LOGIC      = 0
+  parameter FIR_TAPS_NUM    = 63,
+  parameter SUBCELL_NUM     = 0
 )
 (
   /* Common IF */
@@ -37,12 +32,12 @@ localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
 localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
 localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
-reg                        init_stage_0_r;
-reg                        init_stage_1_r;
-reg                        init_stage_2_r;
-reg                        init_stage_3_r;
-reg                        init_stage_4_r;
-reg                        init_stage_done_r;
+reg         init_stage_0_r;
+reg         init_stage_1_r;
+reg         init_stage_2_r;
+reg         init_stage_3_r;
+reg         init_stage_4_r;
+reg         init_stage_done_r;
 
 reg         valid_signal_fifo_r;
 reg         valid_signal_limiter_r;
@@ -187,11 +182,7 @@ limits_fifo limits_fifo
   .usedw  (fifo_fill_count)
 );
 
-hard_limiter
-#(
-  .USE_COMB_LOGIC (USE_COMB_LOGIC)
-)
-hard_limiter
+hard_limiter hard_limiter
 (
   .reset              (reset | iter_init),
   .clock              (clock),

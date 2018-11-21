@@ -33,13 +33,9 @@ reg  [ 4:0] lvl_reset_value_r;
 
 reg  [ 4:0] curr_lvl_r;
 reg  [ 4:0] next_lvl_r;
-// wire [15:0] lvls_step;
 reg  [15:0] lvls_step_r;
-// wire [15:0] lvl_value;
 reg  [15:0] lvl_value_r;
-reg  [15:0] curr_lower_limit_r;
 reg  [15:0] lower_limit_r;
-reg  [15:0] curr_upper_limit_r;
 reg  [15:0] upper_limit_r;
 reg  [0:31][15:0] lvls_values_r;
 reg         overflow_r;

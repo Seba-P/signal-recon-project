@@ -8,15 +8,37 @@ add wave -noupdate -expand -group TB sim:/dut_top/clock
 # add wave -noupdate -expand -group TB sim:/dut_top/sample
 # add wave -noupdate -expand -group TB sim:/dut_top/curr_lvl
 # add wave -noupdate -expand -group TB sim:/dut_top/duration
-add wave -noupdate -expand -group TB/MM2ST_IF sim:/dut_top/mm2st_if/data
-add wave -noupdate -expand -group TB/MM2ST_IF sim:/dut_top/mm2st_if/valid
-add wave -noupdate -expand -group TB/MM2ST_IF sim:/dut_top/mm2st_if/ready
-add wave -noupdate -expand -group TB/ST2MM_IF sim:/dut_top/st2mm_if/data
-add wave -noupdate -expand -group TB/ST2MM_IF sim:/dut_top/st2mm_if/valid
-add wave -noupdate -expand -group TB/ST2MM_IF sim:/dut_top/st2mm_if/ready
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_address
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_chipselect
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_read
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_readdata
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_write
+add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_writedata
+add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/data
+add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/valid
+add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/ready
+add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/data
+add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/valid
+add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/ready
+
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reset
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/clock
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_address
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_chipselect
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_read
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_readdata
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_write
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/csr_writedata
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvls_num
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvl_reset_value
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_lvls_values
+add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reg_iter_num
 
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reset
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/clock
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reg_lvls_num
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reg_lvl_reset_value
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reg_lvls_values
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/in_data
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/in_valid
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/in_ready
@@ -30,13 +52,14 @@ add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_c
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/sample_dispatcher/lvl_duration_cnt_r
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/curr_lvl_r
 add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/next_lvl_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/curr_upper_limit_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/next_upper_limit_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/curr_lower_limit_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/next_lower_limit_r
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/overflow_r
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/underflow_r
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/upper_limit_r
+add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/lvl_generator/lower_limit_r
 
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/reset
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/clock
+add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/reg_iter_num
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_init
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_valid
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_ready

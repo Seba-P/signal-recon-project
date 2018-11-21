@@ -9,6 +9,8 @@ module iteration_ctrl
   /* Common IF */
   input  wire                       reset,                  //      reset.reset
   input  wire                       clock,                  //      clock.clk
+  /* Register file IF */
+  input  wire                [ 3:0] reg_iter_num,           //        reg.iter_num
   /* Sample2lvl converter IF */
   output wire                       sample2lvl_init,        // sample2lvl.new_signal
   input  wire                       sample2lvl_valid,       //           .new_signal_1
@@ -71,9 +73,9 @@ assign outctrl_iter_num       = outctrl_iter_num_r;
 
 assign pipeline_stall       = !(&subcells_ready & outctrl_ready);
 
-assign fir_taps_num_r       = FIR_TAPS_NUM;
-assign max_samples_in_ram_r = MAX_SAMPLES_IN_RAM;
-assign iter_num_r           = ITER_NUM;
+// assign fir_taps_num_r       = FIR_TAPS_NUM;
+// assign max_samples_in_ram_r = MAX_SAMPLES_IN_RAM;
+// assign iter_num_r           = ITER_NUM;
 
 always_ff @(posedge clock)
 begin
@@ -84,9 +86,10 @@ begin
   end
   else
   begin
-    // fir_taps_num_r        <= FIR_TAPS_NUM;
-    // max_samples_in_ram_r  <= MAX_SAMPLES_IN_RAM;
+    fir_taps_num_r        <= FIR_TAPS_NUM;
+    max_samples_in_ram_r  <= MAX_SAMPLES_IN_RAM;
     // iter_num_r            <= ITER_NUM;
+    iter_num_r            <= reg_iter_num;
 
     fir_taps_head_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1] + fir_taps_num_r[0];
     fir_taps_tail_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1];

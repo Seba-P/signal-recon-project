@@ -6,22 +6,26 @@ module sample2lvl_converter
 )
 (
   /* Common IF */
-  input  wire        reset,             //      reset.reset
-  input  wire        clock,             //      clock.clk
+  input  wire              reset,               //      reset.reset
+  input  wire              clock,               //      clock.clk
+  /* Register file IF */
+  input  wire       [ 4:0] reg_lvls_num,        //        reg.lvls_num
+  input  wire       [ 4:0] reg_lvl_reset_value, //           .lvl_reset_value
+  input  wire [0:31][15:0] reg_lvls_values,     //           .lvls_values
   /* SGDMA IF */
-  input  wire [15:0] in_data,           //         in.data
-  input  wire        in_valid,          //           .valid
-  output wire        in_ready,          //           .ready
+  input  wire       [15:0] in_data,             //         in.data
+  input  wire              in_valid,            //           .valid
+  output wire              in_ready,            //           .ready
   /* Iteration controller IF */
-  input  wire        iter_init,         //       iter.new_signal
-  output wire        iter_valid,        //           .new_signal_1
-  input  wire        iter_ready,        //           .new_signal_2
+  input  wire              iter_init,           //       iter.new_signal
+  output wire              iter_valid,          //           .new_signal_1
+  input  wire              iter_ready,          //           .new_signal_2
   /* Output lvl IF */
-  output wire [15:0] out_lvl_data,      //    out_lvl.data
-  output wire        out_lvl_valid,     //           .valid
+  output wire       [15:0] out_lvl_data,        //    out_lvl.data
+  output wire              out_lvl_valid,       //           .valid
   /* Output limits IF */
-  output wire [31:0] out_limits_data,   // out_limits.data
-  output wire        out_limits_valid   //           .valid
+  output wire       [31:0] out_limits_data,     // out_limits.data
+  output wire              out_limits_valid     //           .valid
 );
 
 wire lvl_gen_cross_dir;

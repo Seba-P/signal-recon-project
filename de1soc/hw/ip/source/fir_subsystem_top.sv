@@ -5,8 +5,7 @@ module fir_subsystem_top
   parameter MAX_SAMPLES_IN_RAM  = 63,
   parameter LVLS_NUM            = 20,
   parameter LVL_RESET_VALUE     = 9,
-  parameter ITER_NUM            = 1,
-  parameter USE_COMB_LOGIC      = 0
+  parameter ITER_NUM            = 1
 )
 (
   /* Common IF */
@@ -85,23 +84,26 @@ register_file
 
 sample2lvl_converter
 #(
-  .LVLS_NUM        (LVLS_NUM),
-  .LVL_RESET_VALUE (LVL_RESET_VALUE)
+  .LVLS_NUM         (LVLS_NUM),
+  .LVL_RESET_VALUE  (LVL_RESET_VALUE)
 )
 sample2lvl_converter
 (
-  .reset            (reset),                            //      reset.reset
-  .clock            (clock),                            //      clock.clk
-  .in_data          (mm2st_data),                       //         in.data
-  .in_valid         (mm2st_valid),                      //           .valid
-  .in_ready         (mm2st_ready),                      //           .ready
-  .out_lvl_data     (sample2lvl_subcells_lvl_data),     //    out_lvl.data
-  .out_lvl_valid    (sample2lvl_subcells_lvl_valid),    //           .valid
-  .out_limits_data  (sample2lvl_subcells_limits_data),  // out_limits.data
-  .out_limits_valid (sample2lvl_subcells_limits_valid), //           .valid
-  .iter_init        (sample2lvl_iter_init),             //       iter.new_signal
-  .iter_valid       (sample2lvl_iter_valid),            //           .new_signal_1
-  .iter_ready       (sample2lvl_iter_ready)             //           .new_signal_2
+  .reset                (reset),                            //      reset.reset
+  .clock                (clock),                            //      clock.clk
+  .reg_lvls_num         (reg_lvls_num),                     //        reg.lvls_num
+  .reg_lvl_reset_value  (reg_lvl_reset_value),              //           .lvl_reset_value
+  .reg_lvls_values      (reg_lvls_values),                  //           .lvls_values
+  .in_data              (mm2st_data),                       //         in.data
+  .in_valid             (mm2st_valid),                      //           .valid
+  .in_ready             (mm2st_ready),                      //           .ready
+  .out_lvl_data         (sample2lvl_subcells_lvl_data),     //    out_lvl.data
+  .out_lvl_valid        (sample2lvl_subcells_lvl_valid),    //           .valid
+  .out_limits_data      (sample2lvl_subcells_limits_data),  // out_limits.data
+  .out_limits_valid     (sample2lvl_subcells_limits_valid), //           .valid
+  .iter_init            (sample2lvl_iter_init),             //       iter.new_signal
+  .iter_valid           (sample2lvl_iter_valid),            //           .new_signal_1
+  .iter_ready           (sample2lvl_iter_ready)             //           .new_signal_2
 );
 
 iteration_ctrl
@@ -114,6 +116,7 @@ iteration_ctrl
 (
   .reset                  (reset),                        //      reset.reset
   .clock                  (clock),                        //      clock.clk
+  .reg_iter_num           (reg_iter_num),                 //        reg.iter_num
   .sample2lvl_init        (sample2lvl_iter_init),         // sample2lvl.new_signal
   .sample2lvl_valid       (sample2lvl_iter_valid),        //           .new_signal_1
   .sample2lvl_ready       (sample2lvl_iter_ready),        //           .new_signal_2
@@ -172,13 +175,8 @@ generate
 
     fir_subcell
     #(
-      .FIR_TAPS_NUM       (FIR_TAPS_NUM),
-      .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
-      .LVLS_NUM           (LVLS_NUM),
-      .LVL_RESET_VALUE    (LVL_RESET_VALUE),
-      .ITER_NUM           (ITER_NUM),
-      .SUBCELL_NUM        (ITER),
-      .USE_COMB_LOGIC     (USE_COMB_LOGIC)
+      .FIR_TAPS_NUM   (FIR_TAPS_NUM),
+      .SUBCELL_NUM    (ITER)
     )
     fir_subcell
     (
@@ -206,8 +204,7 @@ endgenerate
 
 output_ctrl
 #(
-  .ITER_NUM       (ITER_NUM),
-  .USE_COMB_LOGIC (USE_COMB_LOGIC)
+  .ITER_NUM (ITER_NUM)
 )
 output_ctrl
 (

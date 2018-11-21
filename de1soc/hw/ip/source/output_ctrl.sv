@@ -1,8 +1,7 @@
 
 module output_ctrl
 #(
-  parameter ITER_NUM        = 1,
-  parameter USE_COMB_LOGIC  = 0
+  parameter ITER_NUM = 1
 )
 (
   /* Common IF */
@@ -22,62 +21,26 @@ module output_ctrl
   input  wire                       out_ready       //      .ready
 );
 
-generate
-  if(USE_COMB_LOGIC == 0)
+reg  [15:0] out_data_r;
+reg         out_valid_r; // is next pipeline stage needed?
+
+assign iter_ready = out_ready;
+assign in_ready   = { ITER_NUM{ out_ready & iter_enable } }; // ?
+assign out_data   = out_data_r;
+assign out_valid  = out_valid_r;
+
+always_ff @(posedge clock)
+begin
+  if(reset)
   begin
-    reg  [15:0] out_data_r;
-    reg         out_valid_r; // is next pipeline stage needed?
-
-    assign iter_ready = out_ready;
-    assign in_ready   = { ITER_NUM{ out_ready & iter_enable } }; // ?
-    assign out_data   = out_data_r;
-    assign out_valid  = out_valid_r;
-
-    always_ff @(posedge clock)
-    begin
-      if(reset)
-      begin
-        out_data_r  <= '0;
-        out_valid_r <= '0;
-      end
-      else
-      begin
-        out_data_r  <= in_data[iter_iter_num];
-        out_valid_r <= in_valid[iter_iter_num] & iter_enable;
-      end
-    end
+    out_data_r  <= '0;
+    out_valid_r <= '0;
   end
   else
   begin
-    assign iter_ready = out_ready;
-    assign in_ready   = ~reset & { ITER_NUM{ out_ready & iter_enable } }; // ?
-    assign out_data   = ~reset & in_data[iter_iter_num];
-    assign out_valid  = ~reset & in_valid[iter_iter_num] & iter_enable;
-
-    /*
-    reg  [15:0] out_data_r;
-    reg         out_valid_r;
-
-    assign iter_ready = out_ready;
-    assign in_ready   = { ITER_NUM{ out_ready & iter_enable } }; // ?
-    assign out_data   = out_data_r;
-    assign out_valid  = out_valid_r;
-
-    always_comb
-    begin
-      if(reset)
-      begin
-        out_data_r   = '0;
-        out_valid_r  = '0;
-      end
-      else
-      begin
-        out_data_r   = in_data[iter_iter_num];
-        out_valid_r  = in_valid[iter_iter_num] & iter_enable;
-      end
-    end
-    */
+    out_data_r  <= in_data[iter_iter_num];
+    out_valid_r <= in_valid[iter_iter_num] & iter_enable;
   end
-endgenerate
+end
 
 endmodule
