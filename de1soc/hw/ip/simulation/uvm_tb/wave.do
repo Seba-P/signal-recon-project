@@ -93,6 +93,8 @@ add wave -noupdate -group ITERATION_CTRL -expand -group OUTCTRL_IF sim:/dut_top/
 add wave -noupdate -group ITERATION_CTRL -group __INTERNALS__ sim:/dut_top/DUT/DUT/iteration_ctrl/iter_start_r
 add wave -noupdate -group ITERATION_CTRL -group __INTERNALS__ sim:/dut_top/DUT/DUT/iteration_ctrl/iter_symbol_cnt_r
 add wave -noupdate -group ITERATION_CTRL -group __INTERNALS__ sim:/dut_top/DUT/DUT/iteration_ctrl/iter_valid_signal_r
+add wave -noupdate -group ITERATION_CTRL -group __INTERNALS__ sim:/dut_top/DUT/DUT/iteration_ctrl/pipeline_stall
+add wave -noupdate -group ITERATION_CTRL -group __INTERNALS__ sim:/dut_top/DUT/DUT/iteration_ctrl/is_active_r
 
 add wave -noupdate -group FIR_SUBCELL_0 -expand -group FIR_FILTER {sim:/dut_top/DUT/DUT/_FOR_ITER[0]/fir_subcell/fir_filter/*}
 add wave -noupdate -group FIR_SUBCELL_0 -expand -group LIMITS_FIFO {sim:/dut_top/DUT/DUT/_FOR_ITER[0]/fir_subcell/limits_fifo/*}

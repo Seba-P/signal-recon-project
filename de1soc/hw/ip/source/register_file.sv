@@ -45,15 +45,24 @@ reg        [ 1:0] csr_response_r;
 
 csr_reg_block_t   csr_reg_block;
 
+reg               control_run_pulse_r;
+reg               control_run_pulse_d1_r;
+reg               control_halt_pulse_r;
+reg               control_halt_pulse_d1_r;
+reg               control_flush_pulse_r;
+reg               control_flush_pulse_d1_r;
+reg               control_init_pulse_r;
+reg               control_init_pulse_d1_r;
+
 assign csr_readdata           = csr_readdata_r;
 assign csr_response           = csr_response_r;
 // assign csr_waitrequest        = csr_waitrequest_r;
 assign csr_waitrequest        = csr_read & ~csr_read_r;
 
-assign reg_control_run        = csr_reg_block.control.run;
-assign reg_control_halt       = csr_reg_block.control.halt;
-assign reg_control_flush      = csr_reg_block.control.flush;
-assign reg_control_init       = csr_reg_block.control.init;
+assign reg_control_run        = control_run_pulse_r & ~control_run_pulse_d1_r;
+assign reg_control_halt       = control_halt_pulse_r & ~control_halt_pulse_d1_r;
+assign reg_control_flush      = control_flush_pulse_r & ~control_flush_pulse_d1_r;
+assign reg_control_init       = control_init_pulse_r & ~control_init_pulse_d1_r;
 assign reg_params_lvls_num    = csr_reg_block.params.lvls_num;
 assign reg_params_init_lvl    = csr_reg_block.params.init_lvl;
 assign reg_params_iter_num    = csr_reg_block.params.iter_num;
@@ -93,6 +102,34 @@ assign reg_lvl_val_xx_yy[31]  = csr_reg_block.lvl_val_30_31.lvl_val_31;
 always_ff @(posedge clock)
 begin
   csr_read_r <= csr_read;
+end
+
+always_ff @(posedge clock)
+begin
+  if (reset)
+  begin
+    control_run_pulse_r       <= '0;
+    control_halt_pulse_r      <= '0;
+    control_flush_pulse_r     <= '0;
+    control_init_pulse_r      <= '0;
+
+    control_run_pulse_d1_r    <= '0;
+    control_halt_pulse_d1_r   <= '0;
+    control_flush_pulse_d1_r  <= '0;
+    control_init_pulse_d1_r   <= '0;
+  end
+  else
+  begin
+    control_run_pulse_r       <= (csr_write && (csr_address == CSR_REG_BLOCK_CONTROL_OFFSET) && (csr_writedata[CSR_CONTROL_RUN_OFFSET] == 'd1));
+    control_halt_pulse_r      <= (csr_write && (csr_address == CSR_REG_BLOCK_CONTROL_OFFSET) && (csr_writedata[CSR_CONTROL_HALT_OFFSET] == 'd1));
+    control_flush_pulse_r     <= (csr_write && (csr_address == CSR_REG_BLOCK_CONTROL_OFFSET) && (csr_writedata[CSR_CONTROL_FLUSH_OFFSET] == 'd1));
+    control_init_pulse_r      <= (csr_write && (csr_address == CSR_REG_BLOCK_CONTROL_OFFSET) && (csr_writedata[CSR_CONTROL_INIT_OFFSET] == 'd1));
+    
+    control_run_pulse_d1_r    <= control_run_pulse_r;
+    control_halt_pulse_d1_r   <= control_halt_pulse_r;
+    control_flush_pulse_d1_r  <= control_flush_pulse_r;
+    control_init_pulse_d1_r   <= control_init_pulse_r;
+  end
 end
 
 always_ff @(posedge clock)

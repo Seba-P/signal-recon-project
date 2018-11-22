@@ -268,6 +268,20 @@ task csr_init_config_seq::body();
 
   start_item(seq);
 
+  csr_reg_block.control = '{ /*_reserved*/'0, /*init*/'1, /*flush*/'0, /*halt*/'0, /*run*/'0 };
+  seq.clear();
+  seq.operation = WRITE_OP;
+  seq.addr.push_back(CSR_REG_BLOCK_CONTROL_START);
+  seq.byteen.push_back('1);
+  seq.data.push_back(32'(csr_reg_block.control));
+  seq.burst_len = 1;
+
+  finish_item(seq);
+
+  #5;
+
+  start_item(seq);
+
   csr_reg_block.control = '{ /*_reserved*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'1 };
   seq.clear();
   seq.operation = WRITE_OP;
