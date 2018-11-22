@@ -30,10 +30,18 @@ module fir_subsystem_top
   input  wire        st2mm_ready      //      .ready
 );
 
-wire                [ 4:0] reg_lvls_num;
-wire                [ 4:0] reg_lvl_reset_value;
-wire          [0:31][15:0] reg_lvls_values;
-wire                [ 3:0] reg_iter_num;
+wire                       reg_status_busy;
+wire                       reg_status_ready;
+wire                       reg_status_error;
+wire                       reg_status_fifo_err;
+wire                       reg_control_run;
+wire                       reg_control_halt;
+wire                       reg_control_flush;
+wire                       reg_control_init;
+wire                [ 4:0] reg_params_lvls_num;
+wire                [ 4:0] reg_params_init_lvl;
+wire                [ 3:0] reg_params_iter_num;
+wire          [0:31][15:0] reg_lvl_val_xx_yy;
 wire                       sample2lvl_subcells_lvl_valid;
 reg                        sample2lvl_subcells_lvl_valid_d1;
 wire                [15:0] sample2lvl_subcells_lvl_data;
@@ -70,20 +78,28 @@ register_file
 )
 register_file
 (
-  .reset                (reset),                // reset.reset
-  .clock                (clock),                // clock.clk
-  .csr_address          (csr_address),          //   csr.address
-  .csr_byteenable       (csr_byteenable),       //      .byteenable
-  .csr_read             (csr_read),             //      .read
-  .csr_readdata         (csr_readdata),         //      .readdata
-  .csr_response         (csr_response),         //      .response
-  .csr_write            (csr_write),            //      .write
-  .csr_writedata        (csr_writedata),        //      .writedata
-  .csr_waitrequest      (csr_waitrequest),      //      .waitrequest
-  .reg_lvls_num         (reg_lvls_num),         //   reg.lvls_num
-  .reg_lvl_reset_value  (reg_lvl_reset_value),  //      .lvl_reset_value
-  .reg_lvls_values      (reg_lvls_values),      //      .lvls_values
-  .reg_iter_num         (reg_iter_num)          //      .iter_num
+  .reset                (reset),                //             reset.reset
+  .clock                (clock),                //             clock.clk
+  .csr_address          (csr_address),          //               csr.address
+  .csr_byteenable       (csr_byteenable),       //                  .byteenable
+  .csr_read             (csr_read),             //                  .read
+  .csr_readdata         (csr_readdata),         //                  .readdata
+  .csr_response         (csr_response),         //                  .response
+  .csr_write            (csr_write),            //                  .write
+  .csr_writedata        (csr_writedata),        //                  .writedata
+  .csr_waitrequest      (csr_waitrequest),      //                  .waitrequest
+  .reg_status_busy      (reg_status_busy),      //        reg_status.busy
+  .reg_status_ready     (reg_status_ready),     //                  .ready
+  .reg_status_error     (reg_status_error),     //                  .error
+  .reg_status_fifo_err  (reg_status_fifo_err),  //                  .fifo_err
+  .reg_control_run      (reg_control_run),      //       reg_control.run
+  .reg_control_halt     (reg_control_halt),     //                  .halt
+  .reg_control_flush    (reg_control_flush),    //                  .flush
+  .reg_control_init     (reg_control_init),     //                  .init
+  .reg_params_lvls_num  (reg_params_lvls_num),  //        reg_params.lvls_num
+  .reg_params_init_lvl  (reg_params_init_lvl),  //                  .init_lvl
+  .reg_params_iter_num  (reg_params_iter_num),  //                  .iter_num
+  .reg_lvl_val_xx_yy    (reg_lvl_val_xx_yy)     // reg_lvl_val_xx_yy.lvls_values
 );
 
 sample2lvl_converter
@@ -95,9 +111,9 @@ sample2lvl_converter
 (
   .reset                (reset),                            //      reset.reset
   .clock                (clock),                            //      clock.clk
-  .reg_lvls_num         (reg_lvls_num),                     //        reg.lvls_num
-  .reg_lvl_reset_value  (reg_lvl_reset_value),              //           .lvl_reset_value
-  .reg_lvls_values      (reg_lvls_values),                  //           .lvls_values
+  .params_lvls_num      (reg_params_lvls_num),              //     params.lvls_num
+  .params_init_lvl      (reg_params_init_lvl),              //           .init_lvl
+  .params_lvls_values   (reg_lvl_val_xx_yy),                //           .lvls_values
   .in_data              (mm2st_data),                       //         in.data
   .in_valid             (mm2st_valid),                      //           .valid
   .in_ready             (mm2st_ready),                      //           .ready
@@ -120,7 +136,15 @@ iteration_ctrl
 (
   .reset                  (reset),                        //      reset.reset
   .clock                  (clock),                        //      clock.clk
-  .reg_iter_num           (reg_iter_num),                 //        reg.iter_num
+  .regfile_busy           (reg_status_busy),              //    regfile.busy
+  .regfile_ready          (reg_status_ready),             //           .ready
+  .regfile_error          (reg_status_error),             //           .error
+  .regfile_fifo_err       (reg_status_fifo_err),          //           .fifo_err
+  .regfile_run            (reg_control_run),              //           .run
+  .regfile_halt           (reg_control_halt),             //           .halt
+  .regfile_flush          (reg_control_flush),            //           .flush
+  .regfile_init           (reg_control_init),             //           .init
+  .regfile_iter_num       (reg_params_iter_num),          //           .iter_num
   .sample2lvl_init        (sample2lvl_iter_init),         // sample2lvl.new_signal
   .sample2lvl_valid       (sample2lvl_iter_valid),        //           .new_signal_1
   .sample2lvl_ready       (sample2lvl_iter_ready),        //           .new_signal_2

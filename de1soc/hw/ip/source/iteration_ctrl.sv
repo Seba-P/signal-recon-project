@@ -10,7 +10,15 @@ module iteration_ctrl
   input  wire                       reset,                  //      reset.reset
   input  wire                       clock,                  //      clock.clk
   /* Register file IF */
-  input  wire                [ 3:0] reg_iter_num,           //        reg.iter_num
+  output wire                       regfile_busy,           //    regfile.busy
+  output wire                       regfile_ready,          //           .ready
+  output wire                       regfile_error,          //           .error
+  output wire                       regfile_fifo_err,       //           .fifo_err
+  input  wire                       regfile_run,            //           .run
+  input  wire                       regfile_halt,           //           .halt
+  input  wire                       regfile_flush,          //           .flush
+  input  wire                       regfile_init,           //           .init
+  input  wire                [ 3:0] regfile_iter_num,       //           .iter_num
   /* Sample2lvl converter IF */
   output wire                       sample2lvl_init,        // sample2lvl.new_signal
   input  wire                       sample2lvl_valid,       //           .new_signal_1
@@ -32,6 +40,11 @@ localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
 localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
 localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
+
+reg                        regfile_busy_r;
+reg                        regfile_ready_r;
+reg                        regfile_error_r;
+reg                        regfile_fifo_err_r;
 reg                        sample2lvl_init_r;
 reg                        sample2lvl_valid_r;
 reg                        sample2lvl_ready_r;
@@ -61,6 +74,10 @@ reg                           [ITER_NUM-0:0] iter_valid_signal_del_r;
 wire                          [ITER_NUM-0:0] valid_signal;
 wire                                         pipeline_stall;
 
+assign regfile_busy           = regfile_busy_r;
+assign regfile_ready          = regfile_ready_r;
+assign regfile_error          = regfile_error_r;
+assign regfile_fifo_err       = regfile_fifo_err_r;
 assign sample2lvl_init        = sample2lvl_init_r;
 assign sample2lvl_ready       = sample2lvl_ready_r;
 assign subcells_init          = subcells_init_r;
@@ -75,23 +92,23 @@ assign outctrl_iter_num       = outctrl_iter_num_r;
 
 assign pipeline_stall       = !(&subcells_ready & outctrl_ready);
 
-// assign fir_taps_num_r       = FIR_TAPS_NUM;
-// assign max_samples_in_ram_r = MAX_SAMPLES_IN_RAM;
-// assign iter_num_r           = ITER_NUM;
-
 always_ff @(posedge clock)
 begin
   if(reset)
   begin
-    // fir_taps_head_r <= '0;
-    // fir_taps_tail_r <= '0;
+    regfile_busy_r      <= '0;
+    regfile_ready_r     <= '0;
+    regfile_error_r     <= '0;
+    regfile_fifo_err_r  <= '0;
+
+    // fir_taps_head_r      <= '0;
+    // fir_taps_tail_r      <= '0;
   end
   else
   begin
     fir_taps_num_r        <= FIR_TAPS_NUM;
     max_samples_in_ram_r  <= MAX_SAMPLES_IN_RAM;
-    // iter_num_r            <= ITER_NUM;
-    iter_num_r            <= reg_iter_num;
+    iter_num_r            <= regfile_iter_num;
 
     fir_taps_head_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1] + fir_taps_num_r[0];
     fir_taps_tail_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1];

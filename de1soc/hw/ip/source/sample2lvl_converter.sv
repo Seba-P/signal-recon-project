@@ -8,10 +8,10 @@ module sample2lvl_converter
   /* Common IF */
   input  wire              reset,               //      reset.reset
   input  wire              clock,               //      clock.clk
-  /* Register file IF */
-  input  wire       [ 4:0] reg_lvls_num,        //        reg.lvls_num
-  input  wire       [ 4:0] reg_lvl_reset_value, //           .lvl_reset_value
-  input  wire [0:31][15:0] reg_lvls_values,     //           .lvls_values
+  /* Parameters IF */
+  input  wire       [ 4:0] params_lvls_num,     //     params.lvls_num
+  input  wire       [ 4:0] params_init_lvl,     //           .init_lvl
+  input  wire [0:31][15:0] params_lvls_values,  //           .lvls_values
   /* SGDMA IF */
   input  wire       [15:0] in_data,             //         in.data
   input  wire              in_valid,            //           .valid
@@ -62,20 +62,20 @@ lvl_generator
 lvl_generator
 (
   /* Common IF */
-  .reset                (reset | iter_init),
-  .clock                (clock),
+  .reset              (reset | iter_init),
+  .clock              (clock),
   /* Register file IF */
-  .reg_lvls_num         (reg_lvls_num),
-  .reg_lvl_reset_value  (reg_lvl_reset_value),
-  .reg_lvls_values      (reg_lvls_values),
+  .params_lvls_num    (params_lvls_num),
+  .params_init_lvl    (params_init_lvl),
+  .params_lvls_values (params_lvls_values),
   /* Sample dispatcher IF */
-  .disp_cross_dir       (lvl_gen_cross_dir),
-  .disp_new_sample      (lvl_gen_new_sample),
-  .disp_valid           (lvl_gen_valid),
+  .disp_cross_dir     (lvl_gen_cross_dir),
+  .disp_new_sample    (lvl_gen_new_sample),
+  .disp_valid         (lvl_gen_valid),
   /* Buffer controlers IF */
-  .buff_value           (out_lvl_data),
-  .buff_limits          (out_limits_data),
-  .buff_valid           (out_valid)
+  .buff_value         (out_lvl_data),
+  .buff_limits        (out_limits_data),
+  .buff_valid         (out_valid)
 );
 
 endmodule
