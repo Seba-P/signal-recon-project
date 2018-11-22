@@ -29,7 +29,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -43,7 +43,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -56,7 +56,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -69,7 +69,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -82,7 +82,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -95,7 +95,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -108,7 +108,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -121,7 +121,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -134,7 +134,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -147,7 +147,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -160,7 +160,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -173,7 +173,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -186,7 +186,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -199,7 +199,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -212,7 +212,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -225,7 +225,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -238,7 +238,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -251,7 +251,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -264,7 +264,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
 
   start_item(seq);
 
@@ -278,7 +278,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #5;
+  #15;
 
   start_item(seq);
 
@@ -292,7 +292,7 @@ task csr_init_config_seq::body();
 
   finish_item(seq);
 
-  #2;
+  #5;
   `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ ENDS ***", UVM_LOW)
 endtask : body
 

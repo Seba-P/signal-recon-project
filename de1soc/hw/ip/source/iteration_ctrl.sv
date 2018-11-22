@@ -101,22 +101,22 @@ assign pipeline_stall       = !(&subcells_ready & outctrl_ready);
 /* Internal parameters */
 always_ff @(posedge clock)
 begin
-  if (reset)
+  fir_taps_num_r        <= FIR_TAPS_NUM;
+  max_samples_in_ram_r  <= MAX_SAMPLES_IN_RAM;
+
+  fir_taps_head_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1] + fir_taps_num_r[0];
+  fir_taps_tail_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1];
+end
+
+/* Run/halt feature */
+always_ff @(posedge clock)
+begin
+  if (reset | regfile_init)
   begin
-    fir_taps_num_r        <= '0;
-    max_samples_in_ram_r  <= '0;
-    fir_taps_head_r       <= '0;
-    fir_taps_tail_r       <= '0;
     is_active_r           <= '0;
   end
   else
   begin
-    fir_taps_num_r        <= FIR_TAPS_NUM;
-    max_samples_in_ram_r  <= MAX_SAMPLES_IN_RAM;
-
-    fir_taps_head_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1] + fir_taps_num_r[0];
-    fir_taps_tail_r       <= fir_taps_num_r[$bits(FIR_TAPS_NUM)-1:1];
-
     if (regfile_run)
       is_active_r <= 'd1;
     else if (regfile_halt)
@@ -156,15 +156,15 @@ end
 /* Sample2lvl converter IF */
 always_ff @(posedge clock)
 begin
-  if (reset)
+  if (reset | regfile_init)
   begin
     sample2lvl_init_r   <= '1;
     sample2lvl_ready_r  <= '0;
   end
   else
   begin
-    // sample2lvl_init_r   <= '0;
-    sample2lvl_init_r   <= regfile_init;
+    sample2lvl_init_r   <= '0;
+    // sample2lvl_init_r   <= regfile_init;
     // sample2lvl_ready_r  <= !pipeline_stall;
     sample2lvl_ready_r  <= !pipeline_stall && is_active_r;
   end
@@ -184,7 +184,7 @@ generate
     /* Iteration control */
     always_ff @(posedge clock)
     begin
-      if (reset)
+      if (reset | regfile_init)
       begin
         iter_start_r[ITER+1]        <= '0;
         iter_symbol_cnt_r[ITER+1]   <= '0;
@@ -205,7 +205,7 @@ generate
     /* FIR subcells IF */
     always_ff @(posedge clock)
     begin
-      if (reset)
+      if (reset | regfile_init)
       begin
         subcells_init_r[ITER]           <= '1;
         subcells_input_enable_r[ITER]   <= '0;
@@ -214,8 +214,8 @@ generate
       end
       else
       begin
-        // subcells_init_r[ITER]           <= 'd0;
-        subcells_init_r[ITER]           <= regfile_init;
+        subcells_init_r[ITER]           <= 'd0;
+        // subcells_init_r[ITER]           <= regfile_init;
         subcells_input_enable_r[ITER]   <= 'd1;
         subcells_output_enable_r[ITER]  <= 'd1;
         subcells_new_limits_r[ITER]     <= !pipeline_stall & sample2lvl_valid;
@@ -227,7 +227,7 @@ endgenerate
 /* Output controller IF */
 always_ff @(posedge clock)
 begin
-  if (reset)
+  if (reset | regfile_init)
   begin
     outctrl_enable_r    <= '0;
     outctrl_enable_d1_r <= '0;

@@ -139,6 +139,7 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
   avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) cloned_item;
   logic [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] received_value;
   int burst_len;
+  int value_num;
 
   `uvm_info("SCOREBOARD", $sformatf("Received st2mm_seq_item: %s", item.convert2string()), UVM_HIGH)
 
@@ -150,13 +151,15 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
                                             cloned_item.burst_len, cloned_item.data.size()))
 
   burst_len = cloned_item.data.size();
+  value_num = received_count;
 
   while (cloned_item.data.size())
   begin
     received_value = cloned_item.data.pop_front();
     database.received_value.push_back(received_value);
 
-    `uvm_info("SCOREBOARD", $sformatf("Pushing received value to database (radix hex): %04h", received_value), UVM_HIGH)
+    `uvm_info("SCOREBOARD", $sformatf("Pushing received value #%0d to database (radix hex): %04h", value_num, received_value), UVM_HIGH)
+    value_num++;
   end
 
   received_count += burst_len;
@@ -245,17 +248,20 @@ task fir_subsystem_scoreboard::verify_limits();
     /* Compare results */
     if ($signed(received_value) > $signed(upper_limit))
     begin
-      `uvm_error("SCOREBOARD", $sformatf("Received value (%04h) is above upper limit (%04h)!", received_value, upper_limit))
+      `uvm_error("SCOREBOARD", $sformatf("Received value #%0d (%04h) is above upper limit (%04h)!",
+                                            database.total_num, received_value, upper_limit))
       database.errors_num++;
     end
     else if ($signed(received_value) < $signed(lower_limit))
     begin
-      `uvm_error("SCOREBOARD", $sformatf("Received value (%04h) is below lower limit (%04h)!", received_value, lower_limit))
+      `uvm_error("SCOREBOARD", $sformatf("Received value #%0d (%04h) is below lower limit (%04h)!",
+                                            database.total_num, received_value, lower_limit))
       database.errors_num++;
     end
     else
     begin
-      `uvm_info("SCOREBOARD", $sformatf("Received value (%04h) is inbound (%04h/%04h)", received_value, upper_limit, lower_limit), UVM_HIGH)
+      `uvm_info("SCOREBOARD", $sformatf("Received value #%0d (%04h) is inbound (%04h/%04h)",
+                                            database.total_num, received_value, upper_limit, lower_limit), UVM_HIGH)
     end
 
     database.total_num++;

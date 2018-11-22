@@ -80,7 +80,7 @@ end
 
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if(reset | iter_init)
   begin
     init_stage_0_r    <= 'd1;
     init_stage_1_r    <= 'd0;
@@ -112,7 +112,7 @@ end
   delay_valid_signal_fifo \
   ( \
     .clock    (clock), \
-    .reset    (reset), \
+    .reset    (reset | iter_init), \
     .in_data  (iter_valid_signal), \
     .out_data (valid_signal_fifo_r) \
   );
@@ -149,7 +149,7 @@ delay
 delay_limiter_input
 (
   .clock    (clock),
-  .reset    (reset),
+  .reset    (reset | iter_init),
   .in_data  ({ valid_signal_fifo_r, fir_out_data, fir_out_valid }),
   .out_data ({ valid_signal_limiter_r, fir_data_limiter_r, fir_valid_limiter_r })
 );

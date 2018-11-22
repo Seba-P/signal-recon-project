@@ -19,6 +19,8 @@ endfunction : new
 task base_st2mm_seq::body();
   st2mm_seq_item seq = st2mm_seq_item::type_id::create("seq");
 
+  #10;
+
   `uvm_info("BASE_ST2MM_SEQ", "*** BASE_ST2MM_SEQ STARTS ***", UVM_LOW)
   start_item(seq);
 
