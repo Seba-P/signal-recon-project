@@ -6,7 +6,7 @@ package register_model_pkg;
 
   import common_share_pkg::*;
   import register_file_defs_pkg::*;
-  import tb_params_pkg::*;
+  // import tb_params_pkg::*;
 
   `include "csr_reg_block_config.svh"
 
