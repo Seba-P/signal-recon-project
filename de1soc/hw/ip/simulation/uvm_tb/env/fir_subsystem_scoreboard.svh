@@ -14,8 +14,8 @@ class fir_subsystem_scoreboard extends uvm_scoreboard;
   uvm_analysis_imp_st2mm #(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]), fir_subsystem_scoreboard) m_st2mm_ap;
 
   scoreboard_database #(avalon_st_inst_specs[ST2MM])  database;
-  bit [$bits(LVLS_NUM-1)-1:0]                         curr_lvl;
-  bit [$bits(LVLS_NUM-1)-1:0]                         next_lvl;
+  bit [$bits(MAX_LVLS_NUM-1)-1:0]                     curr_lvl;
+  bit [$bits(MAX_LVLS_NUM-1)-1:0]                     next_lvl;
 
   semaphore mm2st_data_count_sem;
   semaphore mm2st_queue_lock_sem;
@@ -53,14 +53,14 @@ function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
   m_st2mm_ap  = new("m_st2mm_ap", this);
 
   database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
-  curr_lvl  = LVL_RESET_VALUE;
-  next_lvl  = LVL_RESET_VALUE;
+  curr_lvl  = INIT_LVL;
+  next_lvl  = INIT_LVL;
 
   expected_count = 0;
   received_count = 0;
 
   `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current level      = %0d;\n    Upper/lower limit  = %04h/%04h",
-                                      curr_lvl, lvls_values[LVL_RESET_VALUE+1], lvls_values[LVL_RESET_VALUE]), UVM_HIGH)
+                                      curr_lvl, lvls_values[INIT_LVL+1], lvls_values[INIT_LVL]), UVM_HIGH)
 endfunction : build_phase
 
 task fir_subsystem_scoreboard::main_phase(uvm_phase phase);
@@ -204,8 +204,8 @@ task fir_subsystem_scoreboard::verify_limits();
   int initial_limits_count;
 
   /* Store initial lvls */
-  upper_limit = lvls_values[LVL_RESET_VALUE+1];
-  lower_limit = lvls_values[LVL_RESET_VALUE];
+  upper_limit = lvls_values[INIT_LVL+1];
+  lower_limit = lvls_values[INIT_LVL];
 
   // initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM;
   initial_limits_count = $floor(FIR_TAPS_NUM/2.0) * ITER_NUM;
@@ -218,7 +218,7 @@ task fir_subsystem_scoreboard::verify_limits();
   
     `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
                                         initial_limits_count, upper_limit, lower_limit,
-                                        $sformatf("%0d/%0d", LVL_RESET_VALUE+1, LVL_RESET_VALUE)),
+                                        $sformatf("%0d/%0d", INIT_LVL+1, INIT_LVL)),
                                       UVM_HIGH)
   end
   mm2st_queue_lock_sem.put(1);

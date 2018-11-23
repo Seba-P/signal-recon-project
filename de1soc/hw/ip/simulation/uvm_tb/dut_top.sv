@@ -63,9 +63,8 @@ module dut_top();
   #(
     .FIR_TAPS_NUM       (FIR_TAPS_NUM),
     .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
-    .LVLS_NUM           (LVLS_NUM),
-    .LVL_RESET_VALUE    (LVL_RESET_VALUE),
-    .ITER_NUM           (ITER_NUM)
+    .MAX_LVLS_NUM       (MAX_LVLS_NUM),
+    .MAX_ITER_NUM       (MAX_ITER_NUM)
   )
   DUT
   (

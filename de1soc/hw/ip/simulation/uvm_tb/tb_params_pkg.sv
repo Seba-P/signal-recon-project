@@ -80,7 +80,7 @@ package tb_params_pkg;
   '{
     /*status*/  '{ /*_reserved*/'0, /*fifo_err*/'0, /*_reserved2*/'0, /*error*/'0, /*ready*/'0, /*busy*/'0 }, // read-only, discard
     /*control*/ '{ /*_reserved*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'0 },
-    /*params*/  '{ /*_reserved*/'0, /*iter_num*/ITER_NUM, /*_reserved2*/'0, /*init_lvl*/LVL_RESET_VALUE, /*_reserved3*/'0, /*lvls_num*/LVLS_NUM },
+    /*params*/  '{ /*_reserved*/'0, /*iter_num*/ITER_NUM, /*_reserved2*/'0, /*init_lvl*/INIT_LVL, /*_reserved3*/'0, /*lvls_num*/LVLS_NUM },
     /*lvl_val_00_01*/ '{ /*lvl_val_00*/'h8666, /*lvl_val_01*/'h9333 },
     /*lvl_val_02_03*/ '{ /*lvl_val_02*/'h9FFF, /*lvl_val_03*/'hACCC },
     /*lvl_val_04_05*/ '{ /*lvl_val_04*/'hB999, /*lvl_val_05*/'hC666 },

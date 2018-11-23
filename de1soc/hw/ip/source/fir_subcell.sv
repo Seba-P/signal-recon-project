@@ -1,8 +1,8 @@
 
 module fir_subcell
 #(
-  parameter FIR_TAPS_NUM    = 63,
-  parameter SUBCELL_NUM     = 0
+  parameter FIR_TAPS_NUM  = 63,
+  parameter SUBCELL_NUM   = 0
 )
 (
   /* Common IF */
@@ -28,9 +28,11 @@ module fir_subcell
   input  wire        out_signal_ready     //           .ready
 );
 
-localparam [$bits(FIR_TAPS_NUM)-1:0] FIR_FILTER_DELAY   = 'd6;
-localparam [$bits(FIR_TAPS_NUM)-1:0] LIMITS_FIFO_DELAY  = 'd1;
-localparam [$bits(FIR_TAPS_NUM)-1:0] HARD_LIMITER_DELAY = 'd3; // ?
+localparam FIR_TAPS_NUM_BITS = $clog2(FIR_TAPS_NUM);
+
+localparam [FIR_TAPS_NUM_BITS-1:0] FIR_FILTER_DELAY   = 'd6;
+localparam [FIR_TAPS_NUM_BITS-1:0] LIMITS_FIFO_DELAY  = 'd1;
+localparam [FIR_TAPS_NUM_BITS-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
 reg         init_stage_0_r;
 reg         init_stage_1_r;

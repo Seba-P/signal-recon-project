@@ -3,9 +3,8 @@ module fir_subsystem_top
 #(
   parameter FIR_TAPS_NUM        = 63,
   parameter MAX_SAMPLES_IN_RAM  = 63,
-  parameter LVLS_NUM            = 20,
-  parameter LVL_RESET_VALUE     = 9,
-  parameter ITER_NUM            = 1
+  parameter MAX_LVLS_NUM        = 32,
+  parameter MAX_ITER_NUM        = 1
 )
 (
   /* Common IF */
@@ -30,51 +29,59 @@ module fir_subsystem_top
   input  wire        st2mm_ready      //      .ready
 );
 
-wire                       reg_status_busy;
-wire                       reg_status_ready;
-wire                       reg_status_error;
-wire                       reg_status_fifo_err;
-wire                       reg_control_run;
-wire                       reg_control_halt;
-wire                       reg_control_flush;
-wire                       reg_control_init;
-wire                [ 4:0] reg_params_lvls_num;
-wire                [ 4:0] reg_params_init_lvl;
-wire                [ 3:0] reg_params_iter_num;
-wire          [0:31][15:0] reg_lvl_val_xx_yy;
-wire                       sample2lvl_subcells_lvl_valid;
-reg                        sample2lvl_subcells_lvl_valid_d1;
-wire                [15:0] sample2lvl_subcells_lvl_data;
-reg                 [15:0] sample2lvl_subcells_lvl_data_d1;
-wire                       sample2lvl_subcells_limits_valid;
-reg                        sample2lvl_subcells_limits_valid_d1;
-wire                [31:0] sample2lvl_subcells_limits_data;
-reg                 [31:0] sample2lvl_subcells_limits_data_d1;
-wire                       sample2lvl_iter_init;
-wire                       sample2lvl_iter_valid;
-wire                       sample2lvl_iter_ready;
-wire  [ITER_NUM-1:0]       iter_subcells_init;
-wire  [ITER_NUM-1:0]       iter_subcells_new_limits;
-wire  [ITER_NUM-1:0]       iter_subcells_valid_signal;
-wire  [ITER_NUM-1:0]       iter_subcells_input_enable;
-wire  [ITER_NUM-1:0]       iter_subcells_output_enable;
-wire  [ITER_NUM-1:0]       iter_subcells_ready;
-wire  [ITER_NUM-1:0][15:0] subcells_outctrl_data;
-wire  [ITER_NUM-1:0]       subcells_outctrl_valid;
-wire  [ITER_NUM-1:0]       subcells_outctrl_ready;
-wire  [ITER_NUM-0:0][15:0] subcells_subcells_data;
-wire  [ITER_NUM-0:0]       subcells_subcells_valid;
-wire  [ITER_NUM-0:0]       subcells_subcells_ready;
-wire  [ITER_NUM-0:0]       subcells_outsignal_ready;
-wire                       iter_outctrl_enable;
-wire [$bits(ITER_NUM)-1:0] iter_outctrl_iter_num;
-wire                       iter_outctrl_ready;
+localparam FIR_TAPS_NUM_BITS        = $clog2(FIR_TAPS_NUM);
+localparam MAX_SAMPLES_IN_RAM_BITS  = $clog2(MAX_SAMPLES_IN_RAM);
+localparam MAX_LVLS_NUM_BITS        = $clog2(MAX_LVLS_NUM);
+localparam MAX_ITER_NUM_BITS        = $clog2(MAX_ITER_NUM);
+
+wire                           reg_status_busy;
+wire                           reg_status_ready;
+wire                           reg_status_error;
+wire                           reg_status_fifo_err;
+wire                           reg_control_run;
+wire                           reg_control_halt;
+wire                           reg_control_flush;
+wire                           reg_control_init;
+// wire [$clog2(MAX_LVLS_NUM)-1:0] reg_params_lvls_num;
+wire                    [ 4:0] reg_params_lvls_num;
+// wire [$clog2(MAX_LVLS_NUM)-1:0] reg_params_init_lvl;
+wire                    [ 4:0] reg_params_init_lvl;
+// wire [$clog2(MAX_ITER_NUM)-1:0] reg_params_iter_num;
+wire                    [ 3:0] reg_params_iter_num;
+// wire  [0:MAX_LVLS_NUM-1][15:0] reg_lvl_val_xx_yy;
+wire              [0:31][15:0] reg_lvl_val_xx_yy;
+wire                           sample2lvl_subcells_lvl_valid;
+reg                            sample2lvl_subcells_lvl_valid_d1;
+wire                    [15:0] sample2lvl_subcells_lvl_data;
+reg                     [15:0] sample2lvl_subcells_lvl_data_d1;
+wire                           sample2lvl_subcells_limits_valid;
+reg                            sample2lvl_subcells_limits_valid_d1;
+wire                    [31:0] sample2lvl_subcells_limits_data;
+reg                     [31:0] sample2lvl_subcells_limits_data_d1;
+wire                           sample2lvl_iter_init;
+wire                           sample2lvl_iter_valid;
+wire                           sample2lvl_iter_ready;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_init;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_new_limits;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_valid_signal;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_input_enable;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_output_enable;
+wire  [MAX_ITER_NUM-1:0]       iter_subcells_ready;
+wire  [MAX_ITER_NUM-1:0][15:0] subcells_outctrl_data;
+wire  [MAX_ITER_NUM-1:0]       subcells_outctrl_valid;
+wire  [MAX_ITER_NUM-1:0]       subcells_outctrl_ready;
+wire  [MAX_ITER_NUM-0:0][15:0] subcells_subcells_data;
+wire  [MAX_ITER_NUM-0:0]       subcells_subcells_valid;
+wire  [MAX_ITER_NUM-0:0]       subcells_subcells_ready;
+wire  [MAX_ITER_NUM-0:0]       subcells_outsignal_ready;
+wire                           iter_outctrl_enable;
+wire   [MAX_ITER_NUM_BITS-1:0] iter_outctrl_iter_num;
+wire                           iter_outctrl_ready;
 
 register_file
 #(
-  .LVLS_NUM         (LVLS_NUM),
-  .LVL_RESET_VALUE  (LVL_RESET_VALUE),
-  .ITER_NUM         (ITER_NUM)
+  .MAX_LVLS_NUM (MAX_LVLS_NUM),
+  .MAX_ITER_NUM (MAX_ITER_NUM)
 )
 register_file
 (
@@ -104,8 +111,7 @@ register_file
 
 sample2lvl_converter
 #(
-  .LVLS_NUM         (LVLS_NUM),
-  .LVL_RESET_VALUE  (LVL_RESET_VALUE)
+  .MAX_LVLS_NUM (MAX_LVLS_NUM)
 )
 sample2lvl_converter
 (
@@ -130,7 +136,7 @@ iteration_ctrl
 #(
   .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
-  .ITER_NUM           (ITER_NUM)
+  .MAX_ITER_NUM       (MAX_ITER_NUM)
 )
 iteration_ctrl
 (
@@ -172,25 +178,21 @@ delay_sample2lvl
 (
   .clock    (clock),
   .reset    (reset),
-  // .in_data  (valid_signal_fifo_r),
   .in_data  ({  sample2lvl_subcells_lvl_valid, sample2lvl_subcells_lvl_data,
                 sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data }),
-  // .out_data (valid_signal_limiter_r)
   .out_data ({  sample2lvl_subcells_lvl_valid_d1, sample2lvl_subcells_lvl_data_d1,
                 sample2lvl_subcells_limits_valid_d1, sample2lvl_subcells_limits_data_d1 })
 );
 
 genvar ITER;
 generate
-  assign subcells_subcells_ready[ITER_NUM] = '1;
+  assign subcells_subcells_ready[MAX_ITER_NUM] = '1;
 
-  for(ITER = 0; ITER < ITER_NUM; ITER++)
+  for(ITER = 0; ITER < MAX_ITER_NUM; ITER++)
   begin : _FOR_ITER
     if(ITER == 0)
     begin
-      // assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data;
       assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data_d1;
-      // assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid;
       assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid_d1;
       assign subcells_outsignal_ready[ITER] = subcells_outctrl_ready[ITER] & subcells_subcells_ready[ITER+1];
     end
@@ -203,36 +205,34 @@ generate
 
     fir_subcell
     #(
-      .FIR_TAPS_NUM   (FIR_TAPS_NUM),
-      .SUBCELL_NUM    (ITER)
+      .FIR_TAPS_NUM (FIR_TAPS_NUM),
+      .SUBCELL_NUM  (ITER)
     )
     fir_subcell
     (
-      .reset              (reset),                              //      reset.reset
-      .clock              (clock),                              //      clock.clk
-      .iter_init          (iter_subcells_init[ITER]),           //       iter.new_signal
-      .iter_new_limits    (iter_subcells_new_limits[ITER]),     //           .new_signal_1
-      .iter_valid_signal  (iter_subcells_valid_signal[ITER]),   //           .new_signal_2
-      .iter_input_enable  (iter_subcells_input_enable[ITER]),   //           .new_signal_3
-      .iter_output_enable (iter_subcells_output_enable[ITER]),  //           .new_signal_4
-      .iter_ready         (iter_subcells_ready[ITER]),          //           .new_signal_5
-      // .in_limits_data     (sample2lvl_subcells_limits_data),    //  in_limits.data
-      .in_limits_data     (sample2lvl_subcells_limits_data_d1),    //  in_limits.data
-      // .in_limits_valid    (sample2lvl_subcells_limits_valid),   //           .valid
-      .in_limits_valid    (sample2lvl_subcells_limits_valid_d1),   //           .valid
-      .in_signal_data     (subcells_subcells_data[ITER]),       //  in_signal.data
-      .in_signal_valid    (subcells_subcells_valid[ITER]),      //           .valid
-      .in_signal_ready    (subcells_subcells_ready[ITER]),      //           .ready
-      .out_signal_data    (subcells_outctrl_data[ITER]),        // out_signal.data
-      .out_signal_valid   (subcells_outctrl_valid[ITER]),       //           .valid
-      .out_signal_ready   (subcells_outsignal_ready[ITER])      //           .ready
+      .reset              (reset),                                //      reset.reset
+      .clock              (clock),                                //      clock.clk
+      .iter_init          (iter_subcells_init[ITER]),             //       iter.new_signal
+      .iter_new_limits    (iter_subcells_new_limits[ITER]),       //           .new_signal_1
+      .iter_valid_signal  (iter_subcells_valid_signal[ITER]),     //           .new_signal_2
+      .iter_input_enable  (iter_subcells_input_enable[ITER]),     //           .new_signal_3
+      .iter_output_enable (iter_subcells_output_enable[ITER]),    //           .new_signal_4
+      .iter_ready         (iter_subcells_ready[ITER]),            //           .new_signal_5
+      .in_limits_data     (sample2lvl_subcells_limits_data_d1),   //  in_limits.data
+      .in_limits_valid    (sample2lvl_subcells_limits_valid_d1),  //           .valid
+      .in_signal_data     (subcells_subcells_data[ITER]),         //  in_signal.data
+      .in_signal_valid    (subcells_subcells_valid[ITER]),        //           .valid
+      .in_signal_ready    (subcells_subcells_ready[ITER]),        //           .ready
+      .out_signal_data    (subcells_outctrl_data[ITER]),          // out_signal.data
+      .out_signal_valid   (subcells_outctrl_valid[ITER]),         //           .valid
+      .out_signal_ready   (subcells_outsignal_ready[ITER])        //           .ready
     );
   end
 endgenerate
 
 output_ctrl
 #(
-  .ITER_NUM (ITER_NUM)
+  .MAX_ITER_NUM (MAX_ITER_NUM)
 )
 output_ctrl
 (

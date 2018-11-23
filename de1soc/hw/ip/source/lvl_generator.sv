@@ -1,49 +1,50 @@
 
 module lvl_generator
 #(
-  parameter LVLS_NUM        = 20,
-  parameter LVL_RESET_VALUE = 9
+  parameter MAX_LVLS_NUM = 32
 )
 (
   /* Common IF */
-  input  wire              reset,
-  input  wire              clock,
+  input  wire                            reset,
+  input  wire                            clock,
   /* Register file IF */
-  input  wire       [ 4:0] params_lvls_num,
-  input  wire       [ 4:0] params_init_lvl,
-  input  wire [0:31][15:0] params_lvls_values,
+  input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_lvls_num,
+  input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_init_lvl,
+  input  wire   [0:MAX_LVLS_NUM-1][15:0] params_lvls_values,
   /* Sample dispatcher IF */
-  input  wire              disp_cross_dir,   // 1 -> upward, 0 -> downward
-  input  wire              disp_new_sample,
-  input  wire              disp_valid,
+  input  wire                            disp_cross_dir,   // 1 -> upward, 0 -> downward
+  input  wire                            disp_new_sample,
+  input  wire                            disp_valid,
   /* Buffer controlers IF */
-  output wire       [15:0] buff_value,
-  output wire       [31:0] buff_limits,   // [31:16] -> upper limit, [15:0] -> lower limit
-  output wire              buff_valid
+  output wire                     [15:0] buff_value,
+  output wire                     [31:0] buff_limits,   // [31:16] -> upper limit, [15:0] -> lower limit
+  output wire                            buff_valid
 );
+
+localparam MAX_LVLS_NUM_BITS = $clog2(MAX_LVLS_NUM);
 
 localparam LVL_UP   = 1'b1;
 localparam LVL_DOWN = 1'b0;
 
-reg        [15:0] buff_value_r;
-reg        [31:0] buff_limits_r;
-reg               buff_valid_r;
-reg               buff_valid_d1_r;
-reg               buff_valid_d2_r;
-reg               buff_valid_d3_r;
+reg                    [15:0] buff_value_r;
+reg                    [31:0] buff_limits_r;
+reg                           buff_valid_r;
+reg                           buff_valid_d1_r;
+reg                           buff_valid_d2_r;
+reg                           buff_valid_d3_r;
 
-reg        [ 4:0] lvls_num_r;
-reg        [ 4:0] init_lvl_r;
-reg  [0:31][15:0] lvls_values_r;
+reg   [MAX_LVLS_NUM_BITS-1:0] lvls_num_r;
+reg   [MAX_LVLS_NUM_BITS-1:0] init_lvl_r;
+reg  [0:MAX_LVLS_NUM-1][15:0] lvls_values_r;
 
-reg        [ 4:0] curr_lvl_r;
-reg        [ 4:0] next_lvl_r;
-reg        [15:0] lvls_step_r;
-reg        [15:0] lvl_value_r;
-reg        [15:0] lower_limit_r;
-reg        [15:0] upper_limit_r;
-reg               overflow_r;
-reg               underflow_r;
+reg   [MAX_LVLS_NUM_BITS-1:0] curr_lvl_r;
+reg   [MAX_LVLS_NUM_BITS-1:0] next_lvl_r;
+reg                    [15:0] lvls_step_r;
+reg                    [15:0] lvl_value_r;
+reg                    [15:0] lower_limit_r;
+reg                    [15:0] upper_limit_r;
+reg                           overflow_r;
+reg                           underflow_r;
 
 assign buff_value   = buff_value_r;
 assign buff_limits  = buff_limits_r;
@@ -57,7 +58,7 @@ end
 
 genvar LVL;
 generate
-  for (LVL = 0; LVL < 32; LVL++)
+  for (LVL = 0; LVL < MAX_LVLS_NUM; LVL++)
   begin : _FOR_LVLS_VALUES
     always_ff @(posedge clock)
       lvls_values_r[LVL] <= params_lvls_values[LVL];
@@ -88,7 +89,7 @@ begin
         if (!overflow_r)
           next_lvl_r <= next_lvl_r + !underflow_r;
 
-        overflow_r  <= (next_lvl_r >= LVLS_NUM - 'd2);
+        overflow_r  <= (next_lvl_r >= lvls_num_r - 'd2);
         underflow_r <= 'd0;
       end
       else

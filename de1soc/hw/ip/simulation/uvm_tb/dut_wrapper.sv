@@ -23,9 +23,8 @@ module dut_wrapper
 #(
   parameter FIR_TAPS_NUM        = 63,
   parameter MAX_SAMPLES_IN_RAM  = 63,
-  parameter LVLS_NUM            = 20,
-  parameter LVL_RESET_VALUE     = 9,
-  parameter ITER_NUM            = 1
+  parameter MAX_LVLS_NUM        = 32,
+  parameter MAX_ITER_NUM        = 1
 )
 (
   dut_if m_dut_if
@@ -35,9 +34,8 @@ fir_subsystem_top
 #(
   .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
-  .LVLS_NUM           (LVLS_NUM),
-  .LVL_RESET_VALUE    (LVL_RESET_VALUE),
-  .ITER_NUM           (ITER_NUM)
+  .MAX_LVLS_NUM       (MAX_LVLS_NUM),
+  .MAX_ITER_NUM       (MAX_ITER_NUM)
 )
 DUT
 (

@@ -3,8 +3,11 @@ package common_share_pkg;
 
   localparam FIR_TAPS_NUM       = 63;
   localparam MAX_SAMPLES_IN_RAM = 63;
+  localparam MAX_LVLS_NUM       = 32;
+  localparam MAX_ITER_NUM       = 3;
+
   localparam LVLS_NUM           = 20;
-  localparam LVL_RESET_VALUE    = 9;
+  localparam INIT_LVL           = 9;
   localparam ITER_NUM           = 3;
 
   typedef enum bit

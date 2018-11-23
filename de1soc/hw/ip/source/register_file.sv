@@ -1,9 +1,10 @@
 
 module register_file
 #(
-  parameter LVLS_NUM        = 20,
-  parameter LVL_RESET_VALUE = 9,
-  parameter ITER_NUM        = 1
+  parameter MAX_LVLS_NUM  = 32,
+  parameter LVLS_NUM_BITS = 5,
+  parameter MAX_ITER_NUM  = 1,
+  parameter ITER_NUM_BITS = 1
 )
 (
   /* Common IF */
@@ -155,7 +156,6 @@ begin
 
         CSR_REG_BLOCK_CONTROL_OFFSET:
         begin
-
           csr_readdata_r  <= 'd0;
           csr_response_r  <= 'd2; // write-only register, issue SLAVEERR response
         end

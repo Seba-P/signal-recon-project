@@ -1,32 +1,33 @@
 
 module sample2lvl_converter
 #(
-  parameter LVLS_NUM        = 20,
-  parameter LVL_RESET_VALUE = 9
+  parameter MAX_LVLS_NUM = 32
 )
 (
   /* Common IF */
-  input  wire              reset,               //      reset.reset
-  input  wire              clock,               //      clock.clk
+  input  wire                            reset,               //      reset.reset
+  input  wire                            clock,               //      clock.clk
   /* Parameters IF */
-  input  wire       [ 4:0] params_lvls_num,     //     params.lvls_num
-  input  wire       [ 4:0] params_init_lvl,     //           .init_lvl
-  input  wire [0:31][15:0] params_lvls_values,  //           .lvls_values
+  input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_lvls_num,     //     params.lvls_num
+  input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_init_lvl,     //           .init_lvl
+  input  wire   [0:MAX_LVLS_NUM-1][15:0] params_lvls_values,  //           .lvls_values
   /* SGDMA IF */
-  input  wire       [15:0] in_data,             //         in.data
-  input  wire              in_valid,            //           .valid
-  output wire              in_ready,            //           .ready
+  input  wire                     [15:0] in_data,             //         in.data
+  input  wire                            in_valid,            //           .valid
+  output wire                            in_ready,            //           .ready
   /* Iteration controller IF */
-  input  wire              iter_init,           //       iter.new_signal
-  output wire              iter_valid,          //           .new_signal_1
-  input  wire              iter_ready,          //           .new_signal_2
+  input  wire                            iter_init,           //       iter.new_signal
+  output wire                            iter_valid,          //           .new_signal_1
+  input  wire                            iter_ready,          //           .new_signal_2
   /* Output lvl IF */
-  output wire       [15:0] out_lvl_data,        //    out_lvl.data
-  output wire              out_lvl_valid,       //           .valid
+  output wire                     [15:0] out_lvl_data,        //    out_lvl.data
+  output wire                            out_lvl_valid,       //           .valid
   /* Output limits IF */
-  output wire       [31:0] out_limits_data,     // out_limits.data
-  output wire              out_limits_valid     //           .valid
+  output wire                     [31:0] out_limits_data,     // out_limits.data
+  output wire                            out_limits_valid     //           .valid
 );
+
+localparam MAX_LVLS_NUM_BITS = $clog2(MAX_LVLS_NUM);
 
 wire lvl_gen_cross_dir;
 wire lvl_gen_new_sample;
@@ -56,8 +57,7 @@ sample_dispatcher sample_dispatcher
 
 lvl_generator
 #(
-  .LVLS_NUM         (LVLS_NUM),
-  .LVL_RESET_VALUE  (LVL_RESET_VALUE)
+  .MAX_LVLS_NUM (MAX_LVLS_NUM)
 )
 lvl_generator
 (
