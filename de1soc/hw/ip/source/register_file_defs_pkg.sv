@@ -167,8 +167,8 @@ parameter CSR_LVL_VAL_03_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_04;
-  reg [15: 0] lvl_val_05;
+  reg [31:16] lvl_val_05;
+  reg [15: 0] lvl_val_04;
 } lvl_val_04_05_reg_t;
 
 parameter CSR_LVL_VAL_04_SIZE       = 16;
@@ -190,8 +190,8 @@ parameter CSR_LVL_VAL_05_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_06;
-  reg [15: 0] lvl_val_07;
+  reg [31:16] lvl_val_07;
+  reg [15: 0] lvl_val_06;
 } lvl_val_06_07_reg_t;
 
 parameter CSR_LVL_VAL_06_SIZE       = 16;
@@ -213,8 +213,8 @@ parameter CSR_LVL_VAL_07_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_08;
-  reg [15: 0] lvl_val_09;
+  reg [31:16] lvl_val_09;
+  reg [15: 0] lvl_val_08;
 } lvl_val_08_09_reg_t;
 
 parameter CSR_LVL_VAL_08_SIZE       = 16;
@@ -236,8 +236,8 @@ parameter CSR_LVL_VAL_09_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_10;
-  reg [15: 0] lvl_val_11;
+  reg [31:16] lvl_val_11;
+  reg [15: 0] lvl_val_10;
 } lvl_val_10_11_reg_t;
 
 parameter CSR_LVL_VAL_10_SIZE       = 16;
@@ -259,8 +259,8 @@ parameter CSR_LVL_VAL_11_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_12;
-  reg [15: 0] lvl_val_13;
+  reg [31:16] lvl_val_13;
+  reg [15: 0] lvl_val_12;
 } lvl_val_12_13_reg_t;
 
 parameter CSR_LVL_VAL_12_SIZE       = 16;
@@ -282,8 +282,8 @@ parameter CSR_LVL_VAL_13_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_14;
-  reg [15: 0] lvl_val_15;
+  reg [31:16] lvl_val_15;
+  reg [15: 0] lvl_val_14;
 } lvl_val_14_15_reg_t;
 
 parameter CSR_LVL_VAL_14_SIZE       = 16;
@@ -305,8 +305,8 @@ parameter CSR_LVL_VAL_15_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_16;
-  reg [15: 0] lvl_val_17;
+  reg [31:16] lvl_val_17;
+  reg [15: 0] lvl_val_16;
 } lvl_val_16_17_reg_t;
 
 parameter CSR_LVL_VAL_16_SIZE       = 16;
@@ -328,8 +328,8 @@ parameter CSR_LVL_VAL_17_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_18;
-  reg [15: 0] lvl_val_19;
+  reg [31:16] lvl_val_19;
+  reg [15: 0] lvl_val_18;
 } lvl_val_18_19_reg_t;
 
 parameter CSR_LVL_VAL_18_SIZE       = 16;
@@ -351,8 +351,8 @@ parameter CSR_LVL_VAL_19_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_20;
-  reg [15: 0] lvl_val_21;
+  reg [31:16] lvl_val_21;
+  reg [15: 0] lvl_val_20;
 } lvl_val_20_21_reg_t;
 
 parameter CSR_LVL_VAL_20_SIZE       = 16;
@@ -374,8 +374,8 @@ parameter CSR_LVL_VAL_21_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_22;
-  reg [15: 0] lvl_val_23;
+  reg [31:16] lvl_val_23;
+  reg [15: 0] lvl_val_22;
 } lvl_val_22_23_reg_t;
 
 parameter CSR_LVL_VAL_22_SIZE       = 16;
@@ -397,8 +397,8 @@ parameter CSR_LVL_VAL_23_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_24;
-  reg [15: 0] lvl_val_25;
+  reg [31:16] lvl_val_25;
+  reg [15: 0] lvl_val_24;
 } lvl_val_24_25_reg_t;
 
 parameter CSR_LVL_VAL_24_SIZE       = 16;
@@ -420,8 +420,8 @@ parameter CSR_LVL_VAL_25_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_26;
-  reg [15: 0] lvl_val_27;
+  reg [31:16] lvl_val_27;
+  reg [15: 0] lvl_val_26;
 } lvl_val_26_27_reg_t;
 
 parameter CSR_LVL_VAL_26_SIZE       = 16;
@@ -443,8 +443,8 @@ parameter CSR_LVL_VAL_27_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_28;
-  reg [15: 0] lvl_val_29;
+  reg [31:16] lvl_val_29;
+  reg [15: 0] lvl_val_28;
 } lvl_val_28_29_reg_t;
 
 parameter CSR_LVL_VAL_28_SIZE       = 16;
@@ -466,8 +466,8 @@ parameter CSR_LVL_VAL_29_HAS_RESET  = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:16] lvl_val_30;
-  reg [15: 0] lvl_val_31;
+  reg [31:16] lvl_val_31;
+  reg [15: 0] lvl_val_30;
 } lvl_val_30_31_reg_t;
 
 parameter CSR_LVL_VAL_30_SIZE       = 16;

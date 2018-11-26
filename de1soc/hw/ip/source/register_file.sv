@@ -40,7 +40,7 @@ module register_file
 import register_file_defs_pkg::*;
 
 reg               csr_read_r;
-reg        [15:0] csr_readdata_r;
+reg        [31:0] csr_readdata_r;
 reg        [ 1:0] csr_response_r;
 // reg               csr_waitrequest_r;
 

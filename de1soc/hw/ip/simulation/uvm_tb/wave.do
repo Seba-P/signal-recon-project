@@ -52,6 +52,7 @@ add wave -noupdate -group SAMPLE2LVL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_data
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_valid
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_ready
+add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_init
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_valid
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_ready
 add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group OUT_LVL_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/out_lvl_data

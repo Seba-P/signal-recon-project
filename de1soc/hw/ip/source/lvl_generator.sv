@@ -89,7 +89,7 @@ begin
         if (!overflow_r)
           next_lvl_r <= next_lvl_r + !underflow_r;
 
-        overflow_r  <= (next_lvl_r >= lvls_num_r - 'd2);
+        overflow_r  <= (next_lvl_r >= lvls_num_r - 'd1);
         underflow_r <= 'd0;
       end
       else

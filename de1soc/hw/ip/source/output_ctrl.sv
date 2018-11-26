@@ -33,7 +33,7 @@ assign out_valid  = out_valid_r;
 
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if (reset)
   begin
     out_data_r  <= '0;
     out_valid_r <= '0;

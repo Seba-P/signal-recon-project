@@ -188,9 +188,9 @@ genvar ITER;
 generate
   assign subcells_subcells_ready[MAX_ITER_NUM] = '1;
 
-  for(ITER = 0; ITER < MAX_ITER_NUM; ITER++)
+  for (ITER = 0; ITER < MAX_ITER_NUM; ITER++)
   begin : _FOR_ITER
-    if(ITER == 0)
+    if (ITER == 0)
     begin
       assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data_d1;
       assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid_d1;

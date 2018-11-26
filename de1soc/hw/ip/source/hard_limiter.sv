@@ -56,7 +56,7 @@ assign out_valid    = out_valid_r;
 
 always_ff @(posedge clock)
 begin
-  if(reset)
+  if (reset)
   begin
     limbuff_data_r        <= '0;
     limbuff_valid_r       <= '0;
@@ -81,7 +81,7 @@ begin
     fir_valid_r           <= fir_valid;
     // fir_ready_r           <= out_ready & iter_output_enable;
 
-    unique case(signal_case_r)
+    unique case (signal_case_r)
       INBOUND:
         out_data_r  <= fir_data_r;
       BELOW_MIN:

@@ -239,9 +239,11 @@ begin
   end
   else
   begin
-    outctrl_enable_r    <= 'd1;//!pipeline_stall; // ?
+    // outctrl_enable_r    <= 'd1;//!pipeline_stall; // ?
+    outctrl_enable_r    <= is_active_r; //&& !pipeline_stall;
     outctrl_enable_d1_r <= outctrl_enable_r;
     outctrl_iter_num_r  <= regfile_iter_num_r - 'd1;
+    // outctrl_iter_num_r  <= regfile_iter_num - 'd1;
   end
 end
 

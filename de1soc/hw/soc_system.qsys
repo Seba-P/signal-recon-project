@@ -287,6 +287,14 @@
          type = "String";
       }
    }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
    element st2mm_data_adapter_0
    {
       datum _sortIndex
@@ -400,9 +408,8 @@
  </module>
  <module name="fir_subsystem" kind="fir_subsystem" version="2.0" enabled="1">
   <parameter name="FIR_TAPS_NUM" value="63" />
-  <parameter name="ITER_NUM" value="1" />
-  <parameter name="LVLS_NUM" value="20" />
-  <parameter name="LVL_RESET_VALUE" value="9" />
+  <parameter name="MAX_ITER_NUM" value="4" />
+  <parameter name="MAX_LVLS_NUM" value="32" />
   <parameter name="MAX_SAMPLES_IN_RAM" value="63" />
  </module>
  <module name="hps_0" kind="altera_hps" version="17.1" enabled="1">

@@ -18,24 +18,24 @@ module delay
 integer del;
 
 generate 
-  if(DELAY == 0) 
+  if (DELAY == 0) 
   begin
     assign out_data = in_data;
   end
-  else if(RESET)
+  else if (RESET)
   begin
     always_ff @(posedge clock)
     begin
-        if(reset)
+        if (reset)
         begin
-          for(del = 0; del < DELAY; del++)
+          for (del = 0; del < DELAY; del++)
             delay_line[del] <= RESET_VAL;
         end
         else
         begin
           delay_line[0] <= in_data;
 
-          for(del = 1; del < DELAY; del++)
+          for (del = 1; del < DELAY; del++)
             delay_line[del] <= delay_line[del-1];
         end
     end
@@ -48,7 +48,7 @@ generate
     begin
       delay_line[0] <= in_data;
 
-      for(del = 1; del < DELAY; del++)
+      for (del = 1; del < DELAY; del++)
         delay_line[del] <= delay_line[del-1];
     end
           
