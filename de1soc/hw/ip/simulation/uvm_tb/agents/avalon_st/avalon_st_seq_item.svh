@@ -31,7 +31,7 @@ function void avalon_st_seq_item::do_copy(uvm_object rhs);
   avalon_st_seq_item #(INST_SPEC) seq_item;
 
   if (!$cast(seq_item, rhs))
-    `uvm_fatal("do_copy", "Cast of rhs object failed.")
+    `uvm_fatal("do_copy", "Cast of 'rhs' object failed.")
 
   super.do_copy(rhs);
   data      = seq_item.data;
@@ -42,7 +42,7 @@ function bit avalon_st_seq_item::do_compare(uvm_object rhs, uvm_comparer compare
   avalon_st_seq_item #(INST_SPEC) seq_item;
 
   if (!$cast(seq_item, rhs))
-    `uvm_fatal("do_compare", "Cast of rhs object failed.")
+    `uvm_fatal("do_compare", "Cast of 'rhs' object failed.")
 
   return (super.do_compare(rhs, comparer) &&
           data == seq_item.data && burst_len == seq_item.burst_len);

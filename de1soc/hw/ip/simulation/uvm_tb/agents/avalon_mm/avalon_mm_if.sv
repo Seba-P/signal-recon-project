@@ -94,7 +94,7 @@ endgenerate
     logic   [INST_SPEC.DATA_WIDTH-1:0] data_queue[$];
 
     if (!$cast(seq, rhs))
-      `uvm_fatal("write_data", "Cast of rhs object failed.")
+      `uvm_fatal("write_data", "Cast of 'rhs' object failed.")
 
     if (seq.burst_len != seq.data.size())
       `uvm_error("write_data", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!", seq.burst_len, seq.data.size()))
@@ -135,7 +135,7 @@ endgenerate
     bit [(INST_SPEC.DATA_WIDTH/8)-1:0] byteen_queue[$];
 
     if (!$cast(seq, rhs))
-      `uvm_fatal("read_data", "Cast of rhs object failed.")
+      `uvm_fatal("read_data", "Cast of 'rhs' object failed.")
 
     addr_queue    = { seq.addr };
     byteen_queue  = { seq.byteen };
@@ -171,7 +171,7 @@ endgenerate
     avalon_mm_seq_item #(INST_SPEC) item;
 
     if (!$cast(item, rhs))
-      `uvm_fatal("get_transaction", "Cast of rhs object failed.")
+      `uvm_fatal("get_transaction", "Cast of 'rhs' object failed.")
 
     fork
       READ_REQ:

@@ -59,7 +59,7 @@ task avalon_mm_monitor::run_phase(uvm_phase phase);
   
     // Clone and publish the cloned item to the subscribers
     if (!$cast(cloned_item, item.clone()))
-      `uvm_fatal("clone", "Clone of sequence item failed.")
+      `uvm_fatal("clone", "Clone of 'item' object failed.")
     
     notify_transaction(cloned_item);
   end

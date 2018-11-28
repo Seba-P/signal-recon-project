@@ -78,7 +78,7 @@ endgenerate
     bit [INST_SPEC.BUS_WIDTH-1:0]   data_queue[$];
 
     if (!$cast(seq, rhs))
-      `uvm_fatal("push_data", "Cast of rhs object failed.")
+      `uvm_fatal("push_data", "Cast of 'rhs' object failed.")
 
     if (seq.burst_len != seq.data.size())
       `uvm_error("push_data", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!", seq.burst_len, seq.data.size()))
@@ -107,7 +107,7 @@ endgenerate
     avalon_st_seq_item #(INST_SPEC) seq;
 
     if (!$cast(seq, rhs))
-      `uvm_fatal("pull_data", "Cast of rhs object failed.")
+      `uvm_fatal("pull_data", "Cast of 'rhs' object failed.")
 
     @(posedge clock);
     ready <= 'd1;
@@ -135,7 +135,7 @@ endgenerate
     avalon_st_seq_item #(INST_SPEC) item;
 
     if (!$cast(item, rhs))
-      `uvm_fatal("get_transaction", "Cast of rhs object failed.")
+      `uvm_fatal("get_transaction", "Cast of 'rhs' object failed.")
 
     if (valid !== 'd1)
       @(posedge valid);

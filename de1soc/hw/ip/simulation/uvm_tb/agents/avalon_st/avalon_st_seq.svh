@@ -20,7 +20,7 @@ task avalon_st_seq::body();
 
   start_item(seq);
   if (!seq.randomize())
-    `uvm_fatal("SEQUENCE", "Randomization failed.")
+    `uvm_fatal("SEQUENCE", "Randomization of 'seq' object failed.")
   finish_item(seq);
 endtask : body
 

@@ -83,7 +83,7 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
   `uvm_info("SCOREBOARD", $sformatf("Received mm2st_seq_item: %s", item.convert2string()), UVM_HIGH)
 
   if (!$cast(cloned_item, item.clone()))
-      `uvm_fatal("clone", "Clone of sequence item failed.")
+      `uvm_fatal("clone", "Clone of 'item' object failed.")
 
   if (cloned_item.burst_len != cloned_item.data.size())
       `uvm_error("write_mm2st", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!",
@@ -144,7 +144,7 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
   `uvm_info("SCOREBOARD", $sformatf("Received st2mm_seq_item: %s", item.convert2string()), UVM_HIGH)
 
   if (!$cast(cloned_item, item.clone()))
-      `uvm_fatal("clone", "Clone of sequence item failed.")
+      `uvm_fatal("clone", "Clone of 'item' object failed.")
 
   if (cloned_item.burst_len != cloned_item.data.size())
       `uvm_error("write_st2mm", $sformatf("Burst length mismatch (burst_len = %0d, data.size() = %0d)!",

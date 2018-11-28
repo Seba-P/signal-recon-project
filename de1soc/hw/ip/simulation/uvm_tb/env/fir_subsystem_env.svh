@@ -24,7 +24,7 @@ endfunction : new
 
 function void fir_subsystem_env::build_phase(uvm_phase phase);
   if (!uvm_config_db#(fir_subsystem_env_config)::get(this, "", "m_config", m_config))
-    `uvm_fatal("CONFIG", "Cannot get() configuration 'm_config' from uvm_config_db. Have you set() it?")
+    `uvm_fatal("CONFIG", "Cannot get() 'm_config' from uvm_config_db. Have you set() it?")
 
   m_csr_agent   = avalon_mm_agent#(avalon_mm_inst_specs[CSR])::type_id::create("m_csr_agent", this);
   m_mm2st_agent = avalon_st_agent#(avalon_st_inst_specs[MM2ST])::type_id::create("m_mm2st_agent", this);
