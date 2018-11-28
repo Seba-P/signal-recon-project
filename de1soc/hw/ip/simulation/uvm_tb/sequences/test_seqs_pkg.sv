@@ -4,17 +4,14 @@ package test_seqs_pkg;
   import uvm_pkg::*;
 	`include "uvm_macros.svh"
 
-  import common_share_pkg::*;
   import register_file_defs_pkg::*;
-  import tb_params_pkg::*;
   import avalon_mm_agent_pkg::*;
   import avalon_st_agent_pkg::*;
+  import common_share_pkg::*;
+  import tb_params_pkg::*;
   import register_model_pkg::*;
   import fir_subsystem_env_pkg::*;
 
-	`include "csr_seq_item.svh"
-	`include "mm2st_seq_item.svh"
-	`include "st2mm_seq_item.svh"
 	`include "base_csr_seq.svh"
 	`include "base_mm2st_seq.svh"
 	`include "base_st2mm_seq.svh"

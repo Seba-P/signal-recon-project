@@ -1,5 +1,4 @@
 
-import common_share_pkg::*;
 import avalon_mm_agent_pkg::*;
 
 interface avalon_mm_if

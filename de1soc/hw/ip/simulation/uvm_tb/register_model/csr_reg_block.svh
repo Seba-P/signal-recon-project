@@ -34,10 +34,10 @@ class csr_reg_block extends uvm_reg_block;
 
   virtual function void build();
     reg_map = uvm_reg_map::type_id::create("reg_map");
-    // reg_map.create_map(.name("reg_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
-    reg_map.create_map(.name("reg_map"), .base_addr(8'h00), .n_bytes(1), .endian(UVM_LITTLE_ENDIAN));
+    // reg_map = create_map(.name("reg_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
+    reg_map = create_map(.name("reg_map"), .base_addr(8'h00), .n_bytes(1), .endian(UVM_LITTLE_ENDIAN));
 
-    status = uvm_reg::type_id::create("status");
+    status = status_reg::type_id::create("status");
     status.configure(.blk_parent(this));
     status.build();
 
@@ -48,7 +48,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_STATUS_ACCESS)
     );
 
-    control = uvm_reg::type_id::create("control");
+    control = control_reg::type_id::create("control");
     control.configure(.blk_parent(this));
     control.build();
 
@@ -59,7 +59,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_CONTROL_ACCESS)
     );
 
-    params = uvm_reg::type_id::create("params");
+    params = params_reg::type_id::create("params");
     params.configure(.blk_parent(this));
     params.build();
 
@@ -70,7 +70,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_PARAMS_ACCESS)
     );
 
-    lvl_val_00_01 = uvm_reg::type_id::create("lvl_val_00_01");
+    lvl_val_00_01 = lvl_val_00_01_reg::type_id::create("lvl_val_00_01");
     lvl_val_00_01.configure(.blk_parent(this));
     lvl_val_00_01.build();
 
@@ -81,7 +81,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_00_01_ACCESS)
     );
 
-    lvl_val_02_03 = uvm_reg::type_id::create("lvl_val_02_03");
+    lvl_val_02_03 = lvl_val_02_03_reg::type_id::create("lvl_val_02_03");
     lvl_val_02_03.configure(.blk_parent(this));
     lvl_val_02_03.build();
 
@@ -92,7 +92,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_02_03_ACCESS)
     );
     
-    lvl_val_04_05 = uvm_reg::type_id::create("lvl_val_04_05");
+    lvl_val_04_05 = lvl_val_04_05_reg::type_id::create("lvl_val_04_05");
     lvl_val_04_05.configure(.blk_parent(this));
     lvl_val_04_05.build();
 
@@ -103,7 +103,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_04_05_ACCESS)
     );
 
-    lvl_val_06_07 = uvm_reg::type_id::create("lvl_val_06_07");
+    lvl_val_06_07 = lvl_val_06_07_reg::type_id::create("lvl_val_06_07");
     lvl_val_06_07.configure(.blk_parent(this));
     lvl_val_06_07.build();
 
@@ -114,7 +114,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_06_07_ACCESS)
     );
 
-    lvl_val_08_09 = uvm_reg::type_id::create("lvl_val_08_09");
+    lvl_val_08_09 = lvl_val_08_09_reg::type_id::create("lvl_val_08_09");
     lvl_val_08_09.configure(.blk_parent(this));
     lvl_val_08_09.build();
 
@@ -125,7 +125,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_08_09_ACCESS)
     );
 
-    lvl_val_10_11 = uvm_reg::type_id::create("lvl_val_10_11");
+    lvl_val_10_11 = lvl_val_10_11_reg::type_id::create("lvl_val_10_11");
     lvl_val_10_11.configure(.blk_parent(this));
     lvl_val_10_11.build();
 
@@ -136,7 +136,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_10_11_ACCESS)
     );
 
-    lvl_val_12_13 = uvm_reg::type_id::create("lvl_val_12_13");
+    lvl_val_12_13 = lvl_val_12_13_reg::type_id::create("lvl_val_12_13");
     lvl_val_12_13.configure(.blk_parent(this));
     lvl_val_12_13.build();
 
@@ -147,7 +147,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_12_13_ACCESS)
     );
 
-    lvl_val_14_15 = uvm_reg::type_id::create("lvl_val_14_15");
+    lvl_val_14_15 = lvl_val_14_15_reg::type_id::create("lvl_val_14_15");
     lvl_val_14_15.configure(.blk_parent(this));
     lvl_val_14_15.build();
 
@@ -158,7 +158,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_14_15_ACCESS)
     );
 
-    lvl_val_16_17 = uvm_reg::type_id::create("lvl_val_16_17");
+    lvl_val_16_17 = lvl_val_16_17_reg::type_id::create("lvl_val_16_17");
     lvl_val_16_17.configure(.blk_parent(this));
     lvl_val_16_17.build();
 
@@ -169,7 +169,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_16_17_ACCESS)
     );
 
-    lvl_val_18_19 = uvm_reg::type_id::create("lvl_val_18_19");
+    lvl_val_18_19 = lvl_val_18_19_reg::type_id::create("lvl_val_18_19");
     lvl_val_18_19.configure(.blk_parent(this));
     lvl_val_18_19.build();
 
@@ -180,7 +180,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_18_19_ACCESS)
     );
 
-    lvl_val_20_21 = uvm_reg::type_id::create("lvl_val_20_21");
+    lvl_val_20_21 = lvl_val_20_21_reg::type_id::create("lvl_val_20_21");
     lvl_val_20_21.configure(.blk_parent(this));
     lvl_val_20_21.build();
 
@@ -191,7 +191,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_20_21_ACCESS)
     );
 
-    lvl_val_22_23 = uvm_reg::type_id::create("lvl_val_22_23");
+    lvl_val_22_23 = lvl_val_22_23_reg::type_id::create("lvl_val_22_23");
     lvl_val_22_23.configure(.blk_parent(this));
     lvl_val_22_23.build();
 
@@ -202,7 +202,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_22_23_ACCESS)
     );
 
-    lvl_val_24_25 = uvm_reg::type_id::create("lvl_val_24_25");
+    lvl_val_24_25 = lvl_val_24_25_reg::type_id::create("lvl_val_24_25");
     lvl_val_24_25.configure(.blk_parent(this));
     lvl_val_24_25.build();
     
@@ -213,7 +213,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_24_25_ACCESS)
     );
 
-    lvl_val_26_27 = uvm_reg::type_id::create("lvl_val_26_27");
+    lvl_val_26_27 = lvl_val_26_27_reg::type_id::create("lvl_val_26_27");
     lvl_val_26_27.configure(.blk_parent(this));
     lvl_val_26_27.build();
 
@@ -224,7 +224,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_26_27_ACCESS)
     );
 
-    lvl_val_28_29 = uvm_reg::type_id::create("lvl_val_28_29");
+    lvl_val_28_29 = lvl_val_28_29_reg::type_id::create("lvl_val_28_29");
     lvl_val_28_29.configure(.blk_parent(this));
     lvl_val_28_29.build();
 
@@ -235,7 +235,7 @@ class csr_reg_block extends uvm_reg_block;
       .rights (CSR_REG_BLOCK_LVL_VAL_28_29_ACCESS)
     );
 
-    lvl_val_30_31 = uvm_reg::type_id::create("lvl_val_30_31");
+    lvl_val_30_31 = lvl_val_30_31_reg::type_id::create("lvl_val_30_31");
     lvl_val_30_31.configure(.blk_parent(this));
     lvl_val_30_31.build();
 

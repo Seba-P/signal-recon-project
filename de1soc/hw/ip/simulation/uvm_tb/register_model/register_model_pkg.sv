@@ -4,11 +4,10 @@ package register_model_pkg;
   import uvm_pkg::*;
 	`include "uvm_macros.svh"
 
-  import common_share_pkg::*;
   import register_file_defs_pkg::*;
-  import tb_params_pkg::*;
   import avalon_mm_agent_pkg::*;
-  import test_seqs_pkg::*;
+  import common_share_pkg::*;
+  import tb_params_pkg::*;
 
   `include "status_reg.svh"
   `include "control_reg.svh"

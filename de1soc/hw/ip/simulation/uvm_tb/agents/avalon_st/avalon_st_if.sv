@@ -1,5 +1,4 @@
 
-import common_share_pkg::*;
 import avalon_st_agent_pkg::*;
 
 interface avalon_st_if
