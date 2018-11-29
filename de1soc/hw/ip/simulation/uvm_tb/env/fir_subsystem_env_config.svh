@@ -8,8 +8,10 @@ class fir_subsystem_env_config extends uvm_object;
   avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]) 	csr_agent_config;
   avalon_st_agent_config #(avalon_st_inst_specs[MM2ST]) mm2st_agent_config;
   avalon_st_agent_config #(avalon_st_inst_specs[ST2MM]) st2mm_agent_config;
+  register_model_config 																reg_model_config;
 
-  bit enable_scoreboard = 0;
+  bit use_register_model 	= 0;
+  bit enable_scoreboard 	= 0;
 
   // Standard UVM Methods:
   extern function new(string name = "fir_subsystem_env_config");

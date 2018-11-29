@@ -35,9 +35,9 @@ function void avalon_mm_agent::build_phase(uvm_phase phase);
   // Only build the driver and sequencer if active
   if (m_config.is_active == UVM_ACTIVE)
   begin
-    m_driver    = avalon_mm_driver#(INST_SPEC)::type_id::create("m_driver", this);
-    m_sequencer = avalon_mm_sequencer#(INST_SPEC)::type_id::create("m_sequencer", this);
-    // m_config.sequencer    = m_sequencer; // TODO:
+    m_driver            = avalon_mm_driver#(INST_SPEC)::type_id::create("m_driver", this);
+    m_sequencer         = avalon_mm_sequencer#(INST_SPEC)::type_id::create("m_sequencer", this);
+    m_config.sequencer  = m_sequencer;
   end
 endfunction : build_phase
 

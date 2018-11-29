@@ -2,8 +2,6 @@
 `ifndef _BASE_ST2MM_SEQ_SVH_
 `define _BASE_ST2MM_SEQ_SVH_
 
-typedef avalon_st_sequencer #(avalon_st_inst_specs[ST2MM]) st2mm_sequencer;
-
 class base_st2mm_seq extends uvm_sequence #(st2mm_seq_item);
 	`uvm_object_utils(base_st2mm_seq)
 

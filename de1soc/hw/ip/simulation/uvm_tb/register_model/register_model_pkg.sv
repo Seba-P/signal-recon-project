@@ -18,4 +18,9 @@ package register_model_pkg;
   `include "csr_reg_block_adapter.svh"
   `include "csr_reg_block_config.svh"
 
+  typedef uvm_reg_predictor #(avalon_mm_seq_item #(avalon_mm_inst_specs[CSR])) csr_reg_block_predictor;
+
+  `include "register_model_config.svh"
+  `include "register_model.svh"
+
 endpackage : register_model_pkg

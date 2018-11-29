@@ -21,6 +21,8 @@ class base_test extends uvm_test;
   extern function void override_avalon_mm_vip_config();
   extern function void configure_avalon_st_vip();
   extern function void override_avalon_st_vip_config();
+  extern function void configure_register_model();
+  extern function void override_register_model_config();
   extern function void override_csr_init_config();
 endclass : base_test
 
@@ -34,10 +36,12 @@ function void base_test::build_phase(uvm_phase phase);
   m_env             = fir_subsystem_env::type_id::create("m_env", this);
   m_csr_init_config = csr_reg_block_config::type_id::create("m_csr_init_config", this);
 
-  m_env_cfg.enable_scoreboard = 1;
+  m_env_cfg.use_register_model  = 1;
+  m_env_cfg.enable_scoreboard   = 1;
 
   configure_avalon_mm_vip();
   configure_avalon_st_vip();
+  configure_register_model();
 
   m_csr_init_config.m_csr_reg_block = csr_init_config;
   override_csr_init_config();
@@ -64,15 +68,15 @@ task base_test::configure_phase(uvm_phase phase);
   csr_seq = csr_init_config_seq::type_id::create("csr_seq");
 
   csr_seq.csr_config = m_csr_init_config;
-  csr_seq.start(m_env.m_csr_agent.m_sequencer);
+  csr_seq.start(m_env.m_config.csr_agent_config.sequencer);
 
   phase.drop_objection(this, "");
   `uvm_info("TEST", "***** END OF CONFIGURE_PHASE *****", UVM_LOW)
 endtask : configure_phase
 
 task base_test::main_phase(uvm_phase phase);
-  base_mm2st_seq      mm2st_seq;
-  base_st2mm_seq      st2mm_seq;
+  base_mm2st_seq  mm2st_seq;
+  base_st2mm_seq  st2mm_seq;
 
   `uvm_info("TEST", "***** START OF MAIN_PHASE *****", UVM_LOW)
   phase.phase_done.set_drain_time(this, 100);
@@ -81,10 +85,9 @@ task base_test::main_phase(uvm_phase phase);
   mm2st_seq = base_mm2st_seq::type_id::create("mm2st_seq");
   st2mm_seq = base_st2mm_seq::type_id::create("st2mm_seq");
 
-  // mm2st_seq.start(m_env.m_agent_config["mm2st"].sequencer); // TODO: sequencer handle instead of hardcoded
   fork
-    mm2st_seq.start(m_env.m_mm2st_agent.m_sequencer);
-    st2mm_seq.start(m_env.m_st2mm_agent.m_sequencer);
+    mm2st_seq.start(m_env.m_config.mm2st_agent_config.sequencer);
+    st2mm_seq.start(m_env.m_config.st2mm_agent_config.sequencer);
   join
 
   phase.drop_objection(this, "");
@@ -94,7 +97,6 @@ endtask : main_phase
 function void base_test::configure_avalon_mm_vip();
   avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]) csr_agent_config;
   avalon_mm_agent_params_t agent_params;
-  int i;
 
   `uvm_info("TEST", "Configuring Avalon MM VIP...", UVM_LOW)
 
@@ -196,6 +198,26 @@ endfunction : configure_avalon_st_vip
 function void base_test::override_avalon_st_vip_config();
   // override some default settings here
 endfunction : override_avalon_st_vip_config
+
+function void base_test::configure_register_model();
+  register_model_config reg_model_config;
+
+  `uvm_info("TEST", "Configuring Register Model...", UVM_LOW)
+
+  // -------------------------------------------------------------------------------------------------------------- //
+  reg_model_config = register_model_config::type_id::create("reg_model_config");
+  // -------------------------------------------------------------------------------------------------------------- //
+
+  override_register_model_config();
+
+  // `uvm_info("TEST", $sformatf("\nRegister Model:\n%s", m_env_cfg.reg_model_config.convert2string()), UVM_LOW)
+
+  `uvm_info("TEST", "... DONE!", UVM_LOW)
+endfunction : configure_register_model
+
+function void base_test::override_register_model_config();
+  // override some default settings here
+endfunction : override_register_model_config
 
 function void base_test::override_csr_init_config();
   // override some default settings here

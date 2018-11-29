@@ -10,6 +10,8 @@ class fir_subsystem_env extends uvm_env;
   avalon_mm_agent #(avalon_mm_inst_specs[CSR])    m_csr_agent;
   avalon_st_agent #(avalon_st_inst_specs[MM2ST])  m_mm2st_agent;
   avalon_st_agent #(avalon_st_inst_specs[ST2MM])  m_st2mm_agent;
+  register_model                                  m_reg_model;
+
   fir_subsystem_scoreboard                        m_scoreboard;
 
   // Standard UVM Methods:
@@ -30,6 +32,12 @@ function void fir_subsystem_env::build_phase(uvm_phase phase);
   m_mm2st_agent = avalon_st_agent#(avalon_st_inst_specs[MM2ST])::type_id::create("m_mm2st_agent", this);
   m_st2mm_agent = avalon_st_agent#(avalon_st_inst_specs[ST2MM])::type_id::create("m_st2mm_agent", this);
 
+  if (m_config.use_register_model)
+  begin
+    m_reg_model = register_model::type_id::create("m_reg_model", this);
+    uvm_config_db#(register_model_config)::set(this, "m_reg_model*", "m_config", m_config.reg_model_config);
+  end
+
   if (m_config.enable_scoreboard)
     m_scoreboard = fir_subsystem_scoreboard::type_id::create("m_scoreboard", this);
 
@@ -45,6 +53,12 @@ function void fir_subsystem_env::connect_phase(uvm_phase phase);
   begin
     m_mm2st_agent.m_ap.connect(m_scoreboard.m_mm2st_ap);
     m_st2mm_agent.m_ap.connect(m_scoreboard.m_st2mm_ap);
+  end
+
+  if (m_config.use_register_model)
+  begin
+    m_reg_model.m_reg_block.default_map.set_sequencer(m_config.csr_agent_config.sequencer, m_reg_model.m_adapter);
+    m_csr_agent.m_ap.connect(m_reg_model.m_predictor.bus_in);
   end
 endfunction : connect_phase
 

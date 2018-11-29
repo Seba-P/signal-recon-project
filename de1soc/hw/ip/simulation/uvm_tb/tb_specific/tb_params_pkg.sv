@@ -99,6 +99,10 @@ package tb_params_pkg;
     /*lvl_val_30_31*/ '{ /*lvl_val_31*/'hFFFF, /*lvl_val_30*/'hFFFF } 
   };
 
+  typedef avalon_mm_sequencer #(avalon_mm_inst_specs[CSR])    csr_sequencer;
+  typedef avalon_st_sequencer #(avalon_st_inst_specs[MM2ST])  mm2st_sequencer;
+  typedef avalon_st_sequencer #(avalon_st_inst_specs[ST2MM])  st2mm_sequencer;
+
   `include "csr_seq_item.svh"
   `include "mm2st_seq_item.svh"
   `include "st2mm_seq_item.svh"

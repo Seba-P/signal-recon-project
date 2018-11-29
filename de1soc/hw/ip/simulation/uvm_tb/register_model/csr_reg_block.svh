@@ -25,7 +25,7 @@ class csr_reg_block extends uvm_reg_block;
   rand lvl_val_28_29_reg  lvl_val_28_29;
   rand lvl_val_30_31_reg  lvl_val_30_31;
 
-  uvm_reg_map             reg_map;
+  uvm_reg_map             default_map;
 
   // Standard UVM Methods:
   function new(string name = "csr_reg_block");
@@ -33,15 +33,15 @@ class csr_reg_block extends uvm_reg_block;
   endfunction : new
 
   virtual function void build();
-    reg_map = uvm_reg_map::type_id::create("reg_map");
-    // reg_map = create_map(.name("reg_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
-    reg_map = create_map(.name("reg_map"), .base_addr(8'h00), .n_bytes(1), .endian(UVM_LITTLE_ENDIAN));
+    default_map = uvm_reg_map::type_id::create("default_map");
+    // default_map = create_map(.name("default_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
+    default_map = create_map(.name("default_map"), .base_addr(8'h00), .n_bytes(1), .endian(UVM_LITTLE_ENDIAN));
 
     status = status_reg::type_id::create("status");
     status.configure(.blk_parent(this));
     status.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (status),
       .offset (CSR_REG_BLOCK_STATUS_OFFSET),
@@ -52,7 +52,7 @@ class csr_reg_block extends uvm_reg_block;
     control.configure(.blk_parent(this));
     control.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (control),
       .offset (CSR_REG_BLOCK_CONTROL_OFFSET),
@@ -63,7 +63,7 @@ class csr_reg_block extends uvm_reg_block;
     params.configure(.blk_parent(this));
     params.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (params),
       .offset (CSR_REG_BLOCK_PARAMS_OFFSET),
@@ -74,7 +74,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_00_01.configure(.blk_parent(this));
     lvl_val_00_01.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_00_01),
       .offset (CSR_REG_BLOCK_LVL_VAL_00_01_OFFSET),
@@ -85,7 +85,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_02_03.configure(.blk_parent(this));
     lvl_val_02_03.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_02_03),
       .offset (CSR_REG_BLOCK_LVL_VAL_02_03_OFFSET),
@@ -96,7 +96,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_04_05.configure(.blk_parent(this));
     lvl_val_04_05.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_04_05),
       .offset (CSR_REG_BLOCK_LVL_VAL_04_05_OFFSET),
@@ -107,7 +107,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_06_07.configure(.blk_parent(this));
     lvl_val_06_07.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_06_07),
       .offset (CSR_REG_BLOCK_LVL_VAL_06_07_OFFSET),
@@ -118,7 +118,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_08_09.configure(.blk_parent(this));
     lvl_val_08_09.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_08_09),
       .offset (CSR_REG_BLOCK_LVL_VAL_08_09_OFFSET),
@@ -129,7 +129,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_10_11.configure(.blk_parent(this));
     lvl_val_10_11.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_10_11),
       .offset (CSR_REG_BLOCK_LVL_VAL_10_11_OFFSET),
@@ -140,7 +140,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_12_13.configure(.blk_parent(this));
     lvl_val_12_13.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_12_13),
       .offset (CSR_REG_BLOCK_LVL_VAL_12_13_OFFSET),
@@ -151,7 +151,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_14_15.configure(.blk_parent(this));
     lvl_val_14_15.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_14_15),
       .offset (CSR_REG_BLOCK_LVL_VAL_14_15_OFFSET),
@@ -162,7 +162,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_16_17.configure(.blk_parent(this));
     lvl_val_16_17.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_16_17),
       .offset (CSR_REG_BLOCK_LVL_VAL_16_17_OFFSET),
@@ -173,7 +173,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_18_19.configure(.blk_parent(this));
     lvl_val_18_19.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_18_19),
       .offset (CSR_REG_BLOCK_LVL_VAL_18_19_OFFSET),
@@ -184,7 +184,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_20_21.configure(.blk_parent(this));
     lvl_val_20_21.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_20_21),
       .offset (CSR_REG_BLOCK_LVL_VAL_20_21_OFFSET),
@@ -195,7 +195,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_22_23.configure(.blk_parent(this));
     lvl_val_22_23.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_22_23),
       .offset (CSR_REG_BLOCK_LVL_VAL_22_23_OFFSET),
@@ -206,7 +206,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_24_25.configure(.blk_parent(this));
     lvl_val_24_25.build();
     
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_24_25),
       .offset (CSR_REG_BLOCK_LVL_VAL_24_25_OFFSET),
@@ -217,7 +217,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_26_27.configure(.blk_parent(this));
     lvl_val_26_27.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_26_27),
       .offset (CSR_REG_BLOCK_LVL_VAL_26_27_OFFSET),
@@ -228,7 +228,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_28_29.configure(.blk_parent(this));
     lvl_val_28_29.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_28_29),
       .offset (CSR_REG_BLOCK_LVL_VAL_28_29_OFFSET),
@@ -239,7 +239,7 @@ class csr_reg_block extends uvm_reg_block;
     lvl_val_30_31.configure(.blk_parent(this));
     lvl_val_30_31.build();
 
-    reg_map.add_reg
+    default_map.add_reg
     (
       .rg     (lvl_val_30_31),
       .offset (CSR_REG_BLOCK_LVL_VAL_30_31_OFFSET),

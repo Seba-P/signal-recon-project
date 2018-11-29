@@ -13,10 +13,14 @@ endclass : csr_reg_block_adapter
 
 function csr_reg_block_adapter::new(string name = "csr_reg_block_adapter");
   super.new(name);
+
+  supports_byte_enable  = 1;
+  provides_responses    = 0;
 endfunction : new
 
 function uvm_sequence_item csr_reg_block_adapter::reg2bus(const ref uvm_reg_bus_op rw);
-  csr_seq_item seq_item = csr_seq_item::type_id::create("seq_item");
+  // csr_seq_item seq_item = csr_seq_item::type_id::create("seq_item");
+  avalon_mm_seq_item #(avalon_mm_inst_specs[CSR]) seq_item = avalon_mm_seq_item#(avalon_mm_inst_specs[CSR])::type_id::create("seq_item");
 
   if (rw.kind == UVM_WRITE)
      seq_item.operation = WRITE_OP;
@@ -32,7 +36,8 @@ function uvm_sequence_item csr_reg_block_adapter::reg2bus(const ref uvm_reg_bus_
 endfunction : reg2bus
     
 function void csr_reg_block_adapter::bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
-  csr_seq_item seq_item;
+  // csr_seq_item seq_item;
+  avalon_mm_seq_item #(avalon_mm_inst_specs[CSR]) seq_item;
         
   if (!$cast(seq_item, bus_item))
     `uvm_fatal("bus2reg", "Cast of 'bus_item' object failed.")

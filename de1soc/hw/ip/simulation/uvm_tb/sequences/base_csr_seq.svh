@@ -2,8 +2,6 @@
 `ifndef _BASE_CSR_SEQ_SVH_
 `define _BASE_CSR_SEQ_SVH_
 
-typedef avalon_mm_sequencer #(avalon_mm_inst_specs[CSR]) csr_sequencer;
-
 class base_csr_seq extends uvm_sequence #(csr_seq_item);
 	`uvm_object_utils(base_csr_seq)
 
