@@ -15,15 +15,12 @@ function st2mm_lvls_sweep_seq::new(string name = "st2mm_lvls_sweep_seq");
 endfunction : new
 
 task st2mm_lvls_sweep_seq::body();
-  st2mm_seq_item seq = st2mm_seq_item::type_id::create("seq");
-
   `uvm_info("ST2MM_LVLS_SWEEP_SEQ", "*** ST2MM_LVLS_SWEEP_SEQ STARTS ***", UVM_LOW)
-  start_item(seq);
+  
+  total_duration = 10 * (2 * (LVLS_NUM / 2 + 1) + LVLS_NUM + 1);
 
-  seq.data 			= {};
-  seq.burst_len = 10 * (2 * (LVLS_NUM / 2 + 1) + LVLS_NUM + 1);
-
-  finish_item(seq);
+  collect_values(total_duration);
+  
   `uvm_info("ST2MM_LVLS_SWEEP_SEQ", "*** ST2MM_LVLS_SWEEP_SEQ ENDS ***", UVM_LOW)
 endtask : body
 
