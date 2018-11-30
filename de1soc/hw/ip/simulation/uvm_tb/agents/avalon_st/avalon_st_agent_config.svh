@@ -9,7 +9,7 @@ class avalon_st_agent_config #(avalon_st_inst_spec_t INST_SPEC) extends uvm_obje
   modport_e vif_modport = MODPORT_SINK;
   string    agent_name  = "agt";
   uvm_active_passive_enum is_active = UVM_PASSIVE;
-  int       verbosity   = UVM_DEBUG;
+  uvm_verbosity           verbosity = UVM_DEBUG;
 
   avalon_st_sequencer #(INST_SPEC)  sequencer;
   virtual avalon_st_if #(INST_SPEC) vif;
@@ -24,8 +24,8 @@ function avalon_st_agent_config::new(string name = "avalon_st_agent_config");
 endfunction : new
 
 function string avalon_st_agent_config::convert2string();
-  return $sformatf("%s\nbus_width   = %0d;\nvif_modport = %s;\nagent_name  = \"%s\";\nis_active   = %s;\nverbosity   = %0d;",
-                  super.convert2string(), bus_width, vif_modport.name(), agent_name, is_active, verbosity);
+  return $sformatf("%s\nbus_width   = %0d;\nvif_modport = %s;\nagent_name  = \"%s\";\nis_active   = %s;\nverbosity   = %s;",
+                  super.convert2string(), bus_width, vif_modport.name(), agent_name, is_active.name(), verbosity.name());
 endfunction : convert2string
 
 `endif // _AVALON_ST_AGENT_CONFIG_SVH_

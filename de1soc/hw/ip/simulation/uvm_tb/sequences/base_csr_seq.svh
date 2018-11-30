@@ -33,7 +33,7 @@ task base_csr_seq::body();
 
   csr_reg_block = csr_config.m_csr_reg_block;
 
-  read_reg(CSR_REG_BLOCK_STATUS_OFFSET, '1, csr_reg_block.status, status);
+  read_reg(CSR_REG_BLOCK_STATUS_START, '1, csr_reg_block.status, status);
 
   #2;
   `uvm_info("BASE_CSR_SEQ", "*** BASE_CSR_SEQ ENDS ***", UVM_LOW)

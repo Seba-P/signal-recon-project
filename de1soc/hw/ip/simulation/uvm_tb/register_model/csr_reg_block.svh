@@ -34,8 +34,7 @@ class csr_reg_block extends uvm_reg_block;
 
   virtual function void build();
     default_map = uvm_reg_map::type_id::create("default_map");
-    // default_map = create_map(.name("default_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
-    default_map = create_map(.name("default_map"), .base_addr(8'h00), .n_bytes(1), .endian(UVM_LITTLE_ENDIAN));
+    default_map = create_map(.name("default_map"), .base_addr(CSR_REG_BLOCK_START), .n_bytes(4), .endian(UVM_LITTLE_ENDIAN));
 
     status = status_reg::type_id::create("status");
     status.configure(.blk_parent(this));

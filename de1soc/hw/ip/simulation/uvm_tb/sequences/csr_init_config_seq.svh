@@ -22,7 +22,7 @@ task csr_init_config_seq::body();
 
   csr_reg_block = csr_config.m_csr_reg_block;
 
-  read_reg(CSR_REG_BLOCK_STATUS_OFFSET, '1, csr_reg_block.status, status);
+  read_reg(CSR_REG_BLOCK_STATUS_START, '1, csr_reg_block.status, status);
   #5;
 
   csr_reg_block.control = '{ /*_reserved*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'0 };
