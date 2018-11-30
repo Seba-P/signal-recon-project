@@ -67,7 +67,8 @@ task base_test::configure_phase(uvm_phase phase);
 
   csr_seq = csr_init_config_seq::type_id::create("csr_seq");
 
-  csr_seq.csr_config = m_csr_init_config;
+  csr_seq.csr_config  = m_csr_init_config;
+  csr_seq.reg_model   = m_env.m_reg_model;
   csr_seq.start(m_env.m_config.csr_agent_config.sequencer);
 
   phase.drop_objection(this, "");

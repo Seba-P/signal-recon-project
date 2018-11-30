@@ -261,6 +261,12 @@ begin
           csr_readdata_r  <= 32'(csr_reg_block.lvl_val_30_31);
           csr_response_r  <= 'd0;
         end
+
+        default:
+        begin
+          csr_readdata_r  <= 'd0;
+          csr_response_r  <= 'd3; // invalid address, issue DECERR response
+        end
       endcase
     end
 
@@ -379,6 +385,11 @@ begin
         begin
           csr_reg_block.lvl_val_30_31 <= csr_writedata;
           csr_response_r              <= 'd0;
+        end
+
+        default:
+        begin
+          csr_response_r  <= 'd3; // invalid address, issue DECERR response
         end
       endcase
     end
