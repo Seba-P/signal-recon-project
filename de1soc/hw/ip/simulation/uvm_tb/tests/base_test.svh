@@ -67,8 +67,10 @@ task base_test::configure_phase(uvm_phase phase);
 
   csr_seq = csr_init_config_seq::type_id::create("csr_seq");
 
-  csr_seq.csr_config  = m_csr_init_config;
-  csr_seq.reg_model   = m_env.m_reg_model;
+  csr_seq.csr_config          = m_csr_init_config;
+  csr_seq.reg_model           = m_env.m_reg_model;
+  csr_seq.use_register_model  = 1;
+
   csr_seq.start(m_env.m_config.csr_agent_config.sequencer);
 
   phase.drop_objection(this, "");
@@ -207,11 +209,16 @@ function void base_test::configure_register_model();
 
   // -------------------------------------------------------------------------------------------------------------- //
   reg_model_config = register_model_config::type_id::create("reg_model_config");
+
+  reg_model_config.reg_model_name = register_model_params.reg_model_name;
+  reg_model_config.default_path   = register_model_params.default_path;
+  reg_model_config.verbosity      = register_model_params.verbosity;
   // -------------------------------------------------------------------------------------------------------------- //
+  m_env_cfg.reg_model_config = reg_model_config;
 
   override_register_model_config();
 
-  // `uvm_info("TEST", $sformatf("\nRegister Model:\n%s", m_env_cfg.reg_model_config.convert2string()), UVM_LOW)
+  `uvm_info("TEST", $sformatf("\nRegister Model:\n%s", m_env_cfg.reg_model_config.convert2string()), UVM_LOW)
 
   `uvm_info("TEST", "... DONE!", UVM_LOW)
 endfunction : configure_register_model

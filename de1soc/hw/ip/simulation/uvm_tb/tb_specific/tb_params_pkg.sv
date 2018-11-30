@@ -9,6 +9,14 @@ package tb_params_pkg;
   import avalon_st_agent_pkg::*;
   import common_share_pkg::*;
 
+  // HACK: This has to be declared here, because the 'register_model_pkg' is not compiled yet
+  typedef struct
+  {
+    string        reg_model_name;
+    uvm_path_e    default_path;
+    uvm_verbosity verbosity;
+  } register_model_params_t;
+
   typedef enum bit [1:0]
   {
     CSR,
@@ -74,6 +82,13 @@ package tb_params_pkg;
       /*verbosity*/   UVM_LOW,
       /*vif_name*/    "st2mm_if"
     }
+  };
+
+  parameter register_model_params_t register_model_params =
+  '{
+    /*reg_model_name*/  "REG_MODEL",
+    /*default_path*/    UVM_FRONTDOOR,
+    /*verbosity*/       UVM_MEDIUM
   };
 
   parameter csr_reg_block_t csr_init_config =

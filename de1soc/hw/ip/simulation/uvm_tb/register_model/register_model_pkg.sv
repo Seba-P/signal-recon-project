@@ -9,6 +9,13 @@ package register_model_pkg;
   import common_share_pkg::*;
   import tb_params_pkg::*;
 
+  typedef struct
+  {
+    string        reg_model_name;
+	  uvm_path_e    default_path;
+	  uvm_verbosity verbosity;
+  } register_model_params_t;
+
   `include "status_reg.svh"
   `include "control_reg.svh"
   `include "params_reg.svh"
