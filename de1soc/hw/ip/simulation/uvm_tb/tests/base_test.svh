@@ -43,8 +43,8 @@ function void base_test::build_phase(uvm_phase phase);
   configure_avalon_st_vip();
   configure_register_model();
 
-  m_csr_init_config.m_csr_reg_block = csr_init_config;
   override_csr_init_config();
+  m_csr_init_config.m_csr_reg_block = csr_init_config;
 
   uvm_config_db#(fir_subsystem_env_config)::set(this, "m_env", "m_config", m_env_cfg);
   `uvm_info("TEST", "***** END OF BUILD_PHASE *****", UVM_LOW)

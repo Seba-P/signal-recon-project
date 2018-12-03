@@ -45,7 +45,7 @@ module dut_top();
   assign m_dut_if.csr_byteenable          = csr_if.footprint_if.byteenable;
   assign m_dut_if.csr_read                = csr_if.footprint_if.read & icn_enable;
   assign csr_if.footprint_if.readdata     = m_dut_if.csr_readdata;
-  assign csr_if.footprint_if.response     = m_dut_if.csr_response;
+  assign csr_if.footprint_if.response     = m_dut_if.csr_response | { 2{ ~icn_enable } };
   assign m_dut_if.csr_write               = csr_if.footprint_if.write & icn_enable;
   assign m_dut_if.csr_writedata           = csr_if.footprint_if.writedata;
   assign csr_if.footprint_if.waitrequest  = m_dut_if.csr_waitrequest;
