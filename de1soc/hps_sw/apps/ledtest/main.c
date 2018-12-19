@@ -6,78 +6,87 @@
 #include "socal/socal.h"
 #include "socal/hps.h"
 #include "socal/alt_gpio.h"
-#include "hps_0.h"
 
-#define HW_REGS_BASE ( ALT_STM_OFST )
-#define HW_REGS_SPAN ( 0x04000000 )
-#define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
+#define HW_REGS_BASE (ALT_STM_OFST)
+#define HW_REGS_SPAN (0x04000000)
+#define HW_REGS_MASK (HW_REGS_SPAN - 1)
 
-int main() {
+#include "common.h"
 
-	void *virtual_base;
-	int fd;
-	int loop_count;
-	int led_direction;
-	int led_mask;
-	void *h2p_lw_led_addr;
+#define LOOP_COUNT          (60)
+#define LOOP_INTERVAL_IN_MS (100)
 
-	// map the address space for the LED registers into user space so we can interact with them.
-	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
+int main()
+{
+  int fd;
+  void* virtual_base;
+  void* h2f_lw_led_addr;
 
-	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
-		printf( "ERROR: could not open \"/dev/mem\"...\n" );
-		return( 1 );
-	}
+  int loop_count;
+  int led_direction;
+  int led_mask;
 
-	virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
+  // map the address space for the LED registers into user space so we can interact with them.
+  // we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
 
-	if( virtual_base == MAP_FAILED ) {
-		printf( "ERROR: mmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
+  if ((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
+  {
+    printf("ERROR: could not open \"/dev/mem\"...\n");
+    return 1;
+  }
 
-	h2p_lw_led_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + LED_PIO_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+  virtual_base = mmap(NULL, HW_REGS_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, HW_REGS_BASE);
 
+  if (virtual_base == MAP_FAILED)
+  {
+    printf("ERROR: mmap() failed...\n");
+    close(fd);
+    return 1;
+  }
 
-	// toggle the LEDs a bit
+  h2f_lw_led_addr = virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + LED_PIO_BASE) & (uint32_t)HW_REGS_MASK);
 
-	loop_count = 0;
-	led_mask = 0x01;
-	led_direction = 0; // 0: left to right direction
-	while( loop_count < 60 ) {
+  // toggle the LEDs a bit
 
-		// control led
-		*(uint32_t *)h2p_lw_led_addr = ~led_mask;
+  loop_count = 0;
+  led_mask = 0x01;
+  led_direction = 0; // 0: left to right direction
 
-		// wait 100ms
-		usleep( 100*1000 );
+  while (loop_count < LOOP_COUNT)
+  {
+    // control led
+    *(uint32_t *)h2f_lw_led_addr = ~led_mask;
 
-		// update led mask
-		if (led_direction == 0){
-			led_mask <<= 1;
-			if (led_mask == (0x01 << (LED_PIO_DATA_WIDTH-1)))
-				 led_direction = 1;
-		}else{
-			led_mask >>= 1;
-			if (led_mask == 0x01){
-				led_direction = 0;
-				loop_count++;
-			}
-		}
+    usleep(LOOP_INTERVAL_IN_MS*1000);
 
-	} // while
+    // update led mask
+    if (led_direction == 0)
+    {
+      led_mask <<= 1;
 
+      if (led_mask == (0x01 << (LED_PIO_DATA_WIDTH-1)))
+         led_direction = 1;
+    }
+    else
+    {
+      led_mask >>= 1;
 
-	// clean up our memory mapping and exit
+      if (led_mask == 0x01)
+      {
+        led_direction = 0;
+        loop_count++;
+      }
+    }
+  }
 
-	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
-		printf( "ERROR: munmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
+  // clean up our memory mapping and exit
+  if (munmap(virtual_base, HW_REGS_SPAN) != 0)
+  {
+    printf("ERROR: munmap() failed...\n");
+    close(fd);
+    return 1;
+  }
 
-	close( fd );
-
-	return( 0 );
+  close(fd);
+  return 0;
 }

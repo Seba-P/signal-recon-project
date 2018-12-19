@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define TEST_VECTOR_SIZE 	(0x1000)
+#define TEST_VECTOR_SIZE  (0x1000)
 
 extern uint16_t test_vector[TEST_VECTOR_SIZE];
 
