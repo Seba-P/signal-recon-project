@@ -7,7 +7,6 @@
 #include "sgdma/sgdma_drv.h"
 #include "sgdma/sgdma_utils.h"
 
-#include "main.h"
 #include "common.h"
 #include "test_vector.h"
 
@@ -100,8 +99,8 @@ int main(int argc, char** argv, char** envp)
     goto_exit(1);
 
   status = sgdma_start_transfer(g_st2mm.csr, &g_st2mm.desc_ram[0], 1, g_fifo_out);
-  log_printf("\nST2MM transfer %s! (0x%02X)\n", 
-      status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
+  log_printf("\nST2MM transfer %s! (0x%02X)\n",
+              status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
   if (status & SGDMA_STATUS_ERROR_MSK)
     goto_exit(1);
 
