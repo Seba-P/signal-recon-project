@@ -1,6 +1,5 @@
 clear all;
 
-
 % ============================== Parameters ===============================
 REGULARIZATION__ = 1;
 QUANTIZATION__ = 1;
@@ -57,8 +56,10 @@ else
     % observation period
     N = 100;%100;
     % seed for random generator (set to [] to generate seed)
-    seed = 866;%artyku³-127; 935; oscylacje-913,22
-    % 300@.1 -> 100 próbek
+    %seed = 866;%artykuï¿½-127; 935; oscylacje-913,22
+    % seed = [];
+    seed = 562; % 266, 297, 16, 866, 562
+    % 300@.1 -> 100 prï¿½bek
     
     % algorithm parameters
     %kGuessAlg       = {'Piecewise linear'}; kGuessAlgDesc       = {'$\lambda_\Omega(t)$ (guess)'};

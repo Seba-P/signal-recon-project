@@ -20,7 +20,7 @@ function plot_samples(fig, samples, sig_lvls, lvl0, t, plot_peak = 0)
             plot(fig, [curr_t curr_t], [sig_lvls(lvl_crossed) 0], '--m', 'LineWidth', 1);
         end
 
-        plot(fig, curr_t, sig_lvls(lvl_crossed), '.m', 'LineWidth', 10)
+        plot(fig, curr_t, sig_lvls(lvl_crossed), '*m', 'LineWidth', 4)
     end
 
 end
