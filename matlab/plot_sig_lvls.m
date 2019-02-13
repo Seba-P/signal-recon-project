@@ -12,10 +12,10 @@ function plot_sig_lvls(fig, sig_lvls, t, plot_sublvl = 1)
            h = plot(fig, t, sublvl_line, '-.k', 'LineWidth', 2);
        end
 
-       h = plot(fig, t, lvl_line, '-k', 'LineWidth', 4);
+       h = plot(fig, t, lvl_line, '-k', 'LineWidth', 2);
     end
 
     lvl_line(1:N_sig) = sig_lvls(N_sig_lvls);
-    plot(fig, t, lvl_line, '-k', 'LineWidth', 4)
+    plot(fig, t, lvl_line, '-k', 'LineWidth', 2)
     
 end

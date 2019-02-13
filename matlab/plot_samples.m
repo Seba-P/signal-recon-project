@@ -14,7 +14,7 @@ function plot_samples(fig, samples, sig_lvls, lvl0, t, plot_peak = 0)
             curr_lvl    = curr_lvl - 1;
         end
 
-        curr_t   = curr_t + samples(i,2)*dt;
+        curr_t = curr_t + samples(i,2)*dt;
 
         if (plot_peak)
             plot(fig, [curr_t curr_t], [sig_lvls(lvl_crossed) 0], '--m', 'LineWidth', 1);

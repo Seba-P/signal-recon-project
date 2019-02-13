@@ -56,9 +56,9 @@ else
     % observation period
     N = 100;%100;
     % seed for random generator (set to [] to generate seed)
-    %seed = 866;%artyku�-127; 935; oscylacje-913,22
-    % seed = [];
-    seed = 562; % 266, 297, 16, 866, 562
+    % seed = 866;%artyku�-127; 935; oscylacje-913,22
+    seed = [];
+    seed = 938; % 266, 297, 16, 866, 562
     % 300@.1 -> 100 pr�bek
     
     % algorithm parameters
