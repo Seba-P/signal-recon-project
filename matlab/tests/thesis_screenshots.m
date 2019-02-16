@@ -8,23 +8,24 @@ run_reconstruction
 clearvars -except x t lvl
 close all
 
-PLOT_SAMPLES    = 0;
+PLOT_SAMPLES    = 1;
 PLOT_UNIFORM    = 0;
 PLOT_SIG_LVLS   = 1;
-PLOT_SIG_LIMITS = 0;
-PLOT_SUBLVL     = 0;
-PLOT_STAIRS     = 0;
+PLOT_SIG_LIMITS = 1;
+PLOT_SUBLVL     = 1;
+PLOT_STAIRS     = 1;
 PLOT_SIGNAL     = 1;
 PLOT_FILT_SIG   = 0;
 PLOT_FILT_LVLS  = 0;
 PLOT_VER_LVLS   = 0;
 PLOT_SPECTRUM   = 0;
 PROCESS_SIGNAL  = 0;
-SIGNAL_DIFF     = 1;
+SIGNAL_DIFF     = 0;
+INIT_LINEAR     = 0;
 
-DOWNRATE = 40;
-K        = 62;
-N_ITER   = 2;
+DOWNRATE = 1;  % 40
+K        = 2046;  % 62
+N_ITER   = 10;   % 2
 
 xs = pick_samples(x, DOWNRATE);
 ts = pick_samples(t, DOWNRATE);
@@ -36,7 +37,11 @@ sig_lvls = lvl(:,1)';
 % sig_lvls = [ -0.9, -0.6, -0.4, -0.25, -0.20, -0.15, -0.10, -0.05, 0.05, 0.10, 0.15, 0.20, 0.25, 0.4, 0.6, 0.9 ];
 dts      = ts(2)-ts(1);
 
-[samples, lvl0, lvls] = gen_samples_and_levels(signal, ts, sig_lvls, 0);
+if (INIT_LINEAR)
+  [samples, lvl0, lvls] = gen_samples_and_init_guess(signal, ts, sig_lvls, 'piecewise-linear', 0);
+else
+  [samples, lvl0, lvls] = gen_samples_and_init_guess(signal, ts, sig_lvls, 'piecewise-constant', 0);
+end
 
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %
@@ -63,9 +68,9 @@ set(gca, 'GridLineStyle', ':')
 set(gca, 'xtick', [0:5:90])
 set(gca, 'ytick', [-1:0.05:1])
 
-xlabel(fig1, 'Time', 'FontSize', 24, 'FontWeight','bold')
-ylabel(fig1, 'Signal value', 'FontSize', 24, 'FontWeight','bold')
-title(fig1, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight','bold')
+xlabel(fig1, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
+ylabel(fig1, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
+title(fig1, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight', 'bold')
 
 if (PLOT_SAMPLES)
   plot_samples(fig1, samples, sig_lvls, lvl0, tn, 0)
@@ -77,22 +82,26 @@ if (PLOT_SIG_LIMITS)
   plot_sig_limits(fig1, samples, sig_lvls, lvl0, tn)
 end
 if (PLOT_STAIRS)
-  stairs(fig1, tn, lvls, '-r', 'LineWidth', 4)
+  if (INIT_LINEAR)
+    plot(fig1, tn, lvls, '-r', 'LineWidth', 4)
+  else    
+    stairs(fig1, tn, lvls, '-r', 'LineWidth', 4)
+  end
 end
 if (PLOT_SIGNAL)
   plot(fig1, tn, signal, '-b', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_FILT_SIG)
-  plot(fig1, tn, filt_sig(1, 1:end), '--g')
-  plot(fig1, tn, filt_sig(end, 1:end), '-g')
+  plot(fig1, tn, filt_sig(1, 1:end), '-b', 'LineWidth', 4)
+  plot(fig1, tn, filt_sig(end, 1:end), '-b', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_FILT_LVLS)
-  plot(fig1, tn, filt_lvls(1, 1:end), '--c')
-  plot(fig1, tn, filt_lvls(end, 1:end), '-c')
+  % plot(fig1, tn, filt_lvls(1, 1:end), '-b', 'LineWidth', 4)
+  plot(fig1, tn, filt_lvls(end, 1:end), '-b', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_VER_LVLS)
-  plot(fig1, tn, ver_lvls(1, 1:end), '--b')
-  plot(fig1, tn, ver_lvls(end, 1:end), '-b')
+  plot(fig1, tn, ver_lvls(1, 1:end), '-b', 'LineWidth', 4)
+  % plot(fig1, tn, ver_lvls(end, 1:end), '-b', 'LineWidth', 4)
 end
 
 axis([ tn(1) tn(end) min(signal)-0.1 max(signal)+0.1 ])
@@ -106,9 +115,9 @@ if (PLOT_UNIFORM)
   set(gca, 'xtick', [0:5:90])
   set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig2, 'Time', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig2, 'Signal value', 'FontSize', 24, 'FontWeight','bold')
-  title(fig2, 'Uniform Sampling', 'FontSize', 24, 'FontWeight','bold')
+  xlabel(fig2, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig2, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig2, 'Uniform Sampling', 'FontSize', 24, 'FontWeight', 'bold')
 
   if (PLOT_SAMPLES)
     plot_uniform_samples(fig2, signal, 1/dts, tn, 0)
@@ -126,6 +135,21 @@ end
 if (PLOT_SPECTRUM)
   SIGNAL = fft(signal);
 
+  SIGNAL_MAGN = 20.*log10(abs(SIGNAL)./max(abs(SIGNAL)));
+  SIGNAL_FREQ = 0:length(SIGNAL)-1;
+
+  if (PROCESS_SIGNAL)
+    % FILT_LVLS = fft(filt_lvls(1, 1:end));
+    FILT_LVLS = fft(filt_lvls(end, 1:end));
+    VER_LVLS  = fft(ver_lvls(1, 1:end));
+    % VER_LVLS  = fft(ver_lvls(end, 1:end));
+
+    FILT_LVLS_MAGN  = 20.*log10(abs(FILT_LVLS)./max(abs(FILT_LVLS)));
+    FILT_LVLS_FREQ  = 0:length(FILT_LVLS)-1;
+    VER_LVLS_MAGN   = 20.*log10(abs(VER_LVLS)./max(abs(VER_LVLS)));
+    VER_LVLS_FREQ   = 0:length(VER_LVLS)-1;
+  end
+
   figure
   fig3 = subplot(1, 1, 1);
   hold(fig3, 'on');
@@ -134,10 +158,22 @@ if (PLOT_SPECTRUM)
   % set(gca, 'xtick', [0:5:90])
   % set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig3, 'Frequency', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig3, 'Magnitude', 'FontSize', 24, 'FontWeight','bold')
-  title(fig3, 'Frequency spectrum', 'FontSize', 24, 'FontWeight','bold')
-  plot(0:length(SIGNAL)-1, 20.*log10(abs(SIGNAL)./max(abs(SIGNAL))), 'b', 'LineWidth', 4);
+  xlabel(fig3, 'Frequency', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig3, 'Magnitude', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig3, 'Frequency spectrum', 'FontSize', 24, 'FontWeight', 'bold')
+
+  if (PLOT_SIGNAL)
+    % plot(SIGNAL_FREQ, SIGNAL_MAGN, 'b', 'LineWidth', 4);
+    fill(fig3, [SIGNAL_FREQ flip(SIGNAL_FREQ)], [SIGNAL_MAGN' -100*ones(1,length(SIGNAL_MAGN))], 0.9*[0.3 0 1], 'EdgeColor', 'none');
+  end
+  if (PLOT_FILT_LVLS)
+    % plot(FILT_LVLS_FREQ, FILT_LVLS_MAGN, 'b', 'LineWidth', 4);
+    fill(fig3, [FILT_LVLS_FREQ flip(FILT_LVLS_FREQ)], [FILT_LVLS_MAGN -100*ones(1,length(FILT_LVLS_MAGN))], 0.9*[0.3 0 1], 'EdgeColor', 'none');
+  end
+  if (PLOT_VER_LVLS)
+    % plot(VER_LVLS_FREQ, VER_LVLS_MAGN, 'b', 'LineWidth', 4);
+    fill(fig3, [VER_LVLS_FREQ flip(VER_LVLS_FREQ)], [VER_LVLS_MAGN -100*ones(1,length(VER_LVLS_MAGN))], 0.9*[0.3 0 1], 'EdgeColor', 'none');
+  end
 end
 
 if (SIGNAL_DIFF)
@@ -164,9 +200,9 @@ if (SIGNAL_DIFF)
   set(gca, 'xtick', [0:5:90])
   set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig4, 'Time', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig4, 'Signal value', 'FontSize', 24, 'FontWeight','bold')
-  title(fig4, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight','bold')
+  xlabel(fig4, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig4, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig4, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight', 'bold')
 
   figure
   fig5 = subplot(1, 1, 1);
@@ -176,9 +212,9 @@ if (SIGNAL_DIFF)
   set(gca, 'xtick', [0:5:90])
   set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig5, 'Time', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig5, 'Signal value', 'FontSize', 24, 'FontWeight','bold')
-  title(fig5, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight','bold')
+  xlabel(fig5, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig5, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig5, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight', 'bold')
 
   if (PLOT_SAMPLES)
     plot_samples(fig4, samples, sig_lvls, lvl0, tn, 0)
@@ -216,9 +252,9 @@ if (SIGNAL_DIFF)
   % set(gca, 'xtick', [0:5:90])
   % set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig6, 'Frequency', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig6, 'Magnitude', 'FontSize', 24, 'FontWeight','bold')
-  title(fig6, 'Frequency spectrum', 'FontSize', 24, 'FontWeight','bold')
+  xlabel(fig6, 'Frequency', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig6, 'Magnitude', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig6, 'Frequency spectrum', 'FontSize', 24, 'FontWeight', 'bold')
   % plot(fig6, SIGNAL_L_FREQ, SIGNAL_L_MAGN, 'b', 'LineWidth', 4);
   fill(fig6, [SIGNAL_L_FREQ flip(SIGNAL_L_FREQ)], [SIGNAL_L_MAGN' -100*ones(1,length(SIGNAL_L_MAGN))], 0.9*[0.3 0 1], 'EdgeColor', 'none');
   
@@ -230,9 +266,9 @@ if (SIGNAL_DIFF)
   % set(gca, 'xtick', [0:5:90])
   % set(gca, 'ytick', [-1:0.05:1])
 
-  xlabel(fig7, 'Frequency', 'FontSize', 24, 'FontWeight','bold')
-  ylabel(fig7, 'Magnitude', 'FontSize', 24, 'FontWeight','bold')
-  title(fig7, 'Frequency spectrum', 'FontSize', 24, 'FontWeight','bold')
+  xlabel(fig7, 'Frequency', 'FontSize', 24, 'FontWeight', 'bold')
+  ylabel(fig7, 'Magnitude', 'FontSize', 24, 'FontWeight', 'bold')
+  title(fig7, 'Frequency spectrum', 'FontSize', 24, 'FontWeight', 'bold')
   % plot(fig7, SIGNAL_H_FREQ, SIGNAL_H_MAGN, 'b', 'LineWidth', 4);
   fill(fig7, [SIGNAL_H_FREQ flip(SIGNAL_H_FREQ)], [SIGNAL_H_MAGN' -100*ones(1,length(SIGNAL_H_MAGN))], 0.9*[0.3 0 1], 'EdgeColor', 'none');
 end

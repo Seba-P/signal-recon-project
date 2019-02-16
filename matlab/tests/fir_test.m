@@ -18,7 +18,7 @@ signal   = xs;
 sig_lvls = lvl(:,1)';
 dts       = ts(2)-ts(1);
 
-[samples, lvl0, lvls] = gen_samples_and_levels(xs, ts, (lvl(:,1))', 0);
+[samples, lvl0, lvls] = gen_samples_and_init_guess(xs, ts, (lvl(:,1))', 'piecewise-constant', 0);
 
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %

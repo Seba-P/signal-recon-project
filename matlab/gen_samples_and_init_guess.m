@@ -1,5 +1,5 @@
 
-function [samples, lvl0, lvls] = gen_samples_and_levels(signal, t, sig_lvls, do_plot)
+function [samples, lvl0, lvls] = gen_samples_and_init_guess(signal, t, sig_lvls, init_shape = 'piecewise-constant', do_plot = 0)
 
     % Signal parameters
     dt      = t(2)-t(1);
@@ -11,9 +11,14 @@ function [samples, lvl0, lvls] = gen_samples_and_levels(signal, t, sig_lvls, do_
 
     % "Analog" signal
     [samples, lvl0] = lvl_cross_samples(signal, sig_lvls);
-    lvls            = samples2lvls(samples, N_sig, sig_lvls, lvl0);
 
-    if(do_plot)
+    if strcmp(tolower(init_shape), 'piecewise-linear')
+        lvls = samples2linear(samples, N_sig, sig_lvls, lvl0);
+    else
+        lvls = samples2lvls(samples, N_sig, sig_lvls, lvl0);
+    end
+
+    if (do_plot)
         % Frequency spectrum of input/output signals
         LVLS    = fftshift(fft(lvls/N_sig));
         SIGNAL  = fftshift(fft(signal/N_sig));

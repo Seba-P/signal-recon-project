@@ -10,7 +10,7 @@ signal   = x;
 sig_lvls = lvl(:,1)';
 dt       = t(2)-t(1);
 
-[samples, lvl0, lvls] = gen_samples_and_levels(x, t, (lvl(:,1))', 1);
+[samples, lvl0, lvls] = gen_samples_and_init_guess(x, t, (lvl(:,1))', 'piecewise-constant', 1);
 clearvars -except samples lvl0 lvls x t lvl signal sig_lvls dt
 
 %%%%%%%%%%%%%%%%%%%%%
