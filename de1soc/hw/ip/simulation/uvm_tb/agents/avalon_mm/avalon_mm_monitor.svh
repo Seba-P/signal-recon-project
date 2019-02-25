@@ -47,11 +47,7 @@ task avalon_mm_monitor::run_phase(uvm_phase phase);
 
   forever
   begin
-    item.addr       = {};
-    item.byteen     = {};
-    item.data       = {};
-    item.resp       = {};
-    item.burst_len  = 0;
+    item.clear();
 
     m_vif.get_transaction(item);
     m_transactions_num++;

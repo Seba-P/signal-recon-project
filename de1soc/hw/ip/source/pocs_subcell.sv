@@ -1,5 +1,5 @@
 
-module fir_subcell
+module pocs_subcell
 #(
   parameter FIR_TAPS_NUM  = 63,
   parameter SUBCELL_NUM   = 0

@@ -30,7 +30,7 @@ module dut_wrapper
   dut_if m_dut_if
 );
 
-fir_subsystem_top
+pocs_engine
 #(
   .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),

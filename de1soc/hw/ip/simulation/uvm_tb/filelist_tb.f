@@ -9,7 +9,7 @@
 ./tb_specific/common_share_pkg.sv
 ./tb_specific/tb_params_pkg.sv
 ./register_model/register_model_pkg.sv
-./env/fir_subsystem_env_pkg.sv
+./env/pocs_engine_env_pkg.sv
 ./sequences/test_seqs_pkg.sv
 ./tests/tests_pkg.sv
 ./dut_wrapper.sv

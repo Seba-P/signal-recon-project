@@ -1,5 +1,5 @@
 
-package fir_subsystem_env_pkg;
+package pocs_engine_env_pkg;
 
   import uvm_pkg::*;
 	`include "uvm_macros.svh"
@@ -12,8 +12,8 @@ package fir_subsystem_env_pkg;
   import register_model_pkg::*;
 
   `include "scoreboard_database.svh"
-	`include "fir_subsystem_env_config.svh"
-	`include "fir_subsystem_scoreboard.svh"
-	`include "fir_subsystem_env.svh"
+	`include "pocs_engine_env_config.svh"
+	`include "pocs_engine_scoreboard.svh"
+	`include "pocs_engine_env.svh"
 
-endpackage : fir_subsystem_env_pkg
+endpackage : pocs_engine_env_pkg

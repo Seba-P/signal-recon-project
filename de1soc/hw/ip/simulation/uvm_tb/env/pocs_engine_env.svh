@@ -1,31 +1,31 @@
 
-`ifndef _FIR_SUBSYSTEM_ENV_SVH_
-`define _FIR_SUBSYSTEM_ENV_SVH_
+`ifndef _POCS_ENGINE_ENV_SVH_
+`define _POCS_ENGINE_ENV_SVH_
 
-class fir_subsystem_env extends uvm_env;
-  `uvm_component_utils(fir_subsystem_env)
+class pocs_engine_env extends uvm_env;
+  `uvm_component_utils(pocs_engine_env)
 
-  fir_subsystem_env_config m_config;
+  pocs_engine_env_config m_config;
 
   avalon_mm_agent #(avalon_mm_inst_specs[CSR])    m_csr_agent;
   avalon_st_agent #(avalon_st_inst_specs[MM2ST])  m_mm2st_agent;
   avalon_st_agent #(avalon_st_inst_specs[ST2MM])  m_st2mm_agent;
   register_model                                  m_reg_model;
 
-  fir_subsystem_scoreboard                        m_scoreboard;
+  pocs_engine_scoreboard                        m_scoreboard;
 
   // Standard UVM Methods:
-  extern function new(string name = "fir_subsystem_env", uvm_component parent = null);
+  extern function new(string name = "pocs_engine_env", uvm_component parent = null);
   extern function void build_phase(uvm_phase phase);
   extern function void connect_phase(uvm_phase phase);
-endclass : fir_subsystem_env
+endclass : pocs_engine_env
 
-function fir_subsystem_env::new(string name = "fir_subsystem_env", uvm_component parent = null);
+function pocs_engine_env::new(string name = "pocs_engine_env", uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
 
-function void fir_subsystem_env::build_phase(uvm_phase phase);
-  if (!uvm_config_db#(fir_subsystem_env_config)::get(this, "", "m_config", m_config))
+function void pocs_engine_env::build_phase(uvm_phase phase);
+  if (!uvm_config_db#(pocs_engine_env_config)::get(this, "", "m_config", m_config))
     `uvm_fatal("CONFIG", "Cannot get() 'm_config' from uvm_config_db. Have you set() it?")
 
   m_csr_agent   = avalon_mm_agent#(avalon_mm_inst_specs[CSR])::type_id::create("m_csr_agent", this);
@@ -39,14 +39,17 @@ function void fir_subsystem_env::build_phase(uvm_phase phase);
   end
 
   if (m_config.enable_scoreboard)
-    m_scoreboard = fir_subsystem_scoreboard::type_id::create("m_scoreboard", this);
+  begin
+    m_scoreboard = pocs_engine_scoreboard::type_id::create("m_scoreboard", this);
+    uvm_config_db#(csr_reg_block_config)::set(this, "m_scoreboard*", "m_csr_config", m_config.csr_config);
+  end
 
   uvm_config_db#(avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]))::set(this, "m_csr_agent*", "m_config", m_config.csr_agent_config);
   uvm_config_db#(avalon_st_agent_config #(avalon_st_inst_specs[MM2ST]))::set(this, "m_mm2st_agent*", "m_config", m_config.mm2st_agent_config);
   uvm_config_db#(avalon_st_agent_config #(avalon_st_inst_specs[ST2MM]))::set(this, "m_st2mm_agent*", "m_config", m_config.st2mm_agent_config);
 endfunction : build_phase
 
-function void fir_subsystem_env::connect_phase(uvm_phase phase);
+function void pocs_engine_env::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
 
   if (m_config.enable_scoreboard)
@@ -62,4 +65,4 @@ function void fir_subsystem_env::connect_phase(uvm_phase phase);
   end
 endfunction : connect_phase
 
-`endif // _FIR_SUBSYSTEM_ENV_SVH_
+`endif // _POCS_ENGINE_ENV_SVH_

@@ -5,9 +5,9 @@
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
-  fir_subsystem_env         m_env;
-  fir_subsystem_env_config  m_env_cfg;
-  csr_reg_block_config      m_csr_init_config;
+  pocs_engine_env         m_env;
+  pocs_engine_env_config  m_env_cfg;
+  csr_reg_block_config    m_csr_init_config;
 
   // Standard UVM Methods:
   extern function new(string name = "base_test", uvm_component parent = null);
@@ -32,10 +32,11 @@ endfunction : new
 
 function void base_test::build_phase(uvm_phase phase);
   `uvm_info("TEST", "***** START OF BUILD_PHASE *****", UVM_LOW)
-  m_env_cfg         = fir_subsystem_env_config::type_id::create("m_env_cfg");
-  m_env             = fir_subsystem_env::type_id::create("m_env", this);
+  m_env_cfg         = pocs_engine_env_config::type_id::create("m_env_cfg");
+  m_env             = pocs_engine_env::type_id::create("m_env", this);
   m_csr_init_config = csr_reg_block_config::type_id::create("m_csr_init_config", this);
 
+  m_env_cfg.csr_config          = m_csr_init_config;
   m_env_cfg.use_register_model  = 1;
   m_env_cfg.enable_scoreboard   = 1;
 
@@ -46,7 +47,7 @@ function void base_test::build_phase(uvm_phase phase);
   override_csr_init_config();
   m_csr_init_config.m_csr_reg_block = csr_init_config;
 
-  uvm_config_db#(fir_subsystem_env_config)::set(this, "m_env", "m_config", m_env_cfg);
+  uvm_config_db#(pocs_engine_env_config)::set(this, "m_env", "m_config", m_env_cfg);
   `uvm_info("TEST", "***** END OF BUILD_PHASE *****", UVM_LOW)
 endfunction : build_phase
 

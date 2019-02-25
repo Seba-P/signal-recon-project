@@ -10,7 +10,7 @@ package test_seqs_pkg;
   import common_share_pkg::*;
   import tb_params_pkg::*;
   import register_model_pkg::*;
-  import fir_subsystem_env_pkg::*;
+  import pocs_engine_env_pkg::*;
 
 	`include "base_csr_seq.svh"
 	`include "base_mm2st_seq.svh"

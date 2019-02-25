@@ -4,7 +4,7 @@
 
 
 # 
-# fir_subsystem "fir_subsystem" v2.0
+# pocs_engine "pocs_engine" v2.0
 #  2018.11.23.17:24:14
 # 
 # 
@@ -16,15 +16,15 @@ package require -exact qsys 16.1
 
 
 # 
-# module fir_subsystem
+# module pocs_engine
 # 
 set_module_property DESCRIPTION ""
-set_module_property NAME fir_subsystem
+set_module_property NAME pocs_engine
 set_module_property VERSION 2.0
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
-set_module_property DISPLAY_NAME fir_subsystem
+set_module_property DISPLAY_NAME pocs_engine
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
 set_module_property EDITABLE true
 set_module_property REPORT_TO_TALKBACK false
@@ -36,12 +36,12 @@ set_module_property REPORT_HIERARCHY false
 # file sets
 # 
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
-set_fileset_property QUARTUS_SYNTH TOP_LEVEL fir_subsystem_top
+set_fileset_property QUARTUS_SYNTH TOP_LEVEL pocs_engine
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
 add_fileset_file delay.sv SYSTEM_VERILOG PATH ../source/delay.sv
-add_fileset_file fir_subcell.sv SYSTEM_VERILOG PATH ../source/fir_subcell.sv
-add_fileset_file fir_subsystem_top.sv SYSTEM_VERILOG PATH ../source/fir_subsystem_top.sv TOP_LEVEL_FILE
+add_fileset_file pocs_subcell.sv SYSTEM_VERILOG PATH ../source/pocs_subcell.sv
+add_fileset_file pocs_engine.sv SYSTEM_VERILOG PATH ../source/pocs_engine.sv TOP_LEVEL_FILE
 add_fileset_file hard_limiter.sv SYSTEM_VERILOG PATH ../source/hard_limiter.sv
 add_fileset_file iteration_ctrl.sv SYSTEM_VERILOG PATH ../source/iteration_ctrl.sv
 add_fileset_file limits_fifo.v VERILOG PATH ../source/limits_fifo.v
@@ -68,13 +68,13 @@ add_fileset_file register_file.sv SYSTEM_VERILOG PATH ../source/register_file.sv
 add_fileset_file register_file_defs_pkg.sv SYSTEM_VERILOG PATH ../source/register_file_defs_pkg.sv
 
 add_fileset SIM_VERILOG SIM_VERILOG "" ""
-set_fileset_property SIM_VERILOG TOP_LEVEL fir_subsystem_top
+set_fileset_property SIM_VERILOG TOP_LEVEL pocs_engine
 set_fileset_property SIM_VERILOG ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VERILOG ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file fir_subsystem_top_tb.sv SYSTEM_VERILOG PATH ../source/fir_subsystem_top_tb.sv MENTOR_SPECIFIC
+add_fileset_file pocs_engine_tb.sv SYSTEM_VERILOG PATH ../source/pocs_engine_tb.sv MENTOR_SPECIFIC
 add_fileset_file delay.sv SYSTEM_VERILOG PATH ../source/delay.sv
-add_fileset_file fir_subcell.sv SYSTEM_VERILOG PATH ../source/fir_subcell.sv
-add_fileset_file fir_subsystem_top.sv SYSTEM_VERILOG PATH ../source/fir_subsystem_top.sv
+add_fileset_file pocs_subcell.sv SYSTEM_VERILOG PATH ../source/pocs_subcell.sv
+add_fileset_file pocs_engine.sv SYSTEM_VERILOG PATH ../source/pocs_engine.sv
 add_fileset_file hard_limiter.sv SYSTEM_VERILOG PATH ../source/hard_limiter.sv
 add_fileset_file iteration_ctrl.sv SYSTEM_VERILOG PATH ../source/iteration_ctrl.sv
 add_fileset_file limits_fifo.v VERILOG PATH ../source/limits_fifo.v

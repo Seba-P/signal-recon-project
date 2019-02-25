@@ -553,7 +553,7 @@ typedef struct packed
 } csr_reg_block_t;
 
 parameter CSR_REG_BLOCK_SIZE                  = 256;
-parameter CSR_REG_BLOCK_OFFSET                = 'h0030_0000;
+parameter CSR_REG_BLOCK_OFFSET                = 'h0003_0000;
 parameter CSR_REG_BLOCK_START                 = CSR_REG_BLOCK_OFFSET;
 parameter CSR_REG_BLOCK_END                   = CSR_REG_BLOCK_START + CSR_REG_BLOCK_SIZE - 'd1;
 parameter CSR_REG_BLOCK_ACCESS                = "RW";

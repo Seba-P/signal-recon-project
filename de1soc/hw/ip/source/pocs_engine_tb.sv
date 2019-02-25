@@ -22,7 +22,7 @@ initial
 
 endmodule // clock_gen
 
-module fir_subsystem_top_tb;
+module pocs_engine_tb;
 
 /* Common IF */
 logic        sim_end;
@@ -55,7 +55,7 @@ clock_gen clk_rst_gen
   .clock    (clock)
 );
 
-fir_subsystem_top
+pocs_engine
 #(
   .FIR_TAPS_NUM       (FIR_TAPS_NUM),
   .MAX_SAMPLES_IN_RAM (MAX_SAMPLES_IN_RAM),
@@ -271,4 +271,4 @@ begin
   # 50 sim_end = 'd1;
 end
 
-endmodule // fir_subsystem_top_tb
+endmodule // pocs_engine_tb

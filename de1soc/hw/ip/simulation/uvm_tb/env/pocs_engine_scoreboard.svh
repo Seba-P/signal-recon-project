@@ -1,17 +1,20 @@
 
-`ifndef _FIR_SUBSYSTEM_SCOREBOARD_SVH_
-`define _FIR_SUBSYSTEM_SCOREBOARD_SVH_
+`ifndef _POCS_ENGINE_SCOREBOARD_SVH_
+`define _POCS_ENGINE_SCOREBOARD_SVH_
 
 `uvm_analysis_imp_decl(_mm2st)
 `uvm_analysis_imp_decl(_st2mm)
 
-class fir_subsystem_scoreboard extends uvm_scoreboard;
-  `uvm_component_utils(fir_subsystem_scoreboard)
+class pocs_engine_scoreboard extends uvm_scoreboard;
+  `uvm_component_utils(pocs_engine_scoreboard)
 
-  // uvm_analysis_imp_mm2st #(mm2st_seq_item, fir_subsystem_scoreboard) m_mm2st_ap;
-  uvm_analysis_imp_mm2st #(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]), fir_subsystem_scoreboard) m_mm2st_ap;
-  // uvm_analysis_imp_st2mm #(st2mm_seq_item, fir_subsystem_scoreboard) m_st2mm_ap;
-  uvm_analysis_imp_st2mm #(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]), fir_subsystem_scoreboard) m_st2mm_ap;
+  // uvm_analysis_imp_mm2st #(mm2st_seq_item, pocs_engine_scoreboard) m_mm2st_ap;
+  uvm_analysis_imp_mm2st #(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]), pocs_engine_scoreboard) m_mm2st_ap;
+  // uvm_analysis_imp_st2mm #(st2mm_seq_item, pocs_engine_scoreboard) m_st2mm_ap;
+  uvm_analysis_imp_st2mm #(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]), pocs_engine_scoreboard) m_st2mm_ap;
+
+  csr_reg_block_config  m_csr_config;
+  bit                   is_active;
 
   scoreboard_database #(avalon_st_inst_specs[ST2MM])  database;
   bit [$bits(MAX_LVLS_NUM-1)-1:0]                     curr_lvl;
@@ -26,7 +29,7 @@ class fir_subsystem_scoreboard extends uvm_scoreboard;
   int received_count;
 
   // Standard UVM Methods:
-  extern function       new(string name = "fir_subsystem_scoreboard", uvm_component parent = null);
+  extern function       new(string name = "pocs_engine_scoreboard", uvm_component parent = null);
   extern function void  build_phase(uvm_phase phase);
   extern task           main_phase(uvm_phase phase);
 
@@ -35,11 +38,12 @@ class fir_subsystem_scoreboard extends uvm_scoreboard;
   extern function void  write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
   // extern function void  write_st2mm(st2mm_seq_item item);
   extern function void  write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
-  extern task           supervisor();
+  extern task           csr_supervisor();
+  extern task           dataflow_supervisor();
   extern task           verify_limits();
-endclass : fir_subsystem_scoreboard
+endclass : pocs_engine_scoreboard
 
-function fir_subsystem_scoreboard::new(string name = "fir_subsystem_scoreboard", uvm_component parent = null);
+function pocs_engine_scoreboard::new(string name = "pocs_engine_scoreboard", uvm_component parent = null);
   super.new(name, parent);
 
   mm2st_data_count_sem = new(0);
@@ -48,9 +52,14 @@ function fir_subsystem_scoreboard::new(string name = "fir_subsystem_scoreboard",
   st2mm_queue_lock_sem = new(1);
 endfunction : new
 
-function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
+function void pocs_engine_scoreboard::build_phase(uvm_phase phase);
+  if (!uvm_config_db#(csr_reg_block_config)::get(this, "", "m_csr_config", m_csr_config))
+    `uvm_fatal("CONFIG", "Cannot get() 'm_csr_config' from uvm_config_db. Have you set() it?")
+
   m_mm2st_ap  = new("m_mm2st_ap", this);
   m_st2mm_ap  = new("m_st2mm_ap", this);
+
+  is_active = 0;
 
   database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
   curr_lvl  = INIT_LVL;
@@ -63,15 +72,16 @@ function void fir_subsystem_scoreboard::build_phase(uvm_phase phase);
                                       curr_lvl, lvls_values[INIT_LVL+1], lvls_values[INIT_LVL]), UVM_HIGH)
 endfunction : build_phase
 
-task fir_subsystem_scoreboard::main_phase(uvm_phase phase);
+task pocs_engine_scoreboard::main_phase(uvm_phase phase);
   fork
-    supervisor();
+    csr_supervisor();
+    dataflow_supervisor();
     verify_limits();
   join
 endtask : main_phase
 
-// function void fir_subsystem_scoreboard::write_mm2st(mm2st_seq_item item);
-function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
+// function void pocs_engine_scoreboard::write_mm2st(mm2st_seq_item item);
+function void pocs_engine_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) item);
   avalon_st_seq_item #(avalon_st_inst_specs[MM2ST]) cloned_item;
   bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   upper_limit;
   bit [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0]   lower_limit;
@@ -134,8 +144,8 @@ function void fir_subsystem_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_
   end
 endfunction : write_mm2st
 
-// function void fir_subsystem_scoreboard::write_st2mm(st2mm_seq_item item);
-function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
+// function void pocs_engine_scoreboard::write_st2mm(st2mm_seq_item item);
+function void pocs_engine_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) item);
   avalon_st_seq_item #(avalon_st_inst_specs[ST2MM]) cloned_item;
   logic [avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] received_value;
   int burst_len;
@@ -165,7 +175,28 @@ function void fir_subsystem_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_
   received_count += burst_len;
 endfunction : write_st2mm
 
-task fir_subsystem_scoreboard::supervisor();
+
+task pocs_engine_scoreboard::csr_supervisor();
+  fork
+    CHECK_RUN : begin
+      // run_pulse.wait_ptrigger();
+    end
+
+    CHECK_HALT : begin
+
+    end
+
+    CHECK_FLUSH : begin
+
+    end
+
+    CHECK_INIT : begin
+
+    end
+  join
+endtask : csr_supervisor
+
+task pocs_engine_scoreboard::dataflow_supervisor();
   int received_count_old;
   int expected_count_old;
   int received_count_diff;
@@ -177,6 +208,9 @@ task fir_subsystem_scoreboard::supervisor();
   forever
   begin
     #1; // TODO: replace with @(posedge dut.clock);
+
+    // if (!is_active)
+      // wait (is_active == 1);
 
     if (received_count != received_count_old)
     begin
@@ -194,9 +228,9 @@ task fir_subsystem_scoreboard::supervisor();
       mm2st_data_count_sem.put(expected_count_diff);
     end
   end
-endtask : supervisor
+endtask : dataflow_supervisor
 
-task fir_subsystem_scoreboard::verify_limits();
+task pocs_engine_scoreboard::verify_limits();
   bit   [2*avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] expected_limits;
   logic [  avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] upper_limit;
   logic [  avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:0] lower_limit;
@@ -268,5 +302,4 @@ task fir_subsystem_scoreboard::verify_limits();
   end
 endtask : verify_limits
 
-
-`endif // _FIR_SUBSYSTEM_SCOREBOARD_SVH_
+`endif // _POCS_ENGINE_SCOREBOARD_SVH_

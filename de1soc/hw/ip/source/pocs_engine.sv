@@ -1,5 +1,5 @@
 
-module fir_subsystem_top
+module pocs_engine
 #(
   parameter FIR_TAPS_NUM        = 63,
   parameter MAX_SAMPLES_IN_RAM  = 63,
@@ -203,12 +203,12 @@ generate
       assign subcells_outsignal_ready[ITER] = subcells_outctrl_ready[ITER] & subcells_subcells_ready[ITER+1];
     end
 
-    fir_subcell
+    pocs_subcell
     #(
       .FIR_TAPS_NUM (FIR_TAPS_NUM),
       .SUBCELL_NUM  (ITER)
     )
-    fir_subcell
+    pocs_subcell
     (
       .reset              (reset),                                //      reset.reset
       .clock              (clock),                                //      clock.clk
