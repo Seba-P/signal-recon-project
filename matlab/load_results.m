@@ -4,7 +4,7 @@ function results = load_results(file, format = 'binary')
     fd = fopen(file, 'r');
 
     if strcmp(tolower(format), 'text')
-        results = fscanf(fd, "0x%x\n");
+        results = fscanf(fd, "0x%04X\n");
         results = results - 65536*(results>32767);
         % results = [];
         % while !feof(fd)

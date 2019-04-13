@@ -6,7 +6,7 @@ addpath('../bursty-lib/')
 
 run_reconstruction
 clearvars -except x t lvl
-close all
+% close all
 
 DOWNRATE = 40;
 K        = 62;
@@ -20,8 +20,8 @@ sig_lvls = lvl(:,1)';
 dts      = ts(2)-ts(1);
 
 [samples, lvl0, lvls] = gen_samples_and_init_guess(xs, ts, (lvl(:,1))', 'piecewise-constant', 0);
-save_samples('../samples.txt', samples, 'text');
-save_samples('../samples.bin', samples, 'binary');
+
+generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, samples);
 
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %

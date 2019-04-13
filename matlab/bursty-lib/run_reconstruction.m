@@ -58,7 +58,7 @@ else
     % seed for random generator (set to [] to generate seed)
     % seed = 866;%artyku�-127; 935; oscylacje-913,22
     seed = [];
-    seed = 625; % 266, 297, 16, 866, 562, 862, 531, 625
+    % seed = 625; % 266, 297, 16, 866, 562, 862, 531, 625
     % 300@.1 -> 100 pr�bek
     
     % algorithm parameters
