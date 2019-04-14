@@ -4,9 +4,9 @@ addpath('../')
 addpath('../toolbox/')
 addpath('../bursty-lib/')
 
-run_reconstruction
-clearvars -except x t lvl
-% close all
+close all ; clear all
+seed = [];
+[ x t lvl ] = generate_bursty_signal(seed);
 
 DOWNRATE = 40;
 K        = 62;
@@ -21,8 +21,6 @@ dts      = ts(2)-ts(1);
 
 [samples, lvl0, lvls] = gen_samples_and_init_guess(xs, ts, (lvl(:,1))', 'piecewise-constant', 0);
 
-generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, samples);
-
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %
 %%%%%%%%%%%%%%%%%%%%%
@@ -33,15 +31,14 @@ fir_tail    = floor(fir_R / 2);
 
 [ filt_sig, filt_lvls, ver_lvls ] = process_signal(signal, lvls, sig_lvls, fir_resp, N_ITER, 'normal');
 tn          = 0:dts:dts*(length(signal)-1);
-
-% tb_output 	= load_results('../tb_output.txt', 'binary');
-tb_output 	= load_results('../tb_output.txt', 'text');
-% tb_delay 	= N_ITER*(fir_delay-1)+1;
-tb_delay 	= N_ITER*(fir_delay-1)+1;
-
 %%%%%%%%%%%%%%%%
 % TEST RESULTS %
 %%%%%%%%%%%%%%%%
+generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, samples, signal, ver_lvls, [ NaN DOWNRATE K ]);
+
+tb_output 	= load_results('../tb_output.txt', 'text');
+tb_delay 	= N_ITER*(fir_delay-1)+1;
+
 % Plot filtered signals and mark levels
 figure
 fig1 = subplot(1, 1, 1);

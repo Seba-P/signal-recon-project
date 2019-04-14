@@ -4,9 +4,8 @@ addpath('../')
 addpath('../toolbox/')
 addpath('../bursty-lib/')
 
-run_reconstruction
-clearvars -except x t lvl
-close all
+close all ; clear all
+[ x t lvl ] = generate_bursty_signal([]);
 
 DOWNRATE = 40;
 K        = 62;

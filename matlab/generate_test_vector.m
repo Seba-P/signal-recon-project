@@ -1,15 +1,28 @@
 
-function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_iter, samples)
+function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_iter, samples, signal_original = [], signal_reconstructed = [], params = [ NaN NaN NaN ])
+
+    N_sig_lvls  = length(sig_lvls);
+    SEED        = params(1);
+    DOWNRATE    = params(2);
+    K           = params(3);
 
     mkdir('../vectors/', vector_name);
+
+    % Dump simulation parameters
+    fd = fopen(sprintf('../vectors/%s/readme.txt', vector_name), 'w');
+
+    fprintf(fd, '# Test vector "%s".\n', vector_name);
+    fprintf(fd, '# Generated on %s.\n', datestr(clock()));
+    fprintf(fd, '\n');
+    fprintf(fd, '$ SEED:     %u\n', SEED);
+    fprintf(fd, '$ DOWNRATE: %u\n', DOWNRATE);
+    fprintf(fd, '$ K:        %u\n', K);
+
+    fclose(fd);
 
     % Generate configuration for POCS engine
     fd = fopen(sprintf('../vectors/%s/config.txt', vector_name), 'w');
 
-    N_sig_lvls = length(sig_lvls);
-
-    fprintf(fd, '##### PARAMETERS #####\n');
-    fprintf(fd, '\n');
     fprintf(fd, '>>> PARAMS <<<\n');
     fprintf(fd, '$ LVLS_NUM: %u\n', N_sig_lvls);
     fprintf(fd, '$ INIT_LVL: %u\n', lvl0);
@@ -31,4 +44,12 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     % Generate set of samples
     save_samples(sprintf('../vectors/%s/samples.txt', vector_name), samples, 'text');
 
+    % Generate original & reconstructed signals if applicable
+    if (!isempty(signal_original))
+        save_signal(sprintf('../vectors/%s/signal_original.txt', vector_name), signal_original, 'text');
+    end
+
+    if (!isempty(signal_reconstructed))
+        save_signal(sprintf('../vectors/%s/signal_reconstructed.txt', vector_name), signal_reconstructed, 'text');
+    end
 end
