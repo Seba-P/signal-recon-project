@@ -3,13 +3,13 @@
 `define _BASE_ST2MM_SEQ_SVH_
 
 class base_st2mm_seq extends uvm_sequence #(st2mm_seq_item);
-	`uvm_object_utils(base_st2mm_seq)
+  `uvm_object_utils(base_st2mm_seq)
 
   int total_duration;
 
-	// Standard UVM Methods:
-	extern function new(string name = "base_st2mm_seq");
-	extern virtual task body();
+  // Standard UVM Methods:
+  extern function new(string name = "base_st2mm_seq");
+  extern virtual task body();
 
   // Custom methods:
   extern task collect_values(int duration);

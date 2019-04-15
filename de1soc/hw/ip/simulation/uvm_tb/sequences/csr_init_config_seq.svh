@@ -3,11 +3,11 @@
 `define _CSR_INIT_CONFIG_SEQ_SVH_
 
 class csr_init_config_seq extends base_csr_seq;
-	`uvm_object_utils(csr_init_config_seq)
+  `uvm_object_utils(csr_init_config_seq)
 
-	// Standard UVM Methods:
-	extern function new(string name = "csr_init_config_seq");
-	extern virtual task body();
+  // Standard UVM Methods:
+  extern function new(string name = "csr_init_config_seq");
+  extern virtual task body();
 endclass : csr_init_config_seq
 
 function csr_init_config_seq::new(string name = "csr_init_config_seq");

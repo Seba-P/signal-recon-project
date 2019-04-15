@@ -17,13 +17,13 @@ interface avalon_st_footprint_if
   modport sink
   (
     input  channel,
-  	input  data,
-  	input  error,
+    input  data,
+    input  error,
     output ready,
     input  valid,
     input  empty,
-  	input  start_of_packet,
-  	input  end_of_packet
+    input  start_of_packet,
+    input  end_of_packet
   );
 
   modport source

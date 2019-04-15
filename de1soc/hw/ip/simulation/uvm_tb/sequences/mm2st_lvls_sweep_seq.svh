@@ -3,11 +3,11 @@
 `define _MM2ST_LVLS_SWEEP_SEQ_SVH_
 
 class mm2st_lvls_sweep_seq extends base_mm2st_seq;
-	`uvm_object_utils(mm2st_lvls_sweep_seq)
+  `uvm_object_utils(mm2st_lvls_sweep_seq)
 
-	// Standard UVM Methods:
-	extern function new(string name = "mm2st_lvls_sweep_seq");
-	extern virtual task body();
+  // Standard UVM Methods:
+  extern function new(string name = "mm2st_lvls_sweep_seq");
+  extern virtual task body();
 endclass : mm2st_lvls_sweep_seq
 
 function mm2st_lvls_sweep_seq::new(string name = "mm2st_lvls_sweep_seq");
@@ -19,7 +19,7 @@ task mm2st_lvls_sweep_seq::body();
 
   /* Dummy delay */
   #40;
-  `uvm_info("MM2ST_LVLS_SWEEP_SEQ", "*** MM2ST_LVLS_SWEEP_SEQ STARTS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
   repeat (LVLS_NUM / 2 + 1)
   begin
@@ -41,7 +41,7 @@ task mm2st_lvls_sweep_seq::body();
 
   send_samples();
 
-  `uvm_info("MM2ST_LVLS_SWEEP_SEQ", "*** MM2ST_LVLS_SWEEP_SEQ ENDS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
 `endif // _MM2ST_LVLS_SWEEP_SEQ_SVH_

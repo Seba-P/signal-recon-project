@@ -2,7 +2,7 @@
 package register_model_pkg;
 
   import uvm_pkg::*;
-	`include "uvm_macros.svh"
+  `include "uvm_macros.svh"
 
   import register_file_defs_pkg::*;
   import avalon_mm_agent_pkg::*;
@@ -13,8 +13,8 @@ package register_model_pkg;
   {
     string        reg_model_name;
     string        hdl_path_root;
-	  uvm_path_e    default_path;
-	  uvm_verbosity verbosity;
+    uvm_path_e    default_path;
+    uvm_verbosity verbosity;
   } register_model_params_t;
 
   `include "status_reg.svh"

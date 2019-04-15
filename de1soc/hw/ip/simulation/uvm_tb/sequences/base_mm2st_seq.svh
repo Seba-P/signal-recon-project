@@ -3,13 +3,13 @@
 `define _BASE_MM2ST_SEQ_SVH_
 
 class base_mm2st_seq extends uvm_sequence #(mm2st_seq_item);
-	`uvm_object_utils(base_mm2st_seq)
+  `uvm_object_utils(base_mm2st_seq)
 
   rand lvl_cross_sample_t samples[$];
 
-	// Standard UVM Methods:
-	extern function new(string name = "base_mm2st_seq");
-	extern virtual task body();
+  // Standard UVM Methods:
+  extern function new(string name = "base_mm2st_seq");
+  extern virtual task body();
 
   // Custom methods:
   extern task send_samples();
@@ -24,14 +24,14 @@ task base_mm2st_seq::body();
 
   /* Dummy delay */
   #50;
-  `uvm_info("BASE_MM2ST_SEQ", "*** BASE_MM2ST_SEQ STARTS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
   sample = '{ LVL_UP, 'd100 };
   samples.push_back(sample);
 
   send_samples();
 
-  `uvm_info("BASE_MM2ST_SEQ", "*** BASE_MM2ST_SEQ ENDS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
 task base_mm2st_seq::send_samples();

@@ -3,16 +3,16 @@
 `define _BASE_CSR_SEQ_SVH_
 
 class base_csr_seq extends uvm_sequence #(csr_seq_item);
-	`uvm_object_utils(base_csr_seq)
+  `uvm_object_utils(base_csr_seq)
 
   csr_reg_block_config csr_config;
   register_model       reg_model;
 
   bit use_register_model = 0;
 
-	// Standard UVM Methods:
-	extern function new(string name = "base_csr_seq");
-	extern virtual task body();
+  // Standard UVM Methods:
+  extern function new(string name = "base_csr_seq");
+  extern virtual task body();
 
   // Custom methods:
   extern task read_reg(input bit [31:0] reg_offset, input bit [ 7:0] byte_mask, output bit [31:0] value, output uvm_status_e status);

@@ -22,7 +22,7 @@ interface avalon_mm_footprint_if
 
   modport slave
   (
-  	input  address,
+    input  address,
     input  byteenable,
     input  debugaccess,
     input  read,
