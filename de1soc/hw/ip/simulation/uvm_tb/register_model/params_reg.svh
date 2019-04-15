@@ -102,6 +102,13 @@ class params_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+
+    add_hdl_path_slice(.name("params.lvls_num"), .offset(CSR_PARAMS_LVLS_NUM_OFFSET), .size(CSR_PARAMS_LVLS_NUM_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("params._reserved1"), .offset(CSR_PARAMS_RESERVED1_OFFSET), .size(CSR_PARAMS_RESERVED1_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("params.init_lvl"), .offset(CSR_PARAMS_INIT_LVL_OFFSET), .size(CSR_PARAMS_INIT_LVL_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("params._reserved2"), .offset(CSR_PARAMS_RESERVED2_OFFSET), .size(CSR_PARAMS_RESERVED2_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("params.iter_num"), .offset(CSR_PARAMS_ITER_NUM_OFFSET), .size(CSR_PARAMS_ITER_NUM_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("params._reserved3"), .offset(CSR_PARAMS_RESERVED3_OFFSET), .size(CSR_PARAMS_RESERVED3_SIZE), .kind("RTL"));
   endfunction : build
 endclass : params_reg
 

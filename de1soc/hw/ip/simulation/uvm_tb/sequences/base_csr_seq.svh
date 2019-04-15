@@ -29,14 +29,14 @@ task base_csr_seq::body();
 
   /* Dummy delay */
   #20;
-  `uvm_info("BASE_CSR_SEQ", "*** BASE_CSR_SEQ STARTS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
   csr_reg_block = csr_config.m_csr_reg_block;
 
   read_reg(CSR_REG_BLOCK_STATUS_START, '1, csr_reg_block.status, status);
 
   #2;
-  `uvm_info("BASE_CSR_SEQ", "*** BASE_CSR_SEQ ENDS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
 task base_csr_seq::read_reg(input bit [31:0] reg_offset, input bit [ 7:0] byte_mask, output bit [31:0] value, output uvm_status_e status);

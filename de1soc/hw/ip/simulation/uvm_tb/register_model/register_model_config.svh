@@ -6,6 +6,7 @@ class register_model_config extends uvm_object;
   `uvm_object_utils(register_model_config)
 
   string        reg_model_name  = "reg_model";
+  string        hdl_path_root   = "csr_reg_block";
   uvm_path_e    default_path    = UVM_DEFAULT_PATH;
   uvm_verbosity verbosity       = UVM_DEBUG;
   
@@ -21,8 +22,8 @@ function register_model_config::new(string name = "register_model_config");
 endfunction : new
 
 function string register_model_config::convert2string();
-  return $sformatf("%s\nreg_model_name  = \"%s\";\ndefault_path    = %s;\nverbosity       = %s;",
-                  super.convert2string(), reg_model_name, default_path.name(), verbosity.name());
+  return $sformatf("%s\nreg_model_name  = \"%s\";\nhdl_path_root   = %s;\ndefault_path    = %s;\nverbosity       = %s;",
+                  super.convert2string(), reg_model_name, hdl_path_root, default_path.name(), verbosity.name());
 endfunction : convert2string
 
 `endif // _REGISTER_MODEL_CONFIG_SVH_

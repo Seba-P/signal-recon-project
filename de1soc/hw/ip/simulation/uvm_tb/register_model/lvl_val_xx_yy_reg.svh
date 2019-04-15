@@ -42,6 +42,9 @@ class lvl_val_00_01_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+
+    add_hdl_path_slice(.name("lvl_val_00_01.lvl_val_00"), .offset(CSR_LVL_VAL_00_OFFSET), .size(CSR_LVL_VAL_00_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_00_01.lvl_val_01"), .offset(CSR_LVL_VAL_01_OFFSET), .size(CSR_LVL_VAL_01_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_00_01_reg
 
@@ -85,6 +88,9 @@ class lvl_val_02_03_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_02_03.lvl_val_02"), .offset(CSR_LVL_VAL_02_OFFSET), .size(CSR_LVL_VAL_02_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_02_03.lvl_val_03"), .offset(CSR_LVL_VAL_03_OFFSET), .size(CSR_LVL_VAL_03_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_02_03_reg
 
@@ -128,6 +134,9 @@ class lvl_val_04_05_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_04_05.lvl_val_04"), .offset(CSR_LVL_VAL_04_OFFSET), .size(CSR_LVL_VAL_04_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_04_05.lvl_val_05"), .offset(CSR_LVL_VAL_05_OFFSET), .size(CSR_LVL_VAL_05_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_04_05_reg
 
@@ -171,6 +180,9 @@ class lvl_val_06_07_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_06_07.lvl_val_06"), .offset(CSR_LVL_VAL_06_OFFSET), .size(CSR_LVL_VAL_06_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_06_07.lvl_val_07"), .offset(CSR_LVL_VAL_07_OFFSET), .size(CSR_LVL_VAL_07_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_06_07_reg
 
@@ -214,6 +226,9 @@ class lvl_val_08_09_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_08_09.lvl_val_08"), .offset(CSR_LVL_VAL_08_OFFSET), .size(CSR_LVL_VAL_08_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_08_09.lvl_val_09"), .offset(CSR_LVL_VAL_09_OFFSET), .size(CSR_LVL_VAL_09_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_08_09_reg
 
@@ -257,6 +272,9 @@ class lvl_val_10_11_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_10_11.lvl_val_10"), .offset(CSR_LVL_VAL_10_OFFSET), .size(CSR_LVL_VAL_10_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_10_11.lvl_val_11"), .offset(CSR_LVL_VAL_11_OFFSET), .size(CSR_LVL_VAL_11_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_10_11_reg
 
@@ -300,6 +318,9 @@ class lvl_val_12_13_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_12_13.lvl_val_12"), .offset(CSR_LVL_VAL_12_OFFSET), .size(CSR_LVL_VAL_12_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_12_13.lvl_val_13"), .offset(CSR_LVL_VAL_13_OFFSET), .size(CSR_LVL_VAL_13_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_12_13_reg
 
@@ -343,6 +364,9 @@ class lvl_val_14_15_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_14_15.lvl_val_14"), .offset(CSR_LVL_VAL_14_OFFSET), .size(CSR_LVL_VAL_14_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_14_15.lvl_val_15"), .offset(CSR_LVL_VAL_15_OFFSET), .size(CSR_LVL_VAL_15_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_14_15_reg
 
@@ -386,6 +410,9 @@ class lvl_val_16_17_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_16_17.lvl_val_16"), .offset(CSR_LVL_VAL_16_OFFSET), .size(CSR_LVL_VAL_16_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_16_17.lvl_val_17"), .offset(CSR_LVL_VAL_17_OFFSET), .size(CSR_LVL_VAL_17_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_16_17_reg
 
@@ -429,6 +456,9 @@ class lvl_val_18_19_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_18_19.lvl_val_18"), .offset(CSR_LVL_VAL_18_OFFSET), .size(CSR_LVL_VAL_18_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_18_19.lvl_val_19"), .offset(CSR_LVL_VAL_19_OFFSET), .size(CSR_LVL_VAL_19_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_18_19_reg
 
@@ -472,6 +502,9 @@ class lvl_val_20_21_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_20_21.lvl_val_20"), .offset(CSR_LVL_VAL_20_OFFSET), .size(CSR_LVL_VAL_20_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_20_21.lvl_val_21"), .offset(CSR_LVL_VAL_21_OFFSET), .size(CSR_LVL_VAL_21_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_20_21_reg
 
@@ -515,6 +548,9 @@ class lvl_val_22_23_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_22_23.lvl_val_22"), .offset(CSR_LVL_VAL_22_OFFSET), .size(CSR_LVL_VAL_22_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_22_23.lvl_val_23"), .offset(CSR_LVL_VAL_23_OFFSET), .size(CSR_LVL_VAL_23_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_22_23_reg
 
@@ -558,6 +594,9 @@ class lvl_val_24_25_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_24_25.lvl_val_24"), .offset(CSR_LVL_VAL_24_OFFSET), .size(CSR_LVL_VAL_24_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_24_25.lvl_val_25"), .offset(CSR_LVL_VAL_25_OFFSET), .size(CSR_LVL_VAL_25_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_24_25_reg
 
@@ -601,6 +640,9 @@ class lvl_val_26_27_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_26_27.lvl_val_26"), .offset(CSR_LVL_VAL_26_OFFSET), .size(CSR_LVL_VAL_26_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_26_27.lvl_val_27"), .offset(CSR_LVL_VAL_27_OFFSET), .size(CSR_LVL_VAL_27_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_26_27_reg
 
@@ -644,6 +686,9 @@ class lvl_val_28_29_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_28_29.lvl_val_28"), .offset(CSR_LVL_VAL_28_OFFSET), .size(CSR_LVL_VAL_28_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_28_29.lvl_val_29"), .offset(CSR_LVL_VAL_29_OFFSET), .size(CSR_LVL_VAL_29_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_28_29_reg
 
@@ -687,6 +732,9 @@ class lvl_val_30_31_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+  
+    add_hdl_path_slice(.name("lvl_val_30_31.lvl_val_30"), .offset(CSR_LVL_VAL_30_OFFSET), .size(CSR_LVL_VAL_30_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("lvl_val_30_31.lvl_val_31"), .offset(CSR_LVL_VAL_31_OFFSET), .size(CSR_LVL_VAL_31_SIZE), .kind("RTL"));
   endfunction : build
 endclass : lvl_val_30_31_reg
 

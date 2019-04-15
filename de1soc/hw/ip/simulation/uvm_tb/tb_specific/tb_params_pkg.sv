@@ -13,6 +13,7 @@ package tb_params_pkg;
   typedef struct
   {
     string        reg_model_name;
+    string        hdl_path_root;
     uvm_path_e    default_path;
     uvm_verbosity verbosity;
   } register_model_params_t;
@@ -87,6 +88,7 @@ package tb_params_pkg;
   parameter register_model_params_t register_model_params =
   '{
     /*reg_model_name*/  "REG_MODEL",
+    /*hdl_path_root*/   "dut_top.DUT.DUT.register_file.csr_reg_block",
     /*default_path*/    UVM_FRONTDOOR,
     /*verbosity*/       UVM_MEDIUM
   };

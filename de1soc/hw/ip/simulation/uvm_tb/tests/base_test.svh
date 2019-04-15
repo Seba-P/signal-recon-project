@@ -212,6 +212,7 @@ function void base_test::configure_register_model();
   reg_model_config = register_model_config::type_id::create("reg_model_config");
 
   reg_model_config.reg_model_name = register_model_params.reg_model_name;
+  reg_model_config.hdl_path_root  = register_model_params.hdl_path_root;
   reg_model_config.default_path   = register_model_params.default_path;
   reg_model_config.verbosity      = register_model_params.verbosity;
   // -------------------------------------------------------------------------------------------------------------- //

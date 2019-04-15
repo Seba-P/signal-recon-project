@@ -102,6 +102,13 @@ class status_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+
+    add_hdl_path_slice(.name("status.busy"), .offset(CSR_STATUS_BUSY_OFFSET), .size(CSR_STATUS_BUSY_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("status.ready"), .offset(CSR_STATUS_READY_OFFSET), .size(CSR_STATUS_READY_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("status.error"), .offset(CSR_STATUS_ERROR_OFFSET), .size(CSR_STATUS_ERROR_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("status._reserved1"), .offset(CSR_STATUS_RESERVED1_OFFSET), .size(CSR_STATUS_RESERVED1_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("status.fifo_err"), .offset(CSR_STATUS_FIFO_ERR_OFFSET), .size(CSR_STATUS_FIFO_ERR_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("status._reserved2"), .offset(CSR_STATUS_RESERVED2_OFFSET), .size(CSR_STATUS_RESERVED2_SIZE), .kind("RTL"));
   endfunction : build
 endclass : status_reg
 

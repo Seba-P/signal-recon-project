@@ -34,6 +34,8 @@ function void register_model::build_phase(uvm_phase phase);
   m_predictor = csr_reg_block_predictor::type_id::create("m_predictor", this);
 
   m_reg_block.default_path = m_config.default_path;
+  // m_reg_block.set_hdl_path_root(.path(m_config.hdl_path_root), .kind("RTL"));
+  m_reg_block.add_hdl_path(.path(m_config.hdl_path_root), .kind("RTL"));
   m_reg_block.build();
   m_reg_block.reset("HARD");
 endfunction : build_phase

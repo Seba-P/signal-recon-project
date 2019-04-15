@@ -12,6 +12,7 @@ package register_model_pkg;
   typedef struct
   {
     string        reg_model_name;
+    string        hdl_path_root;
 	  uvm_path_e    default_path;
 	  uvm_verbosity verbosity;
   } register_model_params_t;

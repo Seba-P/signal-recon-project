@@ -18,7 +18,7 @@ task csr_init_config_seq::body();
   csr_reg_block_t csr_reg_block;
   uvm_status_e    status;
 
-  `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ STARTS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
   csr_reg_block = csr_config.m_csr_reg_block;
 
@@ -88,7 +88,7 @@ task csr_init_config_seq::body();
   write_reg(CSR_REG_BLOCK_CONTROL_START, '1, csr_reg_block.control, status);
   #5;
 
-  `uvm_info("CSR_INIT_CONFIG_SEQ", "*** CSR_INIT_CONFIG_SEQ ENDS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
 `endif // _CSR_INIT_CONFIG_SEQ_SVH_

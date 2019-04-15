@@ -87,6 +87,15 @@ class control_reg extends uvm_reg;
       .is_rand                  (0),
       .individually_accessible  (0)
     );
+
+    /* 'Control' register fields shall not use backdoor access for the fields work on a trigger-basis  */
+    /*
+    add_hdl_path_slice(.name("control.run"), .offset(CSR_CONTROL_RUN_OFFSET), .size(CSR_CONTROL_RUN_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("control.halt"), .offset(CSR_CONTROL_HALT_OFFSET), .size(CSR_CONTROL_HALT_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("control.flush"), .offset(CSR_CONTROL_FLUSH_OFFSET), .size(CSR_CONTROL_FLUSH_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("control.init"), .offset(CSR_CONTROL_INIT_OFFSET), .size(CSR_CONTROL_INIT_SIZE), .kind("RTL"));
+    add_hdl_path_slice(.name("control._reserved1"), .offset(CSR_CONTROL_RESERVED1_OFFSET), .size(CSR_CONTROL_RESERVED1_SIZE), .kind("RTL"));
+    */
   endfunction : build
 endclass : control_reg
 

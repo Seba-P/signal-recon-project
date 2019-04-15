@@ -20,13 +20,13 @@ function base_st2mm_seq::new(string name = "base_st2mm_seq");
 endfunction : new
 
 task base_st2mm_seq::body();
-  `uvm_info("BASE_ST2MM_SEQ", "*** BASE_ST2MM_SEQ STARTS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
   
   total_duration = 100;
 
   collect_values(total_duration);
 
-  `uvm_info("BASE_ST2MM_SEQ", "*** BASE_ST2MM_SEQ ENDS ***", UVM_LOW)
+  `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
 task base_st2mm_seq::collect_values(int duration);
