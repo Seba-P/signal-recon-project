@@ -1,9 +1,11 @@
 
 MODELSIM_INSTALL_DIR  ?= C:/intelfpga/17.1/modelsim_ase
 QUARTUS_INSTALL_DIR   ?= C:/intelfpga/17.1/quartus
+PROJECT_ROOT_DIR      ?= ../../../../..
 QSYS_SIMDIR           ?= ../../../soc_system/simulation
 RTL_DIR               ?= ../../source
 TB_DIR                ?= .
+TEST_VECTOR_DIR       ?= ../vectors
 UVM_HOME              = ../uvm_1.1d
 DPI_SRC               = $(UVM_HOME)/src/dpi/uvm_dpi.cc
 
@@ -28,6 +30,16 @@ else
 	GUI_OPT = -gui
 endif
 
+ifeq ($(TEST_VECTOR),)
+	TEST_VECTOR_OPT = 
+else
+	ifeq ($(LOCAL),)
+		TEST_VECTOR_OPT = +TEST_VECTOR=$(TEST_VECTOR) +TEST_VECTOR_DIR=$(TEST_VECTOR_DIR)
+	else
+		TEST_VECTOR_OPT = +TEST_VECTOR=$(TEST_VECTOR) +TEST_VECTOR_DIR=../vectors
+	endif
+endif
+
 DO_CMD = "do ./wave.do; run -a;"
 
 all default: libs rtl uvm tb sim
@@ -45,8 +57,18 @@ tb: uvm
 	vlog -sv +incdir+$(RTL_DIR)+$(UVM_HOME)/src -f filelist_tb.f -work dut_tb -mfcu -suppress 2181 +acc=rmb
 
 sim:
+ifneq ($(TEST_VECTOR),)
+ifeq ($(LOCAL),)
+	mkdir -p $(TEST_VECTOR_DIR)/$(TEST_VECTOR)/results
+else
+	rm -rf ../vectors/$(TEST_VECTOR)
+	cp -R $(TEST_VECTOR_DIR)/$(TEST_VECTOR) ../vectors/$(TEST_VECTOR)
+	mkdir -p ../vectors/$(TEST_VECTOR)/results
+endif
+endif
+
 	vsim -t ns dut_top -do $(DO_CMD) \
-		$(GUI_OPT) $(UVM_TESTNAME_OPT) $(UVM_VERBOSITY_OPT) \
+		$(GUI_OPT) $(UVM_TESTNAME_OPT) $(UVM_VERBOSITY_OPT) $(TEST_VECTOR_OPT) \
 		-sv_lib _work/uvm_dpi -work dut_tb $(LIB_LINKS) \
 		-suppress 8887 -suppress 12003 -suppress 3009 -suppress 19 -suppress 8315
 

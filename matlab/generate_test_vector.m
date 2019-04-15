@@ -23,6 +23,8 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     % Generate configuration for POCS engine
     fd = fopen(sprintf('../vectors/%s/config.txt', vector_name), 'w');
 
+    fprintf(fd, '##### PARAMETERS #####\n', n_iter);
+    fprintf(fd, '\n');
     fprintf(fd, '>>> PARAMS <<<\n');
     fprintf(fd, '$ LVLS_NUM: %u\n', N_sig_lvls);
     fprintf(fd, '$ INIT_LVL: %u\n', lvl0);

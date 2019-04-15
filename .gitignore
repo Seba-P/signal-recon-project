@@ -1,25 +1,26 @@
 
 # Untracked files
-/matlab/*.asv
 /matlab/vectors/*/
+/matlab/*.asv
 
 /de1soc/hps_sw/workspace/
 /de1soc/hw/db/
 /de1soc/hw/incremental_db/
 /de1soc/hw/ip/simulation/libraries/
-/de1soc/hw/ip/simulation/work/
 /de1soc/hw/ip/simulation/uvm_tb/_work/
 /de1soc/hw/ip/simulation/uvm_tb/transcript
 /de1soc/hw/ip/simulation/uvm_tb/*_stacktrace.vstf
+/de1soc/hw/ip/simulation/vectors/*/
+/de1soc/hw/ip/simulation/work/
 /de1soc/hw/ip/simulation/wlft*
 /de1soc/hw/ip/work/
 /de1soc/hw/output_files/
 /de1soc/hw/release/
-/de1soc/backup/
 /de1soc/hw/soc_system/
+/de1soc/backup/
 
-*.hex
 *.bin
+*.hex
 *.out
 *.o
 *.d

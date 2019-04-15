@@ -9,6 +9,9 @@ class base_test extends uvm_test;
   pocs_engine_env_config  m_env_cfg;
   csr_reg_block_config    m_csr_init_config;
 
+  int m_use_register_model  = 1;
+  int m_enable_scoreboard   = 1;
+
   // Standard UVM Methods:
   extern function new(string name = "base_test", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -17,13 +20,15 @@ class base_test extends uvm_test;
   extern virtual task main_phase(uvm_phase phase);
 
   // Custom methods:
-  extern function void configure_avalon_mm_vip();
-  extern function void override_avalon_mm_vip_config();
-  extern function void configure_avalon_st_vip();
-  extern function void override_avalon_st_vip_config();
-  extern function void configure_register_model();
-  extern function void override_register_model_config();
-  extern function void override_csr_init_config();
+  extern virtual function void get_cmdline_options();
+  extern virtual function void init_test_config();
+  extern virtual function void configure_avalon_mm_vip();
+  extern virtual function void override_avalon_mm_vip_config();
+  extern virtual function void configure_avalon_st_vip();
+  extern virtual function void override_avalon_st_vip_config();
+  extern virtual function void configure_register_model();
+  extern virtual function void override_register_model_config();
+  extern virtual function void override_csr_init_config();
 endclass : base_test
 
 function base_test::new(string name = "base_test", uvm_component parent = null);
@@ -36,9 +41,13 @@ function void base_test::build_phase(uvm_phase phase);
   m_env             = pocs_engine_env::type_id::create("m_env", this);
   m_csr_init_config = csr_reg_block_config::type_id::create("m_csr_init_config", this);
 
+  get_cmdline_options();
+
+  init_test_config();
+
   m_env_cfg.csr_config          = m_csr_init_config;
-  m_env_cfg.use_register_model  = 1;
-  m_env_cfg.enable_scoreboard   = 1;
+  m_env_cfg.use_register_model  = m_use_register_model;
+  m_env_cfg.enable_scoreboard   = m_enable_scoreboard;
 
   configure_avalon_mm_vip();
   configure_avalon_st_vip();
@@ -97,6 +106,14 @@ task base_test::main_phase(uvm_phase phase);
   phase.drop_objection(this, "");
   `uvm_info("TEST", "***** END OF MAIN_PHASE *****", UVM_LOW)
 endtask : main_phase
+
+function void base_test::get_cmdline_options();
+  // parse cmdline for some useful arguments
+endfunction : get_cmdline_options
+
+function void base_test::init_test_config();
+  // do some test-specific tuning
+endfunction : init_test_config
 
 function void base_test::configure_avalon_mm_vip();
   avalon_mm_agent_config #(avalon_mm_inst_specs[CSR]) csr_agent_config;
