@@ -48,21 +48,43 @@ generate
   end
 endgenerate
 
+  clocking avalon_st_source_cb @(posedge clock);
+    default input #0.1 output #0.1;
+
+    output  data;
+    output  error;
+    input   ready;
+    output  valid;
+    output  start_of_packet;
+    output  end_of_packet;
+  endclocking
+
+  clocking avalon_st_sink_cb @(posedge clock);
+    default input #0.1 output #0.1;
+
+    input   data;
+    input   error;
+    output  ready;
+    input   valid;
+    input   start_of_packet;
+    input   end_of_packet;
+  endclocking
+
  /*****************
   * DRIVER METHODS *
   *****************/
   function void clear_bus();
     if (INST_SPEC.VIF_MODPORT == MODPORT_SOURCE)
     begin
-      data            <= '0;
-      error           <= '0;
-      valid           <= '0;
-      start_of_packet <= '0;
-      end_of_packet   <= '0;
+      avalon_st_source_cb.data            <= '0;
+      avalon_st_source_cb.error           <= '0;
+      avalon_st_source_cb.valid           <= '0;
+      avalon_st_source_cb.start_of_packet <= '0;
+      avalon_st_source_cb.end_of_packet   <= '0;
     end
     else
     begin
-      ready           <= '0;
+      avalon_st_sink_cb.ready             <= '0;
     end
   endfunction : clear_bus
 
@@ -86,20 +108,19 @@ endgenerate
 
     while (data_queue.size())
     begin
-      @(posedge clock);
-      @(negedge clock);
+      @(avalon_st_source_cb);
 
-      data  <= data_queue.pop_front();
-      valid <= 'd1;
+      avalon_st_source_cb.data  <= data_queue.pop_front();
+      avalon_st_source_cb.valid <= 'd1;
 
-      if (ready !== 'd1)
-        @(posedge ready);
+      if (avalon_st_source_cb.ready !== 'd1)
+        @(posedge avalon_st_source_cb.ready);
 
-      `uvm_info("push_data", $sformatf("data = 0x%0h", data), UVM_DEBUG)
+      `uvm_info("push_data", $sformatf("data = 0x%0h", avalon_st_source_cb.data), UVM_DEBUG)
     end
 
-    @(posedge clock);
-    valid <= 'd0;
+    @(avalon_st_source_cb);
+    avalon_st_source_cb.valid <= 'd0;
   endtask : push_data
 
   task pull_data(uvm_object rhs);
@@ -108,23 +129,22 @@ endgenerate
     if (!$cast(seq, rhs))
       `uvm_fatal("pull_data", "Cast of 'rhs' object failed.")
 
-    @(posedge clock);
-    ready <= 'd1;
+    @(avalon_st_sink_cb);
+    avalon_st_sink_cb.ready <= 'd1;
 
     while (seq.data.size() < seq.burst_len)
     begin
-      @(posedge clock);
-      @(negedge clock);
+      @(avalon_st_sink_cb);
 
-      if (valid !== 'd1)
-        @(posedge valid);
+      if (avalon_st_sink_cb.valid !== 'd1)
+        @(posedge avalon_st_sink_cb.valid);
 
-      `uvm_info("pull_data", $sformatf("data = 0x%0h", data), UVM_DEBUG)
+      `uvm_info("pull_data", $sformatf("data = 0x%0h", avalon_st_sink_cb.data), UVM_DEBUG)
       seq.data.push_back(data);
     end
 
-    @(posedge clock);
-    ready <= 'd0;
+    @(avalon_st_sink_cb);
+    avalon_st_sink_cb.ready <= 'd0;
   endtask : pull_data
 
   /******************
@@ -136,20 +156,19 @@ endgenerate
     if (!$cast(item, rhs))
       `uvm_fatal("get_transaction", "Cast of 'rhs' object failed.")
 
-    if (valid !== 'd1)
-      @(posedge valid);
+    if (avalon_st_sink_cb.valid !== 'd1)
+        @(posedge avalon_st_sink_cb.valid);
 
-    while (valid === 'd1)
-    begin
-      if (ready === 'd1)
+      while (avalon_st_sink_cb.valid === 'd1)
       begin
-        item.data.push_back(data);
-        item.burst_len++;
-      end
+        if (avalon_st_source_cb.ready === 'd1)
+        begin
+          item.data.push_back(avalon_st_sink_cb.data);
+          item.burst_len++;
+        end
 
-      @(posedge clock);
-      @(negedge clock);
-    end
+        @(avalon_st_source_cb);
+      end
   endtask : get_transaction
 
 endinterface : avalon_st_if

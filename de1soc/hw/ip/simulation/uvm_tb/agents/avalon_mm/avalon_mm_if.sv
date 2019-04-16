@@ -59,23 +59,49 @@ generate
   end
 endgenerate
 
+  clocking avalon_mm_master_cb @(posedge clock);
+    default input #0.1 output #0.1;
+
+    output address;
+    output byteenable;
+    output read;
+    input  readdata;
+    input  response;
+    output write;
+    output writedata;
+    input  waitrequest;
+  endclocking
+
+  clocking avalon_mm_slave_cb @(posedge clock);
+    default input #0.1 output #0.1;
+
+    input  address;
+    input  byteenable;
+    input  read;
+    output readdata;
+    output response;
+    input  write;
+    input  writedata;
+    output waitrequest;
+  endclocking
+
  /*****************
   * DRIVER METHODS *
   *****************/
   function void clear_bus();
     if (INST_SPEC.VIF_MODPORT == MODPORT_MASTER)
     begin
-      address     <= '0;
-      byteenable  <= '0;
-      read        <= '0;
-      write       <= '0;
-      writedata   <= '0;
+      avalon_mm_master_cb.address     <= '0;
+      avalon_mm_master_cb.byteenable  <= '0;
+      avalon_mm_master_cb.read        <= '0;
+      avalon_mm_master_cb.write       <= '0;
+      avalon_mm_master_cb.writedata   <= '0;
     end
     else
     begin
-      readdata    <= '0;
-      response    <= '0;
-      waitrequest <= '0;
+      avalon_mm_slave_cb.readdata     <= '0;
+      avalon_mm_slave_cb.response     <= '0;
+      avalon_mm_slave_cb.waitrequest  <= '0;
     end
   endfunction : clear_bus
 
@@ -104,25 +130,22 @@ endgenerate
 
     while (data_queue.size())
     begin
-      @(posedge clock);
+      @(avalon_mm_master_cb);
 
-      address     <= addr_queue.pop_front();
-      write       <= 'd1;
-      writedata   <= data_queue.pop_front();
-      byteenable  <= byteen_queue.pop_front();
+      avalon_mm_master_cb.address     <= addr_queue.pop_front();
+      avalon_mm_master_cb.write       <= 'd1;
+      avalon_mm_master_cb.writedata   <= data_queue.pop_front();
+      avalon_mm_master_cb.byteenable  <= byteen_queue.pop_front();
 
-      // @(posedge clock);
-      @(negedge clock);
+      if (avalon_mm_master_cb.waitrequest === 'd1)
+        @(negedge avalon_mm_master_cb.waitrequest);
 
-      if (waitrequest === 'd1)
-        @(negedge waitrequest);
-
-      `uvm_info("write_data", $sformatf("writedata = 0x%0h", writedata), UVM_DEBUG)
-      seq.resp.push_back(response); // write burst might get only 1 response
+      `uvm_info("write_data", $sformatf("writedata = 0x%0h", avalon_mm_master_cb.writedata), UVM_DEBUG)
+      seq.resp.push_back(avalon_mm_master_cb.response); // write burst might get only 1 response
     end
 
-    @(posedge clock);
-    write <= 'd0;
+    @(avalon_mm_master_cb);
+    avalon_mm_master_cb.write <= 'd0;
 
     // TODO: response validation
   endtask : write_data
@@ -141,26 +164,22 @@ endgenerate
 
     while (seq.data.size() < seq.burst_len)
     begin
-      @(posedge clock);
+      @(avalon_mm_master_cb);
 
-      address     <= addr_queue.pop_front();
-      read        <= 'd1;
-      byteenable  <= byteen_queue.pop_front();
+      avalon_mm_master_cb.address     <= addr_queue.pop_front();
+      avalon_mm_master_cb.read        <= 'd1;
+      avalon_mm_master_cb.byteenable  <= byteen_queue.pop_front();
 
-      // @(posedge clock);
-      @(negedge clock);
-
-      if (waitrequest === 'd1)
-        @(negedge waitrequest);
+      if (avalon_mm_master_cb.waitrequest === 'd1)
+        @(negedge avalon_mm_master_cb.waitrequest);
       
-      `uvm_info("read_data", $sformatf("readdata = 0x%0h, response = 0x%0h", readdata, response), UVM_DEBUG)
-      seq.data.push_back(readdata);
-      seq.resp.push_back(response);
+      `uvm_info("read_data", $sformatf("readdata = 0x%0h, response = 0x%0h", avalon_mm_master_cb.readdata, avalon_mm_master_cb.response), UVM_DEBUG)
+      seq.data.push_back(avalon_mm_master_cb.readdata);
+      seq.resp.push_back(avalon_mm_master_cb.response);
     end
 
-    // @(negedge clock);
-    @(posedge clock);
-    read <= 'd0;
+    @(avalon_mm_master_cb);
+    avalon_mm_master_cb.read <= 'd0;
   endtask : read_data
 
   /******************
@@ -175,16 +194,16 @@ endgenerate
     fork
       READ_REQ:
       begin
-        if (read !== 'd1)
-          @(posedge read);
+        if (avalon_mm_slave_cb.read !== 'd1)
+          @(posedge avalon_mm_slave_cb.read);
 
         item.operation = READ_OP;
       end
 
       WRITE_REQ:
       begin
-        if (write !== 'd1)
-          @(posedge write);
+        if (avalon_mm_slave_cb.write !== 'd1)
+          @(posedge avalon_mm_slave_cb.write);
 
         item.operation = WRITE_OP;
       end
@@ -193,35 +212,35 @@ endgenerate
     case (item.operation)
       READ_OP:
       begin
-        while (read === 'd1)
+        while (avalon_mm_slave_cb.read === 'd1)
         begin
-          @(negedge clock);
-
-          if (waitrequest !== 'd1 && read === 'd1)
+          if (avalon_mm_master_cb.waitrequest !== 'd1)
           begin
-            item.addr.push_back(address);
-            item.byteen.push_back(byteenable);
-            item.data.push_back(readdata);
-            item.resp.push_back(response);
+            item.addr.push_back(avalon_mm_slave_cb.address);
+            item.byteen.push_back(avalon_mm_slave_cb.byteenable);
+            item.data.push_back(avalon_mm_slave_cb.readdata);
+            item.resp.push_back(avalon_mm_slave_cb.response);
             item.burst_len++;
           end
+
+          @(avalon_mm_slave_cb);
         end
       end
 
       WRITE_OP:
       begin
-        while (write === 'd1)
+        while (avalon_mm_slave_cb.write === 'd1)
         begin
-          @(negedge clock);
-
-          if (waitrequest !== 'd1 && write === 'd1)
+          if (avalon_mm_master_cb.waitrequest !== 'd1)
           begin
-            item.addr.push_back(address);
-            item.byteen.push_back(byteenable);
-            item.data.push_back(writedata);
-            item.resp.push_back(response); // write burst might get only 1 response
+            item.addr.push_back(avalon_mm_slave_cb.address);
+            item.byteen.push_back(avalon_mm_slave_cb.byteenable);
+            item.data.push_back(avalon_mm_slave_cb.writedata);
+            item.resp.push_back(avalon_mm_slave_cb.response); // write burst might get only 1 response
             item.burst_len++;
           end
+
+          @(avalon_mm_slave_cb);
         end
       end
     endcase
