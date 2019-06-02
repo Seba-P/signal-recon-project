@@ -18,6 +18,7 @@ class base_test extends uvm_test;
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task configure_phase(uvm_phase phase);
   extern virtual task main_phase(uvm_phase phase);
+  extern virtual function void report_phase(uvm_phase phase);
 
   // Custom methods:
   extern virtual function void get_cmdline_options();
@@ -106,6 +107,20 @@ task base_test::main_phase(uvm_phase phase);
   phase.drop_objection(this, "");
   `uvm_info("TEST", "***** END OF MAIN_PHASE *****", UVM_LOW)
 endtask : main_phase
+
+function void base_test::report_phase(uvm_phase phase);
+  uvm_report_server report_server = uvm_report_server::get_server();
+
+  super.report_phase(phase);
+
+    `uvm_info("TEST", "*******************", UVM_LOW);
+  if (report_server.get_severity_count(UVM_FATAL) + report_server.get_severity_count(UVM_ERROR) == 0) begin
+    `uvm_info("TEST", "*** TEST PASSED ***", UVM_LOW);
+  end else begin
+    `uvm_info("TEST", "*** TEST FAILED ***", UVM_LOW);
+  end
+    `uvm_info("TEST", "*******************", UVM_LOW);
+endfunction : report_phase
 
 function void base_test::get_cmdline_options();
   // parse cmdline for some useful arguments
