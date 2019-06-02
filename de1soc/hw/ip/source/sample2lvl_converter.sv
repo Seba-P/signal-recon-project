@@ -10,6 +10,7 @@ module sample2lvl_converter
   /* Parameters IF */
   input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_lvls_num,     //     params.lvls_num
   input  wire [$clog2(MAX_LVLS_NUM)-1:0] params_init_lvl,     //           .init_lvl
+  input  wire                     [ 1:0] params_init_guess,   //           .init_guess
   input  wire   [0:MAX_LVLS_NUM-1][15:0] params_lvls_values,  //           .lvls_values
   /* SGDMA IF */
   input  wire                     [15:0] in_data,             //         in.data
@@ -19,9 +20,9 @@ module sample2lvl_converter
   input  wire                            iter_init,           //       iter.new_signal
   output wire                            iter_valid,          //           .new_signal_1
   input  wire                            iter_ready,          //           .new_signal_2
-  /* Output lvl IF */
-  output wire                     [15:0] out_lvl_data,        //    out_lvl.data
-  output wire                            out_lvl_valid,       //           .valid
+  /* Output signal IF */
+  output wire                     [15:0] out_signal_data,     // out_signal.data
+  output wire                            out_signal_valid,    //           .valid
   /* Output limits IF */
   output wire                     [31:0] out_limits_data,     // out_limits.data
   output wire                            out_limits_valid     //           .valid
@@ -29,13 +30,14 @@ module sample2lvl_converter
 
 localparam MAX_LVLS_NUM_BITS = $clog2(MAX_LVLS_NUM);
 
-wire lvl_gen_cross_dir;
-wire lvl_gen_new_sample;
-wire lvl_gen_valid;
-wire out_valid;
+wire        sig_gen_cross_dir;
+wire [14:0] sig_gen_duration;
+wire        sig_gen_valid;
+wire        sig_gen_ready;
+wire        out_valid;
 
 assign iter_valid       = out_valid;
-assign out_lvl_valid    = out_valid;
+assign out_signal_valid = out_valid;
 assign out_limits_valid = out_valid;
 
 sample_dispatcher sample_dispatcher
@@ -45,21 +47,20 @@ sample_dispatcher sample_dispatcher
   .clock              (clock),
   /* SGDMA IF */
   .in_data            (in_data),
-  .in_ready           (in_ready),
   .in_valid           (in_valid),
-  /* Lvl generator IF */
-  .lvl_gen_cross_dir  (lvl_gen_cross_dir),
-  .lvl_gen_new_sample (lvl_gen_new_sample),
-  .lvl_gen_valid      (lvl_gen_valid),
-  /* Iteration controler IF */
-  .iter_ready         (iter_ready)
+  .in_ready           (in_ready),
+  /* Signal generator IF */
+  .sig_gen_cross_dir  (sig_gen_cross_dir),
+  .sig_gen_duration   (sig_gen_duration),
+  .sig_gen_valid      (sig_gen_valid),
+  .sig_gen_ready      (sig_gen_ready)
 );
 
-lvl_generator
+signal_generator
 #(
   .MAX_LVLS_NUM (MAX_LVLS_NUM)
 )
-lvl_generator
+signal_generator
 (
   /* Common IF */
   .reset              (reset | iter_init),
@@ -67,15 +68,20 @@ lvl_generator
   /* Register file IF */
   .params_lvls_num    (params_lvls_num),
   .params_init_lvl    (params_init_lvl),
+  .params_init_guess  (params_init_guess),
   .params_lvls_values (params_lvls_values),
   /* Sample dispatcher IF */
-  .disp_cross_dir     (lvl_gen_cross_dir),
-  .disp_new_sample    (lvl_gen_new_sample),
-  .disp_valid         (lvl_gen_valid),
-  /* Buffer controlers IF */
-  .buff_value         (out_lvl_data),
+  .disp_cross_dir     (sig_gen_cross_dir),
+  .disp_duration      (sig_gen_duration),
+  .disp_valid         (sig_gen_valid),
+  .disp_ready         (sig_gen_ready),
+  /* Buffer controllers IF */
+  .buff_value         (out_signal_data),
   .buff_limits        (out_limits_data),
-  .buff_valid         (out_valid)
+  .buff_valid         (out_valid),
+  /* Iteration controller IF */
+  .iter_valid         (iter_valid),
+  .iter_ready         (iter_ready)
 );
 
 endmodule

@@ -40,7 +40,7 @@ set_fileset_property QUARTUS_SYNTH TOP_LEVEL sample2lvl_converter
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE true
 add_fileset_file sample2lvl_converter.sv SYSTEM_VERILOG PATH ../source/sample2lvl_converter.sv TOP_LEVEL_FILE
-add_fileset_file lvl_generator.sv SYSTEM_VERILOG PATH ../source/lvl_generator.sv
+add_fileset_file signal_generator.sv SYSTEM_VERILOG PATH ../source/signal_generator.sv
 add_fileset_file sample_dispatcher.sv SYSTEM_VERILOG PATH ../source/sample_dispatcher.sv
 
 add_fileset SIM_VERILOG SIM_VERILOG "" ""
@@ -48,7 +48,7 @@ set_fileset_property SIM_VERILOG TOP_LEVEL sample2lvl_converter
 set_fileset_property SIM_VERILOG ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VERILOG ENABLE_FILE_OVERWRITE_MODE true
 add_fileset_file sample2lvl_converter.sv SYSTEM_VERILOG PATH ../source/sample2lvl_converter.sv MENTOR_SPECIFIC
-add_fileset_file lvl_generator.sv SYSTEM_VERILOG PATH ../source/lvl_generator.sv MENTOR_SPECIFIC
+add_fileset_file signal_generator.sv SYSTEM_VERILOG PATH ../source/signal_generator.sv MENTOR_SPECIFIC
 add_fileset_file sample_dispatcher.sv SYSTEM_VERILOG PATH ../source/sample_dispatcher.sv MENTOR_SPECIFIC
 
 

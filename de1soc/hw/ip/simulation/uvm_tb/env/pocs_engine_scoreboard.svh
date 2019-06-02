@@ -101,7 +101,7 @@ function void pocs_engine_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st
 
   while (cloned_item.data.size())
   begin
-    sample = lvl_cross_sample_t'(cloned_item.load_data());
+    sample = lvl_cross_sample_t'(cloned_item.data.pop_front());
 
     `uvm_info("SCOREBOARD", $sformatf("Received mm2st sample: %s::%0d", sample.lvl_cross_dir.name(), sample.timestamp), UVM_LOW)
 

@@ -9,6 +9,7 @@ package common_share_pkg;
   localparam LVLS_NUM           = 20;
   localparam INIT_LVL           = 9;
   localparam ITER_NUM           = 3;
+  localparam INIT_GUESS         = 1;
 
   typedef enum bit
   {

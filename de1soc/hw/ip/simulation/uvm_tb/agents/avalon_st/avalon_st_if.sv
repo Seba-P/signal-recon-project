@@ -49,7 +49,8 @@ generate
 endgenerate
 
   clocking avalon_st_source_cb @(posedge clock);
-    default input #0.1 output #0.1;
+    // default input #0.1 output #0.1;
+    default input #0 output #0;
 
     output  data;
     output  error;
@@ -60,7 +61,8 @@ endgenerate
   endclocking
 
   clocking avalon_st_sink_cb @(posedge clock);
-    default input #0.1 output #0.1;
+    // default input #0.1 output #0.1;
+    default input #0 output #0;
 
     input   data;
     input   error;
@@ -113,8 +115,8 @@ endgenerate
       avalon_st_source_cb.data  <= data_queue.pop_front();
       avalon_st_source_cb.valid <= 'd1;
 
-      if (avalon_st_source_cb.ready !== 'd1)
-        @(posedge avalon_st_source_cb.ready);
+      while (avalon_st_source_cb.ready !== 'd1)
+        @(avalon_st_source_cb);
 
       `uvm_info("push_data", $sformatf("data = 0x%0h", avalon_st_source_cb.data), UVM_DEBUG)
     end

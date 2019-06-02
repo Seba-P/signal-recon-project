@@ -1,10 +1,18 @@
 
-function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_iter, samples, signal_original = [], signal_reconstructed = [], params = [ NaN NaN NaN ])
+function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_iter, init_shape, samples, signal_original = [], signal_reconstructed = [], params = [ NaN NaN NaN ])
 
     N_sig_lvls  = length(sig_lvls);
     SEED        = params(1);
     DOWNRATE    = params(2);
     K           = params(3);
+
+    if strcmp(tolower(init_shape), 'piecewise-linear')
+        init_guess = 2;
+    else if (strcmp(tolower(init_shape), 'piecewise-constant'))
+        init_guess = 1;
+    else
+        init_guess = 0;
+    end
 
     mkdir('../vectors/', vector_name);
 
@@ -26,9 +34,10 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     fprintf(fd, '##### PARAMETERS #####\n', n_iter);
     fprintf(fd, '\n');
     fprintf(fd, '>>> PARAMS <<<\n');
-    fprintf(fd, '$ LVLS_NUM: %u\n', N_sig_lvls);
-    fprintf(fd, '$ INIT_LVL: %u\n', lvl0);
-    fprintf(fd, '$ ITER_NUM: %u\n', n_iter);
+    fprintf(fd, '$ LVLS_NUM:   %u\n', N_sig_lvls);
+    fprintf(fd, '$ INIT_LVL:   %u\n', lvl0);
+    fprintf(fd, '$ ITER_NUM:   %u\n', n_iter);
+    fprintf(fd, '$ INIT_GUESS: %u\n', init_guess);
     fprintf(fd, '\n');
     fprintf(fd, '##### SIGNAL LVLS #####\n', n_iter);
 

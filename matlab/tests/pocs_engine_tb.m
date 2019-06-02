@@ -8,9 +8,10 @@ close all ; clear all
 seed = [];
 [ x t lvl ] = generate_bursty_signal(seed);
 
-DOWNRATE = 40;
-K        = 62;
-N_ITER   = 2;
+DOWNRATE 	= 40;
+K        	= 62;
+N_ITER   	= 2;
+INIT_GUESS 	= 'piecewise-constant';
 
 xs = pick_samples(x, DOWNRATE);
 ts = pick_samples(t, DOWNRATE);
@@ -19,7 +20,7 @@ signal   = xs;
 sig_lvls = lvl(:,1)';
 dts      = ts(2)-ts(1);
 
-[samples, lvl0, lvls] = gen_samples_and_init_guess(xs, ts, (lvl(:,1))', 'piecewise-constant', 0);
+[samples, lvl0, lvls] = gen_samples_and_init_guess(xs, ts, (lvl(:,1))', INIT_GUESS, 0);
 
 %%%%%%%%%%%%%%%%%%%%%
 % FILTERING PROCESS %
@@ -34,7 +35,7 @@ tn          = 0:dts:dts*(length(signal)-1);
 %%%%%%%%%%%%%%%%
 % TEST RESULTS %
 %%%%%%%%%%%%%%%%
-generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, samples, signal, ver_lvls, [ NaN DOWNRATE K ]);
+generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, INIT_GUESS, samples, signal, ver_lvls, [ NaN DOWNRATE K ]);
 
 tb_output 	= load_results('../tb_output.txt', 'text');
 tb_delay 	= N_ITER*(fir_delay-1)+1;

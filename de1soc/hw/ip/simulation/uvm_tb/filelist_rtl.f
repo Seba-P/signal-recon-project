@@ -1,6 +1,6 @@
 ../../source/delay.sv
 ../../source/sample_dispatcher.sv
-../../source/lvl_generator.sv
+../../source/signal_generator.sv
 ../../source/sample2lvl_converter.sv
 ../../source/iteration_ctrl.sv
 ../../source/output_ctrl.sv

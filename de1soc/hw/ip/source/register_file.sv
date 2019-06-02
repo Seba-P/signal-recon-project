@@ -8,33 +8,34 @@ module register_file
 )
 (
   /* Common IF */
-  input  wire              reset,               //             reset.reset
-  input  wire              clock,               //             clock.clk
+  input  wire              reset,                 //             reset.reset
+  input  wire              clock,                 //             clock.clk
   /* CSR IF */
-  input  wire       [ 7:0] csr_address,         //               csr.address
-  input  wire       [ 3:0] csr_byteenable,      //                  .byteenable
-  input  wire              csr_read,            //                  .read
-  output wire       [31:0] csr_readdata,        //                  .readdata
-  output wire       [ 1:0] csr_response,        //                  .response
-  input  wire              csr_write,           //                  .write
-  input  wire       [31:0] csr_writedata,       //                  .writedata
-  output wire              csr_waitrequest,     //                  .waitrequest
+  input  wire       [ 7:0] csr_address,           //               csr.address
+  input  wire       [ 3:0] csr_byteenable,        //                  .byteenable
+  input  wire              csr_read,              //                  .read
+  output wire       [31:0] csr_readdata,          //                  .readdata
+  output wire       [ 1:0] csr_response,          //                  .response
+  input  wire              csr_write,             //                  .write
+  input  wire       [31:0] csr_writedata,         //                  .writedata
+  output wire              csr_waitrequest,       //                  .waitrequest
   /* STATUS register IF */
-  input  wire              reg_status_busy,     //        reg_status.busy
-  input  wire              reg_status_ready,    //                  .ready
-  input  wire              reg_status_error,    //                  .error
-  input  wire              reg_status_fifo_err, //                  .fifo_err
+  input  wire              reg_status_busy,       //        reg_status.busy
+  input  wire              reg_status_ready,      //                  .ready
+  input  wire              reg_status_error,      //                  .error
+  input  wire              reg_status_fifo_err,   //                  .fifo_err
   /* CONTROL register IF */
-  output wire              reg_control_run,     //       reg_control.run
-  output wire              reg_control_halt,    //                  .halt
-  output wire              reg_control_flush,   //                  .flush
-  output wire              reg_control_init,    //                  .init
+  output wire              reg_control_run,       //       reg_control.run
+  output wire              reg_control_halt,      //                  .halt
+  output wire              reg_control_flush,     //                  .flush
+  output wire              reg_control_init,      //                  .init
   /* PARAMS register IF */
-  output wire       [ 4:0] reg_params_lvls_num, //        reg_params.lvls_num
-  output wire       [ 4:0] reg_params_init_lvl, //                  .init_lvl
-  output wire       [ 3:0] reg_params_iter_num, //                  .iter_num
+  output wire       [ 4:0] reg_params_lvls_num,   //        reg_params.lvls_num
+  output wire       [ 4:0] reg_params_init_lvl,   //                  .init_lvl
+  output wire       [ 3:0] reg_params_iter_num,   //                  .iter_num
+  output wire       [ 1:0] reg_params_init_guess, //                  .init_guess
   /* LVL_VAL_XX_YY registers IF */
-  output wire [0:31][15:0] reg_lvl_val_xx_yy    // reg_lvl_val_xx_yy.lvls_values
+  output wire [0:31][15:0] reg_lvl_val_xx_yy      // reg_lvl_val_xx_yy.lvls_values
 );
 
 import register_file_defs_pkg::*;
@@ -67,6 +68,7 @@ assign reg_control_init       = control_init_pulse_r & ~control_init_pulse_d1_r;
 assign reg_params_lvls_num    = csr_reg_block.params.lvls_num;
 assign reg_params_init_lvl    = csr_reg_block.params.init_lvl;
 assign reg_params_iter_num    = csr_reg_block.params.iter_num;
+assign reg_params_init_guess  = csr_reg_block.params.init_guess;
 assign reg_lvl_val_xx_yy[ 0]  = csr_reg_block.lvl_val_00_01.lvl_val_00;
 assign reg_lvl_val_xx_yy[ 1]  = csr_reg_block.lvl_val_00_01.lvl_val_01;
 assign reg_lvl_val_xx_yy[ 2]  = csr_reg_block.lvl_val_02_03.lvl_val_02;

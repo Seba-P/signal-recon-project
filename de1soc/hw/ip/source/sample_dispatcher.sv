@@ -6,61 +6,91 @@ module sample_dispatcher
   input  wire        clock,
   /* SGDMA IF */
   input  wire [15:0] in_data,
-  output wire        in_ready,
   input  wire        in_valid,
-  /* Lvl generator IF */
-  output wire        lvl_gen_cross_dir,   // 1 -> upward, 0 -> downward
-  output wire        lvl_gen_new_sample,
-  output wire        lvl_gen_valid,
-  /* Iteration controler IF */
-  input  wire        iter_ready
+  output wire        in_ready,
+  /* Signal generator IF */
+  output wire        sig_gen_cross_dir, // 1 -> upward, 0 -> downward
+  output wire [14:0] sig_gen_duration,
+  output wire        sig_gen_valid,
+  input  wire        sig_gen_ready
 );
 
-wire       next_sample;
+typedef enum reg
+{
+  IDLE,
+  PENDING
+} state_t;
+
 reg        in_ready_r;
-reg        lvl_gen_cross_dir_r;
-reg        lvl_gen_new_sample_r;
-reg [14:0] lvl_duration_cnt_r;
-reg        lvl_gen_valid_r;
+reg        sig_gen_valid_r;
+reg        sig_gen_cross_dir_r;
+reg [14:0] sig_gen_duration_r;
+
+state_t    sample_state_r;
 
 assign in_ready           = in_ready_r;
-assign lvl_gen_cross_dir  = lvl_gen_cross_dir_r;
-assign lvl_gen_new_sample = lvl_gen_new_sample_r;
-assign lvl_gen_valid      = lvl_gen_valid_r;
+assign sig_gen_cross_dir  = sig_gen_cross_dir_r;
+assign sig_gen_duration   = sig_gen_duration_r;
+assign sig_gen_valid      = sig_gen_valid_r;
 
-assign next_sample = (lvl_duration_cnt_r == 'd0);
-
+/* SGDMA IF */
 always_ff @(posedge clock)
 begin
   if (reset)
   begin
-    in_ready_r              <= '0;
-    lvl_gen_cross_dir_r     <= '0;
-    lvl_gen_new_sample_r    <= '0;
-    lvl_duration_cnt_r      <= '0;
-    lvl_gen_valid_r         <= '0;
+    sample_state_r  <= IDLE;
+    in_ready_r      <= '0;
   end
   else
   begin
-    if (next_sample & in_valid)
-    begin
-      in_ready_r            <= 'd1;
-      lvl_gen_new_sample_r  <= 'd1;
-      lvl_gen_cross_dir_r   <= in_data[15];
-      lvl_duration_cnt_r    <= in_data[14:0];
-      lvl_gen_valid_r       <= 'd1;
-    end
-    else
-    begin
-      in_ready_r            <= 'd0;
-      lvl_gen_new_sample_r  <= 'd0;
-      lvl_gen_valid_r       <= lvl_duration_cnt_r > 'd1;
-
-      if (iter_ready)
+    case (sample_state_r)
+      IDLE:
       begin
-        lvl_duration_cnt_r  <= next_sample ? lvl_duration_cnt_r : lvl_duration_cnt_r - 'd1;
+        if (in_valid)
+          sample_state_r <= PENDING;
+
+        in_ready_r <= in_valid;
       end
-    end
+
+      PENDING:
+      begin
+        if (sig_gen_valid & sig_gen_ready)
+          sample_state_r <= IDLE;
+
+        in_ready_r <= 'd0;
+      end
+    endcase
+  end
+end
+
+/* Signal generator IF */
+always_ff @(posedge clock)
+begin
+  if (reset)
+  begin
+    sig_gen_cross_dir_r <= '0;
+    sig_gen_duration_r  <= '0;
+    sig_gen_valid_r     <= '0;
+  end
+  else
+  begin
+    case (sample_state_r)
+      IDLE:
+      begin
+        if (in_valid)
+        begin
+          sig_gen_cross_dir_r <= in_data[15];
+          sig_gen_duration_r  <= in_data[14:0];
+        end
+
+        sig_gen_valid_r <= in_valid;
+      end
+
+      PENDING:
+      begin
+        sig_gen_valid_r <= !sig_gen_ready;
+      end
+    endcase
   end
 end
 

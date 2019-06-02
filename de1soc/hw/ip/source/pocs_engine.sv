@@ -48,12 +48,13 @@ wire                    [ 4:0] reg_params_lvls_num;
 wire                    [ 4:0] reg_params_init_lvl;
 // wire [$clog2(MAX_ITER_NUM)-1:0] reg_params_iter_num;
 wire                    [ 3:0] reg_params_iter_num;
+wire                    [ 1:0] reg_params_init_guess;
 // wire  [0:MAX_LVLS_NUM-1][15:0] reg_lvl_val_xx_yy;
 wire              [0:31][15:0] reg_lvl_val_xx_yy;
-wire                           sample2lvl_subcells_lvl_valid;
-reg                            sample2lvl_subcells_lvl_valid_d1;
-wire                    [15:0] sample2lvl_subcells_lvl_data;
-reg                     [15:0] sample2lvl_subcells_lvl_data_d1;
+wire                           sample2lvl_subcells_signal_valid;
+reg                            sample2lvl_subcells_signal_valid_d1;
+wire                    [15:0] sample2lvl_subcells_signal_data;
+reg                     [15:0] sample2lvl_subcells_signal_data_d1;
 wire                           sample2lvl_subcells_limits_valid;
 reg                            sample2lvl_subcells_limits_valid_d1;
 wire                    [31:0] sample2lvl_subcells_limits_data;
@@ -85,28 +86,29 @@ register_file
 )
 register_file
 (
-  .reset                (reset),                //             reset.reset
-  .clock                (clock),                //             clock.clk
-  .csr_address          (csr_address),          //               csr.address
-  .csr_byteenable       (csr_byteenable),       //                  .byteenable
-  .csr_read             (csr_read),             //                  .read
-  .csr_readdata         (csr_readdata),         //                  .readdata
-  .csr_response         (csr_response),         //                  .response
-  .csr_write            (csr_write),            //                  .write
-  .csr_writedata        (csr_writedata),        //                  .writedata
-  .csr_waitrequest      (csr_waitrequest),      //                  .waitrequest
-  .reg_status_busy      (reg_status_busy),      //        reg_status.busy
-  .reg_status_ready     (reg_status_ready),     //                  .ready
-  .reg_status_error     (reg_status_error),     //                  .error
-  .reg_status_fifo_err  (reg_status_fifo_err),  //                  .fifo_err
-  .reg_control_run      (reg_control_run),      //       reg_control.run
-  .reg_control_halt     (reg_control_halt),     //                  .halt
-  .reg_control_flush    (reg_control_flush),    //                  .flush
-  .reg_control_init     (reg_control_init),     //                  .init
-  .reg_params_lvls_num  (reg_params_lvls_num),  //        reg_params.lvls_num
-  .reg_params_init_lvl  (reg_params_init_lvl),  //                  .init_lvl
-  .reg_params_iter_num  (reg_params_iter_num),  //                  .iter_num
-  .reg_lvl_val_xx_yy    (reg_lvl_val_xx_yy)     // reg_lvl_val_xx_yy.lvls_values
+  .reset                  (reset),                  //             reset.reset
+  .clock                  (clock),                  //             clock.clk
+  .csr_address            (csr_address),            //               csr.address
+  .csr_byteenable         (csr_byteenable),         //                  .byteenable
+  .csr_read               (csr_read),               //                  .read
+  .csr_readdata           (csr_readdata),           //                  .readdata
+  .csr_response           (csr_response),           //                  .response
+  .csr_write              (csr_write),              //                  .write
+  .csr_writedata          (csr_writedata),          //                  .writedata
+  .csr_waitrequest        (csr_waitrequest),        //                  .waitrequest
+  .reg_status_busy        (reg_status_busy),        //        reg_status.busy
+  .reg_status_ready       (reg_status_ready),       //                  .ready
+  .reg_status_error       (reg_status_error),       //                  .error
+  .reg_status_fifo_err    (reg_status_fifo_err),    //                  .fifo_err
+  .reg_control_run        (reg_control_run),        //       reg_control.run
+  .reg_control_halt       (reg_control_halt),       //                  .halt
+  .reg_control_flush      (reg_control_flush),      //                  .flush
+  .reg_control_init       (reg_control_init),       //                  .init
+  .reg_params_lvls_num    (reg_params_lvls_num),    //        reg_params.lvls_num
+  .reg_params_init_lvl    (reg_params_init_lvl),    //                  .init_lvl
+  .reg_params_iter_num    (reg_params_iter_num),    //                  .iter_num
+  .reg_params_init_guess  (reg_params_init_guess),  //                  .init_guess
+  .reg_lvl_val_xx_yy      (reg_lvl_val_xx_yy)       // reg_lvl_val_xx_yy.lvls_values
 );
 
 sample2lvl_converter
@@ -119,12 +121,13 @@ sample2lvl_converter
   .clock                (clock),                            //      clock.clk
   .params_lvls_num      (reg_params_lvls_num),              //     params.lvls_num
   .params_init_lvl      (reg_params_init_lvl),              //           .init_lvl
+  .params_init_guess    (reg_params_init_guess),            //           .init_guess
   .params_lvls_values   (reg_lvl_val_xx_yy),                //           .lvls_values
   .in_data              (mm2st_data),                       //         in.data
   .in_valid             (mm2st_valid),                      //           .valid
   .in_ready             (mm2st_ready),                      //           .ready
-  .out_lvl_data         (sample2lvl_subcells_lvl_data),     //    out_lvl.data
-  .out_lvl_valid        (sample2lvl_subcells_lvl_valid),    //           .valid
+  .out_signal_data      (sample2lvl_subcells_signal_data),  // out_signal.data
+  .out_signal_valid     (sample2lvl_subcells_signal_valid), //           .valid
   .out_limits_data      (sample2lvl_subcells_limits_data),  // out_limits.data
   .out_limits_valid     (sample2lvl_subcells_limits_valid), //           .valid
   .iter_init            (sample2lvl_iter_init),             //       iter.new_signal
@@ -168,7 +171,7 @@ iteration_ctrl
 delay
 #(
   .DELAY     (1),
-  .WIDTH     ($bits({ sample2lvl_subcells_lvl_valid, sample2lvl_subcells_lvl_data,
+  .WIDTH     ($bits({ sample2lvl_subcells_signal_valid, sample2lvl_subcells_signal_data,
                       sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data })),
   .RESET     (1),
   .RESET_VAL ('0),
@@ -178,9 +181,9 @@ delay_sample2lvl
 (
   .clock    (clock),
   .reset    (reset),
-  .in_data  ({  sample2lvl_subcells_lvl_valid, sample2lvl_subcells_lvl_data,
+  .in_data  ({  sample2lvl_subcells_signal_valid, sample2lvl_subcells_signal_data,
                 sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data }),
-  .out_data ({  sample2lvl_subcells_lvl_valid_d1, sample2lvl_subcells_lvl_data_d1,
+  .out_data ({  sample2lvl_subcells_signal_valid_d1, sample2lvl_subcells_signal_data_d1,
                 sample2lvl_subcells_limits_valid_d1, sample2lvl_subcells_limits_data_d1 })
 );
 
@@ -192,8 +195,8 @@ generate
   begin : _FOR_ITER
     if (ITER == 0)
     begin
-      assign subcells_subcells_data[ITER]   = sample2lvl_subcells_lvl_data_d1;
-      assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_lvl_valid_d1;
+      assign subcells_subcells_data[ITER]   = sample2lvl_subcells_signal_data_d1;
+      assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_signal_valid_d1;
       assign subcells_outsignal_ready[ITER] = subcells_outctrl_ready[ITER] & subcells_subcells_ready[ITER+1];
     end
     else

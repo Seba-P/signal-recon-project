@@ -14,7 +14,7 @@ module delay
   output wire [WIDTH-1:0] out_data
 );
 
-(* ramstyle = RAMSTYLE *) reg [WIDTH-1:0] delay_line[DELAY];
+(* ramstyle = RAMSTYLE *) reg [WIDTH-1:0] delay_line[DELAY+1];
 integer del;
 
 generate 

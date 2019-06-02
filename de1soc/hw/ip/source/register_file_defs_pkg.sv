@@ -108,7 +108,9 @@ parameter CSR_CONTROL_RESERVED1_HAS_RESET = 1;
 ********************/
 typedef struct packed
 {
-  reg [31:20] _reserved3;
+  reg [31:26] _reserved4;
+  reg [25:24] init_guess;
+  reg [23:20] _reserved3;
   reg [19:16] iter_num;
   reg [15:13] _reserved2;
   reg [12: 8] init_lvl;
@@ -151,12 +153,26 @@ parameter CSR_PARAMS_ITER_NUM_VOLATILE    = 0;
 parameter CSR_PARAMS_ITER_NUM_RESET_VAL   = 'd0;
 parameter CSR_PARAMS_ITER_NUM_HAS_RESET   = 1;
 
-parameter CSR_PARAMS_RESERVED3_SIZE       = 12;
+parameter CSR_PARAMS_RESERVED3_SIZE       = 4;
 parameter CSR_PARAMS_RESERVED3_OFFSET     = 20;
 parameter CSR_PARAMS_RESERVED3_ACCESS     = "RW";
 parameter CSR_PARAMS_RESERVED3_VOLATILE   = 1;
 parameter CSR_PARAMS_RESERVED3_RESET_VAL  = 'd0;
 parameter CSR_PARAMS_RESERVED3_HAS_RESET  = 1;
+
+parameter CSR_PARAMS_INIT_GUESS_SIZE      = 2;
+parameter CSR_PARAMS_INIT_GUESS_OFFSET    = 24;
+parameter CSR_PARAMS_INIT_GUESS_ACCESS    = "RW";
+parameter CSR_PARAMS_INIT_GUESS_VOLATILE  = 1;
+parameter CSR_PARAMS_INIT_GUESS_RESET_VAL = 'd0;
+parameter CSR_PARAMS_INIT_GUESS_HAS_RESET = 1;
+
+parameter CSR_PARAMS_RESERVED4_SIZE       = 6;
+parameter CSR_PARAMS_RESERVED4_OFFSET     = 26;
+parameter CSR_PARAMS_RESERVED4_ACCESS     = "RW";
+parameter CSR_PARAMS_RESERVED4_VOLATILE   = 1;
+parameter CSR_PARAMS_RESERVED4_RESET_VAL  = 'd0;
+parameter CSR_PARAMS_RESERVED4_HAS_RESET  = 1;
 
 /********************
 *   LVL_VAL_00_01   *
