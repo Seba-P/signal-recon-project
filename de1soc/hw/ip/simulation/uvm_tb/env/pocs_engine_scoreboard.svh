@@ -16,7 +16,7 @@ class pocs_engine_scoreboard extends uvm_scoreboard;
   csr_reg_block_config  m_csr_config;
   bit                   is_active;
 
-  scoreboard_database #(avalon_st_inst_specs[ST2MM])  database;
+  scoreboard_database #(avalon_st_inst_specs[ST2MM])  m_database;
   bit [$bits(MAX_LVLS_NUM-1)-1:0]                     curr_lvl;
   bit [$bits(MAX_LVLS_NUM-1)-1:0]                     next_lvl;
 
@@ -61,9 +61,9 @@ function void pocs_engine_scoreboard::build_phase(uvm_phase phase);
 
   is_active = 0;
 
-  database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("database");
-  curr_lvl  = INIT_LVL;
-  next_lvl  = INIT_LVL;
+  m_database  = scoreboard_database#(avalon_st_inst_specs[ST2MM])::type_id::create("m_database");
+  curr_lvl    = INIT_LVL;
+  next_lvl    = INIT_LVL;
 
   expected_count = 0;
   received_count = 0;
@@ -101,7 +101,7 @@ function void pocs_engine_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st
 
   while (cloned_item.data.size())
   begin
-    sample = lvl_cross_sample_t'(cloned_item.data.pop_front());
+    sample = lvl_cross_sample_t'(cloned_item.load_data());
 
     `uvm_info("SCOREBOARD", $sformatf("Received mm2st sample: %s::%0d", sample.lvl_cross_dir.name(), sample.timestamp), UVM_LOW)
 
@@ -128,8 +128,8 @@ function void pocs_engine_scoreboard::write_mm2st(avalon_st_seq_item #(avalon_st
 
     for (i = 0; i < sample.timestamp; i++)
     begin
-      database.expected_limits.push_back({ upper_limit, lower_limit });
-      // database.expected_value.push_back(...); TODO:
+      m_database.store_expected_limits({ upper_limit, lower_limit });
+      // m_database.expected_value.push_back(...); TODO:
 
       `uvm_info("SCOREBOARD", $sformatf("Pushing expected limits to database (radix hex): %04h/%04h (lvls %s)",
                                           upper_limit, lower_limit,
@@ -166,7 +166,7 @@ function void pocs_engine_scoreboard::write_st2mm(avalon_st_seq_item #(avalon_st
   while (cloned_item.data.size())
   begin
     received_value = cloned_item.data.pop_front();
-    database.received_value.push_back(received_value);
+    m_database.store_received_value(received_value);
 
     `uvm_info("SCOREBOARD", $sformatf("Pushing received value #%0d to database (radix hex): %04h", value_num, received_value), UVM_HIGH)
     value_num++;
@@ -247,8 +247,8 @@ task pocs_engine_scoreboard::verify_limits();
   mm2st_queue_lock_sem.get(1);
   repeat (initial_limits_count)
   begin
-    database.expected_limits.push_back({ upper_limit, lower_limit });
-    // database.expected_value.push_back(...); TODO:
+    m_database.store_expected_limits({ upper_limit, lower_limit });
+    // m_database.store_expected_value(...); TODO:
   
     `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
                                         initial_limits_count, upper_limit, lower_limit,
@@ -266,7 +266,7 @@ task pocs_engine_scoreboard::verify_limits();
     mm2st_data_count_sem.get(1);
 
     mm2st_queue_lock_sem.get(1);
-    expected_limits = database.expected_limits.pop_front();
+    expected_limits = m_database.load_expected_limits();
     mm2st_queue_lock_sem.put(1);
 
     upper_limit = expected_limits[2*avalon_st_inst_specs[ST2MM].BUS_WIDTH-1:avalon_st_inst_specs[ST2MM].BUS_WIDTH];
@@ -276,29 +276,29 @@ task pocs_engine_scoreboard::verify_limits();
     st2mm_data_count_sem.get(1);
 
     st2mm_queue_lock_sem.get(1);
-    received_value = database.received_value.pop_front();
+    received_value = m_database.load_received_value();
     st2mm_queue_lock_sem.put(1);
 
     /* Compare results */
     if ($signed(received_value) > $signed(upper_limit))
     begin
       `uvm_error("SCOREBOARD", $sformatf("Received value #%0d (%04h) is above upper limit (%04h)!",
-                                            database.total_num, received_value, upper_limit))
-      database.errors_num++;
+                                            m_database.total_num, received_value, upper_limit))
+      m_database.errors_num++;
     end
     else if ($signed(received_value) < $signed(lower_limit))
     begin
       `uvm_error("SCOREBOARD", $sformatf("Received value #%0d (%04h) is below lower limit (%04h)!",
-                                            database.total_num, received_value, lower_limit))
-      database.errors_num++;
+                                            m_database.total_num, received_value, lower_limit))
+      m_database.errors_num++;
     end
     else
     begin
       `uvm_info("SCOREBOARD", $sformatf("Received value #%0d (%04h) is inbound (%04h/%04h)",
-                                            database.total_num, received_value, upper_limit, lower_limit), UVM_HIGH)
+                                            m_database.total_num, received_value, upper_limit, lower_limit), UVM_HIGH)
     end
 
-    database.total_num++;
+    m_database.total_num++;
   end
 endtask : verify_limits
 
