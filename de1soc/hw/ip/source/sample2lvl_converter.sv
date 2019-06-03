@@ -36,7 +36,6 @@ wire        sig_gen_valid;
 wire        sig_gen_ready;
 wire        out_valid;
 
-assign iter_valid       = out_valid;
 assign out_signal_valid = out_valid;
 assign out_limits_valid = out_valid;
 

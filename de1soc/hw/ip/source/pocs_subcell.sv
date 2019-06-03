@@ -34,11 +34,9 @@ localparam [FIR_TAPS_NUM_BITS-1:0] FIR_FILTER_DELAY   = 'd6;
 localparam [FIR_TAPS_NUM_BITS-1:0] LIMITS_FIFO_DELAY  = 'd1;
 localparam [FIR_TAPS_NUM_BITS-1:0] HARD_LIMITER_DELAY = 'd3; // ?
 
-reg         init_stage_0_r;
-reg         init_stage_1_r;
-reg         init_stage_2_r;
-reg         init_stage_3_r;
-reg         init_stage_4_r;
+localparam INIT_STAGES_NUM = 8;
+
+reg  [ 7:0] init_stage_r;
 reg         init_stage_done_r;
 
 reg         valid_signal_fifo_r;
@@ -70,8 +68,8 @@ assign fir_in_error     = 'd0; // not used
 assign in_signal_ready  = fir_in_ready;
 
 assign fifo_in_data = in_limits_data;
-assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid /*fir_out_valid_r*/ | init_stage_4_r;
-assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/ | init_stage_2_r;
+assign fifo_rdreq   = valid_signal_fifo_r & fir_out_valid /*fir_out_valid_r*/ | init_stage_r[7];
+assign fifo_wrreq   = iter_new_limits /*& in_limits_valid*/ | init_stage_r[5];
 
 assign iter_ready   = limiter_ready & init_stage_done_r;
 
@@ -84,21 +82,13 @@ always_ff @(posedge clock)
 begin
   if (reset | iter_init)
   begin
-    init_stage_0_r    <= 'd1;
-    init_stage_1_r    <= 'd0;
-    init_stage_2_r    <= 'd0;
-    init_stage_3_r    <= 'd0;
-    init_stage_4_r    <= 'd0;
+    init_stage_r      <= 'd1; // clear every bit except the first one
     init_stage_done_r <= 'd0;
   end
   else
   begin
-    init_stage_0_r    <= 'd0;
-    init_stage_1_r    <= init_stage_0_r;
-    init_stage_2_r    <= init_stage_1_r;
-    init_stage_3_r    <= init_stage_2_r;
-    init_stage_4_r    <= init_stage_3_r;
-    init_stage_done_r <= init_stage_done_r | init_stage_4_r;
+    init_stage_r      <= { init_stage_r[6:0], 1'b0 };
+    init_stage_done_r <= init_stage_done_r | init_stage_r[7];
   end
 end
 

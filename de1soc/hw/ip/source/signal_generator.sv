@@ -345,7 +345,7 @@ delay_buff_value
 
 delay
 #(
-  .DELAY     (3),
+  .DELAY     (5),
   .WIDTH     ($bits({ buff_valid_r, iter_valid_r })),
   .RESET     (1),
   .RESET_VAL ('0),
