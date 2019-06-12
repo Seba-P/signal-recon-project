@@ -7,33 +7,33 @@ module iteration_ctrl
 )
 (
   /* Common IF */
-  input  wire                            reset,                   //      reset.reset
-  input  wire                            clock,                   //      clock.clk
+  input  wire                            reset,                   //         reset.reset
+  input  wire                            clock,                   //         clock.clk
   /* Register file IF */
-  output wire                            regfile_busy,            //    regfile.busy
-  output wire                            regfile_ready,           //           .ready
-  output wire                            regfile_error,           //           .error
-  output wire                            regfile_fifo_err,        //           .fifo_err
-  input  wire                            regfile_run,             //           .run
-  input  wire                            regfile_halt,            //           .halt
-  input  wire                            regfile_flush,           //           .flush
-  input  wire                            regfile_init,            //           .init
-  input  wire [$clog2(MAX_ITER_NUM)-1:0] regfile_iter_num,        //           .iter_num
-  /* Sample2lvl converter IF */
-  output wire                            sample2lvl_init,         // sample2lvl.new_signal
-  input  wire                            sample2lvl_valid,        //           .new_signal_1
-  output wire                            sample2lvl_ready,        //           .new_signal_2
-  /* FIR subcells IF */
-  output wire         [MAX_ITER_NUM-1:0] subcells_init,           //   subcells.new_signal
-  output wire         [MAX_ITER_NUM-1:0] subcells_new_limits,     //           .new_signal_1
-  output wire         [MAX_ITER_NUM-1:0] subcells_valid_signal,   //           .new_signal_2
-  output wire         [MAX_ITER_NUM-1:0] subcells_input_enable,   //           .new_signal_3
-  output wire         [MAX_ITER_NUM-1:0] subcells_output_enable,  //           .new_signal_4
-  input  wire         [MAX_ITER_NUM-1:0] subcells_ready,          //           .new_signal_5
+  output wire                            regfile_busy,            //       regfile.busy
+  output wire                            regfile_ready,           //              .ready
+  output wire                            regfile_error,           //              .error
+  output wire                            regfile_fifo_err,        //              .fifo_err
+  input  wire                            regfile_run,             //              .run
+  input  wire                            regfile_halt,            //              .halt
+  input  wire                            regfile_flush,           //              .flush
+  input  wire                            regfile_init,            //              .init
+  input  wire [$clog2(MAX_ITER_NUM)-1:0] regfile_iter_num,        //              .iter_num
+  /* Sample2signal converter IF */
+  output wire                            sample2signal_init,      // sample2signal.new_signal
+  input  wire                            sample2signal_valid,     //              .new_signal_1
+  output wire                            sample2signal_ready,     //              .new_signal_2
+  /* POCS subcells IF */
+  output wire         [MAX_ITER_NUM-1:0] subcells_init,           //      subcells.new_signal
+  output wire         [MAX_ITER_NUM-1:0] subcells_new_limits,     //              .new_signal_1
+  output wire         [MAX_ITER_NUM-1:0] subcells_valid_signal,   //              .new_signal_2
+  output wire         [MAX_ITER_NUM-1:0] subcells_input_enable,   //              .new_signal_3
+  output wire         [MAX_ITER_NUM-1:0] subcells_output_enable,  //              .new_signal_4
+  input  wire         [MAX_ITER_NUM-1:0] subcells_ready,          //              .new_signal_5
   /* Output controller IF */
-  output wire                            outctrl_enable,          //    outctrl.new_signal
-  output wire [$clog2(MAX_ITER_NUM)-1:0] outctrl_iter_num,        //           .new_signal_1
-  input  wire                            outctrl_ready            //           .new_signal_2
+  output wire                            outctrl_enable,          //       outctrl.new_signal
+  output wire [$clog2(MAX_ITER_NUM)-1:0] outctrl_iter_num,        //              .new_signal_1
+  input  wire                            outctrl_ready            //              .new_signal_2
 );
 
 localparam FIR_TAPS_NUM_BITS        = $clog2(FIR_TAPS_NUM);
@@ -54,9 +54,9 @@ reg                                            regfile_halt_r;
 reg                                            regfile_flush_r;
 reg                                            regfile_init_r;
 reg                    [MAX_ITER_NUM_BITS-1:0] regfile_iter_num_r;
-reg                                            sample2lvl_init_r;
-reg                                            sample2lvl_valid_r;
-reg                                            sample2lvl_ready_r;
+reg                                            sample2signal_init_r;
+reg                                            sample2signal_valid_r;
+reg                                            sample2signal_ready_r;
 reg                         [MAX_ITER_NUM-1:0] subcells_init_r;
 reg                         [MAX_ITER_NUM-1:0] subcells_new_limits_r;
 reg                         [MAX_ITER_NUM-1:0] subcells_valid_signal_r;
@@ -88,10 +88,10 @@ assign regfile_busy           = regfile_busy_r;
 assign regfile_ready          = regfile_ready_r;
 assign regfile_error          = regfile_error_r;
 assign regfile_fifo_err       = regfile_fifo_err_r;
-assign sample2lvl_init        = sample2lvl_init_r;
-assign sample2lvl_ready       = sample2lvl_ready_r;
+assign sample2signal_init     = sample2signal_init_r;
+assign sample2signal_ready    = sample2signal_ready_r;
 assign subcells_init          = subcells_init_r;
-// assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2lvl_valid } };
+// assign subcells_new_limits    = { ITER_NUM{ !pipeline_stall & sample2signal_valid } };
 assign subcells_new_limits    = subcells_new_limits_r;
 assign subcells_valid_signal  = iter_valid_signal_r[MAX_ITER_NUM:1];
 assign subcells_input_enable  = subcells_input_enable_r;
@@ -145,8 +145,8 @@ begin
   end
   else
   begin
-    regfile_busy_r      <= sample2lvl_valid;
-    regfile_ready_r     <= !sample2lvl_valid;
+    regfile_busy_r      <= sample2signal_valid;
+    regfile_ready_r     <= !sample2signal_valid;
     regfile_error_r     <= 'd0;
     regfile_fifo_err_r  <= 'd0;
     regfile_run_r       <= regfile_run;
@@ -157,20 +157,20 @@ begin
   end
 end
 
-/* Sample2lvl converter IF */
+/* sample2signal converter IF */
 always_ff @(posedge clock)
 begin
   if (reset | regfile_init)
   begin
-    sample2lvl_init_r   <= '1;
-    sample2lvl_ready_r  <= '0;
+    sample2signal_init_r  <= '1;
+    sample2signal_ready_r <= '0;
   end
   else
   begin
-    sample2lvl_init_r   <= '0;
-    // sample2lvl_init_r   <= regfile_init;
-    // sample2lvl_ready_r  <= !pipeline_stall;
-    sample2lvl_ready_r  <= !pipeline_stall && is_active_r;
+    sample2signal_init_r  <= '0;
+    // sample2signal_init_r  <= regfile_init;
+    // sample2signal_ready_r <= !pipeline_stall;
+    sample2signal_ready_r <= !pipeline_stall && is_active_r;
   end
 end
 
@@ -200,7 +200,7 @@ generate
 
         if (/*iter_start_r[ITER+1]*/valid_signal[ITER])
         begin
-          iter_symbol_cnt_r[ITER+1]   <= iter_symbol_cnt_r[ITER+1] + (!pipeline_stall & sample2lvl_valid & !valid_signal[ITER+1]);
+          iter_symbol_cnt_r[ITER+1]   <= iter_symbol_cnt_r[ITER+1] + (!pipeline_stall & sample2signal_valid & !valid_signal[ITER+1]);
           iter_valid_signal_r[ITER+1] <= valid_signal[ITER+1];
         end
       end
@@ -222,7 +222,7 @@ generate
         // subcells_init_r[ITER]           <= regfile_init;
         subcells_input_enable_r[ITER]   <= 'd1;
         subcells_output_enable_r[ITER]  <= 'd1;
-        subcells_new_limits_r[ITER]     <= !pipeline_stall & sample2lvl_valid;
+        subcells_new_limits_r[ITER]     <= !pipeline_stall & sample2signal_valid;
       end
     end
   end

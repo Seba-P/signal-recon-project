@@ -11,7 +11,7 @@ module output_ctrl
   input  wire                            iter_enable,   //  iter.new_signal
   input  wire [$clog2(MAX_ITER_NUM)-1:0] iter_iter_num, //      .new_signal_1
   output wire                            iter_ready,    //      .new_signal_2
-  /* FIR subcells IF */
+  /* POCS subcells IF */
   input  wire   [MAX_ITER_NUM-1:0][15:0] in_data,       //    in.data
   input  wire   [MAX_ITER_NUM-1:0]       in_valid,      //      .valid
   output wire   [MAX_ITER_NUM-1:0]       in_ready,      //      .ready

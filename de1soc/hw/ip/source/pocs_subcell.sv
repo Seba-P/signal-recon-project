@@ -15,7 +15,7 @@ module pocs_subcell
   input  wire        iter_input_enable,   //           .new_signal_3
   input  wire        iter_output_enable,  //           .new_signal_4
   output wire        iter_ready,          //           .new_signal_5
-  /* Sample2lvl converter IF */
+  /* Sample2signal converter IF */
   input  wire [31:0] in_limits_data,      //  in_limits.data
   input  wire        in_limits_valid,     //           .valid
   /* Input stage IF */

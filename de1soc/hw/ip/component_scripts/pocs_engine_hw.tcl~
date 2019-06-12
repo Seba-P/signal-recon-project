@@ -47,7 +47,7 @@ add_fileset_file iteration_ctrl.sv SYSTEM_VERILOG PATH ../source/iteration_ctrl.
 add_fileset_file limits_fifo.v VERILOG PATH ../source/limits_fifo.v
 add_fileset_file signal_generator.sv SYSTEM_VERILOG PATH ../source/signal_generator.sv
 add_fileset_file output_ctrl.sv SYSTEM_VERILOG PATH ../source/output_ctrl.sv
-add_fileset_file sample2lvl_converter.sv SYSTEM_VERILOG PATH ../source/sample2lvl_converter.sv
+add_fileset_file sample2signal_converter.sv SYSTEM_VERILOG PATH ../source/sample2signal_converter.sv
 add_fileset_file sample_dispatcher.sv SYSTEM_VERILOG PATH ../source/sample_dispatcher.sv
 add_fileset_file fir_filter.v VERILOG PATH ../source/fir_filter_ip/fir_filter.v
 add_fileset_file altera_avalon_sc_fifo.v VERILOG PATH ../source/fir_filter_ip/fir_filter/altera_avalon_sc_fifo.v
@@ -80,7 +80,7 @@ add_fileset_file iteration_ctrl.sv SYSTEM_VERILOG PATH ../source/iteration_ctrl.
 add_fileset_file limits_fifo.v VERILOG PATH ../source/limits_fifo.v
 add_fileset_file signal_generator.sv SYSTEM_VERILOG PATH ../source/signal_generator.sv
 add_fileset_file output_ctrl.sv SYSTEM_VERILOG PATH ../source/output_ctrl.sv
-add_fileset_file sample2lvl_converter.sv SYSTEM_VERILOG PATH ../source/sample2lvl_converter.sv
+add_fileset_file sample2signal_converter.sv SYSTEM_VERILOG PATH ../source/sample2signal_converter.sv
 add_fileset_file sample_dispatcher.sv SYSTEM_VERILOG PATH ../source/sample_dispatcher.sv
 add_fileset_file fir_filter.v VERILOG PATH ../source/fir_filter_ip/fir_filter.v
 add_fileset_file altera_avalon_sc_fifo.v VERILOG PATH ../source/fir_filter_ip/fir_filter/altera_avalon_sc_fifo.v

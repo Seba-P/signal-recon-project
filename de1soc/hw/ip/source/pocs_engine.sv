@@ -51,17 +51,17 @@ wire                    [ 3:0] reg_params_iter_num;
 wire                    [ 1:0] reg_params_init_guess;
 // wire  [0:MAX_LVLS_NUM-1][15:0] reg_lvl_val_xx_yy;
 wire              [0:31][15:0] reg_lvl_val_xx_yy;
-wire                           sample2lvl_subcells_signal_valid;
-reg                            sample2lvl_subcells_signal_valid_d1;
-wire                    [15:0] sample2lvl_subcells_signal_data;
-reg                     [15:0] sample2lvl_subcells_signal_data_d1;
-wire                           sample2lvl_subcells_limits_valid;
-reg                            sample2lvl_subcells_limits_valid_d1;
-wire                    [31:0] sample2lvl_subcells_limits_data;
-reg                     [31:0] sample2lvl_subcells_limits_data_d1;
-wire                           sample2lvl_iter_init;
-wire                           sample2lvl_iter_valid;
-wire                           sample2lvl_iter_ready;
+wire                           sample2signal_subcells_signal_valid;
+reg                            sample2signal_subcells_signal_valid_d1;
+wire                    [15:0] sample2signal_subcells_signal_data;
+reg                     [15:0] sample2signal_subcells_signal_data_d1;
+wire                           sample2signal_subcells_limits_valid;
+reg                            sample2signal_subcells_limits_valid_d1;
+wire                    [31:0] sample2signal_subcells_limits_data;
+reg                     [31:0] sample2signal_subcells_limits_data_d1;
+wire                           sample2signal_iter_init;
+wire                           sample2signal_iter_valid;
+wire                           sample2signal_iter_ready;
 wire  [MAX_ITER_NUM-1:0]       iter_subcells_init;
 wire  [MAX_ITER_NUM-1:0]       iter_subcells_new_limits;
 wire  [MAX_ITER_NUM-1:0]       iter_subcells_valid_signal;
@@ -111,28 +111,28 @@ register_file
   .reg_lvl_val_xx_yy      (reg_lvl_val_xx_yy)       // reg_lvl_val_xx_yy.lvls_values
 );
 
-sample2lvl_converter
+sample2signal_converter
 #(
   .MAX_LVLS_NUM (MAX_LVLS_NUM)
 )
-sample2lvl_converter
+sample2signal_converter
 (
-  .reset                (reset),                            //      reset.reset
-  .clock                (clock),                            //      clock.clk
-  .params_lvls_num      (reg_params_lvls_num),              //     params.lvls_num
-  .params_init_lvl      (reg_params_init_lvl),              //           .init_lvl
-  .params_init_guess    (reg_params_init_guess),            //           .init_guess
-  .params_lvls_values   (reg_lvl_val_xx_yy),                //           .lvls_values
-  .in_data              (mm2st_data),                       //         in.data
-  .in_valid             (mm2st_valid),                      //           .valid
-  .in_ready             (mm2st_ready),                      //           .ready
-  .out_signal_data      (sample2lvl_subcells_signal_data),  // out_signal.data
-  .out_signal_valid     (sample2lvl_subcells_signal_valid), //           .valid
-  .out_limits_data      (sample2lvl_subcells_limits_data),  // out_limits.data
-  .out_limits_valid     (sample2lvl_subcells_limits_valid), //           .valid
-  .iter_init            (sample2lvl_iter_init),             //       iter.new_signal
-  .iter_valid           (sample2lvl_iter_valid),            //           .new_signal_1
-  .iter_ready           (sample2lvl_iter_ready)             //           .new_signal_2
+  .reset                (reset),                                //      reset.reset
+  .clock                (clock),                                //      clock.clk
+  .params_lvls_num      (reg_params_lvls_num),                  //     params.lvls_num
+  .params_init_lvl      (reg_params_init_lvl),                  //           .init_lvl
+  .params_init_guess    (reg_params_init_guess),                //           .init_guess
+  .params_lvls_values   (reg_lvl_val_xx_yy),                    //           .lvls_values
+  .in_data              (mm2st_data),                           //         in.data
+  .in_valid             (mm2st_valid),                          //           .valid
+  .in_ready             (mm2st_ready),                          //           .ready
+  .out_signal_data      (sample2signal_subcells_signal_data),   // out_signal.data
+  .out_signal_valid     (sample2signal_subcells_signal_valid),  //           .valid
+  .out_limits_data      (sample2signal_subcells_limits_data),   // out_limits.data
+  .out_limits_valid     (sample2signal_subcells_limits_valid),  //           .valid
+  .iter_init            (sample2signal_iter_init),              //       iter.new_signal
+  .iter_valid           (sample2signal_iter_valid),             //           .new_signal_1
+  .iter_ready           (sample2signal_iter_ready)              //           .new_signal_2
 );
 
 iteration_ctrl
@@ -143,48 +143,48 @@ iteration_ctrl
 )
 iteration_ctrl
 (
-  .reset                  (reset),                        //      reset.reset
-  .clock                  (clock),                        //      clock.clk
-  .regfile_busy           (reg_status_busy),              //    regfile.busy
-  .regfile_ready          (reg_status_ready),             //           .ready
-  .regfile_error          (reg_status_error),             //           .error
-  .regfile_fifo_err       (reg_status_fifo_err),          //           .fifo_err
-  .regfile_run            (reg_control_run),              //           .run
-  .regfile_halt           (reg_control_halt),             //           .halt
-  .regfile_flush          (reg_control_flush),            //           .flush
-  .regfile_init           (reg_control_init),             //           .init
-  .regfile_iter_num       (reg_params_iter_num),          //           .iter_num
-  .sample2lvl_init        (sample2lvl_iter_init),         // sample2lvl.new_signal
-  .sample2lvl_valid       (sample2lvl_iter_valid),        //           .new_signal_1
-  .sample2lvl_ready       (sample2lvl_iter_ready),        //           .new_signal_2
-  .subcells_init          (iter_subcells_init),           //   subcells.new_signal
-  .subcells_new_limits    (iter_subcells_new_limits),     //           .new_signal_1
-  .subcells_valid_signal  (iter_subcells_valid_signal),   //           .new_signal_2
-  .subcells_input_enable  (iter_subcells_input_enable),   //           .new_signal_3
-  .subcells_output_enable (iter_subcells_output_enable),  //           .new_signal_4
-  .subcells_ready         (iter_subcells_ready),          //           .new_signal_5
-  .outctrl_enable         (iter_outctrl_enable),          //    outctrl.new_signal
-  .outctrl_iter_num       (iter_outctrl_iter_num),        //           .new_signal_1
-  .outctrl_ready          (iter_outctrl_ready)            //           .new_signal_2
+  .reset                  (reset),                        //         reset.reset
+  .clock                  (clock),                        //         clock.clk
+  .regfile_busy           (reg_status_busy),              //       regfile.busy
+  .regfile_ready          (reg_status_ready),             //              .ready
+  .regfile_error          (reg_status_error),             //              .error
+  .regfile_fifo_err       (reg_status_fifo_err),          //              .fifo_err
+  .regfile_run            (reg_control_run),              //              .run
+  .regfile_halt           (reg_control_halt),             //              .halt
+  .regfile_flush          (reg_control_flush),            //              .flush
+  .regfile_init           (reg_control_init),             //              .init
+  .regfile_iter_num       (reg_params_iter_num),          //              .iter_num
+  .sample2signal_init     (sample2signal_iter_init),      // sample2signal.new_signal
+  .sample2signal_valid    (sample2signal_iter_valid),     //              .new_signal_1
+  .sample2signal_ready    (sample2signal_iter_ready),     //              .new_signal_2
+  .subcells_init          (iter_subcells_init),           //      subcells.new_signal
+  .subcells_new_limits    (iter_subcells_new_limits),     //              .new_signal_1
+  .subcells_valid_signal  (iter_subcells_valid_signal),   //              .new_signal_2
+  .subcells_input_enable  (iter_subcells_input_enable),   //              .new_signal_3
+  .subcells_output_enable (iter_subcells_output_enable),  //              .new_signal_4
+  .subcells_ready         (iter_subcells_ready),          //              .new_signal_5
+  .outctrl_enable         (iter_outctrl_enable),          //       outctrl.new_signal
+  .outctrl_iter_num       (iter_outctrl_iter_num),        //              .new_signal_1
+  .outctrl_ready          (iter_outctrl_ready)            //              .new_signal_2
 );
 
 delay
 #(
   .DELAY     (1),
-  .WIDTH     ($bits({ sample2lvl_subcells_signal_valid, sample2lvl_subcells_signal_data,
-                      sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data })),
+  .WIDTH     ($bits({ sample2signal_subcells_signal_valid, sample2signal_subcells_signal_data,
+                      sample2signal_subcells_limits_valid, sample2signal_subcells_limits_data })),
   .RESET     (1),
   .RESET_VAL ('0),
   .RAMSTYLE  ("logic")
 )
-delay_sample2lvl
+delay_sample2signal
 (
   .clock    (clock),
   .reset    (reset),
-  .in_data  ({  sample2lvl_subcells_signal_valid, sample2lvl_subcells_signal_data,
-                sample2lvl_subcells_limits_valid, sample2lvl_subcells_limits_data }),
-  .out_data ({  sample2lvl_subcells_signal_valid_d1, sample2lvl_subcells_signal_data_d1,
-                sample2lvl_subcells_limits_valid_d1, sample2lvl_subcells_limits_data_d1 })
+  .in_data  ({  sample2signal_subcells_signal_valid, sample2signal_subcells_signal_data,
+                sample2signal_subcells_limits_valid, sample2signal_subcells_limits_data }),
+  .out_data ({  sample2signal_subcells_signal_valid_d1, sample2signal_subcells_signal_data_d1,
+                sample2signal_subcells_limits_valid_d1, sample2signal_subcells_limits_data_d1 })
 );
 
 genvar ITER;
@@ -195,8 +195,8 @@ generate
   begin : _FOR_ITER
     if (ITER == 0)
     begin
-      assign subcells_subcells_data[ITER]   = sample2lvl_subcells_signal_data_d1;
-      assign subcells_subcells_valid[ITER]  = sample2lvl_subcells_signal_valid_d1;
+      assign subcells_subcells_data[ITER]   = sample2signal_subcells_signal_data_d1;
+      assign subcells_subcells_valid[ITER]  = sample2signal_subcells_signal_valid_d1;
       assign subcells_outsignal_ready[ITER] = subcells_outctrl_ready[ITER] & subcells_subcells_ready[ITER+1];
     end
     else
@@ -213,22 +213,22 @@ generate
     )
     pocs_subcell
     (
-      .reset              (reset),                                //      reset.reset
-      .clock              (clock),                                //      clock.clk
-      .iter_init          (iter_subcells_init[ITER]),             //       iter.new_signal
-      .iter_new_limits    (iter_subcells_new_limits[ITER]),       //           .new_signal_1
-      .iter_valid_signal  (iter_subcells_valid_signal[ITER]),     //           .new_signal_2
-      .iter_input_enable  (iter_subcells_input_enable[ITER]),     //           .new_signal_3
-      .iter_output_enable (iter_subcells_output_enable[ITER]),    //           .new_signal_4
-      .iter_ready         (iter_subcells_ready[ITER]),            //           .new_signal_5
-      .in_limits_data     (sample2lvl_subcells_limits_data_d1),   //  in_limits.data
-      .in_limits_valid    (sample2lvl_subcells_limits_valid_d1),  //           .valid
-      .in_signal_data     (subcells_subcells_data[ITER]),         //  in_signal.data
-      .in_signal_valid    (subcells_subcells_valid[ITER]),        //           .valid
-      .in_signal_ready    (subcells_subcells_ready[ITER]),        //           .ready
-      .out_signal_data    (subcells_outctrl_data[ITER]),          // out_signal.data
-      .out_signal_valid   (subcells_outctrl_valid[ITER]),         //           .valid
-      .out_signal_ready   (subcells_outsignal_ready[ITER])        //           .ready
+      .reset              (reset),                                  //      reset.reset
+      .clock              (clock),                                  //      clock.clk
+      .iter_init          (iter_subcells_init[ITER]),               //       iter.new_signal
+      .iter_new_limits    (iter_subcells_new_limits[ITER]),         //           .new_signal_1
+      .iter_valid_signal  (iter_subcells_valid_signal[ITER]),       //           .new_signal_2
+      .iter_input_enable  (iter_subcells_input_enable[ITER]),       //           .new_signal_3
+      .iter_output_enable (iter_subcells_output_enable[ITER]),      //           .new_signal_4
+      .iter_ready         (iter_subcells_ready[ITER]),              //           .new_signal_5
+      .in_limits_data     (sample2signal_subcells_limits_data_d1),  //  in_limits.data
+      .in_limits_valid    (sample2signal_subcells_limits_valid_d1), //           .valid
+      .in_signal_data     (subcells_subcells_data[ITER]),           //  in_signal.data
+      .in_signal_valid    (subcells_subcells_valid[ITER]),          //           .valid
+      .in_signal_ready    (subcells_subcells_ready[ITER]),          //           .ready
+      .out_signal_data    (subcells_outctrl_data[ITER]),            // out_signal.data
+      .out_signal_valid   (subcells_outctrl_valid[ITER]),           //           .valid
+      .out_signal_ready   (subcells_outsignal_ready[ITER])          //           .ready
     );
   end
 endgenerate

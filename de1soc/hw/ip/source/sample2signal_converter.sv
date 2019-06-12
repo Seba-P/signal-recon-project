@@ -1,5 +1,5 @@
 
-module sample2lvl_converter
+module sample2signal_converter
 #(
   parameter MAX_LVLS_NUM = 32
 )

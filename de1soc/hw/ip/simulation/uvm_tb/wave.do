@@ -44,39 +44,39 @@ add wave -noupdate -group REGISTER_FILE -group REG_PARAMS_IF sim:/dut_top/DUT/DU
 add wave -noupdate -group REGISTER_FILE -group REG_PARAMS_IF sim:/dut_top/DUT/DUT/register_file/reg_lvl_val_xx_yy
 add wave -noupdate -group REGISTER_FILE -expand -group __INTERNALS__ -expand sim:/dut_top/DUT/DUT/register_file/csr_reg_block
 
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/reset
-add wave -noupdate -group SAMPLE2LVL_CONVERTER sim:/dut_top/DUT/DUT/sample2lvl_converter/clock
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/params_lvls_num
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/params_init_lvl
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/params_init_guess
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/params_lvls_values
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_data
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_valid
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/in_ready
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_init
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_valid
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/iter_ready
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group OUT_SIGNAL_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/out_signal_data
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group OUT_SIGNAL_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/out_signal_valid
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group OUT_LIMITS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/out_limits_data
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -expand -group OUT_LIMITS_IF sim:/dut_top/DUT/DUT/sample2lvl_converter/out_limits_valid
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/new_sample
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/sample_done
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/sample_duration_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/points_left_cnt_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/curr_half_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/curr_lvl_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/next_lvl_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/overflow_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/underflow_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/upper_limit_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/lower_limit_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/constant_guess_value_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/constant_guess_value_del_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/linear_guess_value_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/linear_guess_value_del_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/linear_step_r
-add wave -noupdate -group SAMPLE2LVL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2lvl_converter/signal_generator/half_step_dir_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER sim:/dut_top/DUT/DUT/sample2signal_converter/reset
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER sim:/dut_top/DUT/DUT/sample2signal_converter/clock
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/params_lvls_num
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/params_init_lvl
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/params_init_guess
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group PARAMS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/params_lvls_values
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2signal_converter/in_data
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2signal_converter/in_valid
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group IN_IF sim:/dut_top/DUT/DUT/sample2signal_converter/in_ready
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2signal_converter/iter_init
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2signal_converter/iter_valid
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group ITER_IF sim:/dut_top/DUT/DUT/sample2signal_converter/iter_ready
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group OUT_SIGNAL_IF sim:/dut_top/DUT/DUT/sample2signal_converter/out_signal_data
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group OUT_SIGNAL_IF sim:/dut_top/DUT/DUT/sample2signal_converter/out_signal_valid
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group OUT_LIMITS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/out_limits_data
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -expand -group OUT_LIMITS_IF sim:/dut_top/DUT/DUT/sample2signal_converter/out_limits_valid
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/new_sample
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/sample_done
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/sample_duration_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/points_left_cnt_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/curr_half_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/curr_lvl_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/next_lvl_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/overflow_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/underflow_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/upper_limit_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/lower_limit_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/constant_guess_value_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/constant_guess_value_del_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/linear_guess_value_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/linear_guess_value_del_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/linear_step_r
+add wave -noupdate -group SAMPLE2SIGNAL_CONVERTER -group __INTERNALS__ sim:/dut_top/DUT/DUT/sample2signal_converter/signal_generator/half_step_dir_r
 
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/reset
 add wave -noupdate -group ITERATION_CTRL sim:/dut_top/DUT/DUT/iteration_ctrl/clock
@@ -89,9 +89,9 @@ add wave -noupdate -group ITERATION_CTRL -group REGFILE_IF sim:/dut_top/DUT/DUT/
 add wave -noupdate -group ITERATION_CTRL -group REGFILE_IF sim:/dut_top/DUT/DUT/iteration_ctrl/regfile_flush
 add wave -noupdate -group ITERATION_CTRL -group REGFILE_IF sim:/dut_top/DUT/DUT/iteration_ctrl/regfile_init
 add wave -noupdate -group ITERATION_CTRL -group REGFILE_IF sim:/dut_top/DUT/DUT/iteration_ctrl/regfile_iter_num
-add wave -noupdate -group ITERATION_CTRL -expand -group SAMPLE2LVL_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_init
-add wave -noupdate -group ITERATION_CTRL -expand -group SAMPLE2LVL_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_valid
-add wave -noupdate -group ITERATION_CTRL -expand -group SAMPLE2LVL_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2lvl_ready
+add wave -noupdate -group ITERATION_CTRL -expand -group sample2signal_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2signal_init
+add wave -noupdate -group ITERATION_CTRL -expand -group sample2signal_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2signal_valid
+add wave -noupdate -group ITERATION_CTRL -expand -group sample2signal_IF sim:/dut_top/DUT/DUT/iteration_ctrl/sample2signal_ready
 add wave -noupdate -group ITERATION_CTRL -expand -group SUBCELLS_IF sim:/dut_top/DUT/DUT/iteration_ctrl/subcells_init
 add wave -noupdate -group ITERATION_CTRL -expand -group SUBCELLS_IF sim:/dut_top/DUT/DUT/iteration_ctrl/subcells_new_limits
 add wave -noupdate -group ITERATION_CTRL -expand -group SUBCELLS_IF sim:/dut_top/DUT/DUT/iteration_ctrl/subcells_valid_signal

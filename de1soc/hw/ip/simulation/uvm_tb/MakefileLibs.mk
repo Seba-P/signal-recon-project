@@ -5,7 +5,7 @@ LIB_LINKS = -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L
 	        -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 \
 	        -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator \
 	        -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys \
-	        -L st2mm_data_adapter -L signal_buffer_ctrl -L signal_buffer -L sgdma_st2mm -L sgdma_mm2st -L sample2lvl_converter \
+	        -L st2mm_data_adapter -L signal_buffer_ctrl -L signal_buffer -L sgdma_st2mm -L sgdma_mm2st -L sample2signal_converter \
 	        -L output_ctrl -L onchip_RAM -L mm2st_data_adapter -L limits_buffer_ctrl -L limits_buffer -L led_pio -L iteration_ctrl \
 	        -L hps_0 -L hard_limiter_out_splitter -L hard_limiter -L fir_filter -L fir_fifo_in -L fir_driver -L dipsw_pio -L button_pio \
 	        -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver \
@@ -109,8 +109,8 @@ map_libs:
 	vmap sgdma_st2mm                                    ./_work/sgdma_st2mm/
 	vlib                                                ./_work/sgdma_mm2st/
 	vmap sgdma_mm2st                                    ./_work/sgdma_mm2st/
-	vlib                                                ./_work/sample2lvl_converter/
-	vmap sample2lvl_converter                           ./_work/sample2lvl_converter/
+	vlib                                                ./_work/sample2signal_converter/
+	vmap sample2signal_converter                        ./_work/sample2signal_converter/
 	vlib                                                ./_work/output_ctrl/
 	vmap output_ctrl                                    ./_work/output_ctrl/
 	vlib                                                ./_work/onchip_RAM/

@@ -1,7 +1,7 @@
 ../../source/delay.sv
 ../../source/sample_dispatcher.sv
 ../../source/signal_generator.sv
-../../source/sample2lvl_converter.sv
+../../source/sample2signal_converter.sv
 ../../source/iteration_ctrl.sv
 ../../source/output_ctrl.sv
 ../../source/limits_fifo.v
