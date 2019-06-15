@@ -169,16 +169,16 @@ void init_address_spaces(void)
     .dipsw_pio    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + DIPSW_PIO_BASE) & (uint32_t)HW_REGS_MASK),
     .sysid_qsys   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + SYSID_QSYS_BASE) & (uint32_t)HW_REGS_MASK),
     .onchip_ram   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ONCHIP_RAM_BASE) & (uint32_t)HW_REGS_MASK),
-    .mm2st_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + SGDMA_MM2ST_BASE) & (uint32_t)HW_REGS_MASK),
-    .st2mm_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + SGDMA_ST2MM_BASE) & (uint32_t)HW_REGS_MASK),
+    .mm2st_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + MM2ST_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
+    .st2mm_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ST2MM_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
     .fifoin_csr   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_IN_BASE) & (uint32_t)HW_REGS_MASK),
     .fifoout_csr  = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_OUT_BASE) & (uint32_t)HW_REGS_MASK)
   };
 
   g_f2h = (f2h_addr_t)
   {
-    .mm2st_ram   = g_fir_sdram_base + SGDMA_MM2ST_RAM_OFST,
-    .st2mm_ram   = g_fir_sdram_base + SGDMA_ST2MM_RAM_OFST
+    .mm2st_ram   = g_fir_sdram_base + MM2ST_SGDMA_RAM_OFST,
+    .st2mm_ram   = g_fir_sdram_base + ST2MM_SGDMA_RAM_OFST
   };  
 }
 

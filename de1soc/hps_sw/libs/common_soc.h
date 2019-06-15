@@ -67,12 +67,12 @@
   #define SGDMA_RAM_SIZE        (0x4000)  // 16 kB
 #endif
 
-#ifndef SGDMA_MM2ST_RAM_OFST
-  #define SGDMA_MM2ST_RAM_OFST  (0x0000)  // starts at 0x0000 offset from on-chip RAM
+#ifndef MM2ST_SGDMA_RAM_OFST
+  #define MM2ST_SGDMA_RAM_OFST  (0x0000)  // starts at 0x0000 offset from on-chip RAM
 #endif
 
-#ifndef SGDMA_ST2MM_RAM_OFST
-  #define SGDMA_ST2MM_RAM_OFST  (0x4000)  // starts at 0x4000 offset from on-chip RAM
+#ifndef ST2MM_SGDMA_RAM_OFST
+  #define ST2MM_SGDMA_RAM_OFST  (0x4000)  // starts at 0x4000 offset from on-chip RAM
 #endif
 
 

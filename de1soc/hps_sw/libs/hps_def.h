@@ -9,7 +9,7 @@
  */
 
 /*
- * This file contains macros for module 'hps_0' and devices
+ * This file contains macros for module 'hps' and devices
  * connected to the following masters:
  *   h2f_axi_master
  *   h2f_lw_axi_master
@@ -64,7 +64,7 @@
 #define SYSID_QSYS_SPAN 8
 #define SYSID_QSYS_END 0x10007
 #define SYSID_QSYS_ID 2899645186
-#define SYSID_QSYS_TIMESTAMP 1505256393
+#define SYSID_QSYS_TIMESTAMP 1560604905
 
 /*
  * Macros for device 'led_pio', class 'altera_avalon_pio'
@@ -139,102 +139,986 @@
 #define BUTTON_PIO_RESET_VALUE 0
 
 /*
- * Macros for device 'sgdma_mm2st', class 'altera_avalon_sgdma'
- * The macros are prefixed with 'SGDMA_MM2ST_'.
+ * Macros for device 'mm2st_sgdma', class 'altera_avalon_sgdma'
+ * The macros are prefixed with 'MM2ST_SGDMA_'.
  * The prefix is the slave descriptor.
  */
-#define SGDMA_MM2ST_COMPONENT_TYPE altera_avalon_sgdma
-#define SGDMA_MM2ST_COMPONENT_NAME sgdma_mm2st
-#define SGDMA_MM2ST_BASE 0x20000
-#define SGDMA_MM2ST_SPAN 64
-#define SGDMA_MM2ST_END 0x2003f
-#define SGDMA_MM2ST_ADDRESS_WIDTH 32
-#define SGDMA_MM2ST_ALWAYS_DO_MAX_BURST 1
-#define SGDMA_MM2ST_ATLANTIC_CHANNEL_DATA_WIDTH 4
-#define SGDMA_MM2ST_AVALON_MM_BYTE_REORDER_MODE 0
-#define SGDMA_MM2ST_BURST_DATA_WIDTH 8
-#define SGDMA_MM2ST_BURST_TRANSFER 0
-#define SGDMA_MM2ST_BYTES_TO_TRANSFER_DATA_WIDTH 16
-#define SGDMA_MM2ST_CHAIN_WRITEBACK_DATA_WIDTH 32
-#define SGDMA_MM2ST_COMMAND_FIFO_DATA_WIDTH 104
-#define SGDMA_MM2ST_CONTROL_DATA_WIDTH 8
-#define SGDMA_MM2ST_CONTROL_SLAVE_ADDRESS_WIDTH 4
-#define SGDMA_MM2ST_CONTROL_SLAVE_DATA_WIDTH 32
-#define SGDMA_MM2ST_DESCRIPTOR_READ_BURST 0
-#define SGDMA_MM2ST_DESC_DATA_WIDTH 32
-#define SGDMA_MM2ST_HAS_READ_BLOCK 1
-#define SGDMA_MM2ST_HAS_WRITE_BLOCK 0
-#define SGDMA_MM2ST_IN_ERROR_WIDTH 0
-#define SGDMA_MM2ST_OUT_ERROR_WIDTH 0
-#define SGDMA_MM2ST_READ_BLOCK_DATA_WIDTH 8
-#define SGDMA_MM2ST_READ_BURSTCOUNT_WIDTH 4
-#define SGDMA_MM2ST_STATUS_TOKEN_DATA_WIDTH 24
-#define SGDMA_MM2ST_STREAM_DATA_WIDTH 8
-#define SGDMA_MM2ST_SYMBOLS_PER_BEAT 1
-#define SGDMA_MM2ST_UNALIGNED_TRANSFER 0
-#define SGDMA_MM2ST_WRITE_BLOCK_DATA_WIDTH 8
-#define SGDMA_MM2ST_WRITE_BURSTCOUNT_WIDTH 4
+#define MM2ST_SGDMA_COMPONENT_TYPE altera_avalon_sgdma
+#define MM2ST_SGDMA_COMPONENT_NAME mm2st_sgdma
+#define MM2ST_SGDMA_BASE 0x20000
+#define MM2ST_SGDMA_SPAN 64
+#define MM2ST_SGDMA_END 0x2003f
+#define MM2ST_SGDMA_ADDRESS_WIDTH 32
+#define MM2ST_SGDMA_ALWAYS_DO_MAX_BURST 1
+#define MM2ST_SGDMA_ATLANTIC_CHANNEL_DATA_WIDTH 4
+#define MM2ST_SGDMA_AVALON_MM_BYTE_REORDER_MODE 0
+#define MM2ST_SGDMA_BURST_DATA_WIDTH 8
+#define MM2ST_SGDMA_BURST_TRANSFER 0
+#define MM2ST_SGDMA_BYTES_TO_TRANSFER_DATA_WIDTH 16
+#define MM2ST_SGDMA_CHAIN_WRITEBACK_DATA_WIDTH 32
+#define MM2ST_SGDMA_COMMAND_FIFO_DATA_WIDTH 104
+#define MM2ST_SGDMA_CONTROL_DATA_WIDTH 8
+#define MM2ST_SGDMA_CONTROL_SLAVE_ADDRESS_WIDTH 4
+#define MM2ST_SGDMA_CONTROL_SLAVE_DATA_WIDTH 32
+#define MM2ST_SGDMA_DESCRIPTOR_READ_BURST 0
+#define MM2ST_SGDMA_DESC_DATA_WIDTH 32
+#define MM2ST_SGDMA_HAS_READ_BLOCK 1
+#define MM2ST_SGDMA_HAS_WRITE_BLOCK 0
+#define MM2ST_SGDMA_IN_ERROR_WIDTH 0
+#define MM2ST_SGDMA_OUT_ERROR_WIDTH 0
+#define MM2ST_SGDMA_READ_BLOCK_DATA_WIDTH 16
+#define MM2ST_SGDMA_READ_BURSTCOUNT_WIDTH 4
+#define MM2ST_SGDMA_STATUS_TOKEN_DATA_WIDTH 24
+#define MM2ST_SGDMA_STREAM_DATA_WIDTH 16
+#define MM2ST_SGDMA_SYMBOLS_PER_BEAT 2
+#define MM2ST_SGDMA_UNALIGNED_TRANSFER 0
+#define MM2ST_SGDMA_WRITE_BLOCK_DATA_WIDTH 16
+#define MM2ST_SGDMA_WRITE_BURSTCOUNT_WIDTH 4
 
 /*
- * Macros for device 'hps_0_bridges', class 'hps_bridge_avalon'
- * Path to the device is from the master group 'sgdma_mm2st_m_read'.
- * The macros are prefixed with 'SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_'.
+ * Macros for device 'hps_axi_sdram', class 'axi_sdram'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_'.
  * The prefix is the master group descriptor and the slave descriptor.
  */
-#define SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_COMPONENT_TYPE hps_bridge_avalon
-#define SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_COMPONENT_NAME hps_0_bridges
-#define SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_BASE 0x0
-#define SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_SPAN 0xffffffff
-#define SGDMA_MM2ST_M_READ_HPS_0_BRIDGES_END 0xfffffffe
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_COMPONENT_TYPE axi_sdram
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_COMPONENT_NAME hps_axi_sdram
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_BASE 0x0
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_SPAN 0x80000000
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_END 0x7fffffff
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_SIZE_MULTIPLE 1
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_SIZE_VALUE 1<<31
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_WRITABLE 1
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_MEMORY_INFO_GENERATE_DAT_SYM 0
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_MEMORY_INFO_GENERATE_HEX 0
+#define MM2ST_SGDMA_M_READ_HPS_AXI_SDRAM_MEMORY_INFO_MEM_INIT_DATA_WIDTH 31
 
 /*
- * Macros for device 'sgdma_st2mm', class 'altera_avalon_sgdma'
- * The macros are prefixed with 'SGDMA_ST2MM_'.
+ * Macros for device 'hps_gmac0', class 'stmmac'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_GMAC0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_GMAC0_COMPONENT_TYPE stmmac
+#define MM2ST_SGDMA_M_READ_HPS_GMAC0_COMPONENT_NAME hps_gmac0
+#define MM2ST_SGDMA_M_READ_HPS_GMAC0_BASE 0xff700000
+#define MM2ST_SGDMA_M_READ_HPS_GMAC0_SPAN 8192
+#define MM2ST_SGDMA_M_READ_HPS_GMAC0_END 0xff701fff
+
+/*
+ * Macros for device 'hps_gmac1', class 'stmmac'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_GMAC1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_GMAC1_COMPONENT_TYPE stmmac
+#define MM2ST_SGDMA_M_READ_HPS_GMAC1_COMPONENT_NAME hps_gmac1
+#define MM2ST_SGDMA_M_READ_HPS_GMAC1_BASE 0xff702000
+#define MM2ST_SGDMA_M_READ_HPS_GMAC1_SPAN 8192
+#define MM2ST_SGDMA_M_READ_HPS_GMAC1_END 0xff703fff
+
+/*
+ * Macros for device 'hps_sdmmc', class 'sdmmc'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_SDMMC_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_SDMMC_COMPONENT_TYPE sdmmc
+#define MM2ST_SGDMA_M_READ_HPS_SDMMC_COMPONENT_NAME hps_sdmmc
+#define MM2ST_SGDMA_M_READ_HPS_SDMMC_BASE 0xff704000
+#define MM2ST_SGDMA_M_READ_HPS_SDMMC_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_SDMMC_END 0xff704fff
+
+/*
+ * Macros for device 'hps_qspi', class 'cadence_qspi'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_QSPI_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_QSPI_COMPONENT_TYPE cadence_qspi
+#define MM2ST_SGDMA_M_READ_HPS_QSPI_COMPONENT_NAME hps_qspi
+#define MM2ST_SGDMA_M_READ_HPS_QSPI_BASE 0xff705000
+#define MM2ST_SGDMA_M_READ_HPS_QSPI_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_QSPI_END 0xff7050ff
+
+/*
+ * Macros for device 'hps_fpgamgr', class 'altera_fpgamgr'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_FPGAMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_FPGAMGR_COMPONENT_TYPE altera_fpgamgr
+#define MM2ST_SGDMA_M_READ_HPS_FPGAMGR_COMPONENT_NAME hps_fpgamgr
+#define MM2ST_SGDMA_M_READ_HPS_FPGAMGR_BASE 0xff706000
+#define MM2ST_SGDMA_M_READ_HPS_FPGAMGR_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_FPGAMGR_END 0xff706fff
+
+/*
+ * Macros for device 'hps_gpio0', class 'dw_gpio'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_GPIO0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_GPIO0_COMPONENT_TYPE dw_gpio
+#define MM2ST_SGDMA_M_READ_HPS_GPIO0_COMPONENT_NAME hps_gpio0
+#define MM2ST_SGDMA_M_READ_HPS_GPIO0_BASE 0xff708000
+#define MM2ST_SGDMA_M_READ_HPS_GPIO0_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_GPIO0_END 0xff7080ff
+
+/*
+ * Macros for device 'hps_gpio1', class 'dw_gpio'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_GPIO1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_GPIO1_COMPONENT_TYPE dw_gpio
+#define MM2ST_SGDMA_M_READ_HPS_GPIO1_COMPONENT_NAME hps_gpio1
+#define MM2ST_SGDMA_M_READ_HPS_GPIO1_BASE 0xff709000
+#define MM2ST_SGDMA_M_READ_HPS_GPIO1_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_GPIO1_END 0xff7090ff
+
+/*
+ * Macros for device 'hps_gpio2', class 'dw_gpio'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_GPIO2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_GPIO2_COMPONENT_TYPE dw_gpio
+#define MM2ST_SGDMA_M_READ_HPS_GPIO2_COMPONENT_NAME hps_gpio2
+#define MM2ST_SGDMA_M_READ_HPS_GPIO2_BASE 0xff70a000
+#define MM2ST_SGDMA_M_READ_HPS_GPIO2_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_GPIO2_END 0xff70a0ff
+
+/*
+ * Macros for device 'hps_l3regs', class 'altera_l3regs'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_L3REGS_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_L3REGS_COMPONENT_TYPE altera_l3regs
+#define MM2ST_SGDMA_M_READ_HPS_L3REGS_COMPONENT_NAME hps_l3regs
+#define MM2ST_SGDMA_M_READ_HPS_L3REGS_BASE 0xff800000
+#define MM2ST_SGDMA_M_READ_HPS_L3REGS_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_L3REGS_END 0xff800fff
+
+/*
+ * Macros for device 'hps_nand0', class 'denali_nand'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_NAND0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_NAND0_COMPONENT_TYPE denali_nand
+#define MM2ST_SGDMA_M_READ_HPS_NAND0_COMPONENT_NAME hps_nand0
+#define MM2ST_SGDMA_M_READ_HPS_NAND0_BASE 0xff900000
+#define MM2ST_SGDMA_M_READ_HPS_NAND0_SPAN 65536
+#define MM2ST_SGDMA_M_READ_HPS_NAND0_END 0xff90ffff
+
+/*
+ * Macros for device 'hps_usb0', class 'usb'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_USB0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_USB0_COMPONENT_TYPE usb
+#define MM2ST_SGDMA_M_READ_HPS_USB0_COMPONENT_NAME hps_usb0
+#define MM2ST_SGDMA_M_READ_HPS_USB0_BASE 0xffb00000
+#define MM2ST_SGDMA_M_READ_HPS_USB0_SPAN 262144
+#define MM2ST_SGDMA_M_READ_HPS_USB0_END 0xffb3ffff
+
+/*
+ * Macros for device 'hps_usb1', class 'usb'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_USB1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_USB1_COMPONENT_TYPE usb
+#define MM2ST_SGDMA_M_READ_HPS_USB1_COMPONENT_NAME hps_usb1
+#define MM2ST_SGDMA_M_READ_HPS_USB1_BASE 0xffb40000
+#define MM2ST_SGDMA_M_READ_HPS_USB1_SPAN 262144
+#define MM2ST_SGDMA_M_READ_HPS_USB1_END 0xffb7ffff
+
+/*
+ * Macros for device 'hps_dcan0', class 'bosch_dcan'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_DCAN0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_DCAN0_COMPONENT_TYPE bosch_dcan
+#define MM2ST_SGDMA_M_READ_HPS_DCAN0_COMPONENT_NAME hps_dcan0
+#define MM2ST_SGDMA_M_READ_HPS_DCAN0_BASE 0xffc00000
+#define MM2ST_SGDMA_M_READ_HPS_DCAN0_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_DCAN0_END 0xffc00fff
+
+/*
+ * Macros for device 'hps_dcan1', class 'bosch_dcan'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_DCAN1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_DCAN1_COMPONENT_TYPE bosch_dcan
+#define MM2ST_SGDMA_M_READ_HPS_DCAN1_COMPONENT_NAME hps_dcan1
+#define MM2ST_SGDMA_M_READ_HPS_DCAN1_BASE 0xffc01000
+#define MM2ST_SGDMA_M_READ_HPS_DCAN1_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_DCAN1_END 0xffc01fff
+
+/*
+ * Macros for device 'hps_uart0', class 'snps_uart'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_UART0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_UART0_COMPONENT_TYPE snps_uart
+#define MM2ST_SGDMA_M_READ_HPS_UART0_COMPONENT_NAME hps_uart0
+#define MM2ST_SGDMA_M_READ_HPS_UART0_BASE 0xffc02000
+#define MM2ST_SGDMA_M_READ_HPS_UART0_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_UART0_END 0xffc020ff
+#define MM2ST_SGDMA_M_READ_HPS_UART0_FIFO_DEPTH 128
+#define MM2ST_SGDMA_M_READ_HPS_UART0_FIFO_HWFC 0
+#define MM2ST_SGDMA_M_READ_HPS_UART0_FIFO_MODE 1
+#define MM2ST_SGDMA_M_READ_HPS_UART0_FIFO_SWFC 0
+#define MM2ST_SGDMA_M_READ_HPS_UART0_FREQ 100000000
+
+/*
+ * Macros for device 'hps_uart1', class 'snps_uart'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_UART1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_UART1_COMPONENT_TYPE snps_uart
+#define MM2ST_SGDMA_M_READ_HPS_UART1_COMPONENT_NAME hps_uart1
+#define MM2ST_SGDMA_M_READ_HPS_UART1_BASE 0xffc03000
+#define MM2ST_SGDMA_M_READ_HPS_UART1_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_UART1_END 0xffc030ff
+#define MM2ST_SGDMA_M_READ_HPS_UART1_FIFO_DEPTH 128
+#define MM2ST_SGDMA_M_READ_HPS_UART1_FIFO_HWFC 0
+#define MM2ST_SGDMA_M_READ_HPS_UART1_FIFO_MODE 1
+#define MM2ST_SGDMA_M_READ_HPS_UART1_FIFO_SWFC 0
+#define MM2ST_SGDMA_M_READ_HPS_UART1_FREQ 100000000
+
+/*
+ * Macros for device 'hps_i2c0', class 'designware_i2c'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_I2C0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_I2C0_COMPONENT_TYPE designware_i2c
+#define MM2ST_SGDMA_M_READ_HPS_I2C0_COMPONENT_NAME hps_i2c0
+#define MM2ST_SGDMA_M_READ_HPS_I2C0_BASE 0xffc04000
+#define MM2ST_SGDMA_M_READ_HPS_I2C0_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_I2C0_END 0xffc040ff
+
+/*
+ * Macros for device 'hps_i2c1', class 'designware_i2c'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_I2C1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_I2C1_COMPONENT_TYPE designware_i2c
+#define MM2ST_SGDMA_M_READ_HPS_I2C1_COMPONENT_NAME hps_i2c1
+#define MM2ST_SGDMA_M_READ_HPS_I2C1_BASE 0xffc05000
+#define MM2ST_SGDMA_M_READ_HPS_I2C1_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_I2C1_END 0xffc050ff
+
+/*
+ * Macros for device 'hps_i2c2', class 'designware_i2c'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_I2C2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_I2C2_COMPONENT_TYPE designware_i2c
+#define MM2ST_SGDMA_M_READ_HPS_I2C2_COMPONENT_NAME hps_i2c2
+#define MM2ST_SGDMA_M_READ_HPS_I2C2_BASE 0xffc06000
+#define MM2ST_SGDMA_M_READ_HPS_I2C2_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_I2C2_END 0xffc060ff
+
+/*
+ * Macros for device 'hps_i2c3', class 'designware_i2c'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_I2C3_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_I2C3_COMPONENT_TYPE designware_i2c
+#define MM2ST_SGDMA_M_READ_HPS_I2C3_COMPONENT_NAME hps_i2c3
+#define MM2ST_SGDMA_M_READ_HPS_I2C3_BASE 0xffc07000
+#define MM2ST_SGDMA_M_READ_HPS_I2C3_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_I2C3_END 0xffc070ff
+
+/*
+ * Macros for device 'hps_timer0', class 'dw_apb_timer_sp'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_TIMER0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_TIMER0_COMPONENT_TYPE dw_apb_timer_sp
+#define MM2ST_SGDMA_M_READ_HPS_TIMER0_COMPONENT_NAME hps_timer0
+#define MM2ST_SGDMA_M_READ_HPS_TIMER0_BASE 0xffc08000
+#define MM2ST_SGDMA_M_READ_HPS_TIMER0_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_TIMER0_END 0xffc080ff
+
+/*
+ * Macros for device 'hps_timer1', class 'dw_apb_timer_sp'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_TIMER1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_TIMER1_COMPONENT_TYPE dw_apb_timer_sp
+#define MM2ST_SGDMA_M_READ_HPS_TIMER1_COMPONENT_NAME hps_timer1
+#define MM2ST_SGDMA_M_READ_HPS_TIMER1_BASE 0xffc09000
+#define MM2ST_SGDMA_M_READ_HPS_TIMER1_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_TIMER1_END 0xffc090ff
+
+/*
+ * Macros for device 'hps_sdrctl', class 'altera_sdrctl'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_SDRCTL_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_SDRCTL_COMPONENT_TYPE altera_sdrctl
+#define MM2ST_SGDMA_M_READ_HPS_SDRCTL_COMPONENT_NAME hps_sdrctl
+#define MM2ST_SGDMA_M_READ_HPS_SDRCTL_BASE 0xffc25000
+#define MM2ST_SGDMA_M_READ_HPS_SDRCTL_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_SDRCTL_END 0xffc25fff
+
+/*
+ * Macros for device 'hps_timer2', class 'dw_apb_timer_osc'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_TIMER2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_TIMER2_COMPONENT_TYPE dw_apb_timer_osc
+#define MM2ST_SGDMA_M_READ_HPS_TIMER2_COMPONENT_NAME hps_timer2
+#define MM2ST_SGDMA_M_READ_HPS_TIMER2_BASE 0xffd00000
+#define MM2ST_SGDMA_M_READ_HPS_TIMER2_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_TIMER2_END 0xffd000ff
+
+/*
+ * Macros for device 'hps_timer3', class 'dw_apb_timer_osc'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_TIMER3_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_TIMER3_COMPONENT_TYPE dw_apb_timer_osc
+#define MM2ST_SGDMA_M_READ_HPS_TIMER3_COMPONENT_NAME hps_timer3
+#define MM2ST_SGDMA_M_READ_HPS_TIMER3_BASE 0xffd01000
+#define MM2ST_SGDMA_M_READ_HPS_TIMER3_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_TIMER3_END 0xffd010ff
+
+/*
+ * Macros for device 'hps_clkmgr', class 'asimov_clkmgr'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_CLKMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_CLKMGR_COMPONENT_TYPE asimov_clkmgr
+#define MM2ST_SGDMA_M_READ_HPS_CLKMGR_COMPONENT_NAME hps_clkmgr
+#define MM2ST_SGDMA_M_READ_HPS_CLKMGR_BASE 0xffd04000
+#define MM2ST_SGDMA_M_READ_HPS_CLKMGR_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_CLKMGR_END 0xffd04fff
+
+/*
+ * Macros for device 'hps_rstmgr', class 'altera_rstmgr'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_RSTMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_RSTMGR_COMPONENT_TYPE altera_rstmgr
+#define MM2ST_SGDMA_M_READ_HPS_RSTMGR_COMPONENT_NAME hps_rstmgr
+#define MM2ST_SGDMA_M_READ_HPS_RSTMGR_BASE 0xffd05000
+#define MM2ST_SGDMA_M_READ_HPS_RSTMGR_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_RSTMGR_END 0xffd050ff
+
+/*
+ * Macros for device 'hps_sysmgr', class 'altera_sysmgr'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_SYSMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_SYSMGR_COMPONENT_TYPE altera_sysmgr
+#define MM2ST_SGDMA_M_READ_HPS_SYSMGR_COMPONENT_NAME hps_sysmgr
+#define MM2ST_SGDMA_M_READ_HPS_SYSMGR_BASE 0xffd08000
+#define MM2ST_SGDMA_M_READ_HPS_SYSMGR_SPAN 1024
+#define MM2ST_SGDMA_M_READ_HPS_SYSMGR_END 0xffd083ff
+
+/*
+ * Macros for device 'hps_dma', class 'arm_pl330_dma'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_DMA_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_DMA_COMPONENT_TYPE arm_pl330_dma
+#define MM2ST_SGDMA_M_READ_HPS_DMA_COMPONENT_NAME hps_dma
+#define MM2ST_SGDMA_M_READ_HPS_DMA_BASE 0xffe01000
+#define MM2ST_SGDMA_M_READ_HPS_DMA_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_DMA_END 0xffe01fff
+
+/*
+ * Macros for device 'hps_spim0', class 'spi'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_SPIM0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_SPIM0_COMPONENT_TYPE spi
+#define MM2ST_SGDMA_M_READ_HPS_SPIM0_COMPONENT_NAME hps_spim0
+#define MM2ST_SGDMA_M_READ_HPS_SPIM0_BASE 0xfff00000
+#define MM2ST_SGDMA_M_READ_HPS_SPIM0_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_SPIM0_END 0xfff000ff
+
+/*
+ * Macros for device 'hps_spim1', class 'spi'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_SPIM1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_SPIM1_COMPONENT_TYPE spi
+#define MM2ST_SGDMA_M_READ_HPS_SPIM1_COMPONENT_NAME hps_spim1
+#define MM2ST_SGDMA_M_READ_HPS_SPIM1_BASE 0xfff01000
+#define MM2ST_SGDMA_M_READ_HPS_SPIM1_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_SPIM1_END 0xfff010ff
+
+/*
+ * Macros for device 'hps_timer', class 'arm_internal_timer'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_TIMER_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_TIMER_COMPONENT_TYPE arm_internal_timer
+#define MM2ST_SGDMA_M_READ_HPS_TIMER_COMPONENT_NAME hps_timer
+#define MM2ST_SGDMA_M_READ_HPS_TIMER_BASE 0xfffec600
+#define MM2ST_SGDMA_M_READ_HPS_TIMER_SPAN 256
+#define MM2ST_SGDMA_M_READ_HPS_TIMER_END 0xfffec6ff
+
+/*
+ * Macros for device 'hps_arm_gic_0', class 'arm_gic'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_COMPONENT_TYPE arm_gic
+#define MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_COMPONENT_NAME hps_arm_gic_0
+#define MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_BASE 0xfffed000
+#define MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_ARM_GIC_0_END 0xfffedfff
+
+/*
+ * Macros for device 'hps_L2', class 'arm_pl310_L2'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_L2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_L2_COMPONENT_TYPE arm_pl310_L2
+#define MM2ST_SGDMA_M_READ_HPS_L2_COMPONENT_NAME hps_L2
+#define MM2ST_SGDMA_M_READ_HPS_L2_BASE 0xfffef000
+#define MM2ST_SGDMA_M_READ_HPS_L2_SPAN 4096
+#define MM2ST_SGDMA_M_READ_HPS_L2_END 0xfffeffff
+
+/*
+ * Macros for device 'hps_axi_ocram', class 'axi_ocram'
+ * Path to the device is from the master group 'mm2st_sgdma_m_read'.
+ * The macros are prefixed with 'MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_COMPONENT_TYPE axi_ocram
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_COMPONENT_NAME hps_axi_ocram
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_BASE 0xffff0000
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_SPAN 65536
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_END 0xffffffff
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_SIZE_MULTIPLE 1
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_SIZE_VALUE 1<<16
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_WRITABLE 1
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_MEMORY_INFO_GENERATE_DAT_SYM 0
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_MEMORY_INFO_GENERATE_HEX 0
+#define MM2ST_SGDMA_M_READ_HPS_AXI_OCRAM_MEMORY_INFO_MEM_INIT_DATA_WIDTH 16
+
+/*
+ * Macros for device 'st2mm_sgdma', class 'altera_avalon_sgdma'
+ * The macros are prefixed with 'ST2MM_SGDMA_'.
  * The prefix is the slave descriptor.
  */
-#define SGDMA_ST2MM_COMPONENT_TYPE altera_avalon_sgdma
-#define SGDMA_ST2MM_COMPONENT_NAME sgdma_st2mm
-#define SGDMA_ST2MM_BASE 0x20040
-#define SGDMA_ST2MM_SPAN 64
-#define SGDMA_ST2MM_END 0x2007f
-#define SGDMA_ST2MM_ADDRESS_WIDTH 32
-#define SGDMA_ST2MM_ALWAYS_DO_MAX_BURST 1
-#define SGDMA_ST2MM_ATLANTIC_CHANNEL_DATA_WIDTH 4
-#define SGDMA_ST2MM_AVALON_MM_BYTE_REORDER_MODE 0
-#define SGDMA_ST2MM_BURST_DATA_WIDTH 8
-#define SGDMA_ST2MM_BURST_TRANSFER 0
-#define SGDMA_ST2MM_BYTES_TO_TRANSFER_DATA_WIDTH 16
-#define SGDMA_ST2MM_CHAIN_WRITEBACK_DATA_WIDTH 32
-#define SGDMA_ST2MM_COMMAND_FIFO_DATA_WIDTH 104
-#define SGDMA_ST2MM_CONTROL_DATA_WIDTH 8
-#define SGDMA_ST2MM_CONTROL_SLAVE_ADDRESS_WIDTH 4
-#define SGDMA_ST2MM_CONTROL_SLAVE_DATA_WIDTH 32
-#define SGDMA_ST2MM_DESCRIPTOR_READ_BURST 0
-#define SGDMA_ST2MM_DESC_DATA_WIDTH 32
-#define SGDMA_ST2MM_HAS_READ_BLOCK 0
-#define SGDMA_ST2MM_HAS_WRITE_BLOCK 1
-#define SGDMA_ST2MM_IN_ERROR_WIDTH 0
-#define SGDMA_ST2MM_OUT_ERROR_WIDTH 0
-#define SGDMA_ST2MM_READ_BLOCK_DATA_WIDTH 8
-#define SGDMA_ST2MM_READ_BURSTCOUNT_WIDTH 4
-#define SGDMA_ST2MM_STATUS_TOKEN_DATA_WIDTH 24
-#define SGDMA_ST2MM_STREAM_DATA_WIDTH 8
-#define SGDMA_ST2MM_SYMBOLS_PER_BEAT 1
-#define SGDMA_ST2MM_UNALIGNED_TRANSFER 0
-#define SGDMA_ST2MM_WRITE_BLOCK_DATA_WIDTH 8
-#define SGDMA_ST2MM_WRITE_BURSTCOUNT_WIDTH 4
+#define ST2MM_SGDMA_COMPONENT_TYPE altera_avalon_sgdma
+#define ST2MM_SGDMA_COMPONENT_NAME st2mm_sgdma
+#define ST2MM_SGDMA_BASE 0x20040
+#define ST2MM_SGDMA_SPAN 64
+#define ST2MM_SGDMA_END 0x2007f
+#define ST2MM_SGDMA_ADDRESS_WIDTH 32
+#define ST2MM_SGDMA_ALWAYS_DO_MAX_BURST 1
+#define ST2MM_SGDMA_ATLANTIC_CHANNEL_DATA_WIDTH 4
+#define ST2MM_SGDMA_AVALON_MM_BYTE_REORDER_MODE 0
+#define ST2MM_SGDMA_BURST_DATA_WIDTH 8
+#define ST2MM_SGDMA_BURST_TRANSFER 0
+#define ST2MM_SGDMA_BYTES_TO_TRANSFER_DATA_WIDTH 16
+#define ST2MM_SGDMA_CHAIN_WRITEBACK_DATA_WIDTH 32
+#define ST2MM_SGDMA_COMMAND_FIFO_DATA_WIDTH 104
+#define ST2MM_SGDMA_CONTROL_DATA_WIDTH 8
+#define ST2MM_SGDMA_CONTROL_SLAVE_ADDRESS_WIDTH 4
+#define ST2MM_SGDMA_CONTROL_SLAVE_DATA_WIDTH 32
+#define ST2MM_SGDMA_DESCRIPTOR_READ_BURST 0
+#define ST2MM_SGDMA_DESC_DATA_WIDTH 32
+#define ST2MM_SGDMA_HAS_READ_BLOCK 0
+#define ST2MM_SGDMA_HAS_WRITE_BLOCK 1
+#define ST2MM_SGDMA_IN_ERROR_WIDTH 0
+#define ST2MM_SGDMA_OUT_ERROR_WIDTH 0
+#define ST2MM_SGDMA_READ_BLOCK_DATA_WIDTH 16
+#define ST2MM_SGDMA_READ_BURSTCOUNT_WIDTH 4
+#define ST2MM_SGDMA_STATUS_TOKEN_DATA_WIDTH 24
+#define ST2MM_SGDMA_STREAM_DATA_WIDTH 16
+#define ST2MM_SGDMA_SYMBOLS_PER_BEAT 2
+#define ST2MM_SGDMA_UNALIGNED_TRANSFER 0
+#define ST2MM_SGDMA_WRITE_BLOCK_DATA_WIDTH 16
+#define ST2MM_SGDMA_WRITE_BURSTCOUNT_WIDTH 4
 
 /*
- * Macros for device 'hps_0_bridges', class 'hps_bridge_avalon'
- * Path to the device is from the master group 'sgdma_st2mm_m_write'.
- * The macros are prefixed with 'SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_'.
+ * Macros for device 'hps_axi_sdram', class 'axi_sdram'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_'.
  * The prefix is the master group descriptor and the slave descriptor.
  */
-#define SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_COMPONENT_TYPE hps_bridge_avalon
-#define SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_COMPONENT_NAME hps_0_bridges
-#define SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_BASE 0x0
-#define SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_SPAN 0xffffffff
-#define SGDMA_ST2MM_M_WRITE_HPS_0_BRIDGES_END 0xfffffffe
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_COMPONENT_TYPE axi_sdram
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_COMPONENT_NAME hps_axi_sdram
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_BASE 0x0
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_SPAN 0x80000000
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_END 0x7fffffff
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_SIZE_MULTIPLE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_SIZE_VALUE 1<<31
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_WRITABLE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_MEMORY_INFO_GENERATE_DAT_SYM 0
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_MEMORY_INFO_GENERATE_HEX 0
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_SDRAM_MEMORY_INFO_MEM_INIT_DATA_WIDTH 31
+
+/*
+ * Macros for device 'hps_gmac0', class 'stmmac'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_GMAC0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC0_COMPONENT_TYPE stmmac
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC0_COMPONENT_NAME hps_gmac0
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC0_BASE 0xff700000
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC0_SPAN 8192
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC0_END 0xff701fff
+
+/*
+ * Macros for device 'hps_gmac1', class 'stmmac'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_GMAC1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC1_COMPONENT_TYPE stmmac
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC1_COMPONENT_NAME hps_gmac1
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC1_BASE 0xff702000
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC1_SPAN 8192
+#define ST2MM_SGDMA_M_WRITE_HPS_GMAC1_END 0xff703fff
+
+/*
+ * Macros for device 'hps_sdmmc', class 'sdmmc'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_SDMMC_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_SDMMC_COMPONENT_TYPE sdmmc
+#define ST2MM_SGDMA_M_WRITE_HPS_SDMMC_COMPONENT_NAME hps_sdmmc
+#define ST2MM_SGDMA_M_WRITE_HPS_SDMMC_BASE 0xff704000
+#define ST2MM_SGDMA_M_WRITE_HPS_SDMMC_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_SDMMC_END 0xff704fff
+
+/*
+ * Macros for device 'hps_qspi', class 'cadence_qspi'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_QSPI_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_QSPI_COMPONENT_TYPE cadence_qspi
+#define ST2MM_SGDMA_M_WRITE_HPS_QSPI_COMPONENT_NAME hps_qspi
+#define ST2MM_SGDMA_M_WRITE_HPS_QSPI_BASE 0xff705000
+#define ST2MM_SGDMA_M_WRITE_HPS_QSPI_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_QSPI_END 0xff7050ff
+
+/*
+ * Macros for device 'hps_fpgamgr', class 'altera_fpgamgr'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_COMPONENT_TYPE altera_fpgamgr
+#define ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_COMPONENT_NAME hps_fpgamgr
+#define ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_BASE 0xff706000
+#define ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_FPGAMGR_END 0xff706fff
+
+/*
+ * Macros for device 'hps_gpio0', class 'dw_gpio'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_GPIO0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO0_COMPONENT_TYPE dw_gpio
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO0_COMPONENT_NAME hps_gpio0
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO0_BASE 0xff708000
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO0_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO0_END 0xff7080ff
+
+/*
+ * Macros for device 'hps_gpio1', class 'dw_gpio'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_GPIO1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO1_COMPONENT_TYPE dw_gpio
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO1_COMPONENT_NAME hps_gpio1
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO1_BASE 0xff709000
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO1_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO1_END 0xff7090ff
+
+/*
+ * Macros for device 'hps_gpio2', class 'dw_gpio'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_GPIO2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO2_COMPONENT_TYPE dw_gpio
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO2_COMPONENT_NAME hps_gpio2
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO2_BASE 0xff70a000
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO2_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_GPIO2_END 0xff70a0ff
+
+/*
+ * Macros for device 'hps_l3regs', class 'altera_l3regs'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_L3REGS_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_L3REGS_COMPONENT_TYPE altera_l3regs
+#define ST2MM_SGDMA_M_WRITE_HPS_L3REGS_COMPONENT_NAME hps_l3regs
+#define ST2MM_SGDMA_M_WRITE_HPS_L3REGS_BASE 0xff800000
+#define ST2MM_SGDMA_M_WRITE_HPS_L3REGS_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_L3REGS_END 0xff800fff
+
+/*
+ * Macros for device 'hps_nand0', class 'denali_nand'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_NAND0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_NAND0_COMPONENT_TYPE denali_nand
+#define ST2MM_SGDMA_M_WRITE_HPS_NAND0_COMPONENT_NAME hps_nand0
+#define ST2MM_SGDMA_M_WRITE_HPS_NAND0_BASE 0xff900000
+#define ST2MM_SGDMA_M_WRITE_HPS_NAND0_SPAN 65536
+#define ST2MM_SGDMA_M_WRITE_HPS_NAND0_END 0xff90ffff
+
+/*
+ * Macros for device 'hps_usb0', class 'usb'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_USB0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_USB0_COMPONENT_TYPE usb
+#define ST2MM_SGDMA_M_WRITE_HPS_USB0_COMPONENT_NAME hps_usb0
+#define ST2MM_SGDMA_M_WRITE_HPS_USB0_BASE 0xffb00000
+#define ST2MM_SGDMA_M_WRITE_HPS_USB0_SPAN 262144
+#define ST2MM_SGDMA_M_WRITE_HPS_USB0_END 0xffb3ffff
+
+/*
+ * Macros for device 'hps_usb1', class 'usb'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_USB1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_USB1_COMPONENT_TYPE usb
+#define ST2MM_SGDMA_M_WRITE_HPS_USB1_COMPONENT_NAME hps_usb1
+#define ST2MM_SGDMA_M_WRITE_HPS_USB1_BASE 0xffb40000
+#define ST2MM_SGDMA_M_WRITE_HPS_USB1_SPAN 262144
+#define ST2MM_SGDMA_M_WRITE_HPS_USB1_END 0xffb7ffff
+
+/*
+ * Macros for device 'hps_dcan0', class 'bosch_dcan'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_DCAN0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN0_COMPONENT_TYPE bosch_dcan
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN0_COMPONENT_NAME hps_dcan0
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN0_BASE 0xffc00000
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN0_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN0_END 0xffc00fff
+
+/*
+ * Macros for device 'hps_dcan1', class 'bosch_dcan'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_DCAN1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN1_COMPONENT_TYPE bosch_dcan
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN1_COMPONENT_NAME hps_dcan1
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN1_BASE 0xffc01000
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN1_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_DCAN1_END 0xffc01fff
+
+/*
+ * Macros for device 'hps_uart0', class 'snps_uart'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_UART0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_COMPONENT_TYPE snps_uart
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_COMPONENT_NAME hps_uart0
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_BASE 0xffc02000
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_END 0xffc020ff
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_FIFO_DEPTH 128
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_FIFO_HWFC 0
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_FIFO_MODE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_FIFO_SWFC 0
+#define ST2MM_SGDMA_M_WRITE_HPS_UART0_FREQ 100000000
+
+/*
+ * Macros for device 'hps_uart1', class 'snps_uart'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_UART1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_COMPONENT_TYPE snps_uart
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_COMPONENT_NAME hps_uart1
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_BASE 0xffc03000
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_END 0xffc030ff
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_FIFO_DEPTH 128
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_FIFO_HWFC 0
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_FIFO_MODE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_FIFO_SWFC 0
+#define ST2MM_SGDMA_M_WRITE_HPS_UART1_FREQ 100000000
+
+/*
+ * Macros for device 'hps_i2c0', class 'designware_i2c'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_I2C0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C0_COMPONENT_TYPE designware_i2c
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C0_COMPONENT_NAME hps_i2c0
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C0_BASE 0xffc04000
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C0_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C0_END 0xffc040ff
+
+/*
+ * Macros for device 'hps_i2c1', class 'designware_i2c'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_I2C1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C1_COMPONENT_TYPE designware_i2c
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C1_COMPONENT_NAME hps_i2c1
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C1_BASE 0xffc05000
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C1_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C1_END 0xffc050ff
+
+/*
+ * Macros for device 'hps_i2c2', class 'designware_i2c'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_I2C2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C2_COMPONENT_TYPE designware_i2c
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C2_COMPONENT_NAME hps_i2c2
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C2_BASE 0xffc06000
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C2_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C2_END 0xffc060ff
+
+/*
+ * Macros for device 'hps_i2c3', class 'designware_i2c'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_I2C3_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C3_COMPONENT_TYPE designware_i2c
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C3_COMPONENT_NAME hps_i2c3
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C3_BASE 0xffc07000
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C3_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_I2C3_END 0xffc070ff
+
+/*
+ * Macros for device 'hps_timer0', class 'dw_apb_timer_sp'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_TIMER0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER0_COMPONENT_TYPE dw_apb_timer_sp
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER0_COMPONENT_NAME hps_timer0
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER0_BASE 0xffc08000
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER0_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER0_END 0xffc080ff
+
+/*
+ * Macros for device 'hps_timer1', class 'dw_apb_timer_sp'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_TIMER1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER1_COMPONENT_TYPE dw_apb_timer_sp
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER1_COMPONENT_NAME hps_timer1
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER1_BASE 0xffc09000
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER1_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER1_END 0xffc090ff
+
+/*
+ * Macros for device 'hps_sdrctl', class 'altera_sdrctl'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_COMPONENT_TYPE altera_sdrctl
+#define ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_COMPONENT_NAME hps_sdrctl
+#define ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_BASE 0xffc25000
+#define ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_SDRCTL_END 0xffc25fff
+
+/*
+ * Macros for device 'hps_timer2', class 'dw_apb_timer_osc'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_TIMER2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER2_COMPONENT_TYPE dw_apb_timer_osc
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER2_COMPONENT_NAME hps_timer2
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER2_BASE 0xffd00000
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER2_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER2_END 0xffd000ff
+
+/*
+ * Macros for device 'hps_timer3', class 'dw_apb_timer_osc'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_TIMER3_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER3_COMPONENT_TYPE dw_apb_timer_osc
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER3_COMPONENT_NAME hps_timer3
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER3_BASE 0xffd01000
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER3_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER3_END 0xffd010ff
+
+/*
+ * Macros for device 'hps_clkmgr', class 'asimov_clkmgr'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_COMPONENT_TYPE asimov_clkmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_COMPONENT_NAME hps_clkmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_BASE 0xffd04000
+#define ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_CLKMGR_END 0xffd04fff
+
+/*
+ * Macros for device 'hps_rstmgr', class 'altera_rstmgr'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_COMPONENT_TYPE altera_rstmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_COMPONENT_NAME hps_rstmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_BASE 0xffd05000
+#define ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_RSTMGR_END 0xffd050ff
+
+/*
+ * Macros for device 'hps_sysmgr', class 'altera_sysmgr'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_COMPONENT_TYPE altera_sysmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_COMPONENT_NAME hps_sysmgr
+#define ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_BASE 0xffd08000
+#define ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_SPAN 1024
+#define ST2MM_SGDMA_M_WRITE_HPS_SYSMGR_END 0xffd083ff
+
+/*
+ * Macros for device 'hps_dma', class 'arm_pl330_dma'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_DMA_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_DMA_COMPONENT_TYPE arm_pl330_dma
+#define ST2MM_SGDMA_M_WRITE_HPS_DMA_COMPONENT_NAME hps_dma
+#define ST2MM_SGDMA_M_WRITE_HPS_DMA_BASE 0xffe01000
+#define ST2MM_SGDMA_M_WRITE_HPS_DMA_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_DMA_END 0xffe01fff
+
+/*
+ * Macros for device 'hps_spim0', class 'spi'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_SPIM0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM0_COMPONENT_TYPE spi
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM0_COMPONENT_NAME hps_spim0
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM0_BASE 0xfff00000
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM0_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM0_END 0xfff000ff
+
+/*
+ * Macros for device 'hps_spim1', class 'spi'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_SPIM1_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM1_COMPONENT_TYPE spi
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM1_COMPONENT_NAME hps_spim1
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM1_BASE 0xfff01000
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM1_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_SPIM1_END 0xfff010ff
+
+/*
+ * Macros for device 'hps_timer', class 'arm_internal_timer'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_TIMER_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER_COMPONENT_TYPE arm_internal_timer
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER_COMPONENT_NAME hps_timer
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER_BASE 0xfffec600
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER_SPAN 256
+#define ST2MM_SGDMA_M_WRITE_HPS_TIMER_END 0xfffec6ff
+
+/*
+ * Macros for device 'hps_arm_gic_0', class 'arm_gic'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_COMPONENT_TYPE arm_gic
+#define ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_COMPONENT_NAME hps_arm_gic_0
+#define ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_BASE 0xfffed000
+#define ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_ARM_GIC_0_END 0xfffedfff
+
+/*
+ * Macros for device 'hps_L2', class 'arm_pl310_L2'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_L2_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_L2_COMPONENT_TYPE arm_pl310_L2
+#define ST2MM_SGDMA_M_WRITE_HPS_L2_COMPONENT_NAME hps_L2
+#define ST2MM_SGDMA_M_WRITE_HPS_L2_BASE 0xfffef000
+#define ST2MM_SGDMA_M_WRITE_HPS_L2_SPAN 4096
+#define ST2MM_SGDMA_M_WRITE_HPS_L2_END 0xfffeffff
+
+/*
+ * Macros for device 'hps_axi_ocram', class 'axi_ocram'
+ * Path to the device is from the master group 'st2mm_sgdma_m_write'.
+ * The macros are prefixed with 'ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_'.
+ * The prefix is the master group descriptor and the slave descriptor.
+ */
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_COMPONENT_TYPE axi_ocram
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_COMPONENT_NAME hps_axi_ocram
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_BASE 0xffff0000
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_SPAN 65536
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_END 0xffffffff
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_SIZE_MULTIPLE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_SIZE_VALUE 1<<16
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_WRITABLE 1
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_MEMORY_INFO_GENERATE_DAT_SYM 0
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_MEMORY_INFO_GENERATE_HEX 0
+#define ST2MM_SGDMA_M_WRITE_HPS_AXI_OCRAM_MEMORY_INFO_MEM_INIT_DATA_WIDTH 16
 
 /*
  * Macros for device 'fifo_in', class 'altera_avalon_sc_fifo'
@@ -257,6 +1141,17 @@
 #define FIFO_OUT_BASE 0x20090
 #define FIFO_OUT_SPAN 16
 #define FIFO_OUT_END 0x2009f
+
+/*
+ * Macros for device 'pocs_engine', class 'pocs_engine'
+ * The macros are prefixed with 'POCS_ENGINE_'.
+ * The prefix is the slave descriptor.
+ */
+#define POCS_ENGINE_COMPONENT_TYPE pocs_engine
+#define POCS_ENGINE_COMPONENT_NAME pocs_engine
+#define POCS_ENGINE_BASE 0x30000
+#define POCS_ENGINE_SPAN 1024
+#define POCS_ENGINE_END 0x303ff
 
 
 #endif /* _ALTERA_HPS_DEF_H_ */

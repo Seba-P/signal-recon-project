@@ -4,14 +4,14 @@ preplace inst soc_system.hps_0.uart0 -pg 1
 preplace inst soc_system.hps_0.gmac0 -pg 1
 preplace inst soc_system.hps_0.uart1 -pg 1
 preplace inst soc_system.hps_0.clkmgr -pg 1
-preplace inst soc_system.sgdma_st2mm -pg 1 -lvl 25 -y 340
+preplace inst soc_system.sgdma_st2mm -pg 1 -lvl 27 -y 340
 preplace inst soc_system.sgdma_mm2st -pg 1 -lvl 14 -y 170
 preplace inst soc_system.hps_0.axi_ocram -pg 1
 preplace inst soc_system.hps_0.sdrctl -pg 1
 preplace inst soc_system.hps_0.gmac1 -pg 1
 preplace inst soc_system.hps_0.qspi -pg 1
 preplace inst soc_system.hps_0.sysmgr -pg 1
-preplace inst soc_system.dipsw_pio -pg 1 -lvl 24 -y 130
+preplace inst soc_system.dipsw_pio -pg 1 -lvl 26 -y 130
 preplace inst soc_system.hps_0.l3regs -pg 1
 preplace inst soc_system.hps_0.usb0 -pg 1
 preplace inst soc_system.hps_0.i2c0 -pg 1
@@ -21,7 +21,6 @@ preplace inst soc_system.hps_0.i2c1 -pg 1
 preplace inst soc_system.hps_0.fpgamgr -pg 1
 preplace inst soc_system.hps_0.bridges -pg 1
 preplace inst soc_system.hps_0.hps_io -pg 1
-preplace inst soc_system.fir_subsystem -pg 1 -lvl 16 -y 330
 preplace inst soc_system.mm2st_data_adapter_0 -pg 1 -lvl 15 -y 230
 preplace inst soc_system.hps_0.i2c2 -pg 1
 preplace inst soc_system.hps_0.wd_timer0 -pg 1
@@ -39,8 +38,8 @@ preplace inst soc_system.hps_0.timer1 -pg 1
 preplace inst soc_system.hps_0.L2 -pg 1
 preplace inst soc_system.hps_0.eosc2 -pg 1
 preplace inst soc_system.hps_0.hps_io.border -pg 1
-preplace inst soc_system.button_pio -pg 1 -lvl 24 -y 30
-preplace inst soc_system.sysid_qsys -pg 1 -lvl 24 -y 520
+preplace inst soc_system.button_pio -pg 1 -lvl 26 -y 30
+preplace inst soc_system.sysid_qsys -pg 1 -lvl 26 -y 520
 preplace inst soc_system.hps_0.scu -pg 1
 preplace inst soc_system.hps_0.dcan1 -pg 1
 preplace inst soc_system.hps_0.sdmmc -pg 1
@@ -48,7 +47,7 @@ preplace inst soc_system.hps_0.spim1 -pg 1
 preplace inst soc_system.hps_0.gpio0 -pg 1
 preplace inst soc_system.hps_0.timer2 -pg 1
 preplace inst soc_system.hps_0.arm_a9_0 -pg 1
-preplace inst soc_system.st2mm_data_adapter_0 -pg 1 -lvl 24 -y 290
+preplace inst soc_system.st2mm_data_adapter_0 -pg 1 -lvl 26 -y 290
 preplace inst soc_system.hps_0.timer -pg 1
 preplace inst soc_system.hps_0.gpio1 -pg 1
 preplace inst soc_system.hps_0.timer3 -pg 1
@@ -57,27 +56,28 @@ preplace inst soc_system.onchip_RAM -pg 1 -lvl 7 -y 530
 preplace inst soc_system.hps_0.nand0 -pg 1
 preplace inst soc_system.hps_0.gpio2 -pg 1
 preplace inst soc_system.hps_0.arm_gic_0 -pg 1
-preplace inst soc_system.hps_0 -pg 1 -lvl 24 -y 800
+preplace inst soc_system.hps_0 -pg 1 -lvl 26 -y 800
 preplace inst soc_system.clk_0 -pg 1 -lvl 1 -y 270
+preplace inst soc_system.pocs_engine -pg 1 -lvl 25 -y 330
 preplace inst soc_system.hps_0.f2s_periph_ref_clk -pg 1
 preplace inst soc_system.hps_0.fpga_interfaces -pg 1
-preplace inst soc_system.led_pio -pg 1 -lvl 24 -y 620
+preplace inst soc_system.led_pio -pg 1 -lvl 26 -y 620
 preplace inst soc_system.hps_0.axi_sdram -pg 1
 preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)clk_0.clk_in_reset,(SLAVE)soc_system.reset) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)hps_0.h2f_axi_clock,(SLAVE)dipsw_pio.clk,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)sgdma_mm2st.clk,(MASTER)clk_0.clk,(SLAVE)led_pio.clk,(SLAVE)sysid_qsys.clk,(SLAVE)onchip_RAM.clk1,(SLAVE)sgdma_st2mm.clk,(SLAVE)fir_subsystem.clock,(SLAVE)st2mm_data_adapter_0.avalon_st_clk_sink,(SLAVE)button_pio.clk,(SLAVE)mm2st_data_adapter_0.avalon_st_clk_sink,(SLAVE)hps_0.f2h_axi_clock,(SLAVE)mm2st_data_adapter_0.avalon_st_clk_source,(SLAVE)st2mm_data_adapter_0.avalon_st_clk_source) 1 1 24 NJ 280 NJ 280 NJ 280 NJ 280 NJ 280 1320 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 3340 280 3710 200 4120 140 NJ 140 NJ 140 NJ 140 NJ 140 NJ 140 NJ 140 NJ 140 6070 240 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)led_pio.external_connection,(SLAVE)soc_system.led_pio) 1 0 24 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.memory,(SLAVE)hps_0.memory) 1 0 24 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ
-preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)sgdma_mm2st.out,(SLAVE)mm2st_data_adapter_0.avalon_st_sink) 1 14 1 3690
-preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)mm2st_data_adapter_0.avalon_st_source,(SLAVE)fir_subsystem.mm2st) 1 15 1 4060
-preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(SLAVE)sgdma_st2mm.in,(MASTER)st2mm_data_adapter_0.avalon_st_source) 1 24 1 6630
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)hps_0.hps_io,(SLAVE)soc_system.hps_io) 1 0 24 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>soc_system</net_container>(MASTER)clk_0.clk_reset,(SLAVE)fir_subsystem.reset,(SLAVE)mm2st_data_adapter_0.avalon_st_reset,(SLAVE)dipsw_pio.reset,(SLAVE)led_pio.reset,(SLAVE)sgdma_st2mm.reset,(SLAVE)sgdma_mm2st.reset,(SLAVE)st2mm_data_adapter_0.avalon_st_reset,(SLAVE)onchip_RAM.reset1,(SLAVE)sysid_qsys.reset,(SLAVE)button_pio.reset) 1 1 24 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 1340 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 3360 160 3730 220 4140 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 6090 260 NJ
-preplace netloc FAN_IN<net_container>soc_system</net_container>(MASTER)sgdma_mm2st.descriptor_write,(MASTER)sgdma_mm2st.descriptor_read,(MASTER)sgdma_st2mm.descriptor_write,(MASTER)sgdma_st2mm.descriptor_read,(MASTER)sgdma_mm2st.m_read,(MASTER)sgdma_st2mm.m_write,(SLAVE)hps_0.f2h_axi_slave) 1 14 12 3690 180 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 6050 280 NJ 330 6910
-preplace netloc EXPORT<net_container>soc_system</net_container>(MASTER)soc_system.hps_0_h2f_reset,(MASTER)hps_0.h2f_reset) 1 24 2 NJ 870 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.button_pio,(SLAVE)button_pio.external_connection) 1 0 24 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.dipsw_pio,(SLAVE)dipsw_pio.external_connection) 1 0 24 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 120 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ
-preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(SLAVE)st2mm_data_adapter_0.avalon_st_sink,(MASTER)fir_subsystem.st2mm) 1 16 8 NJ 360 NJ 360 NJ 360 NJ 360 NJ 360 NJ 360 NJ 360 N
-preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)sgdma_mm2st.csr,(SLAVE)fir_subsystem.csr,(SLAVE)sysid_qsys.control_slave,(SLAVE)button_pio.s1,(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)sgdma_st2mm.csr,(SLAVE)led_pio.s1,(SLAVE)dipsw_pio.s1,(SLAVE)onchip_RAM.s1) 1 6 19 1360 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 3320 140 NJ 140 4080 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 6110 400 6610
-levelinfo -pg 1 0 80 7060
-levelinfo -hier soc_system 90 120 360 590 840 1010 1300 1530 1720 2150 2380 2670 2870 3300 3530 3800 4180 4320 4590 4930 5260 5570 5760 6030 6350 6720 6930
+preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)pocs_engine.st2mm,(SLAVE)st2mm_data_adapter_0.avalon_st_sink) 1 25 1 N
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)led_pio.external_connection,(SLAVE)soc_system.led_pio) 1 0 26 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ 650 NJ
+preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(SLAVE)mm2st_data_adapter_0.avalon_st_sink,(MASTER)sgdma_mm2st.out) 1 14 1 3690
+preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)mm2st_data_adapter_0.avalon_st_source,(SLAVE)pocs_engine.mm2st) 1 15 10 NJ 260 NJ 260 NJ 260 NJ 260 NJ 260 NJ 260 NJ 260 NJ 260 NJ 260 6390
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)dipsw_pio.external_connection,(SLAVE)soc_system.dipsw_pio) 1 0 26 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ 160 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)hps_0.memory,(SLAVE)soc_system.memory) 1 0 26 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ 910 NJ
+preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)onchip_RAM.reset1,(SLAVE)mm2st_data_adapter_0.avalon_st_reset,(SLAVE)dipsw_pio.reset,(SLAVE)button_pio.reset,(SLAVE)sgdma_st2mm.reset,(SLAVE)sysid_qsys.reset,(MASTER)clk_0.clk_reset,(SLAVE)pocs_engine.reset,(SLAVE)led_pio.reset,(SLAVE)sgdma_mm2st.reset,(SLAVE)st2mm_data_adapter_0.avalon_st_reset) 1 1 26 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 1340 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 3360 160 3710 220 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 6370 460 6880 260 7280
+preplace netloc FAN_IN<net_container>soc_system</net_container>(MASTER)sgdma_st2mm.descriptor_read,(SLAVE)hps_0.f2h_axi_slave,(MASTER)sgdma_st2mm.m_write,(MASTER)sgdma_mm2st.descriptor_read,(MASTER)sgdma_mm2st.descriptor_write,(MASTER)sgdma_mm2st.m_read,(MASTER)sgdma_st2mm.descriptor_write) 1 14 14 3690 180 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 6820 280 NJ 330 7540
+preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)st2mm_data_adapter_0.avalon_st_source,(SLAVE)sgdma_st2mm.in) 1 26 1 7260
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.hps_io,(SLAVE)hps_0.hps_io) 1 0 26 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ 850 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)button_pio.external_connection,(SLAVE)soc_system.button_pio) 1 0 26 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ 60 NJ
+preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)dipsw_pio.clk,(SLAVE)mm2st_data_adapter_0.avalon_st_clk_sink,(SLAVE)mm2st_data_adapter_0.avalon_st_clk_source,(SLAVE)st2mm_data_adapter_0.avalon_st_clk_source,(SLAVE)onchip_RAM.clk1,(SLAVE)sysid_qsys.clk,(SLAVE)hps_0.f2h_axi_clock,(SLAVE)st2mm_data_adapter_0.avalon_st_clk_sink,(SLAVE)button_pio.clk,(SLAVE)sgdma_st2mm.clk,(MASTER)clk_0.clk,(SLAVE)pocs_engine.clock,(SLAVE)hps_0.h2f_axi_clock,(SLAVE)led_pio.clk,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)sgdma_mm2st.clk) 1 1 26 NJ 280 NJ 280 NJ 280 NJ 280 NJ 280 1320 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 3320 120 3750 200 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 6410 440 6840 240 7320
+preplace netloc EXPORT<net_container>soc_system</net_container>(MASTER)soc_system.hps_0_h2f_reset,(MASTER)hps_0.h2f_reset) 1 26 2 NJ 870 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)clk_0.clk_in,(SLAVE)soc_system.clk) 1 0 1 NJ
+preplace netloc FAN_OUT<net_container>soc_system</net_container>(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)led_pio.s1,(SLAVE)onchip_RAM.s1,(SLAVE)pocs_engine.csr,(SLAVE)sysid_qsys.control_slave,(SLAVE)sgdma_st2mm.csr,(SLAVE)dipsw_pio.s1,(SLAVE)sgdma_mm2st.csr,(SLAVE)button_pio.s1) 1 6 21 1360 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 3340 140 NJ 160 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 NJ 180 6430 180 6860 610 7300
+levelinfo -pg 1 0 80 7690
+levelinfo -hier soc_system 90 120 360 590 840 1010 1300 1530 1720 2150 2380 2670 2870 3300 3530 3800 4180 4320 4590 4930 5260 5570 5760 6030 6350 6720 7000 7350 7560
