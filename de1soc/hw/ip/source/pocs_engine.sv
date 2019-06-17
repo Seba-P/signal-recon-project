@@ -8,25 +8,25 @@ module pocs_engine
 )
 (
   /* Common IF */
-  input  wire        reset,           // reset.reset
-  input  wire        clock,           // clock.clk
+  input  wire        reset,           //    reset.reset
+  input  wire        clock,           //    clock.clk
   /* CSR IF */
-  input  wire [ 7:0] csr_address,     //   csr.address
-  input  wire [ 3:0] csr_byteenable,  //      .byteenable
-  input  wire        csr_read,        //      .read
-  output wire [31:0] csr_readdata,    //      .readdata
-  output wire [ 1:0] csr_response,    //      .response
-  input  wire        csr_write,       //      .write
-  input  wire [31:0] csr_writedata,   //      .writedata
-  output wire        csr_waitrequest, //      .waitrequest
-  /* MM2ST IF */
-  input  wire [15:0] mm2st_data,      // mm2st.data
-  input  wire        mm2st_valid,     //      .valid
-  output wire        mm2st_ready,     //      .ready
-  /* ST2MM IF */
-  output wire [15:0] st2mm_data,      // st2mm.data
-  output wire        st2mm_valid,     //      .valid
-  input  wire        st2mm_ready      //      .ready
+  input  wire [ 7:0] csr_address,     //      csr.address
+  input  wire [ 3:0] csr_byteenable,  //         .byteenable
+  input  wire        csr_read,        //         .read
+  output wire [31:0] csr_readdata,    //         .readdata
+  output wire [ 1:0] csr_response,    //         .response
+  input  wire        csr_write,       //         .write
+  input  wire [31:0] csr_writedata,   //         .writedata
+  output wire        csr_waitrequest, //         .waitrequest
+  /* POCS_IN IF */
+  input  wire [15:0] pocs_in_data,    //  pocs_in.data
+  input  wire        pocs_in_valid,   //         .valid
+  output wire        pocs_in_ready,   //         .ready
+  /* POCS_OUT IF */
+  output wire [15:0] pocs_out_data,   // pocs_out.data
+  output wire        pocs_out_valid,  //         .valid
+  input  wire        pocs_out_ready   //         .ready
 );
 
 localparam FIR_TAPS_NUM_BITS        = $clog2(FIR_TAPS_NUM);
@@ -123,9 +123,9 @@ sample2signal_converter
   .params_init_lvl      (reg_params_init_lvl),                  //           .init_lvl
   .params_init_guess    (reg_params_init_guess),                //           .init_guess
   .params_lvls_values   (reg_lvl_val_xx_yy),                    //           .lvls_values
-  .in_data              (mm2st_data),                           //         in.data
-  .in_valid             (mm2st_valid),                          //           .valid
-  .in_ready             (mm2st_ready),                          //           .ready
+  .in_data              (pocs_in_data),                         //         in.data
+  .in_valid             (pocs_in_valid),                        //           .valid
+  .in_ready             (pocs_in_ready),                        //           .ready
   .out_signal_data      (sample2signal_subcells_signal_data),   // out_signal.data
   .out_signal_valid     (sample2signal_subcells_signal_valid),  //           .valid
   .out_limits_data      (sample2signal_subcells_limits_data),   // out_limits.data
@@ -247,9 +247,9 @@ output_ctrl
   .in_data        (subcells_outctrl_data),  //    in.data
   .in_valid       (subcells_outctrl_valid), //      .valid
   .in_ready       (subcells_outctrl_ready), //      .ready
-  .out_data       (st2mm_data),             //   out.data
-  .out_valid      (st2mm_valid),            //      .valid
-  .out_ready      (st2mm_ready)             //      .ready
+  .out_data       (pocs_out_data),          //   out.data
+  .out_valid      (pocs_out_valid),         //      .valid
+  .out_ready      (pocs_out_ready)          //      .ready
 );
 
 endmodule

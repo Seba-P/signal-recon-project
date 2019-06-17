@@ -15,8 +15,8 @@ function lvls_sweep_test::new(string name = "lvls_sweep_test", uvm_component par
 endfunction : new
 
 task lvls_sweep_test::main_phase(uvm_phase phase);
-  base_mm2st_seq::type_id::set_type_override(mm2st_lvls_sweep_seq::get_type());
-  base_st2mm_seq::type_id::set_type_override(st2mm_lvls_sweep_seq::get_type());
+  base_pocs_in_seq::type_id::set_type_override(pocs_in_lvls_sweep_seq::get_type());
+  base_pocs_out_seq::type_id::set_type_override(pocs_out_lvls_sweep_seq::get_type());
 
   super.main_phase(phase);
 endtask : main_phase

@@ -2,10 +2,10 @@
 LIB_LINKS = -L work -L altera_common_sv_packages -L error_adapter_0 -L border -L avalon_st_adapter \
 	        -L rsp_mux -L rsp_demux -L cmd_mux -L cmd_demux -L sysid_qsys_control_slave_burst_adapter -L router_002 \
 	        -L router -L sysid_qsys_control_slave_agent -L hps_0_h2f_lw_axi_master_agent -L sysid_qsys_control_slave_translator \
-	        -L sgdma_mm2st_descriptor_write_rsp_width_adapter -L sgdma_mm2st_descriptor_read_limiter -L router_006 -L router_004 \
-	        -L hps_0_f2h_axi_slave_agent -L sgdma_mm2st_descriptor_read_agent -L sgdma_mm2st_descriptor_read_translator \
+	        -L mm2st_sgdma_descriptor_write_rsp_width_adapter -L mm2st_sgdma_descriptor_read_limiter -L router_006 -L router_004 \
+	        -L hps_0_f2h_axi_slave_agent -L mm2st_sgdma_descriptor_read_agent -L mm2st_sgdma_descriptor_read_translator \
 	        -L hps_io -L fpga_interfaces -L rst_controller -L mm_interconnect_1 -L mm_interconnect_0 -L sysid_qsys \
-	        -L st2mm_data_adapter -L signal_buffer_ctrl -L signal_buffer -L sgdma_st2mm -L sgdma_mm2st -L sample2signal_converter \
+	        -L st2mm_data_adapter -L signal_buffer_ctrl -L signal_buffer -L st2mm_sgdma -L mm2st_sgdma -L sample2signal_converter \
 	        -L output_ctrl -L onchip_RAM -L mm2st_data_adapter -L limits_buffer_ctrl -L limits_buffer -L led_pio -L iteration_ctrl \
 	        -L hps_0 -L hard_limiter_out_splitter -L hard_limiter -L fir_filter -L fir_fifo_in -L fir_driver -L dipsw_pio -L button_pio \
 	        -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver \
@@ -73,20 +73,20 @@ map_libs:
 	vmap hps_0_h2f_lw_axi_master_agent                  ./_work/hps_0_h2f_lw_axi_master_agent/
 	vlib                                                ./_work/sysid_qsys_control_slave_translator/
 	vmap sysid_qsys_control_slave_translator            ./_work/sysid_qsys_control_slave_translator/
-	vlib                                                ./_work/sgdma_mm2st_descriptor_write_rsp_width_adapter/
-	vmap sgdma_mm2st_descriptor_write_rsp_width_adapter ./_work/sgdma_mm2st_descriptor_write_rsp_width_adapter/
-	vlib                                                ./_work/sgdma_mm2st_descriptor_read_limiter/
-	vmap sgdma_mm2st_descriptor_read_limiter            ./_work/sgdma_mm2st_descriptor_read_limiter/
+	vlib                                                ./_work/mm2st_sgdma_descriptor_write_rsp_width_adapter/
+	vmap mm2st_sgdma_descriptor_write_rsp_width_adapter ./_work/mm2st_sgdma_descriptor_write_rsp_width_adapter/
+	vlib                                                ./_work/mm2st_sgdma_descriptor_read_limiter/
+	vmap mm2st_sgdma_descriptor_read_limiter            ./_work/mm2st_sgdma_descriptor_read_limiter/
 	vlib                                                ./_work/router_006/
 	vmap router_006                                     ./_work/router_006/
 	vlib                                                ./_work/router_004/
 	vmap router_004                                     ./_work/router_004/
 	vlib                                                ./_work/hps_0_f2h_axi_slave_agent/
 	vmap hps_0_f2h_axi_slave_agent                      ./_work/hps_0_f2h_axi_slave_agent/
-	vlib                                                ./_work/sgdma_mm2st_descriptor_read_agent/
-	vmap sgdma_mm2st_descriptor_read_agent              ./_work/sgdma_mm2st_descriptor_read_agent/
-	vlib                                                ./_work/sgdma_mm2st_descriptor_read_translator/
-	vmap sgdma_mm2st_descriptor_read_translator         ./_work/sgdma_mm2st_descriptor_read_translator/
+	vlib                                                ./_work/mm2st_sgdma_descriptor_read_agent/
+	vmap mm2st_sgdma_descriptor_read_agent              ./_work/mm2st_sgdma_descriptor_read_agent/
+	vlib                                                ./_work/mm2st_sgdma_descriptor_read_translator/
+	vmap mm2st_sgdma_descriptor_read_translator         ./_work/mm2st_sgdma_descriptor_read_translator/
 	vlib                                                ./_work/hps_io/
 	vmap hps_io                                         ./_work/hps_io/
 	vlib                                                ./_work/fpga_interfaces/
@@ -105,10 +105,10 @@ map_libs:
 	vmap signal_buffer_ctrl                             ./_work/signal_buffer_ctrl/
 	vlib                                                ./_work/signal_buffer/
 	vmap signal_buffer                                  ./_work/signal_buffer/
-	vlib                                                ./_work/sgdma_st2mm/
-	vmap sgdma_st2mm                                    ./_work/sgdma_st2mm/
-	vlib                                                ./_work/sgdma_mm2st/
-	vmap sgdma_mm2st                                    ./_work/sgdma_mm2st/
+	vlib                                                ./_work/st2mm_sgdma/
+	vmap st2mm_sgdma                                    ./_work/st2mm_sgdma/
+	vlib                                                ./_work/mm2st_sgdma/
+	vmap mm2st_sgdma                                    ./_work/mm2st_sgdma/
 	vlib                                                ./_work/sample2signal_converter/
 	vmap sample2signal_converter                        ./_work/sample2signal_converter/
 	vlib                                                ./_work/output_ctrl/
@@ -193,16 +193,16 @@ altera_libs: cyclonev_common
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_avalon_reset_source.sv                                  -L altera_common_sv_packages -work border
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_avalon_st_pipeline_stage.sv                             -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_avalon_st_pipeline_base.v                               -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
-	vlog -sv $(QSYS_SIMDIR)/submodules/altera_avalon_sc_fifo.v                                        -L altera_common_sv_packages -work sgdma_mm2st_descriptor_read_limiter
+	vlog -sv $(QSYS_SIMDIR)/submodules/altera_avalon_sc_fifo.v                                        -L altera_common_sv_packages -work mm2st_sgdma_descriptor_read_limiter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_burst_adapter_uncmpr.sv                          -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_burst_adapter_13_1.sv                            -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_burst_adapter_new.sv                             -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_address_alignment.sv                             -L altera_common_sv_packages -work sysid_qsys_control_slave_burst_adapter
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_burst_uncompressor.sv                            -L altera_common_sv_packages -work sysid_qsys_control_slave_agent
 	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_axi_master_ni.sv                                 -L altera_common_sv_packages -work hps_0_h2f_lw_axi_master_agent
-	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_width_adapter.sv                                 -L altera_common_sv_packages -work sgdma_mm2st_descriptor_write_rsp_width_adapter
-	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_reorder_memory.sv                                -L altera_common_sv_packages -work sgdma_mm2st_descriptor_read_limiter
-	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_master_translator.sv                             -L altera_common_sv_packages -work sgdma_mm2st_descriptor_read_translator
+	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_width_adapter.sv                                 -L altera_common_sv_packages -work mm2st_sgdma_descriptor_write_rsp_width_adapter
+	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_reorder_memory.sv                                -L altera_common_sv_packages -work mm2st_sgdma_descriptor_read_limiter
+	vlog -sv $(QSYS_SIMDIR)/submodules/altera_merlin_master_translator.sv                             -L altera_common_sv_packages -work mm2st_sgdma_descriptor_read_translator
 	vlog -sv $(QSYS_SIMDIR)/submodules/questa_mvc_svapi.svh                                           -L altera_common_sv_packages -work fpga_interfaces
 	vlog -sv $(QSYS_SIMDIR)/submodules/mgc_common_axi.sv                                              -L altera_common_sv_packages -work fpga_interfaces
 	vlog -sv $(QSYS_SIMDIR)/submodules/mgc_axi_master.sv                                              -L altera_common_sv_packages -work fpga_interfaces

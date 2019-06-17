@@ -148,25 +148,25 @@ add_interface_port clock clock clk Input 1
 
 
 # 
-# connection point mm2st
+# connection point pocs_in
 # 
-add_interface mm2st avalon_streaming end
-set_interface_property mm2st associatedClock clock
-set_interface_property mm2st associatedReset reset
-set_interface_property mm2st dataBitsPerSymbol 16
-set_interface_property mm2st errorDescriptor ""
-set_interface_property mm2st firstSymbolInHighOrderBits true
-set_interface_property mm2st maxChannel 0
-set_interface_property mm2st readyLatency 0
-set_interface_property mm2st ENABLED true
-set_interface_property mm2st EXPORT_OF ""
-set_interface_property mm2st PORT_NAME_MAP ""
-set_interface_property mm2st CMSIS_SVD_VARIABLES ""
-set_interface_property mm2st SVD_ADDRESS_GROUP ""
+add_interface pocs_in avalon_streaming end
+set_interface_property pocs_in associatedClock clock
+set_interface_property pocs_in associatedReset reset
+set_interface_property pocs_in dataBitsPerSymbol 16
+set_interface_property pocs_in errorDescriptor ""
+set_interface_property pocs_in firstSymbolInHighOrderBits true
+set_interface_property pocs_in maxChannel 0
+set_interface_property pocs_in readyLatency 0
+set_interface_property pocs_in ENABLED true
+set_interface_property pocs_in EXPORT_OF ""
+set_interface_property pocs_in PORT_NAME_MAP ""
+set_interface_property pocs_in CMSIS_SVD_VARIABLES ""
+set_interface_property pocs_in SVD_ADDRESS_GROUP ""
 
-add_interface_port mm2st mm2st_data data Input 16
-add_interface_port mm2st mm2st_valid valid Input 1
-add_interface_port mm2st mm2st_ready ready Output 1
+add_interface_port pocs_in pocs_in_data data Input 16
+add_interface_port pocs_in pocs_in_valid valid Input 1
+add_interface_port pocs_in pocs_in_ready ready Output 1
 
 
 # 
@@ -185,25 +185,25 @@ add_interface_port reset reset reset Input 1
 
 
 # 
-# connection point st2mm
+# connection point pocs_out
 # 
-add_interface st2mm avalon_streaming start
-set_interface_property st2mm associatedClock clock
-set_interface_property st2mm associatedReset reset
-set_interface_property st2mm dataBitsPerSymbol 16
-set_interface_property st2mm errorDescriptor ""
-set_interface_property st2mm firstSymbolInHighOrderBits true
-set_interface_property st2mm maxChannel 0
-set_interface_property st2mm readyLatency 0
-set_interface_property st2mm ENABLED true
-set_interface_property st2mm EXPORT_OF ""
-set_interface_property st2mm PORT_NAME_MAP ""
-set_interface_property st2mm CMSIS_SVD_VARIABLES ""
-set_interface_property st2mm SVD_ADDRESS_GROUP ""
+add_interface pocs_out avalon_streaming start
+set_interface_property pocs_out associatedClock clock
+set_interface_property pocs_out associatedReset reset
+set_interface_property pocs_out dataBitsPerSymbol 16
+set_interface_property pocs_out errorDescriptor ""
+set_interface_property pocs_out firstSymbolInHighOrderBits true
+set_interface_property pocs_out maxChannel 0
+set_interface_property pocs_out readyLatency 0
+set_interface_property pocs_out ENABLED true
+set_interface_property pocs_out EXPORT_OF ""
+set_interface_property pocs_out PORT_NAME_MAP ""
+set_interface_property pocs_out CMSIS_SVD_VARIABLES ""
+set_interface_property pocs_out SVD_ADDRESS_GROUP ""
 
-add_interface_port st2mm st2mm_data data Output 16
-add_interface_port st2mm st2mm_valid valid Output 1
-add_interface_port st2mm st2mm_ready ready Input 1
+add_interface_port pocs_out pocs_out_data data Output 16
+add_interface_port pocs_out pocs_out_valid valid Output 1
+add_interface_port pocs_out pocs_out_ready ready Input 1
 
 
 # 

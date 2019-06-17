@@ -1,20 +1,20 @@
 
-`ifndef _MM2ST_LVLS_SWEEP_SEQ_SVH_
-`define _MM2ST_LVLS_SWEEP_SEQ_SVH_
+`ifndef _POCS_IN_LVLS_SWEEP_SEQ_SVH_
+`define _POCS_IN_LVLS_SWEEP_SEQ_SVH_
 
-class mm2st_lvls_sweep_seq extends base_mm2st_seq;
-  `uvm_object_utils(mm2st_lvls_sweep_seq)
+class pocs_in_lvls_sweep_seq extends base_pocs_in_seq;
+  `uvm_object_utils(pocs_in_lvls_sweep_seq)
 
   // Standard UVM Methods:
-  extern function new(string name = "mm2st_lvls_sweep_seq");
+  extern function new(string name = "pocs_in_lvls_sweep_seq");
   extern virtual task body();
-endclass : mm2st_lvls_sweep_seq
+endclass : pocs_in_lvls_sweep_seq
 
-function mm2st_lvls_sweep_seq::new(string name = "mm2st_lvls_sweep_seq");
+function pocs_in_lvls_sweep_seq::new(string name = "pocs_in_lvls_sweep_seq");
   super.new(name);
 endfunction : new
 
-task mm2st_lvls_sweep_seq::body();
+task pocs_in_lvls_sweep_seq::body();
   lvl_cross_sample_t sample;
 
   /* Dummy delay */
@@ -44,4 +44,4 @@ task mm2st_lvls_sweep_seq::body();
   `uvm_info(get_name().toupper(), $sformatf("*** %s ENDS ***", get_name().toupper()), UVM_LOW)
 endtask : body
 
-`endif // _MM2ST_LVLS_SWEEP_SEQ_SVH_
+`endif // _POCS_IN_LVLS_SWEEP_SEQ_SVH_

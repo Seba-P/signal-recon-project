@@ -21,13 +21,13 @@ module dut_top();
     .clock  (clock)
   );
 
-  avalon_st_if #(avalon_st_inst_specs[MM2ST]) mm2st_if
+  avalon_st_if #(avalon_st_inst_specs[POCS_IN]) pocs_in_if
   (
     .reset  (reset),
     .clock  (clock)
   );
 
-  avalon_st_if #(avalon_st_inst_specs[ST2MM]) st2mm_if
+  avalon_st_if #(avalon_st_inst_specs[POCS_OUT]) pocs_out_if
   (
     .reset  (reset),
     .clock  (clock)
@@ -50,13 +50,13 @@ module dut_top();
   assign m_dut_if.csr_writedata           = csr_if.footprint_if.writedata;
   assign csr_if.footprint_if.waitrequest  = m_dut_if.csr_waitrequest;
 
-  assign m_dut_if.mm2st_data              = mm2st_if.footprint_if.data;
-  assign m_dut_if.mm2st_valid             = mm2st_if.footprint_if.valid;
-  assign mm2st_if.footprint_if.ready      = m_dut_if.mm2st_ready;
+  assign m_dut_if.pocs_in_data            = pocs_in_if.footprint_if.data;
+  assign m_dut_if.pocs_in_valid           = pocs_in_if.footprint_if.valid;
+  assign pocs_in_if.footprint_if.ready    = m_dut_if.pocs_in_ready;
 
-  assign st2mm_if.footprint_if.data       = m_dut_if.st2mm_data;
-  assign st2mm_if.footprint_if.valid      = m_dut_if.st2mm_valid;
-  assign m_dut_if.st2mm_ready             = st2mm_if.footprint_if.ready;
+  assign pocs_out_if.footprint_if.data    = m_dut_if.pocs_out_data;
+  assign pocs_out_if.footprint_if.valid   = m_dut_if.pocs_out_valid;
+  assign m_dut_if.pocs_out_ready          = pocs_out_if.footprint_if.ready;
 
   dut_wrapper
   #(
@@ -85,8 +85,8 @@ module dut_top();
   initial
   begin
     uvm_config_db#(virtual avalon_mm_if #(avalon_mm_inst_specs[CSR]))::set(null, "uvm_test_top", "csr_if", csr_if);
-    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[MM2ST]))::set(null, "uvm_test_top", "mm2st_if", mm2st_if);
-    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[ST2MM]))::set(null, "uvm_test_top", "st2mm_if", st2mm_if);
+    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_IN]))::set(null, "uvm_test_top", "pocs_in_if", pocs_in_if);
+    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_OUT]))::set(null, "uvm_test_top", "pocs_out_if", pocs_out_if);
 
     run_test();
   end

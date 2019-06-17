@@ -26,8 +26,8 @@ package tb_params_pkg;
 
   typedef enum bit [1:0]
   {
-    MM2ST,
-    ST2MM,
+    POCS_IN,
+    POCS_OUT,
     AVALON_ST_AGENTS_NUM
   } avalon_st_agent_e;
 
@@ -70,18 +70,18 @@ package tb_params_pkg;
     '{
       /*bus_width*/   16,
       /*vif_modport*/ MODPORT_SOURCE,
-      /*agent_name*/  "MM2ST",
+      /*agent_name*/  "POCS_IN",
       /*is_active*/   UVM_ACTIVE,
       /*verbosity*/   UVM_LOW,
-      /*vif_name*/    "mm2st_if"
+      /*vif_name*/    "pocs_in_if"
     },
     '{
       /*bus_width*/   16,
       /*vif_modport*/ MODPORT_SINK,
-      /*agent_name*/  "ST2MM",
+      /*agent_name*/  "POCS_OUT",
       /*is_active*/   UVM_ACTIVE,
       /*verbosity*/   UVM_LOW,
-      /*vif_name*/    "st2mm_if"
+      /*vif_name*/    "pocs_out_if"
     }
   };
 
@@ -116,12 +116,12 @@ package tb_params_pkg;
     /*lvl_val_30_31*/ '{ /*lvl_val_31*/'hFFFF, /*lvl_val_30*/'hFFFF } 
   };
 
-  typedef avalon_mm_sequencer #(avalon_mm_inst_specs[CSR])    csr_sequencer;
-  typedef avalon_st_sequencer #(avalon_st_inst_specs[MM2ST])  mm2st_sequencer;
-  typedef avalon_st_sequencer #(avalon_st_inst_specs[ST2MM])  st2mm_sequencer;
+  typedef avalon_mm_sequencer #(avalon_mm_inst_specs[CSR])      csr_sequencer;
+  typedef avalon_st_sequencer #(avalon_st_inst_specs[POCS_IN])  pocs_in_sequencer;
+  typedef avalon_st_sequencer #(avalon_st_inst_specs[POCS_OUT]) pocs_out_sequencer;
 
   `include "csr_seq_item.svh"
-  `include "mm2st_seq_item.svh"
-  `include "st2mm_seq_item.svh"
+  `include "pocs_in_seq_item.svh"
+  `include "pocs_out_seq_item.svh"
 
 endpackage : tb_params_pkg

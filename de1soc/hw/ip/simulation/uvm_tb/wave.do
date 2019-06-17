@@ -13,12 +13,12 @@ add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_res
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_write
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_writedata
 add wave -noupdate -group TB -expand -group CSR_IF sim:/dut_top/m_dut_if/csr_waitrequest
-add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/data
-add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/valid
-add wave -noupdate -group TB -expand -group MM2ST_IF sim:/dut_top/mm2st_if/ready
-add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/data
-add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/valid
-add wave -noupdate -group TB -expand -group ST2MM_IF sim:/dut_top/st2mm_if/ready
+add wave -noupdate -group TB -expand -group POCS_IN_IF sim:/dut_top/pocs_in_if/data
+add wave -noupdate -group TB -expand -group POCS_IN_IF sim:/dut_top/pocs_in_if/valid
+add wave -noupdate -group TB -expand -group POCS_IN_IF sim:/dut_top/pocs_in_if/ready
+add wave -noupdate -group TB -expand -group POCS_OUT_IF sim:/dut_top/pocs_out_if/data
+add wave -noupdate -group TB -expand -group POCS_OUT_IF sim:/dut_top/pocs_out_if/valid
+add wave -noupdate -group TB -expand -group POCS_OUT_IF sim:/dut_top/pocs_out_if/ready
 
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/reset
 add wave -noupdate -group REGISTER_FILE sim:/dut_top/DUT/DUT/register_file/clock

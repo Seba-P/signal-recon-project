@@ -89,19 +89,19 @@ task base_test::configure_phase(uvm_phase phase);
 endtask : configure_phase
 
 task base_test::main_phase(uvm_phase phase);
-  base_mm2st_seq  mm2st_seq;
-  base_st2mm_seq  st2mm_seq;
+  base_pocs_in_seq  pocs_in_seq;
+  base_pocs_out_seq pocs_out_seq;
 
   `uvm_info("TEST", "***** START OF MAIN_PHASE *****", UVM_LOW)
   phase.phase_done.set_drain_time(this, 100);
   phase.raise_objection(this, "");
 
-  mm2st_seq = base_mm2st_seq::type_id::create("mm2st_seq");
-  st2mm_seq = base_st2mm_seq::type_id::create("st2mm_seq");
+  pocs_in_seq   = base_pocs_in_seq::type_id::create("pocs_in_seq");
+  pocs_out_seq  = base_pocs_out_seq::type_id::create("pocs_out_seq");
 
   fork
-    mm2st_seq.start(m_env.m_config.mm2st_agent_config.sequencer);
-    st2mm_seq.start(m_env.m_config.st2mm_agent_config.sequencer);
+    pocs_in_seq.start(m_env.m_config.pocs_in_agent_config.sequencer);
+    pocs_out_seq.start(m_env.m_config.pocs_out_agent_config.sequencer);
   join
 
   phase.drop_objection(this, "");
@@ -174,59 +174,59 @@ function void base_test::override_avalon_mm_vip_config();
 endfunction : override_avalon_mm_vip_config
 
 function void base_test::configure_avalon_st_vip();
-  avalon_st_agent_config #(avalon_st_inst_specs[MM2ST]) mm2st_agent_config;
-  avalon_st_agent_config #(avalon_st_inst_specs[ST2MM]) st2mm_agent_config;
+  avalon_st_agent_config #(avalon_st_inst_specs[POCS_IN])   pocs_in_agent_config;
+  avalon_st_agent_config #(avalon_st_inst_specs[POCS_OUT])  pocs_out_agent_config;
   avalon_st_agent_params_t agent_params;
   int i;
 
   `uvm_info("TEST", "Configuring Avalon ST VIP...", UVM_LOW)
 
   // -------------------------------------------------------------------------------------------------------------- //
-  mm2st_agent_config  = avalon_st_agent_config#(avalon_st_inst_specs[MM2ST])::type_id::create("mm2st_agent_config");
-  agent_params        = avalon_st_agent_params[MM2ST];
+  pocs_in_agent_config  = avalon_st_agent_config#(avalon_st_inst_specs[POCS_IN])::type_id::create("pocs_in_agent_config");
+  agent_params          = avalon_st_agent_params[POCS_IN];
 
-  if (!uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[MM2ST]))::get(this, "", $sformatf("%s", agent_params.vif_name),
-                                                                                                          mm2st_agent_config.vif))
+  if (!uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_IN]))::get(this, "", $sformatf("%s", agent_params.vif_name),
+                                                                                                          pocs_in_agent_config.vif))
     `uvm_fatal("CONFIG", $sformatf("Cannot get() '%s' from uvm_config_db. Have you set() it?", agent_params.vif_name))
 
   if (agent_params.bus_width == 0)
     `uvm_fatal("CONFIG", $sformatf("Avalon ST agent [%s] has BUS_WIDTH == '0'! Verify configuration in 'tb_params_pkg.sv'.",
                 agent_params.agent_name));
 
-  mm2st_agent_config.bus_width    = agent_params.bus_width;
-  mm2st_agent_config.vif_modport  = agent_params.vif_modport;
-  mm2st_agent_config.agent_name   = agent_params.agent_name;
-  mm2st_agent_config.is_active    = agent_params.is_active;
-  mm2st_agent_config.verbosity    = agent_params.verbosity;
+  pocs_in_agent_config.bus_width    = agent_params.bus_width;
+  pocs_in_agent_config.vif_modport  = agent_params.vif_modport;
+  pocs_in_agent_config.agent_name   = agent_params.agent_name;
+  pocs_in_agent_config.is_active    = agent_params.is_active;
+  pocs_in_agent_config.verbosity    = agent_params.verbosity;
 
   // -------------------------------------------------------------------------------------------------------------- //
-  st2mm_agent_config  = avalon_st_agent_config#(avalon_st_inst_specs[ST2MM])::type_id::create("st2mm_agent_config");
-  agent_params        = avalon_st_agent_params[ST2MM];
+  pocs_out_agent_config = avalon_st_agent_config#(avalon_st_inst_specs[POCS_OUT])::type_id::create("pocs_out_agent_config");
+  agent_params          = avalon_st_agent_params[POCS_OUT];
 
-  if (!uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[ST2MM]))::get(this, "", $sformatf("%s", agent_params.vif_name),
-                                                                                                          st2mm_agent_config.vif))
+  if (!uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_OUT]))::get(this, "", $sformatf("%s", agent_params.vif_name),
+                                                                                                          pocs_out_agent_config.vif))
     `uvm_fatal("CONFIG", $sformatf("Cannot get() '%s' from uvm_config_db. Have you set() it?", agent_params.vif_name))
 
   if (agent_params.bus_width == 0)
     `uvm_fatal("CONFIG", $sformatf("Avalon ST agent [%s] has BUS_WIDTH == '0'! Verify configuration in 'tb_params_pkg.sv'.",
                 agent_params.agent_name));
 
-  st2mm_agent_config.bus_width    = agent_params.bus_width;
-  st2mm_agent_config.vif_modport  = agent_params.vif_modport;
-  st2mm_agent_config.agent_name   = agent_params.agent_name;
-  st2mm_agent_config.is_active    = agent_params.is_active;
-  st2mm_agent_config.verbosity    = agent_params.verbosity;
+  pocs_out_agent_config.bus_width   = agent_params.bus_width;
+  pocs_out_agent_config.vif_modport = agent_params.vif_modport;
+  pocs_out_agent_config.agent_name  = agent_params.agent_name;
+  pocs_out_agent_config.is_active   = agent_params.is_active;
+  pocs_out_agent_config.verbosity   = agent_params.verbosity;
 
   // -------------------------------------------------------------------------------------------------------------- //
-  m_env_cfg.mm2st_agent_config = mm2st_agent_config;
-  m_env_cfg.st2mm_agent_config = st2mm_agent_config;
+  m_env_cfg.pocs_in_agent_config  = pocs_in_agent_config;
+  m_env_cfg.pocs_out_agent_config = pocs_out_agent_config;
 
   override_avalon_st_vip_config();
 
   `uvm_info("TEST", $sformatf("\nAvalon ST agent [%s]:\n%s", 
-                              m_env_cfg.mm2st_agent_config.agent_name, m_env_cfg.mm2st_agent_config.convert2string()), UVM_LOW)
+                              m_env_cfg.pocs_in_agent_config.agent_name, m_env_cfg.pocs_in_agent_config.convert2string()), UVM_LOW)
   `uvm_info("TEST", $sformatf("\nAvalon ST agent [%s]:\n%s", 
-                              m_env_cfg.st2mm_agent_config.agent_name, m_env_cfg.st2mm_agent_config.convert2string()), UVM_LOW)
+                              m_env_cfg.pocs_out_agent_config.agent_name, m_env_cfg.pocs_out_agent_config.convert2string()), UVM_LOW)
 
   `uvm_info("TEST", "... DONE!", UVM_LOW)
 endfunction : configure_avalon_st_vip

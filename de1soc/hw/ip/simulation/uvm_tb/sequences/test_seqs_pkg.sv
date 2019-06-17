@@ -13,13 +13,13 @@ package test_seqs_pkg;
   import pocs_engine_env_pkg::*;
 
   `include "base_csr_seq.svh"
-  `include "base_mm2st_seq.svh"
-  `include "base_st2mm_seq.svh"
+  `include "base_pocs_in_seq.svh"
+  `include "base_pocs_out_seq.svh"
 
   `include "csr_init_config_seq.svh"
-  `include "mm2st_lvls_sweep_seq.svh"
-  `include "st2mm_lvls_sweep_seq.svh"
-  `include "mm2st_vector_seq.svh"
-  `include "st2mm_vector_seq.svh"
+  `include "pocs_in_lvls_sweep_seq.svh"
+  `include "pocs_out_lvls_sweep_seq.svh"
+  `include "pocs_in_vector_seq.svh"
+  `include "pocs_out_vector_seq.svh"
 
 endpackage : test_seqs_pkg

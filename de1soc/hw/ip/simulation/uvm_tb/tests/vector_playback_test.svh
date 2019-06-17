@@ -22,27 +22,27 @@ function vector_playback_test::new(string name = "vector_playback_test", uvm_com
 endfunction : new
 
 task vector_playback_test::main_phase(uvm_phase phase);
-  mm2st_vector_seq  mm2st_seq;
-  st2mm_vector_seq  st2mm_seq;
-  lvl_cross_sample_t samples[$];
+  pocs_in_vector_seq  pocs_in_seq;
+  pocs_out_vector_seq pocs_out_seq;
+  lvl_cross_sample_t  samples[$];
 
   `uvm_info("TEST", "***** START OF MAIN_PHASE *****", UVM_LOW)
   phase.phase_done.set_drain_time(this, 100);
   phase.raise_objection(this, "");
 
-  mm2st_seq = mm2st_vector_seq::type_id::create("mm2st_seq");
-  st2mm_seq = st2mm_vector_seq::type_id::create("st2mm_seq");
+  pocs_in_seq   = pocs_in_vector_seq::type_id::create("pocs_in_seq");
+  pocs_out_seq  = pocs_out_vector_seq::type_id::create("pocs_out_seq");
 
   repeat (5)
 	  samples.push_back('{ LVL_UP, 'd100 });
 
   /* Temporary placeholder for vector handlers */
-  mm2st_seq.init(samples);
-  st2mm_seq.init(samples);
+  pocs_in_seq.init(samples);
+  pocs_out_seq.init(samples);
 
   fork
-    mm2st_seq.start(m_env.m_config.mm2st_agent_config.sequencer);
-    st2mm_seq.start(m_env.m_config.st2mm_agent_config.sequencer);
+    pocs_in_seq.start(m_env.m_config.pocs_in_agent_config.sequencer);
+    pocs_out_seq.start(m_env.m_config.pocs_out_agent_config.sequencer);
   join
 
   phase.drop_objection(this, "");

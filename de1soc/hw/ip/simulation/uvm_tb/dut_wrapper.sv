@@ -9,14 +9,14 @@ interface dut_if(input reset, clock);
   wire        csr_write;
   wire [31:0] csr_writedata;
   wire        csr_waitrequest;
-  /* MM2ST IF */
-  wire [15:0] mm2st_data;
-  wire        mm2st_valid;
-  wire        mm2st_ready;
-  /* ST2MM IF */
-  wire [15:0] st2mm_data;
-  wire        st2mm_valid;
-  wire        st2mm_ready;
+  /* POCS_IN IF */
+  wire [15:0] pocs_in_data;
+  wire        pocs_in_valid;
+  wire        pocs_in_ready;
+  /* POCS_OUT IF */
+  wire [15:0] pocs_out_data;
+  wire        pocs_out_valid;
+  wire        pocs_out_ready;
 endinterface : dut_if
 
 module dut_wrapper
@@ -51,14 +51,14 @@ DUT
   .csr_write        (m_dut_if.csr_write),
   .csr_writedata    (m_dut_if.csr_writedata),
   .csr_waitrequest  (m_dut_if.csr_waitrequest),
-  /* MM2ST IF */
-  .mm2st_data       (m_dut_if.mm2st_data),
-  .mm2st_valid      (m_dut_if.mm2st_valid),
-  .mm2st_ready      (m_dut_if.mm2st_ready),
-  /* ST2MM IF */
-  .st2mm_data       (m_dut_if.st2mm_data),
-  .st2mm_valid      (m_dut_if.st2mm_valid),
-  .st2mm_ready      (m_dut_if.st2mm_ready)
+  /* POCS_IN IF */
+  .pocs_in_data     (m_dut_if.pocs_in_data),
+  .pocs_in_valid    (m_dut_if.pocs_in_valid),
+  .pocs_in_ready    (m_dut_if.pocs_in_ready),
+  /* POCS_OUT IF */
+  .pocs_out_data    (m_dut_if.pocs_out_data),
+  .pocs_out_valid   (m_dut_if.pocs_out_valid),
+  .pocs_out_ready   (m_dut_if.pocs_out_ready)
 );
 
 endmodule : dut_wrapper
