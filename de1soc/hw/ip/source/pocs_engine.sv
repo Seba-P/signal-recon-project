@@ -34,23 +34,23 @@ localparam MAX_SAMPLES_IN_RAM_BITS  = $clog2(MAX_SAMPLES_IN_RAM);
 localparam MAX_LVLS_NUM_BITS        = $clog2(MAX_LVLS_NUM);
 localparam MAX_ITER_NUM_BITS        = $clog2(MAX_ITER_NUM);
 
-wire                           reg_status_busy;
-wire                           reg_status_ready;
-wire                           reg_status_error;
-wire                           reg_status_fifo_err;
-wire                           reg_control_run;
-wire                           reg_control_halt;
-wire                           reg_control_flush;
-wire                           reg_control_init;
-// wire [$clog2(MAX_LVLS_NUM)-1:0] reg_params_lvls_num;
-wire                    [ 4:0] reg_params_lvls_num;
-// wire [$clog2(MAX_LVLS_NUM)-1:0] reg_params_init_lvl;
-wire                    [ 4:0] reg_params_init_lvl;
-// wire [$clog2(MAX_ITER_NUM)-1:0] reg_params_iter_num;
-wire                    [ 3:0] reg_params_iter_num;
-wire                    [ 1:0] reg_params_init_guess;
-// wire  [0:MAX_LVLS_NUM-1][15:0] reg_lvl_val_xx_yy;
-wire              [0:31][15:0] reg_lvl_val_xx_yy;
+wire                           status_busy;
+wire                           status_ready;
+wire                           status_error;
+wire                           status_fifo_err;
+wire                           control_run;
+wire                           control_halt;
+wire                           control_flush;
+wire                           control_init;
+// wire [$clog2(MAX_LVLS_NUM)-1:0] params_lvls_num;
+wire                    [ 4:0] params_lvls_num;
+// wire [$clog2(MAX_LVLS_NUM)-1:0] params_init_lvl;
+wire                    [ 4:0] params_init_lvl;
+// wire [$clog2(MAX_ITER_NUM)-1:0] params_iter_num;
+wire                    [ 3:0] params_iter_num;
+wire                    [ 1:0] params_init_guess;
+// wire  [0:MAX_LVLS_NUM-1][15:0] lvl_val_lvl_xx;
+wire              [0:31][15:0] lvl_val_lvl_xx;
 wire                           sample2signal_subcells_signal_valid;
 reg                            sample2signal_subcells_signal_valid_d1;
 wire                    [15:0] sample2signal_subcells_signal_data;
@@ -86,29 +86,29 @@ register_file
 )
 register_file
 (
-  .reset                  (reset),                  //             reset.reset
-  .clock                  (clock),                  //             clock.clk
-  .csr_address            (csr_address),            //               csr.address
-  .csr_byteenable         (csr_byteenable),         //                  .byteenable
-  .csr_read               (csr_read),               //                  .read
-  .csr_readdata           (csr_readdata),           //                  .readdata
-  .csr_response           (csr_response),           //                  .response
-  .csr_write              (csr_write),              //                  .write
-  .csr_writedata          (csr_writedata),          //                  .writedata
-  .csr_waitrequest        (csr_waitrequest),        //                  .waitrequest
-  .reg_status_busy        (reg_status_busy),        //        reg_status.busy
-  .reg_status_ready       (reg_status_ready),       //                  .ready
-  .reg_status_error       (reg_status_error),       //                  .error
-  .reg_status_fifo_err    (reg_status_fifo_err),    //                  .fifo_err
-  .reg_control_run        (reg_control_run),        //       reg_control.run
-  .reg_control_halt       (reg_control_halt),       //                  .halt
-  .reg_control_flush      (reg_control_flush),      //                  .flush
-  .reg_control_init       (reg_control_init),       //                  .init
-  .reg_params_lvls_num    (reg_params_lvls_num),    //        reg_params.lvls_num
-  .reg_params_init_lvl    (reg_params_init_lvl),    //                  .init_lvl
-  .reg_params_iter_num    (reg_params_iter_num),    //                  .iter_num
-  .reg_params_init_guess  (reg_params_init_guess),  //                  .init_guess
-  .reg_lvl_val_xx_yy      (reg_lvl_val_xx_yy)       // reg_lvl_val_xx_yy.lvls_values
+  .reset              (reset),              //   reset.reset
+  .clock              (clock),              //   clock.clk
+  .csr_address        (csr_address),        //     csr.address
+  .csr_byteenable     (csr_byteenable),     //        .byteenable
+  .csr_read           (csr_read),           //        .read
+  .csr_readdata       (csr_readdata),       //        .readdata
+  .csr_response       (csr_response),       //        .response
+  .csr_write          (csr_write),          //        .write
+  .csr_writedata      (csr_writedata),      //        .writedata
+  .csr_waitrequest    (csr_waitrequest),    //        .waitrequest
+  .status_busy        (status_busy),        //  status.busy
+  .status_ready       (status_ready),       //        .ready
+  .status_error       (status_error),       //        .error
+  .status_fifo_err    (status_fifo_err),    //        .fifo_err
+  .control_run        (control_run),        // control.run
+  .control_halt       (control_halt),       //        .halt
+  .control_flush      (control_flush),      //        .flush
+  .control_init       (control_init),       //        .init
+  .params_lvls_num    (params_lvls_num),    //  params.lvls_num
+  .params_init_lvl    (params_init_lvl),    //        .init_lvl
+  .params_iter_num    (params_iter_num),    //        .iter_num
+  .params_init_guess  (params_init_guess),  //        .init_guess
+  .lvl_val_lvl_xx     (lvl_val_lvl_xx)      // lvl_val.lvl_xx
 );
 
 sample2signal_converter
@@ -119,10 +119,10 @@ sample2signal_converter
 (
   .reset                (reset),                                //      reset.reset
   .clock                (clock),                                //      clock.clk
-  .params_lvls_num      (reg_params_lvls_num),                  //     params.lvls_num
-  .params_init_lvl      (reg_params_init_lvl),                  //           .init_lvl
-  .params_init_guess    (reg_params_init_guess),                //           .init_guess
-  .params_lvls_values   (reg_lvl_val_xx_yy),                    //           .lvls_values
+  .params_lvls_num      (params_lvls_num),                      //     params.lvls_num
+  .params_init_lvl      (params_init_lvl),                      //           .init_lvl
+  .params_init_guess    (params_init_guess),                    //           .init_guess
+  .params_lvls_values   (lvl_val_lvl_xx),                       //           .lvls_values
   .in_data              (pocs_in_data),                         //         in.data
   .in_valid             (pocs_in_valid),                        //           .valid
   .in_ready             (pocs_in_ready),                        //           .ready
@@ -145,15 +145,15 @@ iteration_ctrl
 (
   .reset                  (reset),                        //         reset.reset
   .clock                  (clock),                        //         clock.clk
-  .regfile_busy           (reg_status_busy),              //       regfile.busy
-  .regfile_ready          (reg_status_ready),             //              .ready
-  .regfile_error          (reg_status_error),             //              .error
-  .regfile_fifo_err       (reg_status_fifo_err),          //              .fifo_err
-  .regfile_run            (reg_control_run),              //              .run
-  .regfile_halt           (reg_control_halt),             //              .halt
-  .regfile_flush          (reg_control_flush),            //              .flush
-  .regfile_init           (reg_control_init),             //              .init
-  .regfile_iter_num       (reg_params_iter_num),          //              .iter_num
+  .regfile_busy           (status_busy),                  //       regfile.busy
+  .regfile_ready          (status_ready),                 //              .ready
+  .regfile_error          (status_error),                 //              .error
+  .regfile_fifo_err       (status_fifo_err),              //              .fifo_err
+  .regfile_run            (control_run),                  //              .run
+  .regfile_halt           (control_halt),                 //              .halt
+  .regfile_flush          (control_flush),                //              .flush
+  .regfile_init           (control_init),                 //              .init
+  .regfile_iter_num       (params_iter_num),              //              .iter_num
   .sample2signal_init     (sample2signal_iter_init),      // sample2signal.new_signal
   .sample2signal_valid    (sample2signal_iter_valid),     //              .new_signal_1
   .sample2signal_ready    (sample2signal_iter_ready),     //              .new_signal_2

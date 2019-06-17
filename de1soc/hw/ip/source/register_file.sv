@@ -8,34 +8,34 @@ module register_file
 )
 (
   /* Common IF */
-  input  wire              reset,                 //             reset.reset
-  input  wire              clock,                 //             clock.clk
+  input  wire              reset,             //   reset.reset
+  input  wire              clock,             //   clock.clk
   /* CSR IF */
-  input  wire       [ 7:0] csr_address,           //               csr.address
-  input  wire       [ 3:0] csr_byteenable,        //                  .byteenable
-  input  wire              csr_read,              //                  .read
-  output wire       [31:0] csr_readdata,          //                  .readdata
-  output wire       [ 1:0] csr_response,          //                  .response
-  input  wire              csr_write,             //                  .write
-  input  wire       [31:0] csr_writedata,         //                  .writedata
-  output wire              csr_waitrequest,       //                  .waitrequest
+  input  wire       [ 7:0] csr_address,       //     csr.address
+  input  wire       [ 3:0] csr_byteenable,    //        .byteenable
+  input  wire              csr_read,          //        .read
+  output wire       [31:0] csr_readdata,      //        .readdata
+  output wire       [ 1:0] csr_response,      //        .response
+  input  wire              csr_write,         //        .write
+  input  wire       [31:0] csr_writedata,     //        .writedata
+  output wire              csr_waitrequest,   //        .waitrequest
   /* STATUS register IF */
-  input  wire              reg_status_busy,       //        reg_status.busy
-  input  wire              reg_status_ready,      //                  .ready
-  input  wire              reg_status_error,      //                  .error
-  input  wire              reg_status_fifo_err,   //                  .fifo_err
+  input  wire              status_busy,       //  status.busy
+  input  wire              status_ready,      //        .ready
+  input  wire              status_error,      //        .error
+  input  wire              status_fifo_err,   //        .fifo_err
   /* CONTROL register IF */
-  output wire              reg_control_run,       //       reg_control.run
-  output wire              reg_control_halt,      //                  .halt
-  output wire              reg_control_flush,     //                  .flush
-  output wire              reg_control_init,      //                  .init
+  output wire              control_run,       // control.run
+  output wire              control_halt,      //        .halt
+  output wire              control_flush,     //        .flush
+  output wire              control_init,      //        .init
   /* PARAMS register IF */
-  output wire       [ 4:0] reg_params_lvls_num,   //        reg_params.lvls_num
-  output wire       [ 4:0] reg_params_init_lvl,   //                  .init_lvl
-  output wire       [ 3:0] reg_params_iter_num,   //                  .iter_num
-  output wire       [ 1:0] reg_params_init_guess, //                  .init_guess
-  /* LVL_VAL_XX_YY registers IF */
-  output wire [0:31][15:0] reg_lvl_val_xx_yy      // reg_lvl_val_xx_yy.lvls_values
+  output wire       [ 4:0] params_lvls_num,   //  params.lvls_num
+  output wire       [ 4:0] params_init_lvl,   //        .init_lvl
+  output wire       [ 3:0] params_iter_num,   //        .iter_num
+  output wire       [ 1:0] params_init_guess, //        .init_guess
+  /* LVL_VAL registers IF */
+  output wire [0:31][15:0] lvl_val_lvl_xx     // lvl_val.lvl_xx
 );
 
 import register_file_defs_pkg::*;
@@ -56,51 +56,51 @@ reg               control_flush_pulse_d1_r;
 reg               control_init_pulse_r;
 reg               control_init_pulse_d1_r;
 
-assign csr_readdata           = csr_readdata_r;
-assign csr_response           = csr_response_r;
-// assign csr_waitrequest        = csr_waitrequest_r;
-assign csr_waitrequest        = csr_read & ~csr_read_r;
+assign csr_readdata       = csr_readdata_r;
+assign csr_response       = csr_response_r;
+// assign csr_waitrequest    = csr_waitrequest_r;
+assign csr_waitrequest    = csr_read & ~csr_read_r;
 
-assign reg_control_run        = control_run_pulse_r & ~control_run_pulse_d1_r;
-assign reg_control_halt       = control_halt_pulse_r & ~control_halt_pulse_d1_r;
-assign reg_control_flush      = control_flush_pulse_r & ~control_flush_pulse_d1_r;
-assign reg_control_init       = control_init_pulse_r & ~control_init_pulse_d1_r;
-assign reg_params_lvls_num    = csr_reg_block.params.lvls_num;
-assign reg_params_init_lvl    = csr_reg_block.params.init_lvl;
-assign reg_params_iter_num    = csr_reg_block.params.iter_num;
-assign reg_params_init_guess  = csr_reg_block.params.init_guess;
-assign reg_lvl_val_xx_yy[ 0]  = csr_reg_block.lvl_val_00_01.lvl_val_00;
-assign reg_lvl_val_xx_yy[ 1]  = csr_reg_block.lvl_val_00_01.lvl_val_01;
-assign reg_lvl_val_xx_yy[ 2]  = csr_reg_block.lvl_val_02_03.lvl_val_02;
-assign reg_lvl_val_xx_yy[ 3]  = csr_reg_block.lvl_val_02_03.lvl_val_03;
-assign reg_lvl_val_xx_yy[ 4]  = csr_reg_block.lvl_val_04_05.lvl_val_04;
-assign reg_lvl_val_xx_yy[ 5]  = csr_reg_block.lvl_val_04_05.lvl_val_05;
-assign reg_lvl_val_xx_yy[ 6]  = csr_reg_block.lvl_val_06_07.lvl_val_06;
-assign reg_lvl_val_xx_yy[ 7]  = csr_reg_block.lvl_val_06_07.lvl_val_07;
-assign reg_lvl_val_xx_yy[ 8]  = csr_reg_block.lvl_val_08_09.lvl_val_08;
-assign reg_lvl_val_xx_yy[ 9]  = csr_reg_block.lvl_val_08_09.lvl_val_09;
-assign reg_lvl_val_xx_yy[10]  = csr_reg_block.lvl_val_10_11.lvl_val_10;
-assign reg_lvl_val_xx_yy[11]  = csr_reg_block.lvl_val_10_11.lvl_val_11;
-assign reg_lvl_val_xx_yy[12]  = csr_reg_block.lvl_val_12_13.lvl_val_12;
-assign reg_lvl_val_xx_yy[13]  = csr_reg_block.lvl_val_12_13.lvl_val_13;
-assign reg_lvl_val_xx_yy[14]  = csr_reg_block.lvl_val_14_15.lvl_val_14;
-assign reg_lvl_val_xx_yy[15]  = csr_reg_block.lvl_val_14_15.lvl_val_15;
-assign reg_lvl_val_xx_yy[16]  = csr_reg_block.lvl_val_16_17.lvl_val_16;
-assign reg_lvl_val_xx_yy[17]  = csr_reg_block.lvl_val_16_17.lvl_val_17;
-assign reg_lvl_val_xx_yy[18]  = csr_reg_block.lvl_val_18_19.lvl_val_18;
-assign reg_lvl_val_xx_yy[19]  = csr_reg_block.lvl_val_18_19.lvl_val_19;
-assign reg_lvl_val_xx_yy[20]  = csr_reg_block.lvl_val_20_21.lvl_val_20;
-assign reg_lvl_val_xx_yy[21]  = csr_reg_block.lvl_val_20_21.lvl_val_21;
-assign reg_lvl_val_xx_yy[22]  = csr_reg_block.lvl_val_22_23.lvl_val_22;
-assign reg_lvl_val_xx_yy[23]  = csr_reg_block.lvl_val_22_23.lvl_val_23;
-assign reg_lvl_val_xx_yy[24]  = csr_reg_block.lvl_val_24_25.lvl_val_24;
-assign reg_lvl_val_xx_yy[25]  = csr_reg_block.lvl_val_24_25.lvl_val_25;
-assign reg_lvl_val_xx_yy[26]  = csr_reg_block.lvl_val_26_27.lvl_val_26;
-assign reg_lvl_val_xx_yy[27]  = csr_reg_block.lvl_val_26_27.lvl_val_27;
-assign reg_lvl_val_xx_yy[28]  = csr_reg_block.lvl_val_28_29.lvl_val_28;
-assign reg_lvl_val_xx_yy[29]  = csr_reg_block.lvl_val_28_29.lvl_val_29;
-assign reg_lvl_val_xx_yy[30]  = csr_reg_block.lvl_val_30_31.lvl_val_30;
-assign reg_lvl_val_xx_yy[31]  = csr_reg_block.lvl_val_30_31.lvl_val_31;
+assign control_run        = control_run_pulse_r & ~control_run_pulse_d1_r;
+assign control_halt       = control_halt_pulse_r & ~control_halt_pulse_d1_r;
+assign control_flush      = control_flush_pulse_r & ~control_flush_pulse_d1_r;
+assign control_init       = control_init_pulse_r & ~control_init_pulse_d1_r;
+assign params_lvls_num    = csr_reg_block.params.lvls_num;
+assign params_init_lvl    = csr_reg_block.params.init_lvl;
+assign params_iter_num    = csr_reg_block.params.iter_num;
+assign params_init_guess  = csr_reg_block.params.init_guess;
+assign lvl_val_lvl_xx[ 0] = csr_reg_block.lvl_val_00_01.lvl_val_00;
+assign lvl_val_lvl_xx[ 1] = csr_reg_block.lvl_val_00_01.lvl_val_01;
+assign lvl_val_lvl_xx[ 2] = csr_reg_block.lvl_val_02_03.lvl_val_02;
+assign lvl_val_lvl_xx[ 3] = csr_reg_block.lvl_val_02_03.lvl_val_03;
+assign lvl_val_lvl_xx[ 4] = csr_reg_block.lvl_val_04_05.lvl_val_04;
+assign lvl_val_lvl_xx[ 5] = csr_reg_block.lvl_val_04_05.lvl_val_05;
+assign lvl_val_lvl_xx[ 6] = csr_reg_block.lvl_val_06_07.lvl_val_06;
+assign lvl_val_lvl_xx[ 7] = csr_reg_block.lvl_val_06_07.lvl_val_07;
+assign lvl_val_lvl_xx[ 8] = csr_reg_block.lvl_val_08_09.lvl_val_08;
+assign lvl_val_lvl_xx[ 9] = csr_reg_block.lvl_val_08_09.lvl_val_09;
+assign lvl_val_lvl_xx[10] = csr_reg_block.lvl_val_10_11.lvl_val_10;
+assign lvl_val_lvl_xx[11] = csr_reg_block.lvl_val_10_11.lvl_val_11;
+assign lvl_val_lvl_xx[12] = csr_reg_block.lvl_val_12_13.lvl_val_12;
+assign lvl_val_lvl_xx[13] = csr_reg_block.lvl_val_12_13.lvl_val_13;
+assign lvl_val_lvl_xx[14] = csr_reg_block.lvl_val_14_15.lvl_val_14;
+assign lvl_val_lvl_xx[15] = csr_reg_block.lvl_val_14_15.lvl_val_15;
+assign lvl_val_lvl_xx[16] = csr_reg_block.lvl_val_16_17.lvl_val_16;
+assign lvl_val_lvl_xx[17] = csr_reg_block.lvl_val_16_17.lvl_val_17;
+assign lvl_val_lvl_xx[18] = csr_reg_block.lvl_val_18_19.lvl_val_18;
+assign lvl_val_lvl_xx[19] = csr_reg_block.lvl_val_18_19.lvl_val_19;
+assign lvl_val_lvl_xx[20] = csr_reg_block.lvl_val_20_21.lvl_val_20;
+assign lvl_val_lvl_xx[21] = csr_reg_block.lvl_val_20_21.lvl_val_21;
+assign lvl_val_lvl_xx[22] = csr_reg_block.lvl_val_22_23.lvl_val_22;
+assign lvl_val_lvl_xx[23] = csr_reg_block.lvl_val_22_23.lvl_val_23;
+assign lvl_val_lvl_xx[24] = csr_reg_block.lvl_val_24_25.lvl_val_24;
+assign lvl_val_lvl_xx[25] = csr_reg_block.lvl_val_24_25.lvl_val_25;
+assign lvl_val_lvl_xx[26] = csr_reg_block.lvl_val_26_27.lvl_val_26;
+assign lvl_val_lvl_xx[27] = csr_reg_block.lvl_val_26_27.lvl_val_27;
+assign lvl_val_lvl_xx[28] = csr_reg_block.lvl_val_28_29.lvl_val_28;
+assign lvl_val_lvl_xx[29] = csr_reg_block.lvl_val_28_29.lvl_val_29;
+assign lvl_val_lvl_xx[30] = csr_reg_block.lvl_val_30_31.lvl_val_30;
+assign lvl_val_lvl_xx[31] = csr_reg_block.lvl_val_30_31.lvl_val_31;
 
 always_ff @(posedge clock)
 begin
