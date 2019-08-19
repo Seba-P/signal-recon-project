@@ -1,6 +1,8 @@
 #ifndef _SGDMA_DESCRIPTOR_H_
 #define _SGDMA_DESCRIPTOR_H_
 
+#include <stdint.h>
+
 /* Each Scatter-gather DMA buffer descriptor spans 0x20 of memory */
 #define SGDMA_DESCRIPTOR_SIZE (0x20)
 

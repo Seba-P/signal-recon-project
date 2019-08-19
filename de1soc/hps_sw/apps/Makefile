@@ -1,5 +1,7 @@
 ALTERA_OBJECTS 	= $(shell find $(BUILD_ROOT)/altera -name '*.o')
-LIBS_OBJECTS 	= $(shell find $(BUILD_ROOT)/libs -name '*.o')
+PORT_OBJECTS 	= $(shell find $(BUILD_ROOT)/port -name '*.o')
+HAL_OBJECTS 	= $(shell find $(BUILD_ROOT)/hal -name '*.o')
+UTILS_OBJECTS 	= $(shell find $(BUILD_ROOT)/utils -name '*.o')
 CC_SOURCES  	= $(filter $(APP_ROOT)/%, $(shell find . -name '*.c'))
 #CC_SOURCES  	= $(filter $(TARGET_ROOT)/%, $(shell find . -name '*.c'))
 # CC_SOURCES  = $(filter $(wildcard $(TARGET_ROOT)/*.c), $(shell find . -name '*.c'))
@@ -21,9 +23,9 @@ default: all
 
 all: $(APP)
 
-$(APP): $(CC_OBJECTS) $(LIBS_OBJECTS) $(APP_ROOT)/$(APP)
+$(APP): $(CC_OBJECTS) $(PORT_OBJECTS) $(HAL_OBJECTS) $(UTILS_OBJECTS) $(APP_ROOT)/$(APP)
 
-$(APP_ROOT)/$(APP): $(CC_OBJECTS) $(LIBS_OBJECTS)
+$(APP_ROOT)/$(APP): $(CC_OBJECTS) $(PORT_OBJECTS) $(HAL_OBJECTS) $(UTILS_OBJECTS)
 	@echo Linking ./$@ ...
 	@$(CC) $(LD_FLAGS) $^ -o $@ 2>$(LOG_FILE)
 

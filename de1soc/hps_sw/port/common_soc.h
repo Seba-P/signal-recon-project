@@ -1,19 +1,13 @@
 #ifndef _COMMON_SOC_H_
 #define _COMMON_SOC_H_
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <fcntl.h>
-
 #include "hwlib.h"
 #include "socal/socal.h"
 #include "socal/hps.h"
 
-#include "sgdma/sgdma_drv.h"
 #include "fifo/fifo.h"
+#include "sgdma/sgdma_drv.h"
+#include "pocs_engine/pocs_engine_drv.h"
 #include "hps_def.h"
 
 // Settings for the LW HPS2FPGA AXI Bridge
@@ -126,19 +120,20 @@ typedef struct
   void* st2mm_csr;
   void* fifoin_csr;
   void* fifoout_csr;
-} h2f_lw_addr_t;
+  void* pocs_engine_csr;
+} h2f_lw_addr_map_t;
 
 typedef struct
 {
   void* mm2st_ram;
   void* st2mm_ram;
-} f2h_addr_t;
+} f2h_addr_map_t;
 
 // Pointers to the different address spaces
-extern void*          g_virtual_base;
-extern void*          g_fir_sdram_base;
-extern h2f_lw_addr_t  g_h2f_lw;
-extern f2h_addr_t     g_f2h;
+extern void*              g_virtual_base;
+extern void*              g_fir_sdram_base;
+extern h2f_lw_addr_map_t  g_h2f_lw;
+extern f2h_addr_map_t     g_f2h;
  
 extern int  g_virt_base_ofst;
 extern int  g_fir_sdram_base_ofst;
@@ -149,7 +144,10 @@ extern alt_sgdma_dev_t  g_mm2st;
 extern alt_sgdma_dev_t  g_st2mm;
 
 // FIR FIFOs
-extern alt_single_clock_fifo_t* g_fifo_in;
-extern alt_single_clock_fifo_t* g_fifo_out;
+extern alt_sc_fifo_dev_t  g_fifo_in;
+extern alt_sc_fifo_dev_t  g_fifo_out;
+
+// POCS ENGINE
+extern pocs_engine_dev_t  g_pocs_engine;
 
 #endif /* _COMMON_SOC_H_ */

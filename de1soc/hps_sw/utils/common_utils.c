@@ -3,7 +3,8 @@
 #include <getopt.h>
 #include <string.h>
 
-#include "common.h"
+#include "common_soc.h"
+#include "common_utils.h"
 
 // User files
 FILE* g_input_file;
@@ -17,24 +18,6 @@ char g_log_file_name[MAX_FILENAME_CHARS]    = "log.txt";
 // User flags
 int g_log_flag    = 0;
 int g_debug_flag  = 0;
-
-// Pointers to the different address spaces
-void*         g_virtual_base;
-void*         g_fir_sdram_base;
-h2f_lw_addr_t g_h2f_lw;
-f2h_addr_t    g_f2h;
- 
-int g_virt_base_ofst;
-int g_fir_sdram_base_ofst;
-int g_devmem_fd;
- 
-// SGDMA controllers
-alt_sgdma_dev_t g_mm2st;
-alt_sgdma_dev_t g_st2mm;
-
-// FIR FIFOs
-alt_single_clock_fifo_t* g_fifo_in;
-alt_single_clock_fifo_t* g_fifo_out;
 
 void parse_cmdline(int argc, char* argv[])
 {
@@ -162,20 +145,21 @@ void init_sysbase(void)
 void init_address_spaces(void)
 {
   // Map system components addresses
-  g_h2f_lw = (h2f_lw_addr_t)
+  g_h2f_lw = (h2f_lw_addr_map_t)
   {
-    .led_pio      = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + LED_PIO_BASE) & (uint32_t)HW_REGS_MASK),
-    .button_pio   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + BUTTON_PIO_BASE) & (uint32_t)HW_REGS_MASK),
-    .dipsw_pio    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + DIPSW_PIO_BASE) & (uint32_t)HW_REGS_MASK),
-    .sysid_qsys   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + SYSID_QSYS_BASE) & (uint32_t)HW_REGS_MASK),
-    .onchip_ram   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ONCHIP_RAM_BASE) & (uint32_t)HW_REGS_MASK),
-    .mm2st_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + MM2ST_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
-    .st2mm_csr    = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ST2MM_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
-    .fifoin_csr   = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_IN_BASE) & (uint32_t)HW_REGS_MASK),
-    .fifoout_csr  = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_OUT_BASE) & (uint32_t)HW_REGS_MASK)
+    .led_pio          = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + LED_PIO_BASE) & (uint32_t)HW_REGS_MASK),
+    .button_pio       = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + BUTTON_PIO_BASE) & (uint32_t)HW_REGS_MASK),
+    .dipsw_pio        = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + DIPSW_PIO_BASE) & (uint32_t)HW_REGS_MASK),
+    .sysid_qsys       = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + SYSID_QSYS_BASE) & (uint32_t)HW_REGS_MASK),
+    .onchip_ram       = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ONCHIP_RAM_BASE) & (uint32_t)HW_REGS_MASK),
+    .mm2st_csr        = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + MM2ST_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
+    .st2mm_csr        = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + ST2MM_SGDMA_BASE) & (uint32_t)HW_REGS_MASK),
+    .fifoin_csr       = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_IN_BASE) & (uint32_t)HW_REGS_MASK),
+    .fifoout_csr      = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + FIFO_OUT_BASE) & (uint32_t)HW_REGS_MASK)
+    .pocs_engine_csr  = g_virtual_base + ((uint32_t)(ALT_LWFPGASLVS_OFST + POCS_ENGINE_BASE) & (uint32_t)HW_REGS_MASK)
   };
 
-  g_f2h = (f2h_addr_t)
+  g_f2h = (f2h_addr_map_t)
   {
     .mm2st_ram   = g_fir_sdram_base + MM2ST_SGDMA_RAM_OFST,
     .st2mm_ram   = g_fir_sdram_base + ST2MM_SGDMA_RAM_OFST

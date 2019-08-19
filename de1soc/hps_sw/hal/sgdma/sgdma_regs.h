@@ -44,4 +44,18 @@
 #define SGDMA_CONTROL_CLEAR_INTERRUPT_MSK         (0X80000000)
 #define SGDMA_CONTROL_CLEAR_INTERRUPT_OFST        (31)
 
+#ifndef _PACKED_
+  #define _PACKED_ __attribute__ ((packed,aligned(1)))
+#endif
+
+typedef struct
+{
+  uint32_t status;
+  uint32_t version;
+  uint32_t version_pad[2];
+  uint32_t control;
+  uint32_t control_pad[3];
+  uint32_t next_desc_pointer;
+} _PACKED_ alt_sgdma_csr_t;
+
 #endif /* _SGDMA_REGS_H_ */

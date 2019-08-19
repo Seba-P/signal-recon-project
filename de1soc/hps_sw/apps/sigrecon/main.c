@@ -7,12 +7,16 @@
 #include "fifo/fifo.h"
 #include "sgdma/sgdma_drv.h"
 #include "sgdma/sgdma_utils.h"
+#include "pocs_engine/pocs_engine_drv.h"
+#include "pocs_engine/pocs_engine_utils.h"
 
 #include "main.h"
 #include "common.h"
 
 int main(int argc, char** argv, char** envp)
 {
+  pocs_engine_config_t pocs_engine_config;
+
   parse_cmdline(argc, argv);
   init_files();
   init_sysbase();
@@ -23,12 +27,14 @@ int main(int argc, char** argv, char** envp)
   *(uint32_t*)(g_h2f_lw.led_pio) = 0xAA;
   log_printf(" DONE!\n");
 
-  // Initialize SGDMA controllers
+  // Initialize FPGA subsystem devices
   sgdma_init_device(&g_mm2st, g_h2f_lw.mm2st_csr, g_f2h.mm2st_ram + DESC_RAM_OFST, g_f2h.mm2st_ram + DATA_RAM_OFST);
   sgdma_init_device(&g_st2mm, g_h2f_lw.st2mm_csr, g_f2h.st2mm_ram + DESC_RAM_OFST, g_f2h.st2mm_ram + DATA_RAM_OFST);
 
-  g_fifo_in   = (alt_single_clock_fifo_t*)g_h2f_lw.fifoin_csr;
-  g_fifo_out  = (alt_single_clock_fifo_t*)g_h2f_lw.fifoout_csr;
+  g_fifo_in.csr   = (alt_sc_fifo_csr_t*)g_h2f_lw.fifoin_csr;
+  g_fifo_out.csr  = (alt_sc_fifo_csr_t*)g_h2f_lw.fifoout_csr;
+
+  pocs_engine_init_device(&g_pocs_engine, (pocs_engine_csr_t*)g_h2f_lw.pocs_engine_csr, &pocs_engine_config);
 
   // Prepare on-chip memory
   int input_data_size   = 0;
@@ -82,7 +88,33 @@ int main(int argc, char** argv, char** envp)
   debug_printf("\b\b \n"); //delete last comma and start a new line
 
 //-----------------------------------------------
-  //Scatter Gather DMA controller
+  // POCS engine config
+  uint16_t lvls_values[32] =
+  {
+    0x8666, 0x9333, 0x9FFF, 0xACCC,
+    0xB999, 0xC666, 0xD333, 0xE000,
+    0xECCC, 0xF999, 0x0666, 0x1333,
+    0x2000, 0x2CCC, 0x3999, 0x4666,
+    0x5333, 0x6000, 0x6CCC, 0x7999,
+    /* UNUSED BELOW */
+    0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+    0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+    0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+  };
+
+  pocs_engine_config = (pocs_engine_config_t)
+  {
+    .iter_num     = 3,
+    .init_guess   = 1,
+    .init_lvl     = 9,
+    .lvls_num     = 20,
+    .lvls_values  = lvls_values
+  };
+
+  pocs_engine_update_config(&g_pocs_engine, 1);
+
+//-----------------------------------------------
+  // Scatter Gather DMA controllers
 
   // Initialize descriptors
   sgdma_init_mm2st_descriptor(&g_mm2st.desc_ram[0], &g_mm2st.desc_ram[1], (uint32_t*)g_mm2st.data_ram, output_data_size);
@@ -117,13 +149,13 @@ int main(int argc, char** argv, char** envp)
   // Run transfer chain
   uint8_t status;
 
-  status = sgdma_start_transfer(g_mm2st.csr, &g_mm2st.desc_ram[0], 0, g_fifo_in);
+  status = sgdma_start_transfer(g_mm2st.csr, &g_mm2st.desc_ram[0], 0);
   log_printf("\nMM2ST transfer %s! (0x%02X)\n",
               status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
   if (status & SGDMA_STATUS_ERROR_MSK)
     goto_exit(1);
 
-  status = sgdma_start_transfer(g_st2mm.csr, &g_st2mm.desc_ram[0], 1, g_fifo_out);
+  status = sgdma_start_transfer(g_st2mm.csr, &g_st2mm.desc_ram[0], 1);
   log_printf("\nST2MM transfer %s! (0x%02X)\n",
               status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
   if (status & SGDMA_STATUS_ERROR_MSK)

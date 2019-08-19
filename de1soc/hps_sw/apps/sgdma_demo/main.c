@@ -26,8 +26,8 @@ int main(int argc, char** argv, char** envp)
   sgdma_init_device(&g_mm2st, g_h2f_lw.mm2st_csr, g_f2h.mm2st_ram + DESC_RAM_OFST, g_f2h.mm2st_ram + DATA_RAM_OFST);
   sgdma_init_device(&g_st2mm, g_h2f_lw.st2mm_csr, g_f2h.st2mm_ram + DESC_RAM_OFST, g_f2h.st2mm_ram + DATA_RAM_OFST);
 
-  g_fifo_in   = (alt_single_clock_fifo_t*)g_h2f_lw.fifoin_csr;
-  g_fifo_out  = (alt_single_clock_fifo_t*)g_h2f_lw.fifoout_csr;
+  g_fifo_in.csr   = (alt_sc_fifo_csr_t*)g_h2f_lw.fifoin_csr;
+  g_fifo_out.csr  = (alt_sc_fifo_csr_t*)g_h2f_lw.fifoout_csr;
 
   // Prepare on-chip memory
   int input_data_size;
@@ -92,13 +92,13 @@ int main(int argc, char** argv, char** envp)
 
   // Run transfer chain
   uint8_t status;
-  status = sgdma_start_transfer(g_mm2st.csr, &g_mm2st.desc_ram[0], 0, g_fifo_in);
+  status = sgdma_start_transfer(g_mm2st.csr, &g_mm2st.desc_ram[0], 0);
   log_printf("\nMM2ST transfer %s! (0x%02X)\n",
               status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
   if (status & SGDMA_STATUS_ERROR_MSK)
     goto_exit(1);
 
-  status = sgdma_start_transfer(g_st2mm.csr, &g_st2mm.desc_ram[0], 1, g_fifo_out);
+  status = sgdma_start_transfer(g_st2mm.csr, &g_st2mm.desc_ram[0], 1);
   log_printf("\nST2MM transfer %s! (0x%02X)\n",
               status & SGDMA_STATUS_ERROR_MSK ? "FAILED" : "PASSED", status);
   if (status & SGDMA_STATUS_ERROR_MSK)

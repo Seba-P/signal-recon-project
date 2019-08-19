@@ -34,8 +34,7 @@ void sgdma_init_descriptor(alt_sgdma_descriptor_t *desc, alt_sgdma_descriptor_t 
   desc->desc_control              = SGDMA_DESCRIPTOR_CONTROL_OWNED_BY_HW_MSK; // write/read fixed addr ??
 }
 
-uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc, uint8_t sync_transfer, 
-                              alt_single_clock_fifo_t* fifo)
+uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc, uint8_t sync_transfer)
 {
   while (csr->status & SGDMA_STATUS_BUSY_MSK)
   {

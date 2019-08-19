@@ -6,25 +6,6 @@
 #include "sgdma/sgdma_descriptor.h"
 #include "fifo/fifo.h"
 
-/*
- * To ensure that a descriptor is created without spaces
- * between the struct members, we call upon GCC's ability
- * to pack to a byte-aligned boundary.
- */
-#ifndef _PACKED_
-    #define _PACKED_ __attribute__ ((packed,aligned(1)))
-#endif
-
-typedef struct
-{
-  uint32_t status;
-  uint32_t version;
-  uint32_t version_pad[2];
-  uint32_t control;
-  uint32_t control_pad[3];
-  uint32_t next_desc_pointer;
-} _PACKED_ alt_sgdma_csr_t;
-
 typedef struct
 {
   alt_sgdma_csr_t*        csr;
@@ -50,7 +31,6 @@ static inline void sgdma_init_mm2st_descriptor(alt_sgdma_descriptor_t *desc, alt
   sgdma_init_descriptor(desc, next, read_addr, 0, length);
 }
 
-uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc, uint8_t sync_transfer,
-                      alt_single_clock_fifo_t* fifo);
+uint8_t sgdma_start_transfer(alt_sgdma_csr_t *csr, alt_sgdma_descriptor_t *desc, uint8_t sync_transfer);
 
 #endif /* _SGDMA_DRV_H_ */

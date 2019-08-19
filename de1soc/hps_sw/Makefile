@@ -12,8 +12,11 @@ export SPL_BSP_ROOT     = $(PROJECT_ROOT)/hw/software/spl_bsp/generated
 export DRIVERS_ROOT     = $(PROJECT_ROOT)/hps_sw/altera/drivers
 export HWLIBS_ROOT      = $(PROJECT_ROOT)/hps_sw/altera/hwlib
 export NIOS2_HAL_ROOT   = $(PROJECT_ROOT)/hps_sw/altera/nios2_hal
-export LIBS_ROOT   		= $(PROJECT_ROOT)/hps_sw/libs
 export BUILD_ROOT       = $(PROJECT_ROOT)/hps_sw/_build
+export PORT_ROOT        = $(PROJECT_ROOT)/hps_sw/port
+export HAL_ROOT         = $(PROJECT_ROOT)/hps_sw/hal
+export UTILS_ROOT       = $(PROJECT_ROOT)/hps_sw/utils
+export APPS_ROOT        = $(PROJECT_ROOT)/hps_sw/apps
 
 # Compiler & linker flags
 export HEADERS      := $(SOCEDS_ROOT)/examples/hardware/cv_soc_devkit_ghrd/hardware/preloader/uboot-socfpga/arch/arm/include/asm \
@@ -26,7 +29,9 @@ export HEADERS      := $(SOCEDS_ROOT)/examples/hardware/cv_soc_devkit_ghrd/hardw
                         $(NIOS2_HAL_ROOT)/inc/os \
                         $(NIOS2_HAL_ROOT)/inc/priv \
                         $(NIOS2_HAL_ROOT)/inc/sys \
-                        $(LIBS_ROOT)
+                        $(PORT_ROOT) \
+                        $(HAL_ROOT) \
+                        $(UTILS_ROOT) \
 
 export CC_INCLUDES  = $(foreach header, $(HEADERS), -I$(header))
 
@@ -36,17 +41,17 @@ export LD_FLAGS =
 SUBDIRS = $(patsubst %/, %, $(filter-out '_build', $(wildcard */)))
 export LOG_FILE = make_log.txt
 
-ifeq ($(filter $(MAKECMDGOALS), 'default all altera libs apps clean'),)
+ifeq ($(filter $(MAKECMDGOALS), 'default all altera port hal utils apps clean'),)
 	TARGET := $(firstword $(MAKECMDGOALS))
 endif
 
-.PHONY: default all altera libs apps clean
+.PHONY: default all altera hal apps clean
 
 default: all
 
-all: altera libs apps
+all: altera port hal utils apps
 
-altera libs apps:
+altera port hal utils apps:
 	$(MAKE) -C $@ -f Makefile all
 
 $(TARGET):
