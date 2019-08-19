@@ -1,6 +1,7 @@
 
 # Untracked files
 /matlab/vectors/*/
+/matlab/vectors/*.tgz
 /matlab/*.asv
 
 /de1soc/hps_sw/workspace/
