@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2019.06.16.17:13:34 -->
+ <!-- 2019.06.20.21:11:17 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1560698014</value>
+  <value>1561057876</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -81960,7 +81960,7 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
-  <interface name="mm2st" kind="avalon_streaming_sink" version="17.1">
+  <interface name="pocs_in" kind="avalon_streaming_sink" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -82079,19 +82079,19 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>false</isStart>
    <port>
-    <name>mm2st_data</name>
+    <name>pocs_in_data</name>
     <direction>Input</direction>
     <width>16</width>
     <role>data</role>
    </port>
    <port>
-    <name>mm2st_valid</name>
+    <name>pocs_in_valid</name>
     <direction>Input</direction>
     <width>1</width>
     <role>valid</role>
    </port>
    <port>
-    <name>mm2st_ready</name>
+    <name>pocs_in_ready</name>
     <direction>Output</direction>
     <width>1</width>
     <role>ready</role>
@@ -82142,7 +82142,7 @@ parameters are a RESULT of the module parameters. -->
     <role>reset</role>
    </port>
   </interface>
-  <interface name="st2mm" kind="avalon_streaming_source" version="17.1">
+  <interface name="pocs_out" kind="avalon_streaming_source" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -82261,19 +82261,19 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>true</isStart>
    <port>
-    <name>st2mm_data</name>
+    <name>pocs_out_data</name>
     <direction>Output</direction>
     <width>16</width>
     <role>data</role>
    </port>
    <port>
-    <name>st2mm_valid</name>
+    <name>pocs_out_valid</name>
     <direction>Output</direction>
     <width>1</width>
     <role>valid</role>
    </port>
    <port>
-    <name>st2mm_ready</name>
+    <name>pocs_out_ready</name>
     <direction>Input</direction>
     <width>1</width>
     <role>ready</role>
@@ -85986,7 +85986,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1560698014</value>
+   <value>1561057876</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -86006,7 +86006,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1560698014</value>
+   <value>1561057876</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -86022,7 +86022,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1560698014</value>
+   <value>1561057876</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -97530,11 +97530,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>avalon_st_sink</endConnectionPoint>
  </connection>
  <connection
-   name="fifo_in.out/pocs_engine.mm2st"
+   name="fifo_in.out/pocs_engine.pocs_in"
    kind="avalon_streaming"
    version="17.1"
    start="fifo_in.out"
-   end="pocs_engine.mm2st">
+   end="pocs_engine.pocs_in">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97554,13 +97554,13 @@ parameters are a RESULT of the module parameters. -->
   <startModule>fifo_in</startModule>
   <startConnectionPoint>out</startConnectionPoint>
   <endModule>pocs_engine</endModule>
-  <endConnectionPoint>mm2st</endConnectionPoint>
+  <endConnectionPoint>pocs_in</endConnectionPoint>
  </connection>
  <connection
-   name="pocs_engine.st2mm/fifo_out.in"
+   name="pocs_engine.pocs_out/fifo_out.in"
    kind="avalon_streaming"
    version="17.1"
-   start="pocs_engine.st2mm"
+   start="pocs_engine.pocs_out"
    end="fifo_out.in">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
@@ -97579,7 +97579,7 @@ parameters are a RESULT of the module parameters. -->
    <valid>true</valid>
   </parameter>
   <startModule>pocs_engine</startModule>
-  <startConnectionPoint>st2mm</startConnectionPoint>
+  <startConnectionPoint>pocs_out</startConnectionPoint>
   <endModule>fifo_out</endModule>
   <endConnectionPoint>in</endConnectionPoint>
  </connection>

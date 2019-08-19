@@ -92,43 +92,21 @@ begin
   end
 end
 
-`define DELAY_GEN(DEL) \
-  delay \
-  #( \
-    .DELAY      (DEL), \
-    .WIDTH      (1), \
-    .RESET      (1), \
-    .RESET_VAL  ('0), \
-    .RAMSTYLE   ("logic") \
-  ) \
-  delay_valid_signal_fifo \
-  ( \
-    .clock    (clock), \
-    .reset    (reset | iter_init), \
-    .in_data  (iter_valid_signal), \
-    .out_data (valid_signal_fifo_r) \
-  );
-
-generate
-  if (SUBCELL_NUM == 0)
-    `DELAY_GEN(6)  // 6
-    // `DELAY_GEN(7)  // 6
-  else if (SUBCELL_NUM == 1)
-    `DELAY_GEN(15) // 15
-    // `DELAY_GEN(16) // 15
-  else if (SUBCELL_NUM == 2)
-    `DELAY_GEN(24) // 24
-    // `DELAY_GEN(25) // 24
-  else if (SUBCELL_NUM == 3)
-    `DELAY_GEN(33) // 33
-    // `DELAY_GEN(34) // 33
-  else if (SUBCELL_NUM == 4)
-    `DELAY_GEN(42) // 42
-    // `DELAY_GEN(43) // 42
-  else if (SUBCELL_NUM == 5)
-    `DELAY_GEN(51) // 51
-    // `DELAY_GEN(52) // 51
-endgenerate
+delay
+#(
+  .DELAY      (FIR_FILTER_DELAY + SUBCELL_NUM*(FIR_FILTER_DELAY + HARD_LIMITER_DELAY)),
+  .WIDTH      (1),
+  .RESET      (1),
+  .RESET_VAL  ('0),
+  .RAMSTYLE   ("logic")
+)
+delay_valid_signal_fifo
+(
+  .clock    (clock),
+  .reset    (reset | iter_init),
+  .in_data  (iter_valid_signal),
+  .out_data (valid_signal_fifo_r)
+);
 
 delay
 #(

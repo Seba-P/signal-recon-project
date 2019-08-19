@@ -63,7 +63,7 @@
    {
       datum _sortIndex
       {
-         value = "12";
+         value = "9";
          type = "int";
       }
    }
@@ -84,7 +84,7 @@
    {
       datum _sortIndex
       {
-         value = "13";
+         value = "11";
          type = "int";
       }
    }
@@ -134,7 +134,7 @@
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "8";
          type = "int";
       }
    }
@@ -179,7 +179,7 @@
    {
       datum _sortIndex
       {
-         value = "11";
+         value = "10";
          type = "int";
       }
    }
@@ -320,7 +320,7 @@
    {
       datum _sortIndex
       {
-         value = "10";
+         value = "12";
          type = "int";
       }
    }
@@ -328,7 +328,7 @@
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "13";
          type = "int";
       }
    }
@@ -1297,11 +1297,11 @@
    kind="avalon_streaming"
    version="17.1"
    start="fifo_in.out"
-   end="pocs_engine.mm2st" />
+   end="pocs_engine.pocs_in" />
  <connection
    kind="avalon_streaming"
    version="17.1"
-   start="pocs_engine.st2mm"
+   start="pocs_engine.pocs_out"
    end="fifo_out.in" />
  <connection
    kind="clock"

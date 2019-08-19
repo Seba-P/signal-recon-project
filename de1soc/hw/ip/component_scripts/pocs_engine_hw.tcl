@@ -71,7 +71,6 @@ add_fileset SIM_VERILOG SIM_VERILOG "" ""
 set_fileset_property SIM_VERILOG TOP_LEVEL pocs_engine
 set_fileset_property SIM_VERILOG ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VERILOG ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file pocs_engine_tb.sv SYSTEM_VERILOG PATH ../source/pocs_engine_tb.sv MENTOR_SPECIFIC
 add_fileset_file delay.sv SYSTEM_VERILOG PATH ../source/delay.sv
 add_fileset_file pocs_subcell.sv SYSTEM_VERILOG PATH ../source/pocs_subcell.sv
 add_fileset_file pocs_engine.sv SYSTEM_VERILOG PATH ../source/pocs_engine.sv
