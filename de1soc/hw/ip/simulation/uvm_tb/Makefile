@@ -67,7 +67,7 @@ else
 endif
 endif
 
-	vsim -t ns dut_top -do $(DO_CMD) \
+	vsim -t ns dut_top tb_top -do $(DO_CMD) \
 		$(GUI_OPT) $(UVM_TESTNAME_OPT) $(UVM_VERBOSITY_OPT) $(TEST_VECTOR_OPT) \
 		-sv_lib _work/uvm_dpi -work dut_tb $(LIB_LINKS) \
 		-suppress 8887 -suppress 12003 -suppress 3009 -suppress 19 -suppress 8315

@@ -14,3 +14,4 @@
 ./tests/tests_pkg.sv
 ./dut_wrapper.sv
 ./dut_top.sv
+./tb_top.sv

@@ -9,7 +9,6 @@ module dut_top();
   import tb_params_pkg::*;
   import avalon_mm_agent_pkg::*;
   import avalon_st_agent_pkg::*;
-  import tests_pkg::*;
 
   logic reset;
   logic clock;
@@ -81,14 +80,5 @@ module dut_top();
   initial
     forever
         #0.5 clock = ~clock;
-
-  initial
-  begin
-    uvm_config_db#(virtual avalon_mm_if #(avalon_mm_inst_specs[CSR]))::set(null, "uvm_test_top", "csr_if", csr_if);
-    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_IN]))::set(null, "uvm_test_top", "pocs_in_if", pocs_in_if);
-    uvm_config_db#(virtual avalon_st_if #(avalon_st_inst_specs[POCS_OUT]))::set(null, "uvm_test_top", "pocs_out_if", pocs_out_if);
-
-    run_test();
-  end
 
 endmodule : dut_top
