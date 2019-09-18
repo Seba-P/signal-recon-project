@@ -5,20 +5,20 @@ addpath('../toolbox/')
 addpath('../bursty-lib/')
 
 close all ; clear all
-[ x t lvl ] = generate_bursty_signal([]);
+[ x t lvl ] = generate_bursty_signal([172]);
 
 PLOT_SAMPLES    = 1;
 PLOT_UNIFORM    = 0;
 PLOT_SIG_LVLS   = 1;
 PLOT_SIG_LIMITS = 1;
 PLOT_SUBLVL     = 1;
-PLOT_STAIRS     = 1;
+PLOT_STAIRS     = 0;
 PLOT_SIGNAL     = 1;
 PLOT_FILT_SIG   = 0;
 PLOT_FILT_LVLS  = 0;
-PLOT_VER_LVLS   = 0;
+PLOT_VER_LVLS   = 1;
 PLOT_SPECTRUM   = 0;
-PROCESS_SIGNAL  = 0;
+PROCESS_SIGNAL  = 1;
 SIGNAL_DIFF     = 0;
 INIT_LINEAR     = 0;
 
@@ -69,7 +69,7 @@ set(gca, 'ytick', [-1:0.05:1])
 
 xlabel(fig1, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
 ylabel(fig1, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
-title(fig1, 'Level-crossing sampling', 'FontSize', 24, 'FontWeight', 'bold')
+title(fig1, 'Test results', 'FontSize', 24, 'FontWeight', 'bold')
 
 if (PLOT_SAMPLES)
   plot_samples(fig1, samples, sig_lvls, lvl0, tn, 0)
@@ -88,22 +88,23 @@ if (PLOT_STAIRS)
   end
 end
 if (PLOT_SIGNAL)
-  plot(fig1, tn, signal, '-b', 'LineWidth', 4)
+  p_sig = plot(fig1, tn, signal, '-r', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_FILT_SIG)
-  plot(fig1, tn, filt_sig(1, 1:end), '-b', 'LineWidth', 4)
-  plot(fig1, tn, filt_sig(end, 1:end), '-b', 'LineWidth', 4)
+  p_fsig1 = plot(fig1, tn, filt_sig(1, 1:end), '-b', 'LineWidth', 4)
+  p_fsign = plot(fig1, tn, filt_sig(end, 1:end), '-b', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_FILT_LVLS)
   % plot(fig1, tn, filt_lvls(1, 1:end), '-b', 'LineWidth', 4)
-  plot(fig1, tn, filt_lvls(end, 1:end), '-b', 'LineWidth', 4)
+  p_flvl = plot(fig1, tn, filt_lvls(end, 1:end), '-b', 'LineWidth', 4)
 end
 if (PROCESS_SIGNAL && PLOT_VER_LVLS)
-  plot(fig1, tn, ver_lvls(1, 1:end), '-b', 'LineWidth', 4)
+  p_ver = plot(fig1, tn, ver_lvls(1, 1:end), '-b', 'LineWidth', 4)
   % plot(fig1, tn, ver_lvls(end, 1:end), '-b', 'LineWidth', 4)
 end
 
 axis([ tn(1) tn(end) min(signal)-0.1 max(signal)+0.1 ])
+legend([ p_sig p_ver ], 'original', 'reconstructed')
 
 if (PLOT_UNIFORM)
   figure

@@ -37,7 +37,7 @@ tn          = 0:dts:dts*(length(signal)-1);
 %%%%%%%%%%%%%%%%
 generate_test_vector('POCS_ENGINE_TB', lvl0, sig_lvls, N_ITER, INIT_GUESS, samples, signal, ver_lvls, [ NaN DOWNRATE K ]);
 
-tb_output 	= load_results('../tb_output.txt', 'text');
+tb_output 	= load_signal('../tb_output.txt', 'text');
 tb_delay 	= N_ITER*(fir_delay-1)+1;
 
 % Plot filtered signals and mark levels

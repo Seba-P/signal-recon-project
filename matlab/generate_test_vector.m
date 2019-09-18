@@ -8,10 +8,8 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
 
     if strcmp(tolower(init_shape), 'piecewise-linear')
         init_guess = 2;
-    else if (strcmp(tolower(init_shape), 'piecewise-constant'))
-        init_guess = 1;
     else
-        init_guess = 0;
+        init_guess = 1;
     end
 
     cd('../vectors');
@@ -32,7 +30,7 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     % Generate configuration for POCS engine
     fd = fopen(sprintf('%s/config.txt', vector_name), 'w');
 
-    fprintf(fd, '##### PARAMETERS #####\n', n_iter);
+    fprintf(fd, '##### PARAMETERS #####\n');
     fprintf(fd, '\n');
     fprintf(fd, '>>> PARAMS <<<\n');
     fprintf(fd, '$ LVLS_NUM:   %u\n', N_sig_lvls);
@@ -40,7 +38,7 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     fprintf(fd, '$ ITER_NUM:   %u\n', n_iter);
     fprintf(fd, '$ INIT_GUESS: %u\n', init_guess);
     fprintf(fd, '\n');
-    fprintf(fd, '##### SIGNAL LVLS #####\n', n_iter);
+    fprintf(fd, '##### SIGNAL LVLS #####\n');
 
     for i = 1:N_sig_lvls
         if (mod(i,2))
@@ -66,7 +64,7 @@ function samples_struct = generate_test_vector(vector_name, lvl0, sig_lvls, n_it
     end
 
     % Archive test_vector and clean up the files
-    tar(sprintf('%s.tgz', vector_name), sprintf('%s/*', vector_name));
+    tar(sprintf('%s.tar', vector_name), sprintf('%s/*', vector_name));
 
     confirm_recursive_rmdir(0);
     rmdir(sprintf('%s', vector_name), 's');

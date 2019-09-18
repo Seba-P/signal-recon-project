@@ -2,6 +2,7 @@
 # Untracked files
 /matlab/vectors/*/
 /matlab/vectors/*.tgz
+/matlab/vectors/*.tar
 /matlab/*.asv
 
 /de1soc/hps_sw/workspace/
@@ -36,3 +37,4 @@
 *.cproject
 *.sublime-project
 *.sublime-workspace
+*octave-workspace

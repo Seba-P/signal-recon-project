@@ -33,8 +33,8 @@ fir_tail    = floor(fir_R / 2);
 [ filt_sig, filt_lvls, ver_lvls ] = process_signal(signal, lvls, sig_lvls, fir_resp, N_ITER, 'normal');
 tn          = 0:dts:dts*(length(signal)-1);
 
-% tb_output 	= load_results('../tb_output.txt', 'binary');
-tb_output 	= load_results('../tb_output.txt', 'text');
+% tb_output 	= load_signal('../tb_output.txt', 'binary');
+tb_output 	= load_signal('../tb_output.txt', 'text');
 % tb_delay 	= N_ITER*(fir_delay-1)+1;
 tb_delay 	= N_ITER*(fir_delay-1)+1;
 
