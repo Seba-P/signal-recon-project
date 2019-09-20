@@ -1,5 +1,5 @@
 
-function [ signal_error_params, error_energy_params ] = analyze_test_vector(test_vector, verbose = 0, do_plot = 0)
+function [ signal_error_params, signal_orig_params, signal_recon_params ] = analyze_test_vector(test_vector, verbose = 0, do_plot = 0)
 
     curr_dir = pwd();
     addpath(curr_dir);
@@ -16,11 +16,16 @@ function [ signal_error_params, error_energy_params ] = analyze_test_vector(test
     cd([ vector_dir, '/', vector_name ]);
 
     % Calculate some useful stuff
-    signal_error  = signal_original - signal_reconstructed;
-    error_energy  = signal_error.^2;
+    signal_error = signal_original - signal_reconstructed;
 
-    min_sig_err = min(abs(signal_error)); max_sig_err = max(abs(signal_error)); mean_sig_err = mean(abs(signal_error));
-    min_err_eng = min(abs(error_energy)); max_err_eng = max(abs(error_energy)); mean_err_eng = mean(abs(error_energy));
+    sig_err_min = min(signal_error); sig_err_max = max(signal_error); sig_err_mean = mean(signal_error);
+    sig_err_std = std(signal_error); sig_err_meansq = meansq(signal_error); sig_err_energy = sum(signal_error.^2);
+
+    sig_orig_min = min(signal_original); sig_orig_max = max(signal_original); sig_orig_mean = mean(signal_original);
+    sig_orig_std = std(signal_original); sig_orig_meansq = meansq(signal_original); sig_orig_energy = sum(signal_original.^2);
+
+    sig_recon_min = min(signal_reconstructed); sig_recon_max = max(signal_reconstructed); sig_recon_mean = mean(signal_reconstructed);
+    sig_recon_std = std(signal_reconstructed); sig_recon_meansq = meansq(signal_reconstructed); sig_recon_energy = sum(signal_reconstructed.^2);
 
     mkdir('./', 'analysis');
 
@@ -30,13 +35,26 @@ function [ signal_error_params, error_energy_params ] = analyze_test_vector(test
     fprintf(fd, '# Test vector "%s".\n', vector_name);
     fprintf(fd, '# Analyzed on %s.\n', datestr(clock()));
     fprintf(fd, '\n');
-    fprintf(fd, '$ SIGNAL_ERROR_MIN:  %u\n', min_sig_err);
-    fprintf(fd, '$ SIGNAL_ERROR_MAX:  %u\n', max_sig_err);
-    fprintf(fd, '$ SIGNAL_ERROR_MEAN: %u\n', mean_sig_err);
+    fprintf(fd, '$ SIGNAL_ERROR_MIN:     %u\n', sig_err_min);
+    fprintf(fd, '$ SIGNAL_ERROR_MAX:     %u\n', sig_err_max);
+    fprintf(fd, '$ SIGNAL_ERROR_MEAN:    %u\n', sig_err_mean);
+    fprintf(fd, '$ SIGNAL_ERROR_STD:     %u\n', sig_err_std);
+    fprintf(fd, '$ SIGNAL_ERROR_MEANSQ:  %u\n', sig_err_meansq);
+    fprintf(fd, '$ SIGNAL_ERROR_ENERGY:  %u\n', sig_err_energy);
     fprintf(fd, '\n');
-    fprintf(fd, '$ ERROR_ENERGY_MIN:  %u\n', min_err_eng);
-    fprintf(fd, '$ ERROR_ENERGY_MAX:  %u\n', max_err_eng);
-    fprintf(fd, '$ ERROR_ENERGY_MEAN: %u\n', mean_err_eng);
+    fprintf(fd, '$ SIGNAL_ORIG_MIN :     %u\n', sig_orig_min);
+    fprintf(fd, '$ SIGNAL_ORIG_MAX :     %u\n', sig_orig_max);
+    fprintf(fd, '$ SIGNAL_ORIG_MEAN :    %u\n', sig_orig_mean);
+    fprintf(fd, '$ SIGNAL_ORIG_STD :     %u\n', sig_orig_std);
+    fprintf(fd, '$ SIGNAL_ORIG_MEANSQ :  %u\n', sig_orig_meansq);
+    fprintf(fd, '$ SIGNAL_ORIG_ENERGY :  %u\n', sig_orig_energy);
+    fprintf(fd, '\n');
+    fprintf(fd, '$ SIGNAL_RECON_MIN:     %u\n', sig_recon_min);
+    fprintf(fd, '$ SIGNAL_RECON_MAX:     %u\n', sig_recon_max);
+    fprintf(fd, '$ SIGNAL_RECON_MEAN:    %u\n', sig_recon_mean);
+    fprintf(fd, '$ SIGNAL_RECON_STD:     %u\n', sig_recon_std);
+    fprintf(fd, '$ SIGNAL_RECON_MEANSQ:  %u\n', sig_recon_meansq);
+    fprintf(fd, '$ SIGNAL_RECON_ENERGY:  %u\n', sig_recon_energy);
 
     fclose(fd);
 
@@ -44,14 +62,11 @@ function [ signal_error_params, error_energy_params ] = analyze_test_vector(test
     fprintf(fd, '%f\n', signal_error);
     fclose(fd);
 
-    fd = fopen('analysis/error_energy.txt', 'w');
-    fprintf(fd, '%f\n', error_energy);
-    fclose(fd);
-
     cd(curr_dir);
 
-    signal_error_params = [ min_sig_err max_sig_err mean_sig_err ];
-    error_energy_params = [ min_err_eng max_err_eng mean_err_eng ];
+    signal_error_params = [ sig_err_min sig_err_max sig_err_mean sig_err_std sig_err_meansq sig_err_energy ];
+    signal_orig_params  = [ sig_orig_min sig_orig_max sig_orig_mean sig_orig_std sig_orig_meansq sig_orig_energy ];
+    signal_recon_params = [ sig_recon_min sig_recon_max sig_recon_mean sig_recon_std sig_recon_meansq sig_recon_energy ];
 
     if (do_plot)
         dts = 0.001;
@@ -100,7 +115,7 @@ function [ signal_error_params, error_energy_params ] = analyze_test_vector(test
         ylabel(fig2, 'Error value', 'FontSize', 24, 'FontWeight', 'bold')
         title(fig2, 'Reconstruction error', 'FontSize', 24, 'FontWeight', 'bold')
 
-        p_sigerr = plot(fig2, tn, signal_error, '-m', 'LineWidth', 4);
+        p_sigerr = plot(fig2, tn, signal_error, '-g', 'LineWidth', 4);
 
         % axis([ tn(1) tn(end) min(signal_original)-0.1 max(signal_original)+0.1 ])
         axis([ tn(1) tn(end) min(signal_error)-0.1 max(signal_error)+0.1 ])

@@ -50,6 +50,9 @@ function [ parameters, sig_lvls, samples, signal_original, signal_reconstructed 
         sig_lvls(i) = sscanf(substr(tmp_str, -6), '0x%04x\n', "C");
     end
 
+    sig_lvls = sig_lvls - 65536*(sig_lvls>32767);
+    sig_lvls = cast(1 / 32768 * sig_lvls, 'single');
+
     fclose(fd);
 
     % Print extracted parameters
