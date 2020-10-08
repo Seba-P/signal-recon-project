@@ -17,7 +17,7 @@ endfunction : new
 task pocs_out_lvls_sweep_seq::body();
   `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
   
-  total_duration = 10 * (2 * (LVLS_NUM / 2 + 1) + LVLS_NUM + 1);
+  total_duration = 10 * (2 * (DEFAULT_LVLS_NUM / 2 + 1) + DEFAULT_LVLS_NUM + 1);
 
   collect_values(total_duration);
   

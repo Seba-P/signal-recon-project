@@ -22,7 +22,7 @@ endfunction : new
 task base_pocs_out_seq::body();
   `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
   
-  total_duration = 100;
+  total_duration = 2000;
 
   collect_values(total_duration);
 

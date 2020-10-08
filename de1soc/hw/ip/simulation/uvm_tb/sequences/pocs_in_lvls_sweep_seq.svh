@@ -21,19 +21,19 @@ task pocs_in_lvls_sweep_seq::body();
   #40;
   `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
-  repeat (LVLS_NUM / 2 + 1)
+  repeat (DEFAULT_LVLS_NUM / 2 + 1)
   begin
     sample = '{ LVL_DOWN, 'd10 };
     samples.push_back(sample);
   end
 
-  repeat (LVLS_NUM + 1)
+  repeat (DEFAULT_LVLS_NUM + 1)
   begin
     sample = '{ LVL_UP, 'd10 };
     samples.push_back(sample);
   end
 
-  repeat (LVLS_NUM / 2 + 1)
+  repeat (DEFAULT_LVLS_NUM / 2 + 1)
   begin
     sample = '{ LVL_DOWN, 'd10 };
     samples.push_back(sample);

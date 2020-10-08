@@ -22,14 +22,16 @@ function uvm_sequence_item csr_reg_block_adapter::reg2bus(const ref uvm_reg_bus_
   // csr_seq_item seq_item = csr_seq_item::type_id::create("seq_item");
   avalon_mm_seq_item #(avalon_mm_inst_specs[CSR]) seq_item = avalon_mm_seq_item#(avalon_mm_inst_specs[CSR])::type_id::create("seq_item");
 
-  if (rw.kind == UVM_WRITE)
-     seq_item.operation = WRITE_OP;
-  else
-     seq_item.operation = READ_OP;
+  if (rw.kind == UVM_WRITE) begin
+    seq_item.operation = WRITE_OP;
+    seq_item.data      = { rw.data };
+  end else begin
+    seq_item.operation = READ_OP;
+    seq_item.data      = {};
+  end
         
   seq_item.addr       = { rw.addr };
   seq_item.byteen     = { rw.byte_en };
-  seq_item.data       = { rw.data };
   seq_item.burst_len  = 1;
   
   return seq_item;

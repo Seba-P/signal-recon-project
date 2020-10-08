@@ -93,29 +93,6 @@ package tb_params_pkg;
     /*verbosity*/       UVM_MEDIUM
   };
 
-  parameter csr_reg_block_t csr_init_config =
-  '{
-    /*status*/  '{ /*_reserved2*/'0, /*fifo_err*/'0, /*_reserved1*/'0, /*error*/'0, /*ready*/'0, /*busy*/'0 }, // read-only, discard
-    /*control*/ '{ /*_reserved1*/'0, /*init*/'0, /*flush*/'0, /*halt*/'0, /*run*/'0 },
-    /*params*/  '{ /*_reserved4*/'0, /*init_guess*/INIT_GUESS, /*_reserved3*/'0, /*iter_num*/ITER_NUM, /*_reserved2*/'0, /*init_lvl*/INIT_LVL, /*_reserved1*/'0, /*lvls_num*/LVLS_NUM },
-    /*lvl_val_00_01*/ '{ /*lvl_val_01*/'h9333, /*lvl_val_00*/'h8666 },
-    /*lvl_val_02_03*/ '{ /*lvl_val_03*/'hACCC, /*lvl_val_02*/'h9FFF },
-    /*lvl_val_04_05*/ '{ /*lvl_val_05*/'hC666, /*lvl_val_04*/'hB999 },
-    /*lvl_val_06_07*/ '{ /*lvl_val_07*/'hE000, /*lvl_val_06*/'hD333 },
-    /*lvl_val_08_09*/ '{ /*lvl_val_09*/'hF999, /*lvl_val_08*/'hECCC },
-    /*lvl_val_10_11*/ '{ /*lvl_val_11*/'h1333, /*lvl_val_10*/'h0666 },
-    /*lvl_val_12_13*/ '{ /*lvl_val_13*/'h2CCC, /*lvl_val_12*/'h2000 },
-    /*lvl_val_14_15*/ '{ /*lvl_val_15*/'h4666, /*lvl_val_14*/'h3999 },
-    /*lvl_val_16_17*/ '{ /*lvl_val_17*/'h6000, /*lvl_val_16*/'h5333 },
-    /*lvl_val_18_19*/ '{ /*lvl_val_19*/'h7999, /*lvl_val_18*/'h6CCC },
-    /*lvl_val_20_21*/ '{ /*lvl_val_21*/'hFFFF, /*lvl_val_20*/'hFFFF },
-    /*lvl_val_22_23*/ '{ /*lvl_val_23*/'hFFFF, /*lvl_val_22*/'hFFFF },
-    /*lvl_val_24_25*/ '{ /*lvl_val_25*/'hFFFF, /*lvl_val_24*/'hFFFF },
-    /*lvl_val_26_27*/ '{ /*lvl_val_27*/'hFFFF, /*lvl_val_26*/'hFFFF },
-    /*lvl_val_28_29*/ '{ /*lvl_val_29*/'hFFFF, /*lvl_val_28*/'hFFFF },
-    /*lvl_val_30_31*/ '{ /*lvl_val_31*/'hFFFF, /*lvl_val_30*/'hFFFF } 
-  };
-
   typedef avalon_mm_sequencer #(avalon_mm_inst_specs[CSR])      csr_sequencer;
   typedef avalon_st_sequencer #(avalon_st_inst_specs[POCS_IN])  pocs_in_sequencer;
   typedef avalon_st_sequencer #(avalon_st_inst_specs[POCS_OUT]) pocs_out_sequencer;

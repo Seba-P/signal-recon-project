@@ -26,8 +26,10 @@ task base_pocs_in_seq::body();
   #50;
   `uvm_info(get_name().toupper(), $sformatf("*** %s STARTS ***", get_name().toupper()), UVM_LOW)
 
-  sample = '{ LVL_UP, 'd100 };
-  samples.push_back(sample);
+  repeat (20) begin
+    sample = '{ lvl_cross_dir_e'($urandom_range(0,100)%2), $urandom_range(6,60) };
+    samples.push_back(sample);
+  end
 
   send_samples();
 

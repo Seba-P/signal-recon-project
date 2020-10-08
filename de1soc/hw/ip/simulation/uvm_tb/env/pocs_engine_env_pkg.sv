@@ -16,4 +16,7 @@ package pocs_engine_env_pkg;
   `include "pocs_engine_scoreboard.svh"
   `include "pocs_engine_env.svh"
 
+  `include "vector_database.svh"
+  `include "vector_handler.svh"
+
 endpackage : pocs_engine_env_pkg

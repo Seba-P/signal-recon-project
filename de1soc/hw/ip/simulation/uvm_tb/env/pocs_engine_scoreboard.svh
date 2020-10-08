@@ -20,6 +20,12 @@ class pocs_engine_scoreboard extends uvm_scoreboard;
   bit [$bits(MAX_LVLS_NUM-1)-1:0]                       curr_lvl;
   bit [$bits(MAX_LVLS_NUM-1)-1:0]                       next_lvl;
 
+  bit [15:0] m_lvls_values[MAX_LVLS_NUM];
+  int m_init_lvl    = DEFAULT_INIT_LVL;
+  int m_lvls_num    = DEFAULT_LVLS_NUM;
+  int m_iter_num    = DEFAULT_ITER_NUM;
+  int m_init_guess  = DEFAULT_INIT_GUESS;
+
   semaphore pocs_in_data_count_sem;
   semaphore pocs_in_queue_lock_sem;
   semaphore pocs_out_data_count_sem;
@@ -58,21 +64,57 @@ function void pocs_engine_scoreboard::build_phase(uvm_phase phase);
 
   m_pocs_in_ap  = new("m_pocs_in_ap", this);
   m_pocs_out_ap = new("m_pocs_out_ap", this);
+  m_database    = scoreboard_database#(avalon_st_inst_specs[POCS_OUT])::type_id::create("m_database", this);
 
-  is_active = 0;
-
-  m_database  = scoreboard_database#(avalon_st_inst_specs[POCS_OUT])::type_id::create("m_database");
-  curr_lvl    = INIT_LVL;
-  next_lvl    = INIT_LVL;
-
-  expected_count = 0;
-  received_count = 0;
-
-  `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current level      = %0d;\n    Upper/lower limit  = %04h/%04h",
-                                      curr_lvl, lvls_values[INIT_LVL+1], lvls_values[INIT_LVL]), UVM_HIGH)
+  is_active       = 0;
+  expected_count  = 0;
+  received_count  = 0;
 endfunction : build_phase
 
 task pocs_engine_scoreboard::main_phase(uvm_phase phase);
+  m_init_lvl    = m_csr_config.m_csr_reg_block.params.init_lvl;
+  m_lvls_num    = m_csr_config.m_csr_reg_block.params.lvls_num;
+  m_iter_num    = m_csr_config.m_csr_reg_block.params.iter_num;
+  m_init_guess  = m_csr_config.m_csr_reg_block.params.init_guess;
+  m_lvls_values[ 0] = m_csr_config.m_csr_reg_block.lvl_val_00_01.lvl_val_00;
+  m_lvls_values[ 1] = m_csr_config.m_csr_reg_block.lvl_val_00_01.lvl_val_01;
+  m_lvls_values[ 2] = m_csr_config.m_csr_reg_block.lvl_val_02_03.lvl_val_02;
+  m_lvls_values[ 3] = m_csr_config.m_csr_reg_block.lvl_val_02_03.lvl_val_03;
+  m_lvls_values[ 4] = m_csr_config.m_csr_reg_block.lvl_val_04_05.lvl_val_04;
+  m_lvls_values[ 5] = m_csr_config.m_csr_reg_block.lvl_val_04_05.lvl_val_05;
+  m_lvls_values[ 6] = m_csr_config.m_csr_reg_block.lvl_val_06_07.lvl_val_06;
+  m_lvls_values[ 7] = m_csr_config.m_csr_reg_block.lvl_val_06_07.lvl_val_07;
+  m_lvls_values[ 8] = m_csr_config.m_csr_reg_block.lvl_val_08_09.lvl_val_08;
+  m_lvls_values[ 9] = m_csr_config.m_csr_reg_block.lvl_val_08_09.lvl_val_09;
+  m_lvls_values[10] = m_csr_config.m_csr_reg_block.lvl_val_10_11.lvl_val_10;
+  m_lvls_values[11] = m_csr_config.m_csr_reg_block.lvl_val_10_11.lvl_val_11;
+  m_lvls_values[12] = m_csr_config.m_csr_reg_block.lvl_val_12_13.lvl_val_12;
+  m_lvls_values[13] = m_csr_config.m_csr_reg_block.lvl_val_12_13.lvl_val_13;
+  m_lvls_values[14] = m_csr_config.m_csr_reg_block.lvl_val_14_15.lvl_val_14;
+  m_lvls_values[15] = m_csr_config.m_csr_reg_block.lvl_val_14_15.lvl_val_15;
+  m_lvls_values[16] = m_csr_config.m_csr_reg_block.lvl_val_16_17.lvl_val_16;
+  m_lvls_values[17] = m_csr_config.m_csr_reg_block.lvl_val_16_17.lvl_val_17;
+  m_lvls_values[18] = m_csr_config.m_csr_reg_block.lvl_val_18_19.lvl_val_18;
+  m_lvls_values[19] = m_csr_config.m_csr_reg_block.lvl_val_18_19.lvl_val_19;
+  m_lvls_values[20] = m_csr_config.m_csr_reg_block.lvl_val_20_21.lvl_val_20;
+  m_lvls_values[21] = m_csr_config.m_csr_reg_block.lvl_val_20_21.lvl_val_21;
+  m_lvls_values[22] = m_csr_config.m_csr_reg_block.lvl_val_22_23.lvl_val_22;
+  m_lvls_values[23] = m_csr_config.m_csr_reg_block.lvl_val_22_23.lvl_val_23;
+  m_lvls_values[24] = m_csr_config.m_csr_reg_block.lvl_val_24_25.lvl_val_24;
+  m_lvls_values[25] = m_csr_config.m_csr_reg_block.lvl_val_24_25.lvl_val_25;
+  m_lvls_values[26] = m_csr_config.m_csr_reg_block.lvl_val_26_27.lvl_val_26;
+  m_lvls_values[27] = m_csr_config.m_csr_reg_block.lvl_val_26_27.lvl_val_27;
+  m_lvls_values[28] = m_csr_config.m_csr_reg_block.lvl_val_28_29.lvl_val_28;
+  m_lvls_values[29] = m_csr_config.m_csr_reg_block.lvl_val_28_29.lvl_val_29;
+  m_lvls_values[30] = m_csr_config.m_csr_reg_block.lvl_val_30_31.lvl_val_30;
+  m_lvls_values[31] = m_csr_config.m_csr_reg_block.lvl_val_30_31.lvl_val_31;
+
+  curr_lvl  = m_init_lvl;
+  next_lvl  = m_init_lvl;
+
+  `uvm_info("SCOREBOARD", $sformatf("Scoreboard initial settings:\n    Current level      = %0d;\n    Upper/lower limit  = %04h/%04h",
+                                      curr_lvl, m_lvls_values[m_init_lvl+1], m_lvls_values[m_init_lvl]), UVM_HIGH)
+
   fork
     csr_supervisor();
     dataflow_supervisor();
@@ -109,7 +151,7 @@ function void pocs_engine_scoreboard::write_pocs_in(avalon_st_seq_item #(avalon_
     overflow_curr   = overflow_next;
     underflow_curr  = underflow_next;
 
-    overflow_next   = (curr_lvl >= LVLS_NUM-2 && sample.lvl_cross_dir == LVL_UP);
+    overflow_next   = (curr_lvl >= m_lvls_num-2 && sample.lvl_cross_dir == LVL_UP);
     underflow_next  = (curr_lvl == 0 && sample.lvl_cross_dir == LVL_DOWN);
 
     if (sample.lvl_cross_dir == LVL_UP)
@@ -123,8 +165,8 @@ function void pocs_engine_scoreboard::write_pocs_in(avalon_st_seq_item #(avalon_
         next_lvl -= 1;
     end
 
-    upper_limit = overflow_curr ? 16'h7FFF : lvls_values[curr_lvl+!underflow_curr];
-    lower_limit = underflow_curr ? 16'h8000 : lvls_values[curr_lvl];
+    upper_limit = overflow_curr ? 16'h7FFF : m_lvls_values[curr_lvl+!underflow_curr];
+    lower_limit = underflow_curr ? 16'h8000 : m_lvls_values[curr_lvl];
 
     for (i = 0; i < sample.timestamp; i++)
     begin
@@ -134,7 +176,7 @@ function void pocs_engine_scoreboard::write_pocs_in(avalon_st_seq_item #(avalon_
       `uvm_info("SCOREBOARD", $sformatf("Pushing expected limits to database (radix hex): %04h/%04h (lvls %s)",
                                           upper_limit, lower_limit,
                                           overflow_curr ?
-                                            $sformatf(">max/%0d", LVLS_NUM-1) :
+                                            $sformatf(">max/%0d", m_lvls_num-1) :
                                               underflow_curr ?
                                                 $sformatf("%0d/<min", 0) : $sformatf("%0d/%0d", curr_lvl+1, curr_lvl)),
                                         UVM_HIGH)
@@ -238,11 +280,11 @@ task pocs_engine_scoreboard::verify_limits();
   int initial_limits_count;
 
   /* Store initial lvls */
-  upper_limit = lvls_values[INIT_LVL+1];
-  lower_limit = lvls_values[INIT_LVL];
+  upper_limit = m_lvls_values[m_init_lvl+1];
+  lower_limit = m_lvls_values[m_init_lvl];
 
-  // initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * ITER_NUM;
-  initial_limits_count = $floor(FIR_TAPS_NUM/2.0) * ITER_NUM;
+  // initial_limits_count = $ceil(FIR_TAPS_NUM/2.0) * m_iter_num;
+  initial_limits_count = $floor(FIR_TAPS_NUM/2.0) * m_iter_num;
 
   pocs_in_queue_lock_sem.get(1);
   repeat (initial_limits_count)
@@ -252,7 +294,7 @@ task pocs_engine_scoreboard::verify_limits();
   
     `uvm_info("SCOREBOARD", $sformatf("Pushing initial %0d limits to database (radix hex): %04h/%04h (lvls %s)",
                                         initial_limits_count, upper_limit, lower_limit,
-                                        $sformatf("%0d/%0d", INIT_LVL+1, INIT_LVL)),
+                                        $sformatf("%0d/%0d", m_init_lvl+1, m_init_lvl)),
                                       UVM_HIGH)
   end
   pocs_in_queue_lock_sem.put(1);

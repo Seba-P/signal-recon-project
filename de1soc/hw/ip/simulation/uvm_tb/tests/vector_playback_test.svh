@@ -6,7 +6,9 @@ class vector_playback_test extends base_test;
   `uvm_component_utils(vector_playback_test)
 
   string m_vector     = "";
-  string m_vector_dir = "";
+  string m_vector_dir = "../vectors";
+
+  vector_handler #(avalon_st_inst_specs[POCS_OUT]) m_vector_handler;
 
   // Standard UVM Methods:
   extern function new(string name = "vector_playback_test", uvm_component parent = null);
@@ -15,6 +17,7 @@ class vector_playback_test extends base_test;
   // Custom methods:
   extern virtual function void get_cmdline_options();
   extern virtual function void init_test_config();
+  extern virtual function void override_csr_reg_block_config();
 endclass : vector_playback_test
 
 function vector_playback_test::new(string name = "vector_playback_test", uvm_component parent = null);
@@ -30,13 +33,11 @@ task vector_playback_test::main_phase(uvm_phase phase);
   phase.phase_done.set_drain_time(this, 100);
   phase.raise_objection(this, "");
 
-  pocs_in_seq   = pocs_in_vector_seq::type_id::create("pocs_in_seq");
-  pocs_out_seq  = pocs_out_vector_seq::type_id::create("pocs_out_seq");
+  pocs_in_seq   = pocs_in_vector_seq::type_id::create("pocs_in_seq", this);
+  pocs_out_seq  = pocs_out_vector_seq::type_id::create("pocs_out_seq", this);
 
-  repeat (5)
-	  samples.push_back('{ LVL_UP, 'd100 });
+  m_vector_handler.get_samples(samples);
 
-  /* Temporary placeholder for vector handlers */
   pocs_in_seq.init(samples);
   pocs_out_seq.init(samples);
 
@@ -73,7 +74,14 @@ function void vector_playback_test::get_cmdline_options();
 endfunction : get_cmdline_options
 
 function void vector_playback_test::init_test_config();
-  // do some test-specific tuning
+  string vector = { m_vector_dir, "/", m_vector };
+
+  m_vector_handler = vector_handler#(avalon_st_inst_specs[POCS_OUT])::type_id::create("m_vector_handler", this);
+  m_vector_handler.parse_vector(vector);
 endfunction : init_test_config
+
+function void vector_playback_test::override_csr_reg_block_config();
+  m_vector_handler.get_config(m_csr_config.m_csr_reg_block);
+endfunction : override_csr_reg_block_config
 
 `endif // _VECTOR_PLAYBACK_TEST_SVH_
