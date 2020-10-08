@@ -1,7 +1,7 @@
 
-addpath('../')
-addpath('../toolbox/')
-addpath('../bursty-lib/')
+addpath([ pwd(), '/../' ]);
+addpath([ pwd(), '/../toolbox/' ]);
+addpath([ pwd(), '/../bursty-lib/' ]);
 
 run_reconstruction
 close all

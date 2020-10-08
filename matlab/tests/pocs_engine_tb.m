@@ -1,8 +1,8 @@
 
 pkg load signal
-addpath('../')
-addpath('../toolbox/')
-addpath('../bursty-lib/')
+addpath([ pwd(), '/../' ]);
+addpath([ pwd(), '/../toolbox/' ]);
+addpath([ pwd(), '/../bursty-lib/' ]);
 
 close all ; clear all
 seed = [];

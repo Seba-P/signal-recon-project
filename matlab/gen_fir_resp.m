@@ -2,7 +2,7 @@
 function fir_resp = gen_fir_resp(K = 95, Fp_div_Fs_2 = 0.08, ...
                                     output_file = 'fir_coeffs.txt', do_plot = 0)
 
-    addpath('../toolbox')
+    addpath([ pwd(), '/../toolbox/' ]);
 
     Rp  = 0.00057565;   % Corresponds to 0.01 dB peak-to-peak ripple
     %Rp  = 0.057565;   % Corresponds to 0.01 dB peak-to-peak ripple

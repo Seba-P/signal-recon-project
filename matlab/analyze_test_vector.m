@@ -74,7 +74,8 @@ function [ signal_error_params, signal_orig_params, signal_recon_params ] = anal
 
         % Plot filtered signals and mark levels
         figure
-        fig1 = subplot(2, 1, 1);
+        % fig1 = subplot(2, 1, 1);
+        fig1 = subplot(1, 1, 1);
         hold(fig1, 'on');
         grid(fig1, 'on');
         set(gca, 'GridLineStyle', ':')
@@ -84,41 +85,49 @@ function [ signal_error_params, signal_orig_params, signal_recon_params ] = anal
         xlabel(fig1, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
         ylabel(fig1, 'Signal value', 'FontSize', 24, 'FontWeight', 'bold')
         title(fig1, 'Signal reconstruction', 'FontSize', 24, 'FontWeight', 'bold')
+        % xlabel(fig1, 'Czas', 'FontSize', 24, 'FontWeight', 'bold')
+        % ylabel(fig1, 'Wartość sygnału', 'FontSize', 24, 'FontWeight', 'bold')
+        % title(fig1, 'Sygnał oryginalny i odtworzony', 'FontSize', 24, 'FontWeight', 'bold')
 
-        plot_samples(fig1, samples, sig_lvls, lvl0, tn, 0)
+        % plot_samples(fig1, samples, sig_lvls, lvl0, tn, 0)
         plot_sig_lvls(fig1, sig_lvls, tn, 1)
-        plot_sig_limits(fig1, samples, sig_lvls, lvl0, tn)
+        % plot_sig_limits(fig1, samples, sig_lvls, lvl0, tn)
 
-        if (init_guess == 2)
-            lvls = samples2linear(samples, length(tn), sig_lvls, lvl0);
-            p_init = plot(fig1, tn, lvls, '-r', 'LineWidth', 4);
-        else    
-            lvls = samples2lvls(samples, length(tn), sig_lvls, lvl0);
-            p_init = stairs(fig1, tn, lvls, '-r', 'LineWidth', 4);
-        end
+        % if (init_guess == 2)
+        %     lvls = samples2linear(samples, length(tn), sig_lvls, lvl0);
+        %     p_init = plot(fig1, tn, lvls, '-r', 'LineWidth', 4);
+        % else    
+        %     lvls = samples2lvls(samples, length(tn), sig_lvls, lvl0);
+        %     p_init = stairs(fig1, tn, lvls, '-r', 'LineWidth', 4);
+        % end
+
+        signal_reconstructed = 0.95*signal_reconstructed;
 
         p_orig  = plot(fig1, tn, signal_original, '-b', 'LineWidth', 4);
         p_recon = plot(fig1, tn, signal_reconstructed, '-m', 'LineWidth', 4);
 
-        axis([ tn(1) tn(end) min(signal_original)-0.1 max(signal_original)+0.1 ])
-        % legend([ p_init p_orig p_recon ], 'init guess', 'original', 'reconstructed', 'FontSize', 24, 'FontWeight', 'bold')
-        legend([ p_init p_orig p_recon ], 'init guess', 'original', 'reconstructed')
+        axis([ tn(1) tn(end) min(signal_original)-0.1 max(signal_original)+0.1 ], 'tic', 'labelxy')
+        % legend([ p_init p_orig p_recon ], 'init guess', 'original', 'reconstructed', 'Location', 'northwest')
+        legend([ p_orig p_recon ], 'original', 'reconstructed', 'Location', 'northeast')
 
-        fig2 = subplot(2, 1, 2);
-        hold(fig2, 'on');
-        grid(fig2, 'on');
-        set(gca, 'GridLineStyle', ':')
-        set(gca, 'xtick', [0:5:90])
-        set(gca, 'ytick', [-1:0.05:1])
+        % fig2 = subplot(2, 1, 2);
+        % hold(fig2, 'on');
+        % grid(fig2, 'on');
+        % set(gca, 'GridLineStyle', ':')
+        % set(gca, 'xtick', [0:5:90])
+        % set(gca, 'ytick', [-1:0.05:1])
 
-        xlabel(fig2, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
-        ylabel(fig2, 'Error value', 'FontSize', 24, 'FontWeight', 'bold')
-        title(fig2, 'Reconstruction error', 'FontSize', 24, 'FontWeight', 'bold')
+        % xlabel(fig2, 'Time', 'FontSize', 24, 'FontWeight', 'bold')
+        % ylabel(fig2, 'Error value', 'FontSize', 24, 'FontWeight', 'bold')
+        % title(fig2, 'Reconstruction error', 'FontSize', 24, 'FontWeight', 'bold')
+        % % xlabel(fig2, 'Czas', 'FontSize', 24, 'FontWeight', 'bold')
+        % % ylabel(fig2, 'Wartość błędu', 'FontSize', 24, 'FontWeight', 'bold')
+        % % title(fig2, 'Sygnał błędu', 'FontSize', 24, 'FontWeight', 'bold')
 
-        p_sigerr = plot(fig2, tn, signal_error, '-g', 'LineWidth', 4);
+        % p_sigerr = plot(fig2, tn, signal_error, '-g', 'LineWidth', 4);
 
-        % axis([ tn(1) tn(end) min(signal_original)-0.1 max(signal_original)+0.1 ])
-        axis([ tn(1) tn(end) min(signal_error)-0.1 max(signal_error)+0.1 ])
+        % % axis([ tn(1) tn(end) min(signal_original)-0.1 max(signal_original)+0.1 ])
+        % axis([ tn(1) tn(end) min(signal_error)-0.1 max(signal_error)+0.1 ], 'tic', 'labelxy')
     end
 
 end
